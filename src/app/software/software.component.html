@@ -1,1 +1,384 @@
-<router-outlet></router-outlet>
+<div class="main-container" [class.main-toolbar-is-mobile]="mobileQuery.matches">
+    <mat-toolbar color="" class="main-toolbar">
+        <button mat-icon-button (click)="snav.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <span>Easy Cloud HR</span>
+    </mat-toolbar>
+
+    <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+        <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
+            fixedTopGap="56" opened class="sidenav">
+
+            <mat-accordion>
+                <mat-expansion-panel hideToggle class="mat-elevation-z0" style="border-bottom: 1px solid #e0e0e0;">
+                    <mat-expansion-panel-header #dashboardPanelHeader (click)="dashboardPanelHeader._toggle()">
+                        <mat-panel-title>
+                            <mat-icon>dashboard</mat-icon>
+                            &nbsp;
+                            <span style="font-size: 15px; padding-left: 3px; padding-top: 2px;">
+                                Dashboard
+                            </span>
+                        </mat-panel-title>
+                        <mat-panel-description></mat-panel-description>
+                    </mat-expansion-panel-header>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel class="mat-elevation-z0" style="border-bottom: 1px solid #e0e0e0;">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon>build_circle</mat-icon>
+                            &nbsp;
+                            <span style="font-size: 15px; padding-left: 3px; padding-top: 2px;">
+                                Setup
+                            </span>
+                        </mat-panel-title>
+                        <mat-panel-description></mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                    <mat-nav-list style="margin-left: -25px; margin-right: -25px;">
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Company
+                        </a>
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Employee
+                        </a>
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Mandatory Tables
+                        </a>
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Shift Codes
+                        </a>
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Day Type
+                        </a>
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Other Income
+                        </a>
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Other Deductions
+                        </a>
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Users
+                        </a>
+                    </mat-nav-list>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel class="mat-elevation-z0" style="border-bottom: 1px solid #e0e0e0;">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon>access_time</mat-icon>
+                            &nbsp;
+                            <span style="font-size: 15px; padding-left: 3px; padding-top: 2px;">
+                                DTR
+                            </span>
+                        </mat-panel-title>
+                        <mat-panel-description></mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                    <mat-nav-list style="margin-left: -25px; margin-right: -25px;">
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Leave Credits
+                        </a>
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Change Shift Codes
+                        </a>
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Leave Application
+                        </a>
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Overtime Application
+                        </a>
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            DTR
+                        </a>
+                    </mat-nav-list>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel class="mat-elevation-z0" style="border-bottom: 1px solid #e0e0e0;">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon>money</mat-icon>
+                            &nbsp;
+                            <span style="font-size: 15px; padding-left: 3px; padding-top: 2px;">
+                                Payroll
+                            </span>
+                        </mat-panel-title>
+                        <mat-panel-description></mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                    <mat-nav-list style="margin-left: -25px; margin-right: -25px;">
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Loans
+                        </a>
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Other Income
+                        </a>
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Other Deductions
+                        </a>
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Last Tax
+                        </a>
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Payroll
+                        </a>
+                    </mat-nav-list>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel class="mat-elevation-z0" style="border-bottom: 1px solid #e0e0e0;">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon>print</mat-icon>
+                            &nbsp;
+                            <span style="font-size: 15px; padding-left: 3px; padding-top: 2px;">
+                                Reports
+                            </span>
+                        </mat-panel-title>
+                        <mat-panel-description></mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                    <mat-nav-list style="margin-left: -25px; margin-right: -25px;">
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            DTR
+                        </a>
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Payroll
+                        </a>
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Mandatory Reports
+                        </a>
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Bank
+                        </a>
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Leave Reports
+                        </a>
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Loan Reports
+                        </a>
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Demographics
+                        </a>
+                    </mat-nav-list>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel class="mat-elevation-z0" style="border-bottom: 1px solid #e0e0e0;">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon>settings</mat-icon>
+                            &nbsp;
+                            <span style="font-size: 15px; padding-left: 3px; padding-top: 2px;">
+                                Settings
+                            </span>
+                        </mat-panel-title>
+                        <mat-panel-description></mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                    <mat-nav-list style="margin-left: -25px; margin-right: -25px;">
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            System Tables
+                        </a>
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Settings
+                        </a>
+                    </mat-nav-list>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel style="pointer-events: none;" class="mat-elevation-z0"
+                    style="border-bottom: 1px solid #e0e0e0;">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon>security</mat-icon>
+                            &nbsp;
+                            <span style="font-size: 15px; padding-left: 3px; padding-top: 2px;">
+                                Security
+                            </span>
+                        </mat-panel-title>
+                        <mat-panel-description></mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                    <mat-nav-list style="margin-left: -25px; margin-right: -25px;">
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Manage
+                        </a>
+                        <a mat-list-item routerLink="/software-buyer/order">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/dashboard-icons/order.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Change Password
+                        </a>
+                    </mat-nav-list>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel hideToggle class="mat-elevation-z0" style="border-bottom: 1px solid #e0e0e0;">
+                    <mat-expansion-panel-header #logoutPanelHeader (click)="logoutPanelHeader._toggle()">
+                        <mat-panel-title>
+                            <mat-icon>power_settings_new</mat-icon>
+                            &nbsp;
+                            <span style="font-size: 15px; padding-left: 3px; padding-top: 2px;">
+                                Logout
+                            </span>
+                        </mat-panel-title>
+                        <mat-panel-description></mat-panel-description>
+                    </mat-expansion-panel-header>
+                </mat-expansion-panel>
+
+            </mat-accordion>
+        </mat-sidenav>
+
+        <mat-sidenav-content>
+            <router-outlet></router-outlet>
+            <br />
+            <br />
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+
+    <footer class="footer">
+        <div style="margin-top: 3px; font-size: 15px;">
+            &nbsp; © 2020 <b>easycloudhr.com</b>
+        </div>
+    </footer>
+</div>

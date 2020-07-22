@@ -1,0 +1,50 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.main-toolbar {
+    height: 45px;
+    background-color: #742774;
+    color: white;
+}
+
+.main-toolbar-is-mobile .main-toolbar {
+    position: fixed;
+    z-index: 2;
+    height: 56px;
+    background-color: #742774;
+}
+
+.main-toolbar-is-mobile .sidenav-container {
+    flex: 1 0 auto;
+}
+
+.sidenav-container {
+    flex: 1;
+}
+
+.sidenav {
+    width: 275px;
+}
+
+.footer {
+    position: fixed;
+    width: 100%;
+    background-color: #737373;
+    bottom: 0;
+    margin-bottom: 0;
+    z-index: 1000;
+    padding: 10px;
+    color: white;
+    display: flex;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
