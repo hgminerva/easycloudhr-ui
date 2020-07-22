@@ -18,7 +18,7 @@ export class LoginService {
   public loginObservable = this.loginSubject.asObservable();
 
   public login(loginModel: LoginModel): void {
-    let url = this.appSettings.defaultAPIURLHost + '/token';
+    let url = this.appSettings.defaultAPIURLHost + '/Token';
     let body = "username=" + loginModel.UserName + "&password=" + loginModel.Password + "&grant_type=password";
     let options = this.appSettings.URLEncodedOptions;
 
@@ -32,7 +32,7 @@ export class LoginService {
         this.loginSubject.next([true, "Login Successful."]);
       },
       error => {
-        this.loginSubject.next([false, error.message]);
+        this.loginSubject.next([false, error.error["error_description"]]);
       }
     )
   }

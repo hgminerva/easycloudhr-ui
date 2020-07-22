@@ -3,7 +3,7 @@ import { HttpHeaders } from '@angular/common/http';
 
 export class AppSettings {
     // API URL
-    public defaultAPIURLHost = "";
+    public defaultAPIURLHost = "https://localhost:44369";
 
     // URL Encoded Options
     public URLEncodedOptions: any = {
