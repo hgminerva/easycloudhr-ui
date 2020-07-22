@@ -1,0 +1,25 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { 
+    height: 100%; 
+}
+
+body {
+    margin: 0; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
+.violet-snackbar {
+    background: #742774;
+    color: #fff;
+}
+
+.green-snackbar {
+    background: #7fba00;
+    color: #fff;
+}
+
+.orange-snackbar {
+    background: #f25022;
+    color: #fff;
+}
