@@ -1,6 +1,7 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { Router } from '@angular/router';
+import { MatExpansionPanelHeader } from '@angular/material/expansion/expansion-panel-header';
 
 @Component({
   selector: 'app-software',
@@ -20,10 +21,13 @@ export class SoftwareComponent implements OnInit {
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
   }
-  
+
+  @ViewChild("logoutPanelHeader") logoutPanelHeader: MatExpansionPanelHeader;
   public currentUserName: string = localStorage.getItem('username');
 
   public logOut(): void {
+    this.logoutPanelHeader._toggle();
+
     localStorage.removeItem('access_token');
     localStorage.removeItem('expires_in');
     localStorage.removeItem('token_type');

@@ -5,10 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Router Modules
 import { SecurityRoutingModule } from './security-routing.module';
-
-// Components
-import { SecurityComponent } from './security.component';
-import { LoginComponent } from './login/login.component';
+import { SecurityRoutingActivate } from './security-routing.activate';
 
 // Angular Material
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -21,6 +18,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 // Flex Layout
 import { FlexLayoutModule } from '@angular/flex-layout';
+
+// Components
+import { SecurityComponent } from './security.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatFormFieldModule,
     MatSnackBarModule,
     FlexLayoutModule
+  ],
+  providers: [
+    SecurityRoutingActivate
   ]
 })
 export class SecurityModule { }

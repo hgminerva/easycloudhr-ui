@@ -1,16 +1,20 @@
+// Angular Modules
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+// Router
+import { SecurityRoutingActivate } from './security-routing.activate';
+
+// Components
 import { SecurityComponent } from './security.component';
 import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: SecurityComponent,
+    path: '', canActivate: [SecurityRoutingActivate], component: SecurityComponent,
     children: [
-      { path: '', component: SecurityComponent },
-      { path: 'login', component: LoginComponent }
+      { path: '', canActivate: [SecurityRoutingActivate], component: SecurityComponent },
+      { path: 'login', canActivate: [SecurityRoutingActivate], component: LoginComponent }
     ]
   }
 ];

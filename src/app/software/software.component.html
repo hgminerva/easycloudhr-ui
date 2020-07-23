@@ -5,7 +5,12 @@
         </button>
         <span>Easy Cloud HR</span>
         <span class="spacer"></span>
-        <span>{{currentUserName}}</span>
+        <button mat-button [matMenuTriggerFor]="menu">{{currentUserName}}</button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="logOut()">
+                Logout
+            </button>
+        </mat-menu>
     </mat-toolbar>
 
     <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
@@ -14,7 +19,8 @@
 
             <mat-accordion>
                 <mat-expansion-panel hideToggle class="mat-elevation-z0" style="border-bottom: 1px solid #e0e0e0;">
-                    <mat-expansion-panel-header #dashboardPanelHeader (click)="dashboardPanelHeader._toggle()">
+                    <mat-expansion-panel-header routerLink="/software" #dashboardPanelHeader
+                        (click)="dashboardPanelHeader._toggle()">
                         <mat-panel-title>
                             <mat-icon>dashboard</mat-icon>
                             &nbsp;
@@ -39,7 +45,7 @@
                     </mat-expansion-panel-header>
 
                     <mat-nav-list style="margin-left: -25px; margin-right: -25px;">
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink="/software/company-list">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/company.png" height="30" />
@@ -47,7 +53,7 @@
                             &nbsp;
                             Company
                         </a>
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink="/software/employee-list">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/employees.png" height="30" />
@@ -55,7 +61,7 @@
                             &nbsp;
                             Employee
                         </a>
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink="/software/mandatory-tables">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/mandatory tables.png" height="30" />
@@ -63,7 +69,7 @@
                             &nbsp;
                             Mandatory Tables
                         </a>
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink="/software/shift-code-list">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/shift code.png" height="30" />
@@ -71,7 +77,7 @@
                             &nbsp;
                             Shift Codes
                         </a>
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink="/software/day-type-list">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/day type.png" height="30" />
@@ -79,7 +85,7 @@
                             &nbsp;
                             Day Type
                         </a>
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink="/software/other-income">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/other income.png" height="30" />
@@ -87,7 +93,7 @@
                             &nbsp;
                             Other Income
                         </a>
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink="/software/other-deductions">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/other deductions.png" height="30" />
@@ -95,7 +101,7 @@
                             &nbsp;
                             Other Deductions
                         </a>
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink="/software/user-list">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/user.png" height="30" />
@@ -119,7 +125,7 @@
                     </mat-expansion-panel-header>
 
                     <mat-nav-list style="margin-left: -25px; margin-right: -25px;">
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink="/software/leave-credits-list">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/leave credits.png" height="30" />
@@ -127,7 +133,7 @@
                             &nbsp;
                             Leave Credits
                         </a>
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink="/software/change-shift-code-list">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/change shift code.png" height="30" />
@@ -135,7 +141,7 @@
                             &nbsp;
                             Change Shift Codes
                         </a>
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink="/software/leave-application-list">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/leave application.png" height="30" />
@@ -143,7 +149,7 @@
                             &nbsp;
                             Leave Application
                         </a>
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink="/software/overtime-application-list">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/overtime application.png" height="30" />
@@ -151,7 +157,7 @@
                             &nbsp;
                             Overtime Application
                         </a>
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink="/software/DTR-list">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/DTR.png" height="30" />
@@ -175,7 +181,7 @@
                     </mat-expansion-panel-header>
 
                     <mat-nav-list style="margin-left: -25px; margin-right: -25px;">
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink=".">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/loan.png" height="30" />
@@ -183,7 +189,7 @@
                             &nbsp;
                             Loans
                         </a>
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink="/software/other-income">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/other income.png" height="30" />
@@ -191,7 +197,7 @@
                             &nbsp;
                             Other Income
                         </a>
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink="/software/other-deductions">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/other deductions.png" height="30" />
@@ -199,7 +205,7 @@
                             &nbsp;
                             Other Deductions
                         </a>
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink=".">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/last tax.png" height="30" />
@@ -207,7 +213,7 @@
                             &nbsp;
                             Last Tax
                         </a>
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink=".">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/payroll.png" height="30" />
@@ -231,7 +237,7 @@
                     </mat-expansion-panel-header>
 
                     <mat-nav-list style="margin-left: -25px; margin-right: -25px;">
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink=".">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/reports.png" height="30" />
@@ -239,7 +245,7 @@
                             &nbsp;
                             DTR
                         </a>
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink=".">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/reports.png" height="30" />
@@ -247,7 +253,7 @@
                             &nbsp;
                             Payroll
                         </a>
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink=".">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/reports.png" height="30" />
@@ -255,7 +261,7 @@
                             &nbsp;
                             Mandatory Reports
                         </a>
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink=".">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/reports.png" height="30" />
@@ -263,7 +269,7 @@
                             &nbsp;
                             Bank
                         </a>
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink=".">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/reports.png" height="30" />
@@ -271,7 +277,7 @@
                             &nbsp;
                             Leave Reports
                         </a>
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink=".">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/reports.png" height="30" />
@@ -279,7 +285,7 @@
                             &nbsp;
                             Loan Reports
                         </a>
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink=".">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/reports.png" height="30" />
@@ -303,7 +309,7 @@
                     </mat-expansion-panel-header>
 
                     <mat-nav-list style="margin-left: -25px; margin-right: -25px;">
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink=".">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/system tables.png" height="30" />
@@ -311,7 +317,7 @@
                             &nbsp;
                             System Tables
                         </a>
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink=".">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/settings.png" height="30" />
@@ -336,7 +342,7 @@
                     </mat-expansion-panel-header>
 
                     <mat-nav-list style="margin-left: -25px; margin-right: -25px;">
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink=".">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/manage.png" height="30" />
@@ -344,7 +350,7 @@
                             &nbsp;
                             Manage
                         </a>
-                        <a mat-list-item routerLink="/software-buyer/order">
+                        <a mat-list-item routerLink=".">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/change password.png" height="30" />
@@ -356,7 +362,7 @@
                 </mat-expansion-panel>
 
                 <mat-expansion-panel hideToggle class="mat-elevation-z0" style="border-bottom: 1px solid #e0e0e0;">
-                    <mat-expansion-panel-header #logoutPanelHeader (click)="logoutPanelHeader._toggle()">
+                    <mat-expansion-panel-header #logoutPanelHeader (click)="logOut()">
                         <mat-panel-title>
                             <mat-icon>power_settings_new</mat-icon>
                             &nbsp;
