@@ -20,6 +20,8 @@ export class SoftwareComponent implements OnInit {
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
   }
+  
+  public currentUserName: string = localStorage.getItem('username');
 
   public logOut(): void {
     localStorage.removeItem('access_token');
