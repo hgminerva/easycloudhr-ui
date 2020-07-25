@@ -1,6 +1,7 @@
 // Angular Modules
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 // Routing Module
 import { SoftwareRoutingModule } from './software-routing.module';
@@ -15,9 +16,17 @@ import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 // Flex Layout
 import { FlexLayoutModule } from '@angular/flex-layout';
+// Wijmo Flex Grid
+import * as wjGrid from '@grapecity/wijmo.angular2.grid';
+import { WjGridModule } from '@grapecity/wijmo.angular2.grid';
+import { WjGridFilterModule } from '@grapecity/wijmo.angular2.grid.filter';
 
 // Components
 import { SoftwareComponent } from './software.component';
@@ -76,6 +85,7 @@ import { DTRDetailComponent } from './DTR-detail/DTR-detail/DTR-detail.component
   ],
   imports: [
     CommonModule,
+    FormsModule,
     SoftwareRoutingModule,
     MatToolbarModule,
     MatSidenavModule,
@@ -85,7 +95,13 @@ import { DTRDetailComponent } from './DTR-detail/DTR-detail/DTR-detail.component
     MatCardModule,
     MatMenuModule,
     MatExpansionModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    WjGridModule,
+    WjGridFilterModule,
+    MatProgressBarModule,
+    MatButtonToggleModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [
     SoftwareRoutingActivate

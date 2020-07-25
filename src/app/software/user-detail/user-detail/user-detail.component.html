@@ -3,9 +3,55 @@
     <span>&nbsp;&nbsp; User Detail</span>
 </mat-toolbar>
 <div class="software-container">
-    <div fxLayout="row" fxLayout.xs="column">
-        <div fxFlex="100" style="margin: 5px;">
-
+    <mat-card>
+        <div fxLayout="row" fxLayout.xs="column">
+            <div fxFlex="25%"></div>
+            <div fxFlex="25%"></div>
+            <div fxFlex="25%"></div>
+            <div fxFlex="500" style="margin-bottom: 5px;">
+                <div class="example-button-row" style="float: right;">
+                    <button mat-raised-button style="margin: 5px;" color="primary">Save</button>
+                    <button mat-raised-button style="margin: 5px;" color="primary">Lock</button>
+                    <button mat-raised-button style="margin: 5px;" color="primary">Unlock</button>
+                    <button mat-raised-button style="margin: 5px;" routerLink="/software/user-list"
+                        color="warn">Close</button>
+                </div>
+            </div>
         </div>
-    </div>
+        <mat-divider></mat-divider>
+        <br>
+        <br>
+        <div fxLayout="row" fxLayout.xs="column">
+            <div fxFlex="40%" style="margin: 0 10px;">
+                <p>
+                    <mat-form-field [hideRequiredMarker]="false" [floatLabel]="'always'" style="width: 100%;">
+                        <mat-label>Full Name</mat-label>
+                        <input matInput [(ngModel)]="userModel.FullName">
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field [hideRequiredMarker]="false" [floatLabel]="'always'" style="width: 100%;">
+                        <mat-label>UserName</mat-label>
+                        <input matInput [(ngModel)]="userModel.UserName">
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field [hideRequiredMarker]="false" [floatLabel]="'always'" style="width: 100%;">
+                        <mat-label>Password</mat-label>
+                        <input type="password" matInput [(ngModel)]="userModel.Password">
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field [hideRequiredMarker]="false" [floatLabel]="'always'" style="width: 100%;">
+                        <mat-label>Confirm Password</mat-label>
+                        <input type="password" matInput [(ngModel)]="userModel.ConfirmPassword">
+                    </mat-form-field>
+                </p>
+            </div>
+            <div fxFlex="40%">
+
+            </div>
+            <div fxFlex="20%"></div>
+        </div>
+    </mat-card>
 </div>

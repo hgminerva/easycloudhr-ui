@@ -50,6 +50,7 @@ const routes: Routes = [
       { path: 'other-income', canActivate: [SoftwareRoutingActivate], component: OtherIncomeComponent },
       { path: 'other-deductions', canActivate: [SoftwareRoutingActivate], component: OtherDeductionsComponent },
       { path: 'user-list', canActivate: [SoftwareRoutingActivate], component: UserListComponent },
+      { path: 'user-detail', canActivate: [SoftwareRoutingActivate], component: UserDetailComponent },
       { path: 'user-detail/:id', canActivate: [SoftwareRoutingActivate], component: UserDetailComponent },
       { path: 'leave-credits-list', canActivate: [SoftwareRoutingActivate], component: LeaveCreditsListComponent },
       { path: 'leave-credits-detail/:id', canActivate: [SoftwareRoutingActivate], component: LeaveCreditsDetailComponent },

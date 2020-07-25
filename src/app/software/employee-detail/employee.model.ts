@@ -1,0 +1,36 @@
+export class EmployeeModel {
+    Id: number;
+    EmployeeCode: string;
+    IdNumber: number;
+    BiometricIdNumber: string;
+    LastName: string;
+    FirstName: string;
+    MiddleName: string;
+    ExtensionName: string;
+    FullName: string;
+    Address: string;
+    ZipCode: string;
+    ContactNumber: string;
+    ContactMobileNumber: string;
+    EmailAddress: string;
+    DateOfBirth: Date;
+    PlaceOfBirth: string;
+    Sex: string;
+    CivilStatus: string;
+    Citizenship: string;
+    Height: string;
+    Weight: string;
+    BloodType: string;
+    Remarks: string;
+    PictureURL: string;
+    CompanyId: number;
+    UserId: number;
+    User: string;
+    CreatedByUserId: number;
+    CreatedByUser: string;
+    CreatedDateTime: Date;
+    UpdatedByUserId: number;
+    UpdatedByUser: string;
+    UpdatedDateTime: Date;
+    IsLocked: boolean;
+}

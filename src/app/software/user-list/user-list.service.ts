@@ -1,0 +1,18 @@
+import { Injectable } from '@angular/core';
+import { AppSettings } from 'src/app/app-settings';
+import { HttpClient } from '@angular/common/http';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UserListService {
+
+  constructor(
+    private appSettings: AppSettings,
+    private httpClient: HttpClient
+  ) { }
+
+  public async UserList() {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/user/list', this.appSettings.defaultOptions);
+  }
+}
