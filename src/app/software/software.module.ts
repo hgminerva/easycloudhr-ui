@@ -1,28 +1,18 @@
 // Angular Modules
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Routing Module
 import { SoftwareRoutingModule } from './software-routing.module';
 import { SoftwareRoutingActivate } from './software-routing.activate';
 
 // Material
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatListModule } from '@angular/material/list';
-import { MatCardModule } from '@angular/material/card';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { MaterialModule } from './software-material';
 
 // Flex Layout
 import { FlexLayoutModule } from '@angular/flex-layout';
+
 // Wijmo Flex Grid
 import * as wjGrid from '@grapecity/wijmo.angular2.grid';
 import { WjGridModule } from '@grapecity/wijmo.angular2.grid';
@@ -54,6 +44,8 @@ import { OvertimeApplicationListComponent } from './overtime-application-list/ov
 import { OvertimeApplicationDetailComponent } from './overtime-application-detail/overtime-application-detail/overtime-application-detail.component';
 import { DTRListComponent } from './DTR-list/DTR-list/DTR-list.component';
 import { DTRDetailComponent } from './DTR-detail/DTR-detail/DTR-detail.component';
+import { UserRegistrationDialogComponent } from './user-list/user-registration-dialog/user-registration-dialog.component';
+import { SnackBarTemplate } from './shared/snack-bar-template';
 
 @NgModule({
   declarations: [
@@ -81,30 +73,23 @@ import { DTRDetailComponent } from './DTR-detail/DTR-detail/DTR-detail.component
     OvertimeApplicationListComponent,
     OvertimeApplicationDetailComponent,
     DTRListComponent,
-    DTRDetailComponent
+    DTRDetailComponent,
+    UserRegistrationDialogComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     SoftwareRoutingModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatButtonModule,
-    MatListModule,
-    MatCardModule,
-    MatMenuModule,
-    MatExpansionModule,
+    MaterialModule,
     FlexLayoutModule,
     WjGridModule,
     WjGridFilterModule,
-    MatProgressBarModule,
-    MatButtonToggleModule,
-    MatFormFieldModule,
-    MatInputModule
   ],
   providers: [
-    SoftwareRoutingActivate
+    SoftwareRoutingActivate,
+    UserRegistrationDialogComponent,
+    SnackBarTemplate
   ]
 })
 export class SoftwareModule { }

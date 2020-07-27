@@ -2,7 +2,14 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import * as wjcCore from '@grapecity/wijmo';
 import * as wjcGrid from '@grapecity/wijmo.grid';
 import { CollectionView, ObservableArray } from '@grapecity/wijmo';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { UserRegistrationDialogComponent } from '../user-registration-dialog/user-registration-dialog.component';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackBarTemplate } from '../../shared/snack-bar-template';
+
 import { UserListService } from '../user-list.service';
+
 
 @Component({
   selector: 'app-user-list',
@@ -11,7 +18,12 @@ import { UserListService } from '../user-list.service';
 })
 export class UserListComponent implements OnInit {
 
-  constructor(private userListService: UserListService) {
+  constructor(private userListService: UserListService,
+    public userRegistrationlDialog: MatDialog,
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private snackBarTemplate: SnackBarTemplate,
+  ) {
   }
 
   async ngOnInit() {
@@ -20,7 +32,7 @@ export class UserListComponent implements OnInit {
 
   public listUserObservableArray: ObservableArray = new ObservableArray();
   public listUserCollectionView: CollectionView = new CollectionView(this.listUserObservableArray);
-  public listActivityPageIndex: number = 15;
+  public listPageIndex: number = 15;
   @ViewChild('flexUsers') flexUsers: wjcGrid.FlexGrid;
   public isProgressBarHidden = false;
   public isDataLoaded: boolean = false;
@@ -58,11 +70,31 @@ export class UserListComponent implements OnInit {
         if (this.userListSubscription != null) this.userListSubscription.unsubscribe();
       },
       error => {
-        console.log(error.status);
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this.userListSubscription !== null) this.userListSubscription.unsubscribe();
       }
     );
   }
 
-  private async registerUser() {
+
+  public btnAddUsers(): void {
+    const userRegistrationlDialogRef = this.userRegistrationlDialog.open(UserRegistrationDialogComponent, {
+      width: '500px',
+      data: {
+        objDialogTitle: "Add User",
+      },
+      disableClose: true
+    });
+
+    userRegistrationlDialogRef.afterClosed().subscribe(result => {
+      if (result.status == 200) {
+        this.getUserListData();
+      }
+    });
+  }
+
+  public EditUser() {
+    let currentUser = this.listUserCollectionView.currentItem;
+    this.router.navigate(['/software/user-detail/' + currentUser.Id]);
   }
 }

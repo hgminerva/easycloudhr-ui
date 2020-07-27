@@ -17,7 +17,7 @@ export class CompanyListService {
   }
 
   public async AddCompany() {
-    return this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/api/company/create', this.appSettings.defaultOptions);
+    return this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/company/create', "", this.appSettings.defaultOptions);
   }
 
   public async DeleteCompany(id: number) {

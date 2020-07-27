@@ -3,91 +3,121 @@
     <span>&nbsp;&nbsp; Employee List</span>
 </mat-toolbar>
 <div class="software-container">
-    <div fxLayout="row" fxLayout.xs="column">
-        <div fxFlex="100" style="margin: 5px;">
-            <div class="container-fluid">
-                <mat-progress-bar *ngIf="isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'">
-                </mat-progress-bar>
-                <wj-flex-grid #flexEmployees [itemsSource]="listEmployeeCollectionView" [selectionMode]="3"
-                    [frozenColumns]="2">
-                    <wj-flex-grid-filter></wj-flex-grid-filter>
-                    <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="80">
-                        <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
-                            <button type="button" mat-raised-button style="width: 100%; height: 25%" color="primary"
-                                (click)="getRowData()" id="btnEditEmployee">
-                                <i class="fa fa-edit fa-fw"></i> Edit
-                            </button>
-                        </ng-template>
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Delete'" [isReadOnly]="true" [width]="80">
-                        <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
-                            <button type="button" mat-raised-button style="width: 100%; height: 5%" color="primary"
-                                id="btnDeleteEmployee">
-                                <i class="fa fa-edit fa-fw"></i> Delete
-                            </button>
-                        </ng-template>
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Employee Code'" [binding]="'EmployeeCode'" [isReadOnly]="true" [isReadOnly]="true" [width]="150">
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'ID Number'" [binding]="'IdNumber'" [isReadOnly]="true" [isReadOnly]="true" [width]="150">
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Biometric ID No.'" [binding]="'BiometricIdNumber'" [isReadOnly]="true" [isReadOnly]="true" [width]="150">
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Last Name'" [binding]="'LastName'" [isReadOnly]="true" [isReadOnly]="true" [width]="150">
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'First Name'" [binding]="'FirstName'" [isReadOnly]="true" [width]="150">
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Middle Name'" [binding]="'MiddleName'" [isReadOnly]="true" [width]="150">
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'ExtensionName'" [binding]="'ExtensionName'" [isReadOnly]="true" [width]="150">
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'FullName'" [binding]="'FullName'" [isReadOnly]="true" [width]="150">
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Address'" [binding]="'Address'" [isReadOnly]="true" [width]="150"></wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'ZipCode'" [binding]="'ZipCode'" [isReadOnly]="true" [width]="150"></wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Contact No.'" [binding]="'ContactNumber'" [isReadOnly]="true" [width]="150">
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Contact Mobile No.'" [binding]="'ContactMobileNumber'"
-                        [isReadOnly]="true" [width]="150">
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Email'" [binding]="'EmailAddress'" [isReadOnly]="true" [width]="150">
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Date Of Birth'" [binding]="'DateOfBirth'" [isReadOnly]="true" [width]="150">
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Place Of Birth'" [binding]="'PlaceOfBirth'" [isReadOnly]="true" [width]="150">
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Sex'" [binding]="'Sex'" [isReadOnly]="true" [width]="150"></wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Civil Status'" [binding]="'CivilStatus'" [isReadOnly]="true" [width]="150">
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Citizenship'" [binding]="'Citizenship'" [isReadOnly]="true" [width]="150">
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Height'" [binding]="'Height'" [isReadOnly]="true" [width]="150"></wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Weight'" [binding]="'Weight'" [isReadOnly]="true" [width]="150"></wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Blood Type'" [binding]="'BloodType'" [isReadOnly]="true" [width]="150">
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Remarks'" [binding]="'Remarks'" [isReadOnly]="true" [width]="150"></wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Picture URL'" [binding]="'PictureURL'" [isReadOnly]="true" [width]="150">
-                    </wj-flex-grid-column>
-                </wj-flex-grid>
-                <mat-button-toggle-group>
-                    <mat-button-toggle (click)="listEmployeeCollectionView.moveToFirstPage()">
-                        <mat-icon style="margin-right: -15px">navigate_before</mat-icon>
-                        <mat-icon>navigate_before</mat-icon>
-                    </mat-button-toggle>
-                    <mat-button-toggle (click)="listEmployeeCollectionView.moveToPreviousPage()">
-                        <mat-icon>navigate_before</mat-icon>
-                    </mat-button-toggle>
-                    <mat-button-toggle>{{ listEmployeeCollectionView.pageIndex + 1 }} /
-                        {{ listEmployeeCollectionView.pageCount }}</mat-button-toggle>
-                    <mat-button-toggle (click)="listEmployeeCollectionView.moveToNextPage()">
-                        <mat-icon>navigate_next</mat-icon>
-                    </mat-button-toggle>
-                    <mat-button-toggle (click)="listEmployeeCollectionView.moveToLastPage()">
-                        <mat-icon style="margin-right: -15px">navigate_next</mat-icon>
-                        <mat-icon>navigate_next</mat-icon>
-                    </mat-button-toggle>
-                </mat-button-toggle-group>
+    <mat-card>
+        <div fxLayout="row" fxLayout.xs="column">
+            <div fxFlex="100" style="margin-bottom: 5px;">
+                <button mat-button color="primary"
+                    style="float: right;background-color: #742774; color: cornsilk; margin: 5px;"
+                    [disabled]="buttonDisable" (click)="AddEmployeeDetail()">ADD</button><br><br>
             </div>
         </div>
-    </div>
+        <mat-divider></mat-divider>
+        <br>
+        <div fxLayout="row" fxLayout.xs="column">
+            <div fxFlex="100" style="margin: 5px;">
+                <div class="container-fluid">
+                    <mat-progress-bar *ngIf="isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'">
+                    </mat-progress-bar>
+                    <wj-flex-grid #flexEmployees [itemsSource]="listEmployeeCollectionView" [selectionMode]="3"
+                        [frozenColumns]="2">
+                        <wj-flex-grid-filter></wj-flex-grid-filter>
+                        <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="80">
+                            <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
+                                <button mat-raised-button color="primary" style="width: 100%;"
+                                    (click)="EditEmployeeDetail()" id="btnEditEmployee">Edit</button>
+                            </ng-template>
+                        </wj-flex-grid-column>
+                        <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="80">
+                            <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
+                                <button mat-raised-button color="warn" style="width: 100%;"
+                                    (click)="DeleteEmployeeDetail()">Delete</button>
+                            </ng-template>
+                        </wj-flex-grid-column>
+                        <wj-flex-grid-column [header]="'Employee Code'" [binding]="'EmployeeCode'" [isReadOnly]="true"
+                            [isReadOnly]="true" [width]="150">
+                        </wj-flex-grid-column>
+                        <wj-flex-grid-column [header]="'ID Number'" [binding]="'IdNumber'" [isReadOnly]="true"
+                            [isReadOnly]="true" [width]="150">
+                        </wj-flex-grid-column>
+                        <wj-flex-grid-column [header]="'Biometric ID No.'" [binding]="'BiometricIdNumber'"
+                            [isReadOnly]="true" [isReadOnly]="true" [width]="150">
+                        </wj-flex-grid-column>
+                        <wj-flex-grid-column [header]="'Last Name'" [binding]="'LastName'" [isReadOnly]="true"
+                            [isReadOnly]="true" [width]="150">
+                        </wj-flex-grid-column>
+                        <wj-flex-grid-column [header]="'First Name'" [binding]="'FirstName'" [isReadOnly]="true"
+                            [width]="150">
+                        </wj-flex-grid-column>
+                        <wj-flex-grid-column [header]="'Middle Name'" [binding]="'MiddleName'" [isReadOnly]="true"
+                            [width]="150">
+                        </wj-flex-grid-column>
+                        <wj-flex-grid-column [header]="'ExtensionName'" [binding]="'ExtensionName'" [isReadOnly]="true"
+                            [width]="150">
+                        </wj-flex-grid-column>
+                        <wj-flex-grid-column [header]="'FullName'" [binding]="'FullName'" [isReadOnly]="true"
+                            [width]="150">
+                        </wj-flex-grid-column>
+                        <wj-flex-grid-column [header]="'Address'" [binding]="'Address'" [isReadOnly]="true"
+                            [width]="150"></wj-flex-grid-column>
+                        <wj-flex-grid-column [header]="'ZipCode'" [binding]="'ZipCode'" [isReadOnly]="true"
+                            [width]="150"></wj-flex-grid-column>
+                        <wj-flex-grid-column [header]="'Contact No.'" [binding]="'ContactNumber'" [isReadOnly]="true"
+                            [width]="150">
+                        </wj-flex-grid-column>
+                        <wj-flex-grid-column [header]="'Contact Mobile No.'" [binding]="'ContactMobileNumber'"
+                            [isReadOnly]="true" [width]="150">
+                        </wj-flex-grid-column>
+                        <wj-flex-grid-column [header]="'Email'" [binding]="'EmailAddress'" [isReadOnly]="true"
+                            [width]="150">
+                        </wj-flex-grid-column>
+                        <wj-flex-grid-column [header]="'Date Of Birth'" [binding]="'DateOfBirth'" [isReadOnly]="true"
+                            [width]="150">
+                        </wj-flex-grid-column>
+                        <wj-flex-grid-column [header]="'Place Of Birth'" [binding]="'PlaceOfBirth'" [isReadOnly]="true"
+                            [width]="150">
+                        </wj-flex-grid-column>
+                        <wj-flex-grid-column [header]="'Sex'" [binding]="'Sex'" [isReadOnly]="true" [width]="150">
+                        </wj-flex-grid-column>
+                        <wj-flex-grid-column [header]="'Civil Status'" [binding]="'CivilStatus'" [isReadOnly]="true"
+                            [width]="150">
+                        </wj-flex-grid-column>
+                        <wj-flex-grid-column [header]="'Citizenship'" [binding]="'Citizenship'" [isReadOnly]="true"
+                            [width]="150">
+                        </wj-flex-grid-column>
+                        <wj-flex-grid-column [header]="'Height'" [binding]="'Height'" [isReadOnly]="true" [width]="150">
+                        </wj-flex-grid-column>
+                        <wj-flex-grid-column [header]="'Weight'" [binding]="'Weight'" [isReadOnly]="true" [width]="150">
+                        </wj-flex-grid-column>
+                        <wj-flex-grid-column [header]="'Blood Type'" [binding]="'BloodType'" [isReadOnly]="true"
+                            [width]="150">
+                        </wj-flex-grid-column>
+                        <wj-flex-grid-column [header]="'Remarks'" [binding]="'Remarks'" [isReadOnly]="true"
+                            [width]="150"></wj-flex-grid-column>
+                        <wj-flex-grid-column [header]="'Picture URL'" [binding]="'PictureURL'" [isReadOnly]="true"
+                            [width]="150">
+                        </wj-flex-grid-column>
+                    </wj-flex-grid>
+                    <mat-button-toggle-group>
+                        <mat-button-toggle (click)="listEmployeeCollectionView.moveToFirstPage()">
+                            <mat-icon style="margin-right: -15px">navigate_before</mat-icon>
+                            <mat-icon>navigate_before</mat-icon>
+                        </mat-button-toggle>
+                        <mat-button-toggle (click)="listEmployeeCollectionView.moveToPreviousPage()">
+                            <mat-icon>navigate_before</mat-icon>
+                        </mat-button-toggle>
+                        <mat-button-toggle>{{ listEmployeeCollectionView.pageIndex + 1 }} /
+                            {{ listEmployeeCollectionView.pageCount }}</mat-button-toggle>
+                        <mat-button-toggle (click)="listEmployeeCollectionView.moveToNextPage()">
+                            <mat-icon>navigate_next</mat-icon>
+                        </mat-button-toggle>
+                        <mat-button-toggle (click)="listEmployeeCollectionView.moveToLastPage()">
+                            <mat-icon style="margin-right: -15px">navigate_next</mat-icon>
+                            <mat-icon>navigate_next</mat-icon>
+                        </mat-button-toggle>
+                    </mat-button-toggle-group>
+                </div>
+            </div>
+        </div>
+        <br>
+    </mat-card>
 </div>

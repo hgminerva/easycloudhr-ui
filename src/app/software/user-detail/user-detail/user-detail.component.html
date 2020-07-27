@@ -7,51 +7,106 @@
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="25%"></div>
             <div fxFlex="25%"></div>
-            <div fxFlex="25%"></div>
-            <div fxFlex="500" style="margin-bottom: 5px;">
+            <div fxFlex="1000" style="margin-bottom: 5px;">
                 <div class="example-button-row" style="float: right;">
-                    <button mat-raised-button style="margin: 5px;" color="primary">Save</button>
-                    <button mat-raised-button style="margin: 5px;" color="primary">Lock</button>
-                    <button mat-raised-button style="margin: 5px;" color="primary">Unlock</button>
-                    <button mat-raised-button style="margin: 5px;" routerLink="/software/user-list"
-                        color="warn">Close</button>
+                    <button mat-raised-button style="margin: 5px;" color="primary" (click)="SaveUserDetail()"
+                        [disabled]="isLocked">
+                        <mat-icon>save</mat-icon>
+                        Save
+                    </button>
+                    <button mat-raised-button style="margin: 5px;" color="primary" (click)="LockUserDetail()"
+                        [disabled]="isLocked">
+                        <mat-icon>lock</mat-icon>
+                        Lock
+                    </button>
+                    <button mat-raised-button style="margin: 5px;" color="primary" (click)="UnlockUserDetail()"
+                        [disabled]="!isLocked">
+                        <mat-icon>lock_open</mat-icon>
+
+                        Unlock
+                    </button>
+                    <button mat-raised-button style="margin: 5px;" routerLink="/software/user-list" color="warn">
+                        <mat-icon>close</mat-icon>
+                        Close
+                    </button>
                 </div>
             </div>
         </div>
+        <mat-progress-bar *ngIf="isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'" style="width: 100%;">
+        </mat-progress-bar>
         <mat-divider></mat-divider>
         <br>
         <br>
         <div fxLayout="row" fxLayout.xs="column">
-            <div fxFlex="40%" style="margin: 0 10px;">
-                <p>
-                    <mat-form-field [hideRequiredMarker]="false" [floatLabel]="'always'" style="width: 100%;">
-                        <mat-label>Full Name</mat-label>
-                        <input matInput [(ngModel)]="userModel.FullName">
-                    </mat-form-field>
-                </p>
-                <p>
-                    <mat-form-field [hideRequiredMarker]="false" [floatLabel]="'always'" style="width: 100%;">
-                        <mat-label>UserName</mat-label>
-                        <input matInput [(ngModel)]="userModel.UserName">
-                    </mat-form-field>
-                </p>
-                <p>
-                    <mat-form-field [hideRequiredMarker]="false" [floatLabel]="'always'" style="width: 100%;">
-                        <mat-label>Password</mat-label>
-                        <input type="password" matInput [(ngModel)]="userModel.Password">
-                    </mat-form-field>
-                </p>
-                <p>
-                    <mat-form-field [hideRequiredMarker]="false" [floatLabel]="'always'" style="width: 100%;">
-                        <mat-label>Confirm Password</mat-label>
-                        <input type="password" matInput [(ngModel)]="userModel.ConfirmPassword">
-                    </mat-form-field>
-                </p>
-            </div>
-            <div fxFlex="40%">
-
+            <div fxFlex="5%"></div>
+            <div fxFlex="60%">
+                <div fxLayout="row" fxLayout.xs="column">
+                    <div fxFlex="100%">
+                        <div fxFlex="100%">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>FullName</mat-label>
+                                <input matInput placeholder="Full Name" [(ngModel)]="userModel.FullName"
+                                    [readonly]="isLocked">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column">
+                    <div fxFlex="100%">
+                        <div fxFlex="49%">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>UserName</mat-label>
+                                <input matInput placeholder="Full Name" [(ngModel)]="userModel.UserName" readonly>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="2%"></div>
+                        <div fxFlex="49%">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Password</mat-label>
+                                <input type="password" matInput placeholder="Password" [(ngModel)]="userModel.Password"
+                                    readonly>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column">
+                    <div fxFlex="100%">
+                        <div fxFlex="49%">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Created By</mat-label>
+                                <input matInput placeholder="Password" [(ngModel)]="userModel.CreatedByUser" readonly>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="2%"></div>
+                        <div fxFlex="49%">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Created Date</mat-label>
+                                <input matInput placeholder="Password" [(ngModel)]="userModel.CreatedDateTime" readonly>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column">
+                    <div fxFlex="100%">
+                        <div fxFlex="49%">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Updated By</mat-label>
+                                <input matInput placeholder="Password" [(ngModel)]="userModel.UpdatedByUser" readonly>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="2%"></div>
+                        <div fxFlex="49%">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Updated Date</mat-label>
+                                <input matInput placeholder="Password" [(ngModel)]="userModel.UpdatedDateTime" readonly>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div fxFlex="20%"></div>
         </div>
+        <mat-divider></mat-divider>
+        <br><br><br>
     </mat-card>
 </div>

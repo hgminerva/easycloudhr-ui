@@ -6,8 +6,8 @@
     <mat-card>
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="100" style="margin-bottom: 5px;">
-                <button mat-button color="primary" routerLink="/software/user-detail"
-                    style="float: right;background-color: #742774; color: cornsilk; margin: 5px;">ADD</button><br><br>
+                <button mat-raised-button color="primary" (click)="btnAddUsers()"
+                    style="float: right; margin: 5px;">ADD</button><br><br>
             </div>
         </div>
         <mat-divider></mat-divider>
@@ -16,22 +16,13 @@
             <div fxFlex="100" style="margin: 5px;width: 100%;">
                 <mat-progress-bar *ngIf="isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'">
                 </mat-progress-bar>
-                <wj-flex-grid #flexUsers [itemsSource]="listUserCollectionView" [selectionMode]="3" [frozenColumns]="2">
+                <wj-flex-grid #flexUsers [itemsSource]="listUserCollectionView" [selectionMode]="3" [frozenColumns]="2"
+                    [headersVisibility]="1">
                     <wj-flex-grid-filter></wj-flex-grid-filter>
                     <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="80">
                         <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
-                            <button type="button" mat-raised-button style="width: 100%; height: 25%" color="warm"
-                                (click)="getRowData()" id="btnEditEmployee">
-                                <i class="fa fa-edit fa-fw"></i> Edit
-                            </button>
-                        </ng-template>
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Delete'" [isReadOnly]="true" [width]="80">
-                        <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
-                            <button type="button" mat-raised-button style="width: 100%; height: 5%" color="primary"
-                                id="btnDeleteEmployee">
-                                <i class="fa fa-edit fa-fw"></i> Delete
-                            </button>
+                            <button mat-raised-button color="primary" style="width: 100%;"
+                                (click)="EditUser()">Edit</button>
                         </ng-template>
                     </wj-flex-grid-column>
                     <wj-flex-grid-column [header]="'FullName'" [binding]="'FullName'" [isReadOnly]="true"

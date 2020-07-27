@@ -1,11 +1,12 @@
 export class CompanyModel {
     Id: number;
     CompanyCode: string;
-    Company: number;
+    Company: string;
     Address: string;
     SSSNumber: string;
     PHICNumber: string;
     HDMFNumber: string;
+    TaxNumber: string;
     ExtenTaxNumbersionName: string;
     CreatedByUserId: number;
     CreatedByUser: string;

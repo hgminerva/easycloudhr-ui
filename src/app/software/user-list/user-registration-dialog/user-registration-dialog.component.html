@@ -1,0 +1,87 @@
+<h1 mat-dialog-title>
+    {{ dialogTitle }}
+</h1>
+<mat-divider></mat-divider>
+<div mat-dialog-content>
+    <br />
+    <form [formGroup]="registrationForm" (ngSubmit)="RegisterUser()">
+        <div fxLayout fxLayout.xs="column">
+            <div fxFlex="100%">
+                <mat-form-field [hideRequiredMarker]="false" [floatLabel]="'always'" style="width: 100%;">
+                    <input matInput placeholder="Full Name" [(ngModel)]="userModel.FullName" required
+                        [class.is-invalid]="registrationForm.get('FullName').invalid && registrationForm.get('FullName').touched"
+                        (keydown)="ValidateForm()" formControlName="FullName">
+                    <mat-error
+                        *ngIf="registrationForm.get('FullName').invalid && registrationForm.get('FullName').touched">
+                        <small *ngIf="registrationForm.get('FullName').errors?.required">
+                            Full name is <strong>required</strong>.
+                        </small>
+                        <small *ngIf="registrationForm.get('FullName').errors?.minlength">Provide avalid full
+                            name.</small>
+                    </mat-error>
+                </mat-form-field>
+
+            </div>
+        </div>
+        <br>
+        <div fxLayout fxLayout.xs="column">
+            <div fxFlex="100%">
+                <mat-form-field [hideRequiredMarker]="false" [floatLabel]="'always'" style="width: 100%;">
+                    <input matInput placeholder="Username" [(ngModel)]="userModel.UserName" required
+                        [class.is-invalid]="registrationForm.get('UserName').invalid && registrationForm.get('UserName').touched"
+                        (keydown)="ValidateForm()" formControlName="UserName">
+                    <mat-error
+                        *ngIf="registrationForm.get('UserName').invalid && registrationForm.get('UserName').touched">
+                        <small *ngIf="registrationForm.get('UserName').errors?.required">
+                            Username is <strong>required</strong>.
+                        </small>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <br>
+        <div fxLayout fxLayout.xs="column">
+            <div fxFlex="100%">
+                <mat-form-field [hideRequiredMarker]="false" [floatLabel]="'always'" style="width: 100%;">
+                    <input type="password" matInput placeholder="Password" [(ngModel)]="userModel.Password" required
+                        [class.is-invalid]="registrationForm.get('Password').invalid && registrationForm.get('Password').touched"
+                        (keydown)="ValidateForm()" formControlName="Password">
+                    <mat-error
+                        *ngIf="registrationForm.get('Password').invalid && registrationForm.get('Password').touched">
+                        <small *ngIf="registrationForm.get('Password').errors?.required">Password is
+                            required.</small>
+                        <small *ngIf="registrationForm.get('Password').errors?.minlength">Password must
+                            be at least 5 characters.</small>
+                    </mat-error>
+                </mat-form-field>
+
+            </div>
+        </div>
+        <br>
+        <div fxLayout fxLayout.xs="column">
+            <div fxFlex="100%">
+                <mat-form-field [hideRequiredMarker]="false" [floatLabel]="'always'" style="width: 100%;">
+                    <input type="password" matInput placeholder="Confirm Password" formControlName="ConfirmPassword"
+                        [(ngModel)]="userModel.ConfirmPassword" required (keydown)="ValidateForm()"
+                        [class.is-invalid]="registrationForm.errors?.misMatch">
+                    <mat-error *ngIf="registrationForm.errors?.misMatch">
+                        <small>Confirm
+                            password not match.</small>
+                    </mat-error>
+                </mat-form-field>
+
+            </div>
+        </div>
+    </form>
+
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions>
+    <button mat-flat-button color="primary" style="margin-right: 5px;" (click)="RegisterUser()"
+        [disabled]="!buttonDisable">
+        Save
+    </button>
+    <button mat-flat-button color="warn" [disabled]="buttonCloseDisable" (click)="CloseDialog()">
+        Close
+    </button>
+</div>

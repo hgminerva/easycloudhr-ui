@@ -22,7 +22,7 @@ export class CompanyDetialService {
   }
 
   public async LockCompany(id: number, objCompany: CompanyModel) {
-    return this.httpClient.put(this.appSettings.defaultAPIURLHost + '/api/company/lock' + id, JSON.stringify(objCompany), this.appSettings.defaultOptions);
+    return this.httpClient.put(this.appSettings.defaultAPIURLHost + '/api/company/lock/' + id, JSON.stringify(objCompany), this.appSettings.defaultOptions);
   }
 
   public async UnlockCompany(id: number) {

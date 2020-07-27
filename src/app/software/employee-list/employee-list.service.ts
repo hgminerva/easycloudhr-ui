@@ -17,7 +17,7 @@ export class EmployeeListService {
   }
 
   public async AddEmployee() {
-    return this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/employee/create', this.appSettings.defaultOptions);
+    return this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/employee/create', "", this.appSettings.defaultOptions);
   }
 
   public async DeleteEmployee(id: number) {
