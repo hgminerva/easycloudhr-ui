@@ -34,3 +34,30 @@ export class EmployeeModel {
     UpdatedDateTime: Date;
     IsLocked: boolean;
 }
+
+export class EmployeePayrollModel {
+    Id: number;
+    EmployeeId: number;
+    Employee: string;
+    PayrollGroup: string;
+    PayrollType: string;
+    MonthlyRate: string;
+    DailyRate: string;
+    HourlyRate: string;
+    AbsentDailyRate: string;
+    LateHourlyRate: string;
+    UndertimeHourlyRate: string;
+    OvertimeHourlyRate: string;
+    NightDifferentialRate: string;
+    SSSAddOnAmount: string;
+    SSSComputationType: string;
+    HDMFAddOnAmount: string;
+    HDMFComputationType: string;
+    TaxTable: string;
+    TaxExemptionId: number;
+    TaxExemption: string;
+    IsMinimumWageEarner: string;
+    CostOfLivingAllowance: string;
+    AdditionalAllowance: string;
+    ATMAccountNumber: string;
+}

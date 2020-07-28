@@ -57,4 +57,9 @@ export class EmployeeDetailService {
   public async Unlockemployee(id: number) {
     return this.httpClient.put(this.appSettings.defaultAPIURLHost + '/api/employee/unlock/' + id, "", this.appSettings.defaultOptions);
   }
+
+  // Employee Payroll
+
+
+  
 }

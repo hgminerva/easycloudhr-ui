@@ -95,6 +95,7 @@ export class EmployeeDetailComponent implements OnInit {
     this.companyDropdownSubscription = await (await this.employeeDetailService.ZipCodeList()).subscribe(
       response => {
         this.zipCodeListDropdown = response;
+        this.GetGenderListData();
         if (this.companyDropdownSubscription !== null) this.companyDropdownSubscription.unsubscribe();
       },
       error => {
@@ -102,13 +103,13 @@ export class EmployeeDetailComponent implements OnInit {
         if (this.companyDropdownSubscription !== null) this.companyDropdownSubscription.unsubscribe();
       }
     );
-    await this.GetGenderListData();
   }
 
   private async GetGenderListData() {
     this.genderDropdownSubscription = await (await this.employeeDetailService.GenderList()).subscribe(
       response => {
         this.genderListDropdown = response;
+        this.GetCivilStatusListData();
         if (this.genderDropdownSubscription !== null) this.genderDropdownSubscription.unsubscribe();
       },
       error => {
@@ -116,13 +117,13 @@ export class EmployeeDetailComponent implements OnInit {
         if (this.genderDropdownSubscription !== null) this.genderDropdownSubscription.unsubscribe();
       }
     );
-    await this.GetCivilStatusListData();
   }
 
   private async GetCivilStatusListData() {
     this.civilStatusDropdownSubscription = await (await this.employeeDetailService.CivilStatusList()).subscribe(
       response => {
         this.civilStatusListDropdown = response;
+        this.GetCitizenshipListData();
         if (this.civilStatusDropdownSubscription !== null) this.civilStatusDropdownSubscription.unsubscribe();
       },
       error => {
@@ -130,13 +131,13 @@ export class EmployeeDetailComponent implements OnInit {
         if (this.civilStatusDropdownSubscription !== null) this.civilStatusDropdownSubscription.unsubscribe();
       }
     );
-    await this.GetCitizenshipListData();
   }
 
   private async GetCitizenshipListData() {
     this.citizenshipDropdownSubscription = await (await this.employeeDetailService.CitizenshipList()).subscribe(
       response => {
         this.citizenshipListDropdown = response;
+        this.GetBloodTypeListData();
         if (this.citizenshipDropdownSubscription !== null) this.citizenshipDropdownSubscription.unsubscribe();
       },
       error => {
@@ -144,13 +145,13 @@ export class EmployeeDetailComponent implements OnInit {
         if (this.citizenshipDropdownSubscription !== null) this.citizenshipDropdownSubscription.unsubscribe();
       }
     );
-    await this.GetBloodTypeListData();
   }
 
   private async GetBloodTypeListData() {
     this.bloodTypeDropdownSubscription = await (await this.employeeDetailService.BloodTypeList()).subscribe(
       response => {
         this.bloodTypeListDropdown = response;
+        this.GetCompanyDropdownListData();
         if (this.bloodTypeDropdownSubscription !== null) this.bloodTypeDropdownSubscription.unsubscribe();
       },
       error => {
@@ -159,13 +160,13 @@ export class EmployeeDetailComponent implements OnInit {
       }
     );
 
-    await this.GetCompanyDropdownListData();
   }
 
   private async GetCompanyDropdownListData() {
     this.zipCodeDropdownSubscription = await (await this.employeeDetailService.CompanyList()).subscribe(
       response => {
         this.companyListDropdown = response;
+        this.GetUserDropdownListData();
         if (this.zipCodeDropdownSubscription !== null) this.zipCodeDropdownSubscription.unsubscribe();
       },
       error => {
@@ -173,14 +174,13 @@ export class EmployeeDetailComponent implements OnInit {
         if (this.zipCodeDropdownSubscription !== null) this.zipCodeDropdownSubscription.unsubscribe();
       }
     );
-
-    await this.GetUserDropdownListData();
   }
 
   private async GetUserDropdownListData() {
     this.userDropdownSubscription = await (await this.employeeDetailService.UserList()).subscribe(
       response => {
         this.userListDropdown = response;
+        this.GetEmployeeDetail();
         if (this.userDropdownSubscription !== null) this.userDropdownSubscription.unsubscribe();
       },
       error => {
@@ -188,8 +188,6 @@ export class EmployeeDetailComponent implements OnInit {
         if (this.userDropdownSubscription !== null) this.userDropdownSubscription.unsubscribe();
       }
     );
-
-    await this.GetEmployeeDetail();
   }
 
   private async GetEmployeeDetail() {
@@ -228,6 +226,7 @@ export class EmployeeDetailComponent implements OnInit {
           this.employeeModel.PictureURL = result["PictureURL"];
           this.employeeModel.CompanyId = result["CompanyId"];
           this.employeeModel.UserId = result["UserId"];
+          this.employeeModel.User = result["User"];
           this.employeeModel.CreatedByUserId = result["CreatedByUserId"];
           this.employeeModel.CreatedByUser = result["CreatedByUser"];
           this.employeeModel.CreatedDateTime = result["CreatedDateTime"];
