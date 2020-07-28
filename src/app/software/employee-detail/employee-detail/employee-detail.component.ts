@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 
 import { EmployeeDetailService } from './../employee-detail.service';
-import { EmployeeModel } from './../employee.model';
+import { EmployeeModel, EmployeePayrollModel, EmployeeHRModel } from './../employee.model';
 @Component({
   selector: 'app-employee-detail',
   templateUrl: './employee-detail.component.html',
@@ -21,6 +21,44 @@ export class EmployeeDetailComponent implements OnInit {
 
   async ngOnInit() {
     await this.GetZipCodeListData();
+  }
+
+  public employeePayroll: EmployeePayrollModel = {
+    Id: 0,
+    EmployeeId: 0,
+    PayrollGroup: '',
+    PayrollType: '',
+    MonthlyRate: '',
+    DailyRate: '',
+    HourlyRate: '',
+    AbsentDailyRate: '',
+    LateHourlyRate: '',
+    UndertimeHourlyRate: '',
+    OvertimeHourlyRate: '',
+    NightDifferentialRate: '',
+    SSSAddOnAmount: '',
+    SSSComputationType: '',
+    HDMFAddOnAmount: '',
+    HDMFComputationType: '',
+    TaxTable: '',
+    TaxExemptionId: 0,
+    IsMinimumWageEarner: '',
+    CostOfLivingAllowance: '',
+    AdditionalAllowance: '',
+    ATMAccountNumber: '',
+  }
+
+  public employeeHRModel: EmployeeHRModel = {
+    Id: 0,
+    EmployeeId: 0,
+    DateHired: '',
+    DateRegular: '',
+    DateResigned: '',
+    Branch: '',
+    Division: '',
+    Department: '',
+    Position: '',
+    DefaultShiftId: '',
   }
 
   public employeeModel: EmployeeModel = {
@@ -57,8 +95,11 @@ export class EmployeeDetailComponent implements OnInit {
     UpdatedByUserId: 0,
     UpdatedByUser: '',
     UpdatedDateTime: new Date(),
-    IsLocked: false
+    IsLocked: false,
+    EmployeePayroll: this.employeePayroll,
+    EmployeeHR: this.employeeHRModel
   }
+
   public isLocked: boolean = false;
   public isProgressBarHidden: boolean = false;
 
@@ -68,6 +109,11 @@ export class EmployeeDetailComponent implements OnInit {
   private lockEmployeeDetailSubscription: any;
   private unlockEmployeeDetailSubscription: any;
 
+  @ViewChild('tabGroup') tabGroup;
+
+  // =================
+  // Employee Dropdown
+  // =================
   private zipCodeDropdownSubscription: any;
   public zipCodeListDropdown: any = [];
 
@@ -89,8 +135,38 @@ export class EmployeeDetailComponent implements OnInit {
   private userDropdownSubscription: any;
   public userListDropdown: any = [];
 
-  @ViewChild('tabGroup') tabGroup;
+  // ========================
+  // EmployeePayroll Dropdown
+  // ========================
+  private payrollTypeDropdownSubscription: any;
+  public payrollTypeDropdown: any = [];
 
+  private payrollGroupDropdownSubscription: any;
+  public payrollGroupListDropdown: any = [];
+
+  private taxTableDropdownSubscription: any;
+  public taxTableListDropdown: any = [];
+
+  private taxExemptionDropdownSubscription: any;
+  public taxExemptionListDropdown: any = [];
+  // =================== 
+  // EmployeeHR Dropdown
+  // =================== 
+  private shiftDropdownSubscription: any;
+  public shiftDropdown: any = [];
+
+  private branchDropdownSubscription: any;
+  public branchListDropdown: any = [];
+
+  private divisionDropdownSubscription: any;
+  public divisionListDropdown: any = [];
+
+  private departmentDropdownSubscription: any;
+  public departmentListDropdown: any = [];
+
+  // =================
+  // Employee Dropdown
+  // =================
   private async GetZipCodeListData() {
     this.companyDropdownSubscription = await (await this.employeeDetailService.ZipCodeList()).subscribe(
       response => {
@@ -180,7 +256,7 @@ export class EmployeeDetailComponent implements OnInit {
     this.userDropdownSubscription = await (await this.employeeDetailService.UserList()).subscribe(
       response => {
         this.userListDropdown = response;
-        this.GetEmployeeDetail();
+        this.GetPayrollTypeDropdownListData();
         if (this.userDropdownSubscription !== null) this.userDropdownSubscription.unsubscribe();
       },
       error => {
@@ -190,6 +266,125 @@ export class EmployeeDetailComponent implements OnInit {
     );
   }
 
+  // ========================
+  // EmployeePayroll Dropdown
+  // ========================
+  private async GetPayrollTypeDropdownListData() {
+    this.payrollTypeDropdownSubscription = await (await this.employeeDetailService.PayrollTypeList()).subscribe(
+      response => {
+        this.GetPayrollGroupDropdownListData();
+        this.payrollTypeDropdown = response;
+        if (this.payrollTypeDropdownSubscription !== null) this.payrollTypeDropdownSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this.payrollTypeDropdownSubscription !== null) this.payrollTypeDropdownSubscription.unsubscribe();
+      }
+    );
+  }
+
+  private async GetPayrollGroupDropdownListData() {
+    this.payrollGroupDropdownSubscription = await (await this.employeeDetailService.PayrollGroupList()).subscribe(
+      response => {
+        this.payrollGroupListDropdown = response;
+        this.GetTaxTableDropdownListData();
+        if (this.payrollGroupDropdownSubscription !== null) this.payrollGroupDropdownSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this.payrollGroupDropdownSubscription !== null) this.payrollGroupDropdownSubscription.unsubscribe();
+      }
+    );
+  }
+
+  private async GetTaxTableDropdownListData() {
+    this.taxTableDropdownSubscription = await (await this.employeeDetailService.TaxTableList()).subscribe(
+      response => {
+        this.taxTableListDropdown = response;
+        this.GetTaxExemptionDropdownListData();
+        if (this.taxTableDropdownSubscription !== null) this.taxTableDropdownSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this.taxTableDropdownSubscription !== null) this.taxTableDropdownSubscription.unsubscribe();
+      }
+    );
+  }
+
+  private async GetTaxExemptionDropdownListData() {
+    this.taxExemptionDropdownSubscription = await (await this.employeeDetailService.TaxExemptionList()).subscribe(
+      response => {
+        this.taxExemptionListDropdown = response;
+        this.GetShiftDropdownListData();
+        if (this.taxExemptionDropdownSubscription !== null) this.taxExemptionDropdownSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this.taxExemptionDropdownSubscription !== null) this.taxExemptionDropdownSubscription.unsubscribe();
+      }
+    );
+  }
+
+  // =================== 
+  // EmployeeHR Dropdown
+  // =================== 
+  private async GetShiftDropdownListData() {
+    this.shiftDropdownSubscription = await (await this.employeeDetailService.ShiftList()).subscribe(
+      response => {
+        this.shiftDropdown = response;
+        if (this.shiftDropdownSubscription !== null) this.shiftDropdownSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this.shiftDropdownSubscription !== null) this.shiftDropdownSubscription.unsubscribe();
+      }
+    );
+  }
+
+  private async GetBranchDropdownListData() {
+    this.branchDropdownSubscription = await (await this.employeeDetailService.BranchList()).subscribe(
+      response => {
+        this.branchListDropdown = response;
+        if (this.branchDropdownSubscription !== null) this.branchDropdownSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this.branchDropdownSubscription !== null) this.branchDropdownSubscription.unsubscribe();
+      }
+    );
+  }
+
+  private async GetDivisionDropdownListData() {
+    this.divisionDropdownSubscription = await (await this.employeeDetailService.BranchList()).subscribe(
+      response => {
+        this.divisionListDropdown = response;
+        this.GetDepartmentDropdownListData();
+        if (this.divisionDropdownSubscription !== null) this.divisionDropdownSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this.divisionDropdownSubscription !== null) this.divisionDropdownSubscription.unsubscribe();
+      }
+    );
+  }
+
+  private async GetDepartmentDropdownListData() {
+    this.departmentDropdownSubscription = await (await this.employeeDetailService.BranchList()).subscribe(
+      response => {
+        this.divisionListDropdown = response;
+        this.GetEmployeeDetail();
+        if (this.departmentDropdownSubscription !== null) this.departmentDropdownSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this.departmentDropdownSubscription !== null) this.departmentDropdownSubscription.unsubscribe();
+      }
+    );
+  }
+
+  // =============== 
+  // Employee Detail
+  // =============== 
   private async GetEmployeeDetail() {
     let id = 0;
     this.isProgressBarHidden = true;
@@ -234,6 +429,47 @@ export class EmployeeDetailComponent implements OnInit {
           this.employeeModel.UpdatedByUser = result["UpdatedByUser"];
           this.employeeModel.UpdatedDateTime = result["UpdatedDateTime"];
           this.employeeModel.IsLocked = result["IsLocked"];
+
+          if (result["EmployeePayroll"] !== null) {
+            this.employeeModel.EmployeePayroll.Id = result["EmployeePayroll"].Id;
+            this.employeeModel.EmployeePayroll.EmployeeId = result["EmployeePayroll"].EmployeeId;
+            this.employeeModel.EmployeePayroll.PayrollGroup = result["EmployeePayroll"].PayrollGroup;
+            this.employeeModel.EmployeePayroll.PayrollType = result["EmployeePayroll"].PayrollType;
+            this.employeeModel.EmployeePayroll.MonthlyRate = result["EmployeePayroll"].MonthlyRate;
+            this.employeeModel.EmployeePayroll.DailyRate = result["EmployeePayroll"].DailyRate;
+            this.employeeModel.EmployeePayroll.HourlyRate = result["EmployeePayroll"].HourlyRate;
+            this.employeeModel.EmployeePayroll.AbsentDailyRate = result["EmployeePayroll"].AbsentDailyRate;
+            this.employeeModel.EmployeePayroll.LateHourlyRate = result["EmployeePayroll"].LateHourlyRate;
+            this.employeeModel.EmployeePayroll.UndertimeHourlyRate = result["EmployeePayroll"].UndertimeHourlyRate;
+            this.employeeModel.EmployeePayroll.OvertimeHourlyRate = result["EmployeePayroll"].OvertimeHourlyRate;
+            this.employeeModel.EmployeePayroll.NightDifferentialRate = result["EmployeePayroll"].NightDifferentialRate;
+            this.employeeModel.EmployeePayroll.SSSAddOnAmount = result["EmployeePayroll"].SSSAddOnAmount;
+            this.employeeModel.EmployeePayroll.SSSComputationType = result["EmployeePayroll"].SSSComputationType;
+            this.employeeModel.EmployeePayroll.HDMFComputationType = result["EmployeePayroll"].HDMFAddOnAmount;
+            this.employeeModel.EmployeePayroll.TaxTable = result["EmployeePayroll"].TaxTable;
+            this.employeeModel.EmployeePayroll.IsMinimumWageEarner = result["EmployeePayroll"].IsMinimumWageEarner;
+            this.employeeModel.EmployeePayroll.CostOfLivingAllowance = result["EmployeePayroll"].CostOfLivingAllowance;
+            this.employeeModel.EmployeePayroll.AdditionalAllowance = result["EmployeePayroll"].AdditionalAllowance;
+            this.employeeModel.EmployeePayroll.ATMAccountNumber = result["EmployeePayroll"].ATMAccountNumber;
+          } else {
+            this.snackBarTemplate.snackBarError(this.snackBar, "Employee yayroll data null.");
+          }
+
+          if (result["EmployeeHR"] !== null) {
+            this.employeeModel.EmployeeHR.Id = result["EmployeeHR"].Id;
+            this.employeeModel.EmployeeHR.EmployeeId = result["EmployeeHR"].EmployeeId;
+            this.employeeModel.EmployeeHR.DateHired = result["EmployeeHR"].DateHired;
+            this.employeeModel.EmployeeHR.DateRegular = result["EmployeeHR"].DateRegular;
+            this.employeeModel.EmployeeHR.DateResigned = result["EmployeeHR"].DateResigned;
+            this.employeeModel.EmployeeHR.Branch = result["EmployeeHR"].Branch;
+            this.employeeModel.EmployeeHR.Division = result["EmployeeHR"].Division;
+            this.employeeModel.EmployeeHR.Department = result["EmployeeHR"].Department;
+            this.employeeModel.EmployeeHR.Position = result["EmployeeHR"].Position;
+            this.employeeModel.EmployeeHR.DefaultShiftId = result["EmployeeHR"].DefaultShiftId;
+          } else {
+            this.snackBarTemplate.snackBarError(this.snackBar, "Employee HR data null.");
+          }
+
         }
 
         if (this.employeeModel.IsLocked == true) {

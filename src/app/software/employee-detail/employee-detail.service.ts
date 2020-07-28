@@ -14,6 +14,9 @@ export class EmployeeDetailService {
   ) { }
 
 
+  //==================
+  // Employee Dropdown
+  //==================
   public async ZipCodeList() {
     return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/zip/code/list', this.appSettings.defaultOptions);
   }
@@ -42,6 +45,47 @@ export class EmployeeDetailService {
     return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/company/list', this.appSettings.defaultOptions);
   }
 
+  //=========================
+  // EmployeePayroll Dropdown
+  //=========================
+  public async PayrollTypeList() {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/payroll/type/list', this.appSettings.defaultOptions);
+  }
+
+  public async PayrollGroupList() {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/payroll/group/list', this.appSettings.defaultOptions);
+  }
+
+  public async TaxTableList() {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/payroll/payroll/tax/table/list', this.appSettings.defaultOptions);
+  }
+
+  public async TaxExemptionList() {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/payroll/tax/exemption/list', this.appSettings.defaultOptions);
+  }
+
+  //====================
+  // EmployeeHR Dropdown
+  //====================
+  public async ShiftList() {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/hr/shift/list', this.appSettings.defaultOptions);
+  }
+
+  public async BranchList() {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/hr/branch/list', this.appSettings.defaultOptions);
+  }
+
+  public async DivisionList() {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/hr/division/list', this.appSettings.defaultOptions);
+  }
+
+  public async DepartmentList() {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/hr/department/list', this.appSettings.defaultOptions);
+  }
+
+  //========= 
+  // Employee 
+  //========= 
   public async EmployeeDetail(id: number) {
     return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/detail/' + id, this.appSettings.defaultOptions);
   }
@@ -57,9 +101,4 @@ export class EmployeeDetailService {
   public async Unlockemployee(id: number) {
     return this.httpClient.put(this.appSettings.defaultAPIURLHost + '/api/employee/unlock/' + id, "", this.appSettings.defaultOptions);
   }
-
-  // Employee Payroll
-
-
-  
 }
