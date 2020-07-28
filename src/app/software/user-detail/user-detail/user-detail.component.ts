@@ -118,7 +118,6 @@ export class UserDetailComponent implements OnInit {
         }
       );
     }
-
   }
 
   public async UnlockUserDetail() {

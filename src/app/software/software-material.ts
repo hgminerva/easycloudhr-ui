@@ -13,7 +13,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatSelectModule } from '@angular/material/select';
 @NgModule({
     imports: [
         MatToolbarModule,
@@ -30,6 +31,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         MatInputModule,
         MatDialogModule,
         MatSnackBarModule,
+        MatTabsModule,
+        MatSelectModule
     ],
     exports: [
         MatToolbarModule,
@@ -46,6 +49,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         MatInputModule,
         MatDialogModule,
         MatSnackBarModule,
+        MatTabsModule,
+        MatSelectModule
     ]
 })
 
