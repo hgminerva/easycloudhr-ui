@@ -33,12 +33,13 @@ export class EmployeeModel {
     UpdatedByUser: string;
     UpdatedDateTime: Date;
     IsLocked: boolean;
+    EmployeePayroll: EmployeePayrollModel
+    EmployeeHR: EmployeeHRModel
 }
 
 export class EmployeePayrollModel {
     Id: number;
     EmployeeId: number;
-    Employee: string;
     PayrollGroup: string;
     PayrollType: string;
     MonthlyRate: string;
@@ -55,9 +56,22 @@ export class EmployeePayrollModel {
     HDMFComputationType: string;
     TaxTable: string;
     TaxExemptionId: number;
-    TaxExemption: string;
     IsMinimumWageEarner: string;
     CostOfLivingAllowance: string;
     AdditionalAllowance: string;
     ATMAccountNumber: string;
 }
+
+export class EmployeeHRModel {
+    Id: number;
+    EmployeeId: number;
+    DateHired: string;
+    DateRegular: string;
+    DateResigned: string;
+    Branch: string;
+    Division: string;
+    Department: string;
+    Position: string;
+    DefaultShiftId: string;
+}
+
