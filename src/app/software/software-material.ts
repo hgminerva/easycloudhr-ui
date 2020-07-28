@@ -10,6 +10,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -35,7 +36,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
         MatSnackBarModule,
         MatTabsModule,
         MatSelectModule,
-        MatDatepickerModule
+        MatDatepickerModule,
+        MatNativeDateModule
     ],
     exports: [
         MatToolbarModule,
@@ -54,7 +56,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
         MatSnackBarModule,
         MatTabsModule,
         MatSelectModule,
-        MatDatepickerModule
+        MatDatepickerModule,
+        MatNativeDateModule
     ]
 })
 

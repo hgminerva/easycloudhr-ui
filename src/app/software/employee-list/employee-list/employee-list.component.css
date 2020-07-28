@@ -2,3 +2,7 @@
     padding: 7px;
     border: none;
 }
+
+.spacer {
+    flex: 1 1 auto;
+}
