@@ -72,7 +72,14 @@
                 </div>
             </div>
             <div fxLayout="row" fxLayout.xs="column">
-                <div fxFlex="25" style="padding: 5px;">
+                <div fxFlex="100" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>FullName</mat-label>
+                        <input matInput placeholder="Full Name" [(ngModel)]="employeeModel.FullName"
+                            [readonly]="isLocked">
+                    </mat-form-field>
+                </div>
+                <!-- <div fxFlex="25" style="padding: 5px;">
                     <mat-form-field appearance="outline" style="width: 100%;">
                         <mat-label>Last Name</mat-label>
                         <input matInput placeholder="Full Name" [(ngModel)]="employeeModel.LastName"
@@ -99,7 +106,7 @@
                         <input matInput placeholder="Full Name" [(ngModel)]="employeeModel.ExtensionName"
                             [readonly]="isLocked">
                     </mat-form-field>
-                </div>
+                </div> -->
             </div>
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="50" style="margin: 5px;">
@@ -145,11 +152,11 @@
                         <div fxFlex="50" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>Date Of Birth</mat-label>
-                                <input matInput [matDatepicker]="picker2" [(ngModel)]="employeeModel.DateOfBirth"
+                                <input matInput [matDatepicker]="datePickerDateOfBirth" [(ngModel)]="employeeModel.DateOfBirth"
                                     [disabled]="isLocked">
-                                <mat-datepicker-toggle matSuffix [for]="picker2">
+                                <mat-datepicker-toggle matSuffix [for]="datePickerDateOfBirth" >
                                 </mat-datepicker-toggle>
-                                <mat-datepicker #picker2 color="primary"></mat-datepicker>
+                                <mat-datepicker #datePickerDateOfBirth color="primary" ></mat-datepicker>
                             </mat-form-field>
                         </div>
                         <div fxFlex="50" style="padding: 5px;">
@@ -271,5 +278,7 @@
                 </div>
             </div>
         </mat-tab>
+        <mat-tab label="Payroll Information"></mat-tab>
+        <mat-tab label="HR Information"></mat-tab>
     </mat-tab-group>
 </div>

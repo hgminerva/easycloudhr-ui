@@ -259,7 +259,7 @@ export class EmployeeDetailComponent implements OnInit {
     this.userDropdownSubscription = await (await this.employeeDetailService.UserList()).subscribe(
       response => {
         this.userListDropdown = response;
-        this.GetPayrollTypeDropdownListData();
+        this.GetEmployeeDetail();
         if (this.userDropdownSubscription !== null) this.userDropdownSubscription.unsubscribe();
       },
       error => {
@@ -414,7 +414,7 @@ export class EmployeeDetailComponent implements OnInit {
           this.employeeModel.ContactNumber = result["ContactNumber"];
           this.employeeModel.ContactMobileNumber = result["ContactMobileNumber"];
           this.employeeModel.EmailAddress = result["EmailAddress"];
-          this.employeeModel.DateOfBirth = result["DateOfBirth"];
+          this.employeeModel.DateOfBirth = new Date(result["DateOfBirth"]);
           this.employeeModel.PlaceOfBirth = result["PlaceOfBirth"];
           this.employeeModel.Sex = result["Sex"];
           this.employeeModel.CivilStatus = result["CivilStatus"];
