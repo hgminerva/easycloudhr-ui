@@ -42,7 +42,7 @@ export class EmployeeDetailComponent implements OnInit {
     HDMFComputationType: '',
     TaxTable: '',
     TaxExemptionId: 0,
-    IsMinimumWageEarner: '',
+    IsMinimumWageEarner: true,
     CostOfLivingAllowance: '',
     AdditionalAllowance: '',
     ATMAccountNumber: '',
@@ -51,9 +51,9 @@ export class EmployeeDetailComponent implements OnInit {
   public employeeHRModel: EmployeeHRModel = {
     Id: 0,
     EmployeeId: 0,
-    DateHired: '',
-    DateRegular: '',
-    DateResigned: '',
+    DateHired: new Date(),
+    DateRegular: new Date(),
+    DateResigned: new Date(),
     Branch: '',
     Division: '',
     Department: '',
@@ -100,11 +100,17 @@ export class EmployeeDetailComponent implements OnInit {
     EmployeeHR: this.employeeHRModel
   }
 
+  public buttonSave: boolean = true;
+  public buttonLock: boolean = true;
+  public buttonUnlock: boolean = true;
+
   public isLocked: boolean = false;
   public isProgressBarHidden: boolean = false;
 
   public isDataLoaded: boolean = false;
   private employeeDetailSubscription: any;
+  private uploadPhotoSubscription: any;
+
   private employeePayrollDetailSubscription: any;
   private employeeHRDetailSubscription: any;
 
@@ -141,11 +147,11 @@ export class EmployeeDetailComponent implements OnInit {
   // ========================
   // EmployeePayroll Dropdown
   // ========================
-  private payrollTypeDropdownSubscription: any;
-  public payrollTypeDropdown: any = [];
-
   private payrollGroupDropdownSubscription: any;
   public payrollGroupListDropdown: any = [];
+
+  private payrollTypeDropdownSubscription: any;
+  public payrollTypeListDropdown: any = [];
 
   private taxTableDropdownSubscription: any;
   public taxTableListDropdown: any = [];
@@ -155,9 +161,6 @@ export class EmployeeDetailComponent implements OnInit {
   // =================== 
   // EmployeeHR Dropdown
   // =================== 
-  private shiftDropdownSubscription: any;
-  public shiftDropdown: any = [];
-
   private branchDropdownSubscription: any;
   public branchListDropdown: any = [];
 
@@ -166,6 +169,12 @@ export class EmployeeDetailComponent implements OnInit {
 
   private departmentDropdownSubscription: any;
   public departmentListDropdown: any = [];
+
+  private positionDropdownSubscription: any;
+  public positionListDropdown: any = [];
+
+  private shiftDropdownSubscription: any;
+  public shiftDropdown: any = [];
 
   // =================
   // Employee Dropdown
@@ -276,7 +285,7 @@ export class EmployeeDetailComponent implements OnInit {
     this.payrollTypeDropdownSubscription = await (await this.employeeDetailService.PayrollTypeList()).subscribe(
       response => {
         this.GetPayrollGroupDropdownListData();
-        this.payrollTypeDropdown = response;
+        this.payrollTypeListDropdown = response;
         if (this.payrollTypeDropdownSubscription !== null) this.payrollTypeDropdownSubscription.unsubscribe();
       },
       error => {
@@ -318,7 +327,7 @@ export class EmployeeDetailComponent implements OnInit {
     this.taxExemptionDropdownSubscription = await (await this.employeeDetailService.TaxExemptionList()).subscribe(
       response => {
         this.taxExemptionListDropdown = response;
-        this.GetShiftDropdownListData();
+        this.GetBranchDropdownListData();
         if (this.taxExemptionDropdownSubscription !== null) this.taxExemptionDropdownSubscription.unsubscribe();
       },
       error => {
@@ -331,20 +340,6 @@ export class EmployeeDetailComponent implements OnInit {
   // =================== 
   // EmployeeHR Dropdown
   // =================== 
-  private async GetShiftDropdownListData() {
-    this.shiftDropdownSubscription = await (await this.employeeDetailService.ShiftList()).subscribe(
-      response => {
-        this.shiftDropdown = response;
-        this.GetBranchDropdownListData();
-        if (this.shiftDropdownSubscription !== null) this.shiftDropdownSubscription.unsubscribe();
-      },
-      error => {
-        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
-        if (this.shiftDropdownSubscription !== null) this.shiftDropdownSubscription.unsubscribe();
-      }
-    );
-  }
-
   private async GetBranchDropdownListData() {
     this.branchDropdownSubscription = await (await this.employeeDetailService.BranchList()).subscribe(
       response => {
@@ -360,7 +355,7 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   private async GetDivisionDropdownListData() {
-    this.divisionDropdownSubscription = await (await this.employeeDetailService.BranchList()).subscribe(
+    this.divisionDropdownSubscription = await (await this.employeeDetailService.DivisionList()).subscribe(
       response => {
         this.divisionListDropdown = response;
         this.GetDepartmentDropdownListData();
@@ -374,15 +369,42 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   private async GetDepartmentDropdownListData() {
-    this.departmentDropdownSubscription = await (await this.employeeDetailService.BranchList()).subscribe(
+    this.departmentDropdownSubscription = await (await this.employeeDetailService.DepartmentList()).subscribe(
       response => {
-        this.divisionListDropdown = response;
-        this.GetEmployeeDetail();
+        this.departmentListDropdown = response;
+        this.GetPositionDropdownListData();
         if (this.departmentDropdownSubscription !== null) this.departmentDropdownSubscription.unsubscribe();
       },
       error => {
         this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
         if (this.departmentDropdownSubscription !== null) this.departmentDropdownSubscription.unsubscribe();
+      }
+    );
+  }
+
+  private async GetPositionDropdownListData() {
+    this.positionDropdownSubscription = await (await this.employeeDetailService.PList()).subscribe(
+      response => {
+        this.positionListDropdown = response;
+        this.GetShiftDropdownListData();
+        if (this.positionDropdownSubscription !== null) this.positionDropdownSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this.positionDropdownSubscription !== null) this.positionDropdownSubscription.unsubscribe();
+      }
+    );
+  }
+
+  private async GetShiftDropdownListData() {
+    this.shiftDropdownSubscription = await (await this.employeeDetailService.ShiftList()).subscribe(
+      response => {
+        this.shiftDropdown = response;
+        if (this.shiftDropdownSubscription !== null) this.shiftDropdownSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this.shiftDropdownSubscription !== null) this.shiftDropdownSubscription.unsubscribe();
       }
     );
   }
@@ -434,11 +456,27 @@ export class EmployeeDetailComponent implements OnInit {
           this.employeeModel.UpdatedByUser = result["UpdatedByUser"];
           this.employeeModel.UpdatedDateTime = result["UpdatedDateTime"];
           this.employeeModel.IsLocked = result["IsLocked"];
+          this.employeeModel.EmployeePayroll = result["EmployeePayroll"];
+          this.employeeModel.EmployeeHR = result["EmployeeHR"];
+          this.employeeModel.EmployeeHR.DateHired = new Date(result["EmployeeHR"].DateHired);
+          this.employeeModel.EmployeeHR.DateRegular = new Date(result["EmployeeHR"].DateRegular);
+          this.employeeModel.EmployeeHR.DateResigned = new Date(result["EmployeeHR"].DateResigned);
         }
 
         if (this.employeeModel.IsLocked == true) {
-          this.isLocked = this.employeeModel.IsLocked;
+          this.isLocked = result["IsLocked"];
+          this.buttonSave = true;
+          this.buttonLock = true;
+          this.buttonUnlock = false;
+        } else {
+          this.buttonSave = false;
+          this.buttonLock = false;
+          this.buttonUnlock = true;
         }
+
+
+
+        this.snackBarTemplate.snackBarSuccess(this.snackBar, "Successfully.");
 
         this.isProgressBarHidden = false;
         this.isDataLoaded = true;
@@ -449,109 +487,37 @@ export class EmployeeDetailComponent implements OnInit {
         if (this.employeeDetailSubscription !== null) this.employeeDetailSubscription.unsubscribe();
       }
     );
+
+    await this.GetPayrollTypeDropdownListData();
   }
 
-  // ======================
-  // EmployeePayroll Detail
-  // ======================
-  private async GetEmployeePayrollDetail() {
-    let id = 0;
-    this.isProgressBarHidden = true;
-    this.activatedRoute.params.subscribe(params => { id = params["id"]; });
 
-    this.employeePayrollDetailSubscription = await (await this.employeeDetailService.EmployeeDetail(id)).subscribe(
-      response => {
-        let result = response;
-        console.log(result);
-
-        if (result["EmployeePayroll"] !== null) {
-          this.employeeModel.EmployeePayroll.Id = result["Id"];
-          this.employeeModel.EmployeePayroll.EmployeeId = result["EmployeeId"];
-          this.employeeModel.EmployeePayroll.PayrollGroup = result["PayrollGroup"];
-          this.employeeModel.EmployeePayroll.PayrollType = result["PayrollType"];
-          this.employeeModel.EmployeePayroll.MonthlyRate = result["MonthlyRate"];
-          this.employeeModel.EmployeePayroll.DailyRate = result["DailyRate"];
-          this.employeeModel.EmployeePayroll.HourlyRate = result["HourlyRate"];
-          this.employeeModel.EmployeePayroll.AbsentDailyRate = result["AbsentDailyRate"];
-          this.employeeModel.EmployeePayroll.LateHourlyRate = result["LateHourlyRate"];
-          this.employeeModel.EmployeePayroll.UndertimeHourlyRate = result["UndertimeHourlyRate"];
-          this.employeeModel.EmployeePayroll.OvertimeHourlyRate = result["OvertimeHourlyRate"];
-          this.employeeModel.EmployeePayroll.NightDifferentialRate = result["NightDifferentialRate"];
-          this.employeeModel.EmployeePayroll.SSSAddOnAmount = result["SSSAddOnAmount"];
-          this.employeeModel.EmployeePayroll.SSSComputationType = result["SSSComputationType"];
-          this.employeeModel.EmployeePayroll.HDMFComputationType = result["HDMFComputationType"];
-          this.employeeModel.EmployeePayroll.TaxTable = result["TaxTable"];
-          this.employeeModel.EmployeePayroll.IsMinimumWageEarner = result["IsMinimumWageEarner"];
-          this.employeeModel.EmployeePayroll.CostOfLivingAllowance = result["CostOfLivingAllowance"];
-          this.employeeModel.EmployeePayroll.AdditionalAllowance = result["AdditionalAllowance"];
-          this.employeeModel.EmployeePayroll.ATMAccountNumber = result["ATMAccountNumber"];
-        } else {
-          this.snackBarTemplate.snackBarError(this.snackBar, "Employee payroll data null.");
-        }
-
-
-        this.isProgressBarHidden = false;
-        this.isDataLoaded = true;
-        if (this.employeePayrollDetailSubscription !== null) this.employeePayrollDetailSubscription.unsubscribe();
-      },
-      error => {
-        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
-        if (this.employeePayrollDetailSubscription !== null) this.employeePayrollDetailSubscription.unsubscribe();
-      }
-    );
+  handleData(data: boolean) {
+    this.employeeModel.EmployeePayroll.IsMinimumWageEarner = data;
+    console.log(this.employeeModel.EmployeePayroll.IsMinimumWageEarner);
   }
-
-  // =============== 
-  // Employee Detail
-  // =============== 
-  private async GetEmployeeHRDetail() {
-    let id = 0;
-    this.isProgressBarHidden = true;
-    this.activatedRoute.params.subscribe(params => { id = params["id"]; });
-
-    this.employeeHRDetailSubscription = await (await this.employeeDetailService.EmployeeDetail(id)).subscribe(
-      response => {
-        let result = response;
-        console.log(result);
-
-        if (result["EmployeeHR"] !== null) {
-          this.employeeModel.EmployeeHR.Id = result["EmployeeHR"].Id;
-          this.employeeModel.EmployeeHR.EmployeeId = result["EmployeeHR"].EmployeeId;
-          this.employeeModel.EmployeeHR.DateHired = result["EmployeeHR"].DateHired;
-          this.employeeModel.EmployeeHR.DateRegular = result["EmployeeHR"].DateRegular;
-          this.employeeModel.EmployeeHR.DateResigned = result["EmployeeHR"].DateResigned;
-          this.employeeModel.EmployeeHR.Branch = result["EmployeeHR"].Branch;
-          this.employeeModel.EmployeeHR.Division = result["EmployeeHR"].Division;
-          this.employeeModel.EmployeeHR.Department = result["EmployeeHR"].Department;
-          this.employeeModel.EmployeeHR.Position = result["EmployeeHR"].Position;
-          this.employeeModel.EmployeeHR.DefaultShiftId = result["EmployeeHR"].DefaultShiftId;
-        } else {
-          this.snackBarTemplate.snackBarError(this.snackBar, "Employee HR data null.");
-        }
-
-        this.isProgressBarHidden = false;
-        this.isDataLoaded = true;
-        if (this.employeeHRDetailSubscription !== null) this.employeeHRDetailSubscription.unsubscribe();
-      },
-      error => {
-        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
-        if (this.employeeHRDetailSubscription !== null) this.employeeHRDetailSubscription.unsubscribe();
-      }
-    );
-  }
-
 
   public async SaveEmployeeDetail() {
+    this.buttonSave = true;
+    this.buttonLock = true;
+    this.buttonUnlock = true;
+
     if (this.isDataLoaded == true) {
       this.isDataLoaded = false;
       this.saveEmployeeDetailSubscription = await (await this.employeeDetailService.SaveEmployee(this.employeeModel.Id, this.employeeModel)).subscribe(
         response => {
           this.isDataLoaded = true;
+          this.buttonSave = false;
+          this.buttonLock = false;
+          this.buttonUnlock = true;
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Save Successfully.");
           if (this.saveEmployeeDetailSubscription !== null) this.saveEmployeeDetailSubscription.unsubscribe();
         },
         error => {
           this.isDataLoaded = true;
+          this.buttonSave = false;
+          this.buttonLock = false;
+          this.buttonUnlock = true;
           this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
           if (this.saveEmployeeDetailSubscription !== null) this.saveEmployeeDetailSubscription.unsubscribe();
         }
@@ -560,17 +526,27 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   public async LockEmployeeDetail() {
+    this.buttonSave = true;
+    this.buttonLock = true;
+    this.buttonUnlock = true;
+
     if (this.isDataLoaded == true) {
       this.isDataLoaded = false;
       this.lockEmployeeDetailSubscription = await (await this.employeeDetailService.LockEmployee(this.employeeModel.Id, this.employeeModel)).subscribe(
         response => {
           this.isLocked = true;
           this.isDataLoaded = true;
+          this.buttonSave = true;
+          this.buttonLock = true;
+          this.buttonUnlock = false;
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Lock Successfully.");
           if (this.lockEmployeeDetailSubscription !== null) this.lockEmployeeDetailSubscription.unsubscribe();
         },
         error => {
           this.isDataLoaded = true;
+          this.buttonSave = false;
+          this.buttonLock = false;
+          this.buttonUnlock = true;
           this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
           if (this.lockEmployeeDetailSubscription !== null) this.lockEmployeeDetailSubscription.unsubscribe();
         }
@@ -579,17 +555,27 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   public async UnlockEmployeeDetail() {
+    this.buttonSave = true;
+    this.buttonLock = true;
+    this.buttonUnlock = true;
+
     if (this.isDataLoaded == true) {
       this.isDataLoaded = false;
       this.unlockEmployeeDetailSubscription = await (await this.employeeDetailService.Unlockemployee(this.employeeModel.Id)).subscribe(
         response => {
           this.isLocked = false;
           this.isDataLoaded = true;
+          this.buttonSave = false;
+          this.buttonLock = false;
+          this.buttonUnlock = true;
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Unlock Successfully.");
           if (this.unlockEmployeeDetailSubscription !== null) this.unlockEmployeeDetailSubscription.unsubscribe();
         },
         error => {
           this.isDataLoaded = true;
+          this.buttonSave = true;
+          this.buttonLock = true;
+          this.buttonUnlock = false;
           this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
           if (this.unlockEmployeeDetailSubscription !== null) this.unlockEmployeeDetailSubscription.unsubscribe();
         }
@@ -597,8 +583,6 @@ export class EmployeeDetailComponent implements OnInit {
     }
   }
 
-  private uploadPhotoSubscription: any;
-  public imageUrl = '../../../../assets/menu-icons/manage.png';
 
   public async btnUploadImage() {
     let btnUploadPhoto: Element = document.getElementById("btnUploadPhoto");
@@ -608,7 +592,7 @@ export class EmployeeDetailComponent implements OnInit {
     let inputFileImage = document.getElementById("inputFileUploadPhoto") as HTMLInputElement;
 
     this.uploadPhotoSubscription = await (await this.employeeDetailService.uploadFile(inputFileImage.files[0], this.employeeModel.FullName, this.employeeModel.Id)).subscribe(
-      (response: any)  => {
+      (response: any) => {
         this.snackBarTemplate.snackBarSuccess(this.snackBar, "Uploaded Successfully.");
         console.log(response);
         this.employeeModel.PictureURL = response;
@@ -624,8 +608,11 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
 
-  activeTab() {
-    console.log(this.tabGroup.selectedIndex);
+  async activeTab() {
+    // console.log(this.tabGroup.selectedIndex);
+    // if (this.tabGroup.selectedIndex == 1) {
+    //   await this.GetEmployeePayrollDetail();
+    // }
   }
 
 }

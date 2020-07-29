@@ -17,6 +17,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
     imports: [
@@ -37,7 +39,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
         MatTabsModule,
         MatSelectModule,
         MatDatepickerModule,
-        MatNativeDateModule
+        MatNativeDateModule,
+        MatRadioModule,
+        MatCheckboxModule
     ],
     exports: [
         MatToolbarModule,
@@ -57,7 +61,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
         MatTabsModule,
         MatSelectModule,
         MatDatepickerModule,
-        MatNativeDateModule
+        MatNativeDateModule,
+        MatRadioModule,
+        MatCheckboxModule
     ]
 })
 

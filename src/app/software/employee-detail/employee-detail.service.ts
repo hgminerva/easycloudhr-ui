@@ -67,10 +67,7 @@ export class EmployeeDetailService {
   //====================
   // EmployeeHR Dropdown
   //====================
-  public async ShiftList() {
-    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/hr/shift/list', this.appSettings.defaultOptions);
-  }
-
+  
   public async BranchList() {
     return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/hr/branch/list', this.appSettings.defaultOptions);
   }
@@ -81,6 +78,18 @@ export class EmployeeDetailService {
 
   public async DepartmentList() {
     return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/hr/department/list', this.appSettings.defaultOptions);
+  }
+
+  public async PositionList() {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/hr/position/list', this.appSettings.defaultOptions);
+  }
+
+  public async ShiftList() {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/hr/shift/list', this.appSettings.defaultOptions);
+  }
+
+  public async PList() {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/hr/posotion/list', this.appSettings.defaultOptions);
   }
 
   //========= 
@@ -106,5 +115,12 @@ export class EmployeeDetailService {
     var formData: FormData = new FormData();
     formData.append("image", file, fileName);
     return this.httpClient.post(this.appSettings.defaultAPIURLHost + "/api/employee/upload/image/", formData, this.appSettings.uploadFileOptions);
+  }
+
+  //======== 
+  // Payroll 
+  //======== 
+  public async EmployeePayrollDetail(id: number) {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/payroll/detail/' + id, this.appSettings.defaultOptions);
   }
 }

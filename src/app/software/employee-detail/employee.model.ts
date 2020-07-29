@@ -56,7 +56,7 @@ export class EmployeePayrollModel {
     HDMFComputationType: string;
     TaxTable: string;
     TaxExemptionId: number;
-    IsMinimumWageEarner: string;
+    IsMinimumWageEarner: boolean;
     CostOfLivingAllowance: string;
     AdditionalAllowance: string;
     ATMAccountNumber: string;
@@ -65,9 +65,9 @@ export class EmployeePayrollModel {
 export class EmployeeHRModel {
     Id: number;
     EmployeeId: number;
-    DateHired: string;
-    DateRegular: string;
-    DateResigned: string;
+    DateHired: Date;
+    DateRegular: Date;
+    DateResigned: Date;
     Branch: string;
     Division: string;
     Department: string;

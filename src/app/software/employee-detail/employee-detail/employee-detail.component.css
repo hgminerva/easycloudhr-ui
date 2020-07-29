@@ -2,3 +2,9 @@
 .spacer {
     flex: 1 1 auto;
 }
+
+.mat-checkbox .mat-checkbox-frame {
+    border-color: black;
+    padding: 10px;
+    background-color: #dddddd
+}
