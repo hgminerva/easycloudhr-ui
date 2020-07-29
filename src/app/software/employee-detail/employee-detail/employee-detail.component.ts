@@ -332,6 +332,7 @@ export class EmployeeDetailComponent implements OnInit {
     this.shiftDropdownSubscription = await (await this.employeeDetailService.ShiftList()).subscribe(
       response => {
         this.shiftDropdown = response;
+        this.GetBranchDropdownListData();
         if (this.shiftDropdownSubscription !== null) this.shiftDropdownSubscription.unsubscribe();
       },
       error => {
@@ -345,6 +346,7 @@ export class EmployeeDetailComponent implements OnInit {
     this.branchDropdownSubscription = await (await this.employeeDetailService.BranchList()).subscribe(
       response => {
         this.branchListDropdown = response;
+        this.GetDivisionDropdownListData();
         if (this.branchDropdownSubscription !== null) this.branchDropdownSubscription.unsubscribe();
       },
       error => {
@@ -452,7 +454,7 @@ export class EmployeeDetailComponent implements OnInit {
             this.employeeModel.EmployeePayroll.AdditionalAllowance = result["EmployeePayroll"].AdditionalAllowance;
             this.employeeModel.EmployeePayroll.ATMAccountNumber = result["EmployeePayroll"].ATMAccountNumber;
           } else {
-            this.snackBarTemplate.snackBarError(this.snackBar, "Employee yayroll data null.");
+            this.snackBarTemplate.snackBarError(this.snackBar, "Employee payroll data null.");
           }
 
           if (result["EmployeeHR"] !== null) {
@@ -469,7 +471,6 @@ export class EmployeeDetailComponent implements OnInit {
           } else {
             this.snackBarTemplate.snackBarError(this.snackBar, "Employee HR data null.");
           }
-
         }
 
         if (this.employeeModel.IsLocked == true) {
@@ -486,7 +487,7 @@ export class EmployeeDetailComponent implements OnInit {
     );
   }
 
-  public async SaveUserDetail() {
+  public async SaveEmployeeDetail() {
     if (this.isDataLoaded == true) {
       this.isDataLoaded = false;
       this.saveEmployeeDetailSubscription = await (await this.employeeDetailService.SaveEmployee(this.employeeModel.Id, this.employeeModel)).subscribe(
@@ -497,14 +498,15 @@ export class EmployeeDetailComponent implements OnInit {
         },
         error => {
           this.isDataLoaded = true;
-          this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + error.status);
+          // this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
           if (this.saveEmployeeDetailSubscription !== null) this.saveEmployeeDetailSubscription.unsubscribe();
         }
       );
     }
   }
 
-  public async LockUserDetail() {
+  public async LockEmployeeDetail() {
     if (this.isDataLoaded == true) {
       this.isDataLoaded = false;
       this.lockEmployeeDetailSubscription = await (await this.employeeDetailService.LockEmployee(this.employeeModel.Id, this.employeeModel)).subscribe(
@@ -523,7 +525,7 @@ export class EmployeeDetailComponent implements OnInit {
     }
   }
 
-  public async UnlockUserDetail() {
+  public async UnlockEmployeeDetail() {
     if (this.isDataLoaded == true) {
       this.isDataLoaded = false;
       this.unlockEmployeeDetailSubscription = await (await this.employeeDetailService.Unlockemployee(this.employeeModel.Id)).subscribe(

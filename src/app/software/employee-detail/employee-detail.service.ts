@@ -57,7 +57,7 @@ export class EmployeeDetailService {
   }
 
   public async TaxTableList() {
-    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/payroll/payroll/tax/table/list', this.appSettings.defaultOptions);
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/payroll/tax/table/list', this.appSettings.defaultOptions);
   }
 
   public async TaxExemptionList() {
