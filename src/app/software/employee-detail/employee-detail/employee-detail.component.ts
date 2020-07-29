@@ -105,6 +105,9 @@ export class EmployeeDetailComponent implements OnInit {
 
   public isDataLoaded: boolean = false;
   private employeeDetailSubscription: any;
+  private employeePayrollDetailSubscription: any;
+  private employeeHRDetailSubscription: any;
+
   private saveEmployeeDetailSubscription: any;
   private lockEmployeeDetailSubscription: any;
   private unlockEmployeeDetailSubscription: any;
@@ -431,51 +434,12 @@ export class EmployeeDetailComponent implements OnInit {
           this.employeeModel.UpdatedByUser = result["UpdatedByUser"];
           this.employeeModel.UpdatedDateTime = result["UpdatedDateTime"];
           this.employeeModel.IsLocked = result["IsLocked"];
-
-          if (result["EmployeePayroll"] !== null) {
-            this.employeeModel.EmployeePayroll.Id = result["EmployeePayroll"].Id;
-            this.employeeModel.EmployeePayroll.EmployeeId = result["EmployeePayroll"].EmployeeId;
-            this.employeeModel.EmployeePayroll.PayrollGroup = result["EmployeePayroll"].PayrollGroup;
-            this.employeeModel.EmployeePayroll.PayrollType = result["EmployeePayroll"].PayrollType;
-            this.employeeModel.EmployeePayroll.MonthlyRate = result["EmployeePayroll"].MonthlyRate;
-            this.employeeModel.EmployeePayroll.DailyRate = result["EmployeePayroll"].DailyRate;
-            this.employeeModel.EmployeePayroll.HourlyRate = result["EmployeePayroll"].HourlyRate;
-            this.employeeModel.EmployeePayroll.AbsentDailyRate = result["EmployeePayroll"].AbsentDailyRate;
-            this.employeeModel.EmployeePayroll.LateHourlyRate = result["EmployeePayroll"].LateHourlyRate;
-            this.employeeModel.EmployeePayroll.UndertimeHourlyRate = result["EmployeePayroll"].UndertimeHourlyRate;
-            this.employeeModel.EmployeePayroll.OvertimeHourlyRate = result["EmployeePayroll"].OvertimeHourlyRate;
-            this.employeeModel.EmployeePayroll.NightDifferentialRate = result["EmployeePayroll"].NightDifferentialRate;
-            this.employeeModel.EmployeePayroll.SSSAddOnAmount = result["EmployeePayroll"].SSSAddOnAmount;
-            this.employeeModel.EmployeePayroll.SSSComputationType = result["EmployeePayroll"].SSSComputationType;
-            this.employeeModel.EmployeePayroll.HDMFComputationType = result["EmployeePayroll"].HDMFAddOnAmount;
-            this.employeeModel.EmployeePayroll.TaxTable = result["EmployeePayroll"].TaxTable;
-            this.employeeModel.EmployeePayroll.IsMinimumWageEarner = result["EmployeePayroll"].IsMinimumWageEarner;
-            this.employeeModel.EmployeePayroll.CostOfLivingAllowance = result["EmployeePayroll"].CostOfLivingAllowance;
-            this.employeeModel.EmployeePayroll.AdditionalAllowance = result["EmployeePayroll"].AdditionalAllowance;
-            this.employeeModel.EmployeePayroll.ATMAccountNumber = result["EmployeePayroll"].ATMAccountNumber;
-          } else {
-            this.snackBarTemplate.snackBarError(this.snackBar, "Employee payroll data null.");
-          }
-
-          if (result["EmployeeHR"] !== null) {
-            this.employeeModel.EmployeeHR.Id = result["EmployeeHR"].Id;
-            this.employeeModel.EmployeeHR.EmployeeId = result["EmployeeHR"].EmployeeId;
-            this.employeeModel.EmployeeHR.DateHired = result["EmployeeHR"].DateHired;
-            this.employeeModel.EmployeeHR.DateRegular = result["EmployeeHR"].DateRegular;
-            this.employeeModel.EmployeeHR.DateResigned = result["EmployeeHR"].DateResigned;
-            this.employeeModel.EmployeeHR.Branch = result["EmployeeHR"].Branch;
-            this.employeeModel.EmployeeHR.Division = result["EmployeeHR"].Division;
-            this.employeeModel.EmployeeHR.Department = result["EmployeeHR"].Department;
-            this.employeeModel.EmployeeHR.Position = result["EmployeeHR"].Position;
-            this.employeeModel.EmployeeHR.DefaultShiftId = result["EmployeeHR"].DefaultShiftId;
-          } else {
-            this.snackBarTemplate.snackBarError(this.snackBar, "Employee HR data null.");
-          }
         }
 
         if (this.employeeModel.IsLocked == true) {
           this.isLocked = this.employeeModel.IsLocked;
         }
+
         this.isProgressBarHidden = false;
         this.isDataLoaded = true;
         if (this.employeeDetailSubscription !== null) this.employeeDetailSubscription.unsubscribe();
@@ -486,6 +450,96 @@ export class EmployeeDetailComponent implements OnInit {
       }
     );
   }
+
+  // ======================
+  // EmployeePayroll Detail
+  // ======================
+  private async GetEmployeePayrollDetail() {
+    let id = 0;
+    this.isProgressBarHidden = true;
+    this.activatedRoute.params.subscribe(params => { id = params["id"]; });
+
+    this.employeePayrollDetailSubscription = await (await this.employeeDetailService.EmployeeDetail(id)).subscribe(
+      response => {
+        let result = response;
+        console.log(result);
+
+        if (result["EmployeePayroll"] !== null) {
+          this.employeeModel.EmployeePayroll.Id = result["Id"];
+          this.employeeModel.EmployeePayroll.EmployeeId = result["EmployeeId"];
+          this.employeeModel.EmployeePayroll.PayrollGroup = result["PayrollGroup"];
+          this.employeeModel.EmployeePayroll.PayrollType = result["PayrollType"];
+          this.employeeModel.EmployeePayroll.MonthlyRate = result["MonthlyRate"];
+          this.employeeModel.EmployeePayroll.DailyRate = result["DailyRate"];
+          this.employeeModel.EmployeePayroll.HourlyRate = result["HourlyRate"];
+          this.employeeModel.EmployeePayroll.AbsentDailyRate = result["AbsentDailyRate"];
+          this.employeeModel.EmployeePayroll.LateHourlyRate = result["LateHourlyRate"];
+          this.employeeModel.EmployeePayroll.UndertimeHourlyRate = result["UndertimeHourlyRate"];
+          this.employeeModel.EmployeePayroll.OvertimeHourlyRate = result["OvertimeHourlyRate"];
+          this.employeeModel.EmployeePayroll.NightDifferentialRate = result["NightDifferentialRate"];
+          this.employeeModel.EmployeePayroll.SSSAddOnAmount = result["SSSAddOnAmount"];
+          this.employeeModel.EmployeePayroll.SSSComputationType = result["SSSComputationType"];
+          this.employeeModel.EmployeePayroll.HDMFComputationType = result["HDMFComputationType"];
+          this.employeeModel.EmployeePayroll.TaxTable = result["TaxTable"];
+          this.employeeModel.EmployeePayroll.IsMinimumWageEarner = result["IsMinimumWageEarner"];
+          this.employeeModel.EmployeePayroll.CostOfLivingAllowance = result["CostOfLivingAllowance"];
+          this.employeeModel.EmployeePayroll.AdditionalAllowance = result["AdditionalAllowance"];
+          this.employeeModel.EmployeePayroll.ATMAccountNumber = result["ATMAccountNumber"];
+        } else {
+          this.snackBarTemplate.snackBarError(this.snackBar, "Employee payroll data null.");
+        }
+
+
+        this.isProgressBarHidden = false;
+        this.isDataLoaded = true;
+        if (this.employeePayrollDetailSubscription !== null) this.employeePayrollDetailSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this.employeePayrollDetailSubscription !== null) this.employeePayrollDetailSubscription.unsubscribe();
+      }
+    );
+  }
+
+  // =============== 
+  // Employee Detail
+  // =============== 
+  private async GetEmployeeHRDetail() {
+    let id = 0;
+    this.isProgressBarHidden = true;
+    this.activatedRoute.params.subscribe(params => { id = params["id"]; });
+
+    this.employeeHRDetailSubscription = await (await this.employeeDetailService.EmployeeDetail(id)).subscribe(
+      response => {
+        let result = response;
+        console.log(result);
+
+        if (result["EmployeeHR"] !== null) {
+          this.employeeModel.EmployeeHR.Id = result["EmployeeHR"].Id;
+          this.employeeModel.EmployeeHR.EmployeeId = result["EmployeeHR"].EmployeeId;
+          this.employeeModel.EmployeeHR.DateHired = result["EmployeeHR"].DateHired;
+          this.employeeModel.EmployeeHR.DateRegular = result["EmployeeHR"].DateRegular;
+          this.employeeModel.EmployeeHR.DateResigned = result["EmployeeHR"].DateResigned;
+          this.employeeModel.EmployeeHR.Branch = result["EmployeeHR"].Branch;
+          this.employeeModel.EmployeeHR.Division = result["EmployeeHR"].Division;
+          this.employeeModel.EmployeeHR.Department = result["EmployeeHR"].Department;
+          this.employeeModel.EmployeeHR.Position = result["EmployeeHR"].Position;
+          this.employeeModel.EmployeeHR.DefaultShiftId = result["EmployeeHR"].DefaultShiftId;
+        } else {
+          this.snackBarTemplate.snackBarError(this.snackBar, "Employee HR data null.");
+        }
+
+        this.isProgressBarHidden = false;
+        this.isDataLoaded = true;
+        if (this.employeeHRDetailSubscription !== null) this.employeeHRDetailSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this.employeeHRDetailSubscription !== null) this.employeeHRDetailSubscription.unsubscribe();
+      }
+    );
+  }
+
 
   public async SaveEmployeeDetail() {
     if (this.isDataLoaded == true) {
@@ -498,8 +552,7 @@ export class EmployeeDetailComponent implements OnInit {
         },
         error => {
           this.isDataLoaded = true;
-          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + error.status);
-          // this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
           if (this.saveEmployeeDetailSubscription !== null) this.saveEmployeeDetailSubscription.unsubscribe();
         }
       );
@@ -518,7 +571,7 @@ export class EmployeeDetailComponent implements OnInit {
         },
         error => {
           this.isDataLoaded = true;
-          this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
           if (this.lockEmployeeDetailSubscription !== null) this.lockEmployeeDetailSubscription.unsubscribe();
         }
       );
@@ -537,12 +590,39 @@ export class EmployeeDetailComponent implements OnInit {
         },
         error => {
           this.isDataLoaded = true;
-          this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
           if (this.unlockEmployeeDetailSubscription !== null) this.unlockEmployeeDetailSubscription.unsubscribe();
         }
       );
     }
   }
+
+  private uploadPhotoSubscription: any;
+  public imageUrl = '../../../../assets/menu-icons/manage.png';
+
+  public async btnUploadImage() {
+    let btnUploadPhoto: Element = document.getElementById("btnUploadPhoto");
+
+    btnUploadPhoto.setAttribute("disabled", "disabled");
+
+    let inputFileImage = document.getElementById("inputFileUploadPhoto") as HTMLInputElement;
+
+    this.uploadPhotoSubscription = await (await this.employeeDetailService.uploadFile(inputFileImage.files[0], this.employeeModel.FullName, this.employeeModel.Id)).subscribe(
+      (response: any)  => {
+        this.snackBarTemplate.snackBarSuccess(this.snackBar, "Uploaded Successfully.");
+        console.log(response);
+        this.employeeModel.PictureURL = response;
+        if (this.uploadPhotoSubscription !== null) this.uploadPhotoSubscription.unsubscribe();
+      },
+      error => {
+        this.isDataLoaded = true;
+        btnUploadPhoto.removeAttribute("disabled");
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
+        if (this.uploadPhotoSubscription !== null) this.uploadPhotoSubscription.unsubscribe();
+      }
+    );
+  }
+
 
   activeTab() {
     console.log(this.tabGroup.selectedIndex);

@@ -2,11 +2,13 @@
     <img src="../../../../assets/menu-icons/employees.png" height="35" />
     <span>&nbsp;&nbsp; Employee Detail</span>
     <span class="spacer"></span>
-    <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="isLocked" (click)="SaveEmployeeDetail()">
+    <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="isLocked"
+        (click)="SaveEmployeeDetail()">
         <mat-icon>save</mat-icon>
         Save
     </button>
-    <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="isLocked" (click)="LockEmployeeDetail()">
+    <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="isLocked"
+        (click)="LockEmployeeDetail()">
         <mat-icon>lock</mat-icon>
         Lock
     </button>
@@ -28,13 +30,18 @@
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
                     <mat-card>
-                        <img src="../../../../assets/menu-icons/manage.png" style="width: 100%;" />
+                        <img src="{{employeeModel.PictureURL}}" style="width: 100%;" />
                     </mat-card>
                     <br />
-                    <button mat-flat-button color="accent" style="width: 100%;">
+                    <button mat-flat-button color="accent" style="width: 100%;" (click)="btnUploadImage()"
+                        id="btnUploadPhoto">
                         <mat-icon>insert_photo</mat-icon>
                         Upload Photo
                     </button>
+                    <div mat-dialog-content style="padding: 15px 30px;">
+                        <input id="inputFileUploadPhoto" placeholder="" type="file" style="width: 100%;"
+                            accept="image/*" />
+                    </div>
                     <br />
                     <br />
                 </div>
@@ -128,10 +135,9 @@
             </div>
         </div>
     </div>
-
     <mat-divider></mat-divider>
     <mat-tab-group #tabGroup (selectedTabChange)="activeTab()">
-        <mat-tab label="Personal Information">
+        <mat-tab label="General Information">
             <br>
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="50" style="padding: 5px;">

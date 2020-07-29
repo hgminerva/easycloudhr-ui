@@ -31,7 +31,7 @@ export class UserRegistrationDialogComponent implements OnInit {
 
   public dialogTitle = "Register User"
   public newUserSubscription: any;
-  
+
   public buttonDisable: boolean = false;
   public buttonCloseDisable: boolean = false;
 
@@ -65,11 +65,9 @@ export class UserRegistrationDialogComponent implements OnInit {
         this.userRegistrationDialogRef.close({ status: 200 });
       },
       error => {
-        this.snackBarTemplate.snackBarError(this.snackBar, error.status);
-        console.log(error);
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
         this.buttonDisable = true;
         this.buttonCloseDisable = false;
-
       }
     );
   }

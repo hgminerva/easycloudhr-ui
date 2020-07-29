@@ -89,7 +89,7 @@ export class EmployeeListComponent implements OnInit {
         this.buttonDisable = false;
         console.log(error);
 
-        this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + error.status);
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
         if (this.AddEmployeeSubscription != null) this.AddEmployeeSubscription.unsubscribe();
       }
     );
@@ -101,10 +101,14 @@ export class EmployeeListComponent implements OnInit {
   }
 
   public async DeleteEmployeeDetail() {
-    this.DeletemployeeListSubscription = await (await this.employeeListService.AddEmployee()).subscribe(
-      response => { },
+    let currentEmployee = this.listEmployeeCollectionView.currentItem;
+    this.DeletemployeeListSubscription = await (await this.employeeListService.DeleteEmployee(currentEmployee.Id)).subscribe(
+      response => {
+        this.GetEmployeeData();
+        this.snackBarTemplate.snackBarSuccess(this.snackBar, "Deleted Successfully");
+      },
       error => {
-        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
         if (this.DeletemployeeListSubscription != null) this.DeletemployeeListSubscription.unsubscribe();
       }
     );

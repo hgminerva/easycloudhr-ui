@@ -77,7 +77,7 @@ export class UserDetailComponent implements OnInit {
         if (this.userDetailSubscription !== null) this.userDetailSubscription.unsubscribe();
       },
       error => {
-        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
         if (this.userDetailSubscription !== null) this.userDetailSubscription.unsubscribe();
       }
     );
@@ -94,7 +94,7 @@ export class UserDetailComponent implements OnInit {
         },
         error => {
           this.isDataLoaded = true;
-          this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
           if (this.saveUserDetailSubscription !== null) this.saveUserDetailSubscription.unsubscribe();
         }
       );
@@ -113,7 +113,7 @@ export class UserDetailComponent implements OnInit {
         },
         error => {
           this.isDataLoaded = true;
-          this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
           if (this.lockUserDetailSubscription !== null) this.lockUserDetailSubscription.unsubscribe();
         }
       );
@@ -132,7 +132,7 @@ export class UserDetailComponent implements OnInit {
         },
         error => {
           this.isDataLoaded = true;
-          this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
           if (this.unlockUserDetailSubscription !== null) this.unlockUserDetailSubscription.unsubscribe();
         }
       );

@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import * as wjcCore from '@grapecity/wijmo';
 import * as wjcGrid from '@grapecity/wijmo.grid';
 import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -8,7 +7,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 
 import { CompanyListService } from './../company-list.service'
-import { from } from 'rxjs';
 
 @Component({
   selector: 'app-company-list',
@@ -41,8 +39,6 @@ export class CompanyListComponent implements OnInit {
   private DeleteCompanySubscription: any;
 
   public buttonDisable: boolean = false;
-
-
 
   private async GetCompanyListData() {
 
@@ -96,12 +92,11 @@ export class CompanyListComponent implements OnInit {
         error => {
           this.buttonDisable = false;
           this.isDataLoaded = true;
-          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + error.status);
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
           if (this.AddCompanySubscription != null) this.AddCompanySubscription.unsubscribe();
         }
       );
     }
-
   }
 
   public EditCompany() {
@@ -130,6 +125,5 @@ export class CompanyListComponent implements OnInit {
         }
       );
     }
-
   }
 }

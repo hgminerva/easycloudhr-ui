@@ -1,11 +1,84 @@
 <mat-toolbar>
     <img src="../../../../assets/menu-icons/shift code.png" height="35" />
     <span>&nbsp;&nbsp; Shift Code List</span>
+    <span class="spacer"></span>
+    <button mat-flat-button color="primary"
+        style="float: right;background-color: #742774; color: cornsilk; margin: 5px;" [disabled]="buttonDisable"
+        (click)="AddShiftCode()">
+        <mat-icon>add</mat-icon>
+        Add
+    </button>
 </mat-toolbar>
 <div class="software-container">
     <div fxLayout="row" fxLayout.xs="column">
         <div fxFlex="100" style="margin: 5px;">
-
+            <mat-progress-bar *ngIf="isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'">
+            </mat-progress-bar>
+            <wj-flex-grid #flexShiftCode [itemsSource]="listShiftCodeCollectionView" [selectionMode]="3"
+                [frozenColumns]="2">
+                <wj-flex-grid-filter></wj-flex-grid-filter>
+                <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="90">
+                    <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
+                        <button mat-raised-button color="primary"
+                            style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
+                            (click)="EditShiftCode()" id="btnEditEmployee">
+                            <mat-icon>edit</mat-icon>
+                            Edit
+                        </button>
+                    </ng-template>
+                </wj-flex-grid-column>
+                <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="90">
+                    <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
+                        <button mat-raised-button color="warn"
+                            style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
+                            (click)="DeleteShiftCode()">
+                            <mat-icon>delete</mat-icon>
+                            Delete
+                        </button>
+                    </ng-template>
+                </wj-flex-grid-column>
+                <wj-flex-grid-column [header]="'ShiftCode'" [binding]="'ShiftCode'" [isReadOnly]="true"
+                    [isReadOnly]="true" [width]="'2*'">
+                </wj-flex-grid-column>
+                <wj-flex-grid-column [header]="'Shift'" [binding]="'Shift'" [isReadOnly]="true" [isReadOnly]="true"
+                    [width]="'2*'">
+                </wj-flex-grid-column>
+                <wj-flex-grid-column [header]="'Particulars'" [binding]="'Particulars'" [isReadOnly]="true"
+                    [isReadOnly]="true" [width]="'2*'">
+                </wj-flex-grid-column>
+                <wj-flex-grid-column [header]="'Created User'" [binding]="'CreatedByUser'" [isReadOnly]="true"
+                    [isReadOnly]="true" [width]="'2*'">
+                </wj-flex-grid-column>
+                <wj-flex-grid-column [header]="'Created Date'" [binding]="'CreatedDateTime'" [isReadOnly]="true"
+                    [width]="'2*'">
+                </wj-flex-grid-column>
+                <wj-flex-grid-column [header]="'Updated User'" [binding]="'UpdatedByUser'" [isReadOnly]="true"
+                    [isReadOnly]="true" [width]="'2*'">
+                </wj-flex-grid-column>
+                <wj-flex-grid-column [header]="'Updated Date'" [binding]="'UpdatedDateTime'" [isReadOnly]="true"
+                    [width]="'2*'">
+                </wj-flex-grid-column>
+                <wj-flex-grid-column [header]="'L'" [binding]="'IsLocked'" [isReadOnly]="true" [width]="'.50*'">
+                </wj-flex-grid-column>
+            </wj-flex-grid>
+            <mat-button-toggle-group style="margin-top: 7px;">
+                <mat-button-toggle (click)="listShiftCodeCollectionView.moveToFirstPage()">
+                    <mat-icon style="margin-right: -15px">navigate_before</mat-icon>
+                    <mat-icon>navigate_before</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle (click)="listShiftCodeCollectionView.moveToPreviousPage()">
+                    <mat-icon>navigate_before</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle style="width: 100px;">{{ listShiftCodeCollectionView.pageIndex + 1 }} /
+                    {{ listShiftCodeCollectionView.pageCount }}</mat-button-toggle>
+                <mat-button-toggle (click)="listShiftCodeCollectionView.moveToNextPage()">
+                    <mat-icon>navigate_next</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle (click)="listShiftCodeCollectionView.moveToLastPage()">
+                    <mat-icon style="margin-right: -15px">navigate_next</mat-icon>
+                    <mat-icon>navigate_next</mat-icon>
+                </mat-button-toggle>
+            </mat-button-toggle-group>
         </div>
     </div>
 </div>

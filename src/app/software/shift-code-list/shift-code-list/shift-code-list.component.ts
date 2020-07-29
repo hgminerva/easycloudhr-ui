@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import * as wjcGrid from '@grapecity/wijmo.grid';
+import { CollectionView, ObservableArray } from '@grapecity/wijmo';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackBarTemplate } from '../../shared/snack-bar-template';
+import { ShiftCodeListService } from './../shift-code-list.service';
 
 @Component({
   selector: 'app-shift-code-list',
@@ -7,9 +14,115 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ShiftCodeListComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(private shiftCodeListService: ShiftCodeListService,
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private snackBarTemplate: SnackBarTemplate,
+  ) {
   }
 
+  async ngOnInit() {
+    await this.GetShiftCodeListData();
+  }
+
+  public listShiftCodeObservableArray: ObservableArray = new ObservableArray();
+  public listShiftCodeCollectionView: CollectionView = new CollectionView(this.listShiftCodeObservableArray);
+  public listPageIndex: number = 15;
+  @ViewChild('flexShiftCode') flexShiftCode: wjcGrid.FlexGrid;
+  public isProgressBarHidden = false;
+  public isDataLoaded: boolean = false;
+
+  private shiftCodeListSubscription: any;
+  private AddShiftCodeSubscription: any;
+  private DeleteShiftCodeSubscription: any;
+
+  public buttonDisable: boolean = false;
+
+
+
+  private async GetShiftCodeListData() {
+
+    this.listShiftCodeObservableArray = new ObservableArray();
+    this.listShiftCodeCollectionView = new CollectionView(this.listShiftCodeObservableArray);
+    this.listShiftCodeCollectionView.pageSize = 15;
+    this.listShiftCodeCollectionView.trackChanges = true;
+    await this.listShiftCodeCollectionView.refresh();
+    await this.flexShiftCode.refresh();
+
+    this.isProgressBarHidden = true;
+
+    this.shiftCodeListSubscription = await (await this.shiftCodeListService.ShiftCodeList()).subscribe(
+      (response: any) => {
+        var results = response;
+        console.log("Response:", results);
+
+        if (results["length"] > 0) {
+          this.listShiftCodeCollectionView = results;
+          this.listShiftCodeCollectionView = new CollectionView(this.listShiftCodeCollectionView);
+          this.listShiftCodeCollectionView.pageSize = 15;
+          this.listShiftCodeCollectionView.trackChanges = true;
+          this.listShiftCodeCollectionView.refresh();
+          this.flexShiftCode.refresh();
+        }
+
+        this.isDataLoaded = true;
+        this.isProgressBarHidden = false;
+
+        if (this.shiftCodeListSubscription != null) this.shiftCodeListSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this.shiftCodeListSubscription !== null) this.shiftCodeListSubscription.unsubscribe();
+      }
+    );
+  }
+
+  public async AddShiftCode() {
+    this.buttonDisable = true;
+    if (this.isDataLoaded == true) {
+      this.isDataLoaded = false;
+      this.AddShiftCodeSubscription = await (await this.shiftCodeListService.AddShiftCode()).subscribe(
+        response => {
+          this.buttonDisable = false;
+          this.isDataLoaded = true;
+          this.GetShiftCodeListData();
+          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Added Successfully");
+          this.router.navigate(['/software/shift-code-detail/' + response]);
+        },
+        error => {
+          this.buttonDisable = false;
+          this.isDataLoaded = true;
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this.AddShiftCodeSubscription != null) this.AddShiftCodeSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
+  public EditShiftCode() {
+    let currentShiftCode = this.listShiftCodeCollectionView.currentItem;
+    this.router.navigate(['/software/shift-code-detail/' + currentShiftCode.Id]);
+  }
+
+  public async DeleteShiftCode() {
+    if (this.isDataLoaded == true) {
+      this.isDataLoaded = false;
+      let currentShiftCode = this.listShiftCodeCollectionView.currentItem;
+      this.isProgressBarHidden = true;
+
+      this.DeleteShiftCodeSubscription = await (await this.shiftCodeListService.DeleteShiftCode(currentShiftCode.Id)).subscribe(
+        response => {
+          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Delete Successfully");
+          this.GetShiftCodeListData();
+          this.isProgressBarHidden = false;
+          this.isDataLoaded = true;
+        },
+        error => {
+          this.isDataLoaded = true;
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + error.status);
+          if (this.DeleteShiftCodeSubscription != null) this.DeleteShiftCodeSubscription.unsubscribe();
+        }
+      );
+    }
+  }
 }

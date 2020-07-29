@@ -21,6 +21,13 @@ export class AppSettings {
         })
     };
 
+    // Upload File Options
+    public uploadFileOptions: any = {
+        headers: new HttpHeaders({
+            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+        })
+    };
+
     // Snack Bar Position
     public snackBarHorizontalPosition: MatSnackBarHorizontalPosition = 'right';
     public snackBarVerticalPosition: MatSnackBarVerticalPosition = 'top';

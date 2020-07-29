@@ -101,4 +101,10 @@ export class EmployeeDetailService {
   public async Unlockemployee(id: number) {
     return this.httpClient.put(this.appSettings.defaultAPIURLHost + '/api/employee/unlock/' + id, "", this.appSettings.defaultOptions);
   }
+
+  public async uploadFile(file: File, fileName: string, employeeId: number) {
+    var formData: FormData = new FormData();
+    formData.append("image", file, fileName);
+    return this.httpClient.post(this.appSettings.defaultAPIURLHost + "/api/employee/upload/image/", formData, this.appSettings.uploadFileOptions);
+  }
 }
