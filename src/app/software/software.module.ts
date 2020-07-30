@@ -46,6 +46,10 @@ import { DTRListComponent } from './DTR-list/DTR-list/DTR-list.component';
 import { DTRDetailComponent } from './DTR-detail/DTR-detail/DTR-detail.component';
 import { UserRegistrationDialogComponent } from './user-list/user-registration-dialog/user-registration-dialog.component';
 import { SnackBarTemplate } from './shared/snack-bar-template';
+import { DeleteDialogBoxComponent } from './shared/delete-dialog-box/delete-dialog-box.component';
+import { SystemTalesListComponent } from './system-tables-list/system-tales-list/system-tales-list.component';
+import { SystemTablesTaxExemptionDetailComponent } from './system-tables-detail/system-tables-tax-exemption-detail/system-tables-tax-exemption-detail.component';
+import { SystemTablesCodeTablesDetailComponent } from './system-tables-detail/system-tables-code-tables-detail/system-tables-code-tables-detail.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +78,11 @@ import { SnackBarTemplate } from './shared/snack-bar-template';
     OvertimeApplicationDetailComponent,
     DTRListComponent,
     DTRDetailComponent,
-    UserRegistrationDialogComponent
+    UserRegistrationDialogComponent,
+    DeleteDialogBoxComponent,
+    SystemTalesListComponent,
+    SystemTablesTaxExemptionDetailComponent,
+    SystemTablesCodeTablesDetailComponent
   ],
   imports: [
     CommonModule,
@@ -89,6 +97,7 @@ import { SnackBarTemplate } from './shared/snack-bar-template';
   providers: [
     SoftwareRoutingActivate,
     UserRegistrationDialogComponent,
+    DeleteDialogBoxComponent,
     SnackBarTemplate
   ]
 })

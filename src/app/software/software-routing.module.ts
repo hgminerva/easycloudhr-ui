@@ -31,6 +31,7 @@ import { OvertimeApplicationListComponent } from './overtime-application-list/ov
 import { OvertimeApplicationDetailComponent } from './overtime-application-detail/overtime-application-detail/overtime-application-detail.component';
 import { DTRListComponent } from './DTR-list/DTR-list/DTR-list.component';
 import { DTRDetailComponent } from './DTR-detail/DTR-detail/DTR-detail.component';
+import { SystemTalesListComponent } from './system-tables-list/system-tales-list/system-tales-list.component';
 
 const routes: Routes = [
   {
@@ -45,6 +46,7 @@ const routes: Routes = [
       { path: 'mandatory-tables', canActivate: [SoftwareRoutingActivate], component: MandatoryTablesComponent },
       { path: 'shift-code-list', canActivate: [SoftwareRoutingActivate], component: ShiftCodeListComponent },
       { path: 'shift-code-detail/:id', canActivate: [SoftwareRoutingActivate], component: ShiftCodeDetailComponent },
+      { path: 'shift-code-detail', canActivate: [SoftwareRoutingActivate], component: ShiftCodeDetailComponent },
       { path: 'day-type-list', canActivate: [SoftwareRoutingActivate], component: DayTypeListComponent },
       { path: 'day-type-detail/:id', canActivate: [SoftwareRoutingActivate], component: DayTypeDetailComponent },
       { path: 'other-income', canActivate: [SoftwareRoutingActivate], component: OtherIncomeComponent },
@@ -61,7 +63,9 @@ const routes: Routes = [
       { path: 'overtime-application-list', canActivate: [SoftwareRoutingActivate], component: OvertimeApplicationListComponent },
       { path: 'overtime-application-detail/:id', canActivate: [SoftwareRoutingActivate], component: OvertimeApplicationDetailComponent },
       { path: 'DTR-list', canActivate: [SoftwareRoutingActivate], component: DTRListComponent },
-      { path: 'DTR-detail/:id', canActivate: [SoftwareRoutingActivate], component: DTRDetailComponent }
+      { path: 'DTR-detail/:id', canActivate: [SoftwareRoutingActivate], component: DTRDetailComponent },
+      { path: 'system-tables-list', canActivate: [SoftwareRoutingActivate], component: SystemTalesListComponent },
+
     ]
   }
 ];

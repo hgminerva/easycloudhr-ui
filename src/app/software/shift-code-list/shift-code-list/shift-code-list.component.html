@@ -3,7 +3,7 @@
     <span>&nbsp;&nbsp; Shift Code List</span>
     <span class="spacer"></span>
     <button mat-flat-button color="primary"
-        style="float: right;background-color: #742774; color: cornsilk; margin: 5px;" [disabled]="buttonDisable"
+        style="float: right;background-color: #742774; color: cornsilk; margin: 5px;" [disabled]="buttonDisabled"
         (click)="AddShiftCode()">
         <mat-icon>add</mat-icon>
         Add
@@ -37,7 +37,7 @@
                         </button>
                     </ng-template>
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'ShiftCode'" [binding]="'ShiftCode'" [isReadOnly]="true"
+                <wj-flex-grid-column [header]="'Shift Code'" [binding]="'ShiftCode'" [isReadOnly]="true"
                     [isReadOnly]="true" [width]="'2*'">
                 </wj-flex-grid-column>
                 <wj-flex-grid-column [header]="'Shift'" [binding]="'Shift'" [isReadOnly]="true" [isReadOnly]="true"

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { ShiftCodeListService } from './../shift-code-list.service';
+import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 
 @Component({
   selector: 'app-shift-code-list',
@@ -14,10 +15,12 @@ import { ShiftCodeListService } from './../shift-code-list.service';
 })
 export class ShiftCodeListComponent implements OnInit {
 
-  constructor(private shiftCodeListService: ShiftCodeListService,
+  constructor(
+    private shiftCodeListService: ShiftCodeListService,
     private router: Router,
     private snackBar: MatSnackBar,
     private snackBarTemplate: SnackBarTemplate,
+    public DeleteConfirmDialog: MatDialog,
   ) {
   }
 
@@ -36,12 +39,9 @@ export class ShiftCodeListComponent implements OnInit {
   private AddShiftCodeSubscription: any;
   private DeleteShiftCodeSubscription: any;
 
-  public buttonDisable: boolean = false;
-
-
+  public buttonDisabled: boolean = false;
 
   private async GetShiftCodeListData() {
-
     this.listShiftCodeObservableArray = new ObservableArray();
     this.listShiftCodeCollectionView = new CollectionView(this.listShiftCodeObservableArray);
     this.listShiftCodeCollectionView.pageSize = 15;
@@ -78,19 +78,19 @@ export class ShiftCodeListComponent implements OnInit {
   }
 
   public async AddShiftCode() {
-    this.buttonDisable = true;
+    this.buttonDisabled = true;
     if (this.isDataLoaded == true) {
       this.isDataLoaded = false;
       this.AddShiftCodeSubscription = await (await this.shiftCodeListService.AddShiftCode()).subscribe(
         response => {
-          this.buttonDisable = false;
+          this.buttonDisabled = false;
           this.isDataLoaded = true;
           this.GetShiftCodeListData();
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Added Successfully");
           this.router.navigate(['/software/shift-code-detail/' + response]);
         },
         error => {
-          this.buttonDisable = false;
+          this.buttonDisabled = false;
           this.isDataLoaded = true;
           this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
           if (this.AddShiftCodeSubscription != null) this.AddShiftCodeSubscription.unsubscribe();
@@ -124,5 +124,23 @@ export class ShiftCodeListComponent implements OnInit {
         }
       );
     }
+  }
+
+  public ComfirmDeleteShiftCode(): void {
+    let currentShiftCode = this.listShiftCodeCollectionView.currentItem;
+    const userRegistrationlDialogRef = this.DeleteConfirmDialog.open(DeleteDialogBoxComponent, {
+      width: '500px',
+      data: {
+        objDialogTitle: "Delete Shift",
+        objComfirmationMessage: `Delete this ${currentShiftCode.Shift}?`,
+      },
+      disableClose: true
+    });
+
+    userRegistrationlDialogRef.afterClosed().subscribe(result => {
+      if (result.message == "Yes") {
+        this.DeleteShiftCode();
+      }
+    });
   }
 }

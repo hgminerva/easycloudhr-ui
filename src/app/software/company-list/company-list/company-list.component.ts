@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 
 import { CompanyListService } from './../company-list.service'
+import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 
 @Component({
   selector: 'app-company-list',
@@ -20,6 +21,7 @@ export class CompanyListComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar,
     private snackBarTemplate: SnackBarTemplate,
+    public DeleteConfirmDialog: MatDialog,
   ) {
   }
 
@@ -38,7 +40,7 @@ export class CompanyListComponent implements OnInit {
   private AddCompanySubscription: any;
   private DeleteCompanySubscription: any;
 
-  public buttonDisable: boolean = false;
+  public btnAddDisabled: boolean = false;
 
   private async GetCompanyListData() {
 
@@ -78,19 +80,19 @@ export class CompanyListComponent implements OnInit {
   }
 
   public async AddCompany() {
-    this.buttonDisable = true;
+    this.btnAddDisabled = true;
     if (this.isDataLoaded == true) {
       this.isDataLoaded = false;
       this.AddCompanySubscription = await (await this.companyListService.AddCompany()).subscribe(
         response => {
-          this.buttonDisable = false;
+          this.btnAddDisabled = false;
           this.isDataLoaded = true;
           this.GetCompanyListData();
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Added Successfully");
           this.router.navigate(['/software/company-detail/' + response]);
         },
         error => {
-          this.buttonDisable = false;
+          this.btnAddDisabled = false;
           this.isDataLoaded = true;
           this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
           if (this.AddCompanySubscription != null) this.AddCompanySubscription.unsubscribe();
@@ -105,25 +107,43 @@ export class CompanyListComponent implements OnInit {
   }
 
   public async DeleteCompany() {
+    let currentCompany = this.listCompanyCollectionView.currentItem;
+    this.isProgressBarHidden = true;
+
     if (this.isDataLoaded == true) {
       this.isDataLoaded = false;
-      let currentCompany = this.listCompanyCollectionView.currentItem;
-      this.isProgressBarHidden = true;
-
       this.DeleteCompanySubscription = await (await this.companyListService.DeleteCompany(currentCompany.Id)).subscribe(
         response => {
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Delete Successfully");
           this.GetCompanyListData();
           this.isProgressBarHidden = false;
           this.isDataLoaded = true;
-
         },
         error => {
           this.isDataLoaded = true;
+          this.isProgressBarHidden = false;
           this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + error.status);
           if (this.DeleteCompanySubscription != null) this.DeleteCompanySubscription.unsubscribe();
         }
       );
     }
+  }
+
+  public ComfirmDeleteEmployee(): void {
+    let currentEmployee = this.listCompanyCollectionView.currentItem;
+    const userRegistrationlDialogRef = this.DeleteConfirmDialog.open(DeleteDialogBoxComponent, {
+      width: '500px',
+      data: {
+        objDialogTitle: "Delete Company",
+        objComfirmationMessage: ` Delete this ${currentEmployee.Company}?`,
+      },
+      disableClose: true
+    });
+
+    userRegistrationlDialogRef.afterClosed().subscribe(result => {
+      if (result.message == "Yes") {
+        this.DeleteCompany();
+      }
+    });
   }
 }

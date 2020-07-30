@@ -1,11 +1,86 @@
 <mat-toolbar>
-    <img src="../../../../assets/menu-icons/shift code.png" height="35" />
+    <img src="../../../../assets/menu-icons/user.png" height="35" />
     <span>&nbsp;&nbsp; Shift Code Detail</span>
+    <span class="spacer"></span>
+    <button mat-raised-button style="margin: 5px;" color="primary" (click)="SaveShiftDetail()"
+        [disabled]="btnSaveDisabled">
+        <mat-icon>save</mat-icon>
+        Save
+    </button>
+    <button mat-raised-button style="margin: 5px;" color="primary" (click)="LockShiftDetail()"
+        [disabled]="btnLockisabled">
+        <mat-icon>lock</mat-icon>
+        Lock
+    </button>
+    <button mat-raised-button style="margin: 5px;" color="primary" (click)="UnlockShiftDetail()"
+        [disabled]="btnUnlockDisabled">
+        <mat-icon>lock_open</mat-icon>
+
+        Unlock
+    </button>
+    <button mat-raised-button style="margin: 5px;" routerLink="/software/shift-code-list" color="warn">
+        <mat-icon>close</mat-icon>
+        Close
+    </button>
 </mat-toolbar>
+<mat-progress-bar *ngIf="isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'" style="width: 100%;">
+</mat-progress-bar>
 <div class="software-container">
     <div fxLayout="row" fxLayout.xs="column">
-        <div fxFlex="100" style="margin: 5px;">
-
+        <div fxFlex="50" style="padding: 5px;">
+            <div fxLayout="row" fxLayout.xs="column">
+                <div fxFlex="50" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>ShiftCode</mat-label>
+                        <input matInput placeholder="Full Name" [(ngModel)]="shiftModel.ShiftCode"
+                            [readonly]="isLocked">
+                    </mat-form-field>
+                </div>
+                <div fxFlex="50" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Shift</mat-label>
+                        <input matInput placeholder="Full Name" [(ngModel)]="shiftModel.Shift" [readonly]="isLocked">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column">
+                <div fxFlex="50" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Created By</mat-label>
+                        <input matInput placeholder="Password" [(ngModel)]="shiftModel.CreatedByUser" readonly>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="50" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Created Date</mat-label>
+                        <input matInput placeholder="Password" [(ngModel)]="shiftModel.CreatedDateTime" readonly>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div fxFlex="50" style="padding: 5px;">
+            <div fxLayout="row" fxLayout.xs="column">
+                <div fxFlex="100" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Particulars</mat-label>
+                        <input matInput placeholder="Full Name" [(ngModel)]="shiftModel.Particulars" readonly>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column">
+                <div fxFlex="50" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Updated By</mat-label>
+                        <input matInput placeholder="Password" [(ngModel)]="shiftModel.UpdatedByUser" readonly>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="50" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Updated Date</mat-label>
+                        <input matInput placeholder="Password" [(ngModel)]="shiftModel.UpdatedDateTime" readonly>
+                    </mat-form-field>
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -6,6 +6,8 @@ import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 
 @Component({
   selector: 'app-employee-list',
@@ -18,6 +20,8 @@ export class EmployeeListComponent implements OnInit {
     private snackBar: MatSnackBar,
     private snackBarTemplate: SnackBarTemplate,
     private router: Router,
+    public DeleteConfirmDialog: MatDialog,
+
   ) {
   }
 
@@ -36,7 +40,7 @@ export class EmployeeListComponent implements OnInit {
   private AddEmployeeSubscription: any;
   private DeletemployeeListSubscription: any;
 
-  public buttonDisable: boolean = false;
+  public btnAddDisabled: boolean = false;
 
   private async GetEmployeeData() {
     this.listEmployeeObservableArray = new ObservableArray();
@@ -75,24 +79,24 @@ export class EmployeeListComponent implements OnInit {
   }
 
   public async AddEmployeeDetail() {
-    this.buttonDisable = true;
-
-    this.AddEmployeeSubscription = await (await this.employeeListService.AddEmployee()).subscribe(
-      response => {
-        this.buttonDisable = false;
-        console.log(response);
-        this.GetEmployeeData();
-        this.snackBarTemplate.snackBarSuccess(this.snackBar, "Added Successfully");
-        this.router.navigate(['/software/employee-detail/' + response]);
-      },
-      error => {
-        this.buttonDisable = false;
-        console.log(error);
-
-        this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
-        if (this.AddEmployeeSubscription != null) this.AddEmployeeSubscription.unsubscribe();
-      }
-    );
+    this.btnAddDisabled = true;
+    if (this.isDataLoaded == true) {
+      this.isDataLoaded = false;
+      this.AddEmployeeSubscription = await (await this.employeeListService.AddEmployee()).subscribe(
+        response => {
+          this.btnAddDisabled = false;
+          this.isDataLoaded = true;
+          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Added Successfully");
+          this.router.navigate(['/software/employee-detail/' + response]);
+        },
+        error => {
+          this.btnAddDisabled = false;
+          this.isDataLoaded = true;
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this.AddEmployeeSubscription != null) this.AddEmployeeSubscription.unsubscribe();
+        }
+      );
+    }
   }
 
   public async EditEmployeeDetail() {
@@ -114,4 +118,22 @@ export class EmployeeListComponent implements OnInit {
     );
   }
 
+  public ComfirmDeleteEmployee(): void {
+    let currentEmployee = this.listEmployeeCollectionView.currentItem;
+
+    const userRegistrationlDialogRef = this.DeleteConfirmDialog.open(DeleteDialogBoxComponent, {
+      width: '500px',
+      data: {
+        objDialogTitle: "Delete Employee",
+        objComfirmationMessage: `Delete this ${currentEmployee.FullName}?`,
+      },
+      disableClose: true
+    });
+
+    userRegistrationlDialogRef.afterClosed().subscribe(result => {
+      if (result.message == "Yes") {
+        this.DeleteEmployeeDetail();
+      }
+    });
+  }
 }

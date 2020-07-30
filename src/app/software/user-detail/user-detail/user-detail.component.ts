@@ -5,6 +5,7 @@ import { SnackBarTemplate } from '../../shared/snack-bar-template';
 
 import { UserDetailService } from '../user-detail.service';
 import { UserModel } from '../user.model'
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-user-detail',
@@ -20,7 +21,6 @@ export class UserDetailComponent implements OnInit {
     private userDetailService: UserDetailService,
 
   ) {
-    this.GetUserDetail();
   }
 
   public userModel: UserModel = {
@@ -40,23 +40,33 @@ export class UserDetailComponent implements OnInit {
 
   public isDataLoaded: boolean = false;
   public isProgressBarHidden: boolean = false;
-  public isLocked: boolean = false;
+
+
   private userDetailSubscription: any;
   private saveUserDetailSubscription: any;
   private lockUserDetailSubscription: any;
   private unlockUserDetailSubscription: any;
 
-  ngOnInit(): void {
+  public btnSaveDisabled: boolean = true;
+  public btnLockisabled: boolean = true;
+  public btnUnlockDisabled: boolean = true;
+
+  public isLocked: boolean = false;;
+
+
+  async ngOnInit() {
+    await this.GetUserDetail();
   }
 
   private async GetUserDetail() {
+    this.disableButtons();
     let id = 0;
-    this.isProgressBarHidden = true;
     this.activatedRoute.params.subscribe(params => { id = params["id"]; });
 
     this.userDetailSubscription = await (await this.userDetailService.UserDetail(id)).subscribe(
       response => {
         let result = response;
+        console.log(result);
         if (result != null) {
           this.userModel.Id = result["Id"];
           this.userModel.UserName = result["Username"];
@@ -66,13 +76,11 @@ export class UserDetailComponent implements OnInit {
           this.userModel.CreatedDateTime = result["CreatedDateTime"];
           this.userModel.UpdatedByUser = result["UpdatedByUser"];
           this.userModel.UpdatedDateTime = result["UpdatedDateTime"];
-          this.userModel.IsLocked = result["isLockeded"];
+          this.userModel.IsLocked = result["IsLocked"];
+          console.log(result["IsLocked"]);
         }
 
-        if (this.userModel.IsLocked == true) {
-          this.isLocked = this.userModel.IsLocked;
-        }
-        this.isProgressBarHidden = false;
+        this.loadComponent(result["IsLocked"]);
         this.isDataLoaded = true;
         if (this.userDetailSubscription !== null) this.userDetailSubscription.unsubscribe();
       },
@@ -84,16 +92,19 @@ export class UserDetailComponent implements OnInit {
   }
 
   public async SaveUserDetail() {
+    this.disableButtons();
     if (this.isDataLoaded == true) {
       this.isDataLoaded = false;
       this.saveUserDetailSubscription = await (await this.userDetailService.SaveUser(this.userModel.Id, this.userModel)).subscribe(
         response => {
           this.isDataLoaded = true;
+          this.loadComponent(this.userModel.IsLocked);
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Save Successfully.");
           if (this.saveUserDetailSubscription !== null) this.saveUserDetailSubscription.unsubscribe();
         },
         error => {
-          this.isDataLoaded = true;
+          this.loadComponent(this.userModel.IsLocked);
+          this.btnUnlockDisabled = true;
           this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
           if (this.saveUserDetailSubscription !== null) this.saveUserDetailSubscription.unsubscribe();
         }
@@ -102,17 +113,20 @@ export class UserDetailComponent implements OnInit {
   }
 
   public async LockUserDetail() {
+    this.disableButtons();
+
     if (this.isDataLoaded == true) {
       this.isDataLoaded = false;
       this.lockUserDetailSubscription = await (await this.userDetailService.LockUser(this.userModel.Id, this.userModel)).subscribe(
         response => {
-          this.isLocked = true;
+          this.loadComponent(true);
           this.isDataLoaded = true;
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Lock Successfully.");
           if (this.lockUserDetailSubscription !== null) this.lockUserDetailSubscription.unsubscribe();
         },
         error => {
           this.isDataLoaded = true;
+          this.loadComponent(false);
           this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
           if (this.lockUserDetailSubscription !== null) this.lockUserDetailSubscription.unsubscribe();
         }
@@ -121,16 +135,18 @@ export class UserDetailComponent implements OnInit {
   }
 
   public async UnlockUserDetail() {
+    this.disableButtons();
     if (this.isDataLoaded == true) {
       this.isDataLoaded = false;
       this.unlockUserDetailSubscription = await (await this.userDetailService.UnlockUser(this.userModel.Id)).subscribe(
         response => {
-          this.isLocked = false;
+          this.loadComponent(false);
           this.isDataLoaded = true;
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Unlock Successfully.");
           if (this.unlockUserDetailSubscription !== null) this.unlockUserDetailSubscription.unsubscribe();
         },
         error => {
+          this.loadComponent(true);
           this.isDataLoaded = true;
           this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
           if (this.unlockUserDetailSubscription !== null) this.unlockUserDetailSubscription.unsubscribe();
@@ -140,5 +156,43 @@ export class UserDetailComponent implements OnInit {
   }
 
   ngOnDestroy() {
+  }
+
+  // ==================
+  // Component Behavior
+  // ==================
+  passwordField: FormGroup = new FormGroup({
+    password: new FormControl('')
+  });
+
+  public hide: boolean = true;
+  get passwordInput() { return this.passwordField.get('password'); }
+
+  public async passwordIconClick() {
+    if (!this.isLocked) {
+      this.hide = await !this.hide;
+    }
+  }
+
+  private loadComponent(isDisable) {
+    if (isDisable == true) {
+      this.btnSaveDisabled = isDisable;
+      this.btnLockisabled = isDisable;
+      this.btnUnlockDisabled = !isDisable;
+    } else {
+      this.btnSaveDisabled = isDisable;
+      this.btnLockisabled = isDisable;
+      this.btnUnlockDisabled = !isDisable;
+    }
+
+    this.isLocked = isDisable;
+    this.isProgressBarHidden = false;
+  }
+
+  private disableButtons() {
+    this.btnSaveDisabled = true;
+    this.btnLockisabled = true;
+    this.btnUnlockDisabled = true;
+    this.isProgressBarHidden = true;
   }
 }

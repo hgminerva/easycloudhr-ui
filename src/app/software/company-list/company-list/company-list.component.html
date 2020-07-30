@@ -1,78 +1,76 @@
 <mat-toolbar>
     <img src="../../../../assets/menu-icons/company.png" height="35" />
     <span>&nbsp;&nbsp; Company List</span>
+    <span class="spacer"></span>
+    <button mat-flat-button color="primary" (click)="AddCompany()" [disabled]="btnAddDisabled">
+        <mat-icon>add</mat-icon>
+        ADD
+    </button>
 </mat-toolbar>
 <div class="software-container">
-    <mat-card>
-        <div fxLayout="row" fxLayout.xs="column">
-            <div fxFlex="100%" style="margin-bottom: 5px;">
-                <button mat-button color="primary" (click)="AddCompany()"
-                    style="float: right;background-color: #742774; color: cornsilk; margin: 5px;"
-                    [disabled]="buttonDisable">ADD</button><br><br>
-            </div>
+    <div fxLayout="row" fxLayout.xs="column">
+        <div fxFlex="100" style="margin: 5px;">
+            <mat-progress-bar *ngIf="isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'">
+            </mat-progress-bar>
+            <wj-flex-grid #flexCompany [itemsSource]="listCompanyCollectionView" [selectionMode]="3" [frozenColumns]="2"
+                [headersVisibility]="1">
+                <wj-flex-grid-filter></wj-flex-grid-filter>
+                <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="80">
+                    <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
+                        <button mat-raised-button color="primary"
+                            style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
+                            (click)="EditCompany()" id="btnEditEmployee">
+                            <mat-icon>edit</mat-icon>
+                            Edit
+                        </button>
+                    </ng-template>
+                </wj-flex-grid-column>
+                <wj-flex-grid-column [header]="'Delete'" [isReadOnly]="true" [width]="80">
+                    <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
+                        <button mat-raised-button color="warn"
+                            style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
+                            (click)="ComfirmDeleteEmployee()">
+                            <mat-icon>delete</mat-icon>
+                            Delete
+                        </button>
+                    </ng-template>
+                </wj-flex-grid-column>
+                <wj-flex-grid-column [header]="'Company Code'" [binding]="'CompanyCode'" [isReadOnly]="true"
+                    [width]="'2*'">
+                </wj-flex-grid-column>
+                <wj-flex-grid-column [header]="'Company'" [binding]="'Company'" [isReadOnly]="true" [width]="'2*'">
+                </wj-flex-grid-column>
+                <wj-flex-grid-column [header]="'Address'" [binding]="'Address'" [isReadOnly]="true" [width]="'2*'">
+                </wj-flex-grid-column>
+                <wj-flex-grid-column [header]="'SSS No.'" [binding]="'SSSNumber'" [isReadOnly]="true" [width]="'2*'">
+                </wj-flex-grid-column>
+                <wj-flex-grid-column [header]="'PHIC No.'" [binding]="'PHICNumber'" [isReadOnly]="true" [width]="'2*'">
+                </wj-flex-grid-column>
+                <wj-flex-grid-column [header]="'HDMFNo.'" [binding]="'HDMFNumber'" [isReadOnly]="true" [width]="'2*'">
+                </wj-flex-grid-column>
+                <wj-flex-grid-column [header]="'Tax No.'" [binding]="'TaxNumber'" [isReadOnly]="true" [width]="'2*'">
+                </wj-flex-grid-column>
+                <wj-flex-grid-column [header]="'L'" [binding]="'IsLocked'" [isReadOnly]="true" [width]="'.40*'">
+                </wj-flex-grid-column>
+            </wj-flex-grid>
+            <mat-button-toggle-group>
+                <mat-button-toggle (click)="listCompanyCollectionView.moveToFirstPage()">
+                    <mat-icon style="margin-right: -15px">navigate_before</mat-icon>
+                    <mat-icon>navigate_before</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle (click)="listCompanyCollectionView.moveToPreviousPage()">
+                    <mat-icon>navigate_before</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle>{{ listCompanyCollectionView.pageIndex + 1 }} /
+                    {{ listCompanyCollectionView.pageCount }}</mat-button-toggle>
+                <mat-button-toggle (click)="listCompanyCollectionView.moveToNextPage()">
+                    <mat-icon>navigate_next</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle (click)="listCompanyCollectionView.moveToLastPage()">
+                    <mat-icon style="margin-right: -15px">navigate_next</mat-icon>
+                    <mat-icon>navigate_next</mat-icon>
+                </mat-button-toggle>
+            </mat-button-toggle-group>
         </div>
-        <mat-divider></mat-divider>
-        <br>
-        <div fxLayout="row" fxLayout.xs="column">
-            <div fxFlex="100" style="margin: 5px;width: 100%;">
-                <mat-progress-bar *ngIf="isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'">
-                </mat-progress-bar>
-                <wj-flex-grid #flexCompany [itemsSource]="listCompanyCollectionView" [selectionMode]="3"
-                    [frozenColumns]="2" [headersVisibility]="1">
-                    <wj-flex-grid-filter></wj-flex-grid-filter>
-                    <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="80">
-                        <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
-                            <button mat-raised-button color="primary" style="width: 100%;" color="primary"
-                                (click)="EditCompany()">Edit</button>
-                        </ng-template>
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Delete'" [isReadOnly]="true" [width]="80">
-                        <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
-                            <button mat-raised-button color="warn" style="width: 100%;"
-                                (click)="DeleteCompany()">Delete</button>
-                        </ng-template>
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'CompanyCode'" [binding]="'CompanyCode'" [isReadOnly]="true"
-                        [width]="'2*'">
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Company'" [binding]="'Company'" [isReadOnly]="true" [width]="'2*'">
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Address'" [binding]="'Address'" [isReadOnly]="true" [width]="'2*'">
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'SSS No.'" [binding]="'SSSNumber'" [isReadOnly]="true"
-                        [width]="'2*'">
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'PHIC No.'" [binding]="'PHICNumber'" [isReadOnly]="true"
-                        [width]="'2*'">
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'HDMFNo.'" [binding]="'HDMFNumber'" [isReadOnly]="true"
-                        [width]="'2*'">
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Tax No.'" [binding]="'TaxNumber'" [isReadOnly]="true"
-                        [width]="'2*'">
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'L'" [binding]="'IsLocked'" [isReadOnly]="true" [width]="'.40*'">
-                    </wj-flex-grid-column>
-                </wj-flex-grid>
-                <mat-button-toggle-group>
-                    <mat-button-toggle (click)="listCompanyCollectionView.moveToFirstPage()">
-                        <mat-icon style="margin-right: -15px">navigate_before</mat-icon>
-                        <mat-icon>navigate_before</mat-icon>
-                    </mat-button-toggle>
-                    <mat-button-toggle (click)="listCompanyCollectionView.moveToPreviousPage()">
-                        <mat-icon>navigate_before</mat-icon>
-                    </mat-button-toggle>
-                    <mat-button-toggle>{{ listCompanyCollectionView.pageIndex + 1 }} /
-                        {{ listCompanyCollectionView.pageCount }}</mat-button-toggle>
-                    <mat-button-toggle (click)="listCompanyCollectionView.moveToNextPage()">
-                        <mat-icon>navigate_next</mat-icon>
-                    </mat-button-toggle>
-                    <mat-button-toggle (click)="listCompanyCollectionView.moveToLastPage()">
-                        <mat-icon style="margin-right: -15px">navigate_next</mat-icon>
-                        <mat-icon>navigate_next</mat-icon>
-                    </mat-button-toggle>
-                </mat-button-toggle-group>
-            </div>
-        </div>
-    </mat-card>
+    </div>
 </div>

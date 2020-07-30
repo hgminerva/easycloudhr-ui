@@ -1,173 +1,123 @@
 <mat-toolbar>
     <img src="../../../../assets/menu-icons/company.png" height="35" />
     <span>&nbsp;&nbsp; Company Detail</span>
+    <span class="spacer"></span>
+    <button mat-raised-button style="margin: 5px;" color="primary" [disabled]="btnSaveDisabled"
+        (click)="SaveCompanyDetail()">
+        <mat-icon>save</mat-icon>
+        Save
+    </button>
+    <button mat-raised-button style="margin: 5px;" color="primary" [disabled]="btnLockisabled"
+        (click)="LockCompanyDetail()">
+        <mat-icon>lock</mat-icon>
+        Lock
+    </button>
+    <button mat-raised-button style="margin: 5px;" color="primary" [disabled]="btnUnlockDisabled"
+        (click)="UnlockCompanyDetail()">
+        <mat-icon>lock_open</mat-icon>
+        Unlock
+    </button>
+    <button mat-raised-button style="margin: 5px;" routerLink="/software/company-list" color="warn">
+        <mat-icon>close</mat-icon>Close
+    </button>
 </mat-toolbar>
+<mat-progress-bar *ngIf="isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'" style="width: 100%;">
+</mat-progress-bar>
 <div class="software-container">
-    <mat-card>
-        <div fxLayout="row" fxLayout.xs="column">
-            <div fxFlex="25%"></div>
-            <div fxFlex="25%"></div>
-            <div fxFlex="50%" style="margin-bottom: 5px;">
-                <div class="example-button-row" style="float: right;">
-                    <button mat-raised-button style="margin: 5px;" color="primary" [disabled]="isLocked"
-                        (click)="SaveCompanyDetail()">
-                        <mat-icon>save</mat-icon>
-                        Save
-                    </button>
-                    <button mat-raised-button style="margin: 5px;" color="primary" [disabled]="isLocked"
-                        (click)="LockCompanyDetail()">
-                        <mat-icon>lock</mat-icon>
-                        Lock
-                    </button>
-                    <button mat-raised-button style="margin: 5px;" color="primary" [disabled]="!isLocked"
-                        (click)="UnlockCompanyDetail()">
-                        <mat-icon>lock_open</mat-icon>
-                        Unlock
-                    </button>
-                    <button mat-raised-button style="margin: 5px;" routerLink="/software/company-list" color="warn">
-                        <mat-icon>close</mat-icon>Close
-                    </button>
+    <div fxLayout="row" fxLayout.xs="column">
+        <div fxFlex="50" style="padding: 5px;">
+            <div fxLayout="row" fxLayout.xs="column">
+                <div fxFlex="33" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>CompanyCode</mat-label>
+                        <input matInput placeholder="Company Code" [(ngModel)]="companyModel.CompanyCode" readonly>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="67" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Company</mat-label>
+                        <input matInput placeholder="Company" [(ngModel)]="companyModel.Company" [readonly]="isLocked">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column">
+                <div fxFlex="33" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>SSS No.</mat-label>
+                        <input matInput placeholder="SSSNumber" [(ngModel)]="companyModel.SSSNumber"
+                            [readonly]="isLocked">
+                    </mat-form-field>
+                </div>
+                <div fxFlex="33" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>PHIC No.</mat-label>
+                        <input matInput placeholder="PHIC No." [(ngModel)]="companyModel.PHICNumber"
+                            [readonly]="isLocked">
+                    </mat-form-field>
+                </div>
+                <div fxFlex="34" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Tax No.</mat-label>
+                        <input matInput placeholder="Tax No." [(ngModel)]="companyModel.TaxNumber"
+                            [readonly]="isLocked">
+                    </mat-form-field>
                 </div>
             </div>
         </div>
-        <mat-divider></mat-divider>
-        <br>
-        <br>
-        <div fxLayout="row" fxLayout.xs="column">
-            <div fxFlex="5%"></div>
-            <div fxFlex="60%">
-                <div fxLayout="row" fxLayout.xs="column">
-                    <div fxFlex="100%">
-                        <div fxFlex="49%">
-                            <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>CompanyCode</mat-label>
-                                <input matInput placeholder="Company Code" [(ngModel)]="companyModel.CompanyCode"
-                                    readonly>
-                            </mat-form-field>
-                        </div>
-                        <div fxFlex="2%"></div>
-                        <div fxFlex="49%">
-                            <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>Company</mat-label>
-                                <input matInput placeholder="Company" [(ngModel)]="companyModel.Company"
-                                    [readonly]="isLocked">
-                            </mat-form-field>
-                        </div>
-                    </div>
-                </div>
-                <div fxLayout="row" fxLayout.xs="column">
-                    <div fxFlex="100%">
-                        <div fxFlex="49%">
-                            <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>Address</mat-label>
-                                <input matInput placeholder="Password" [(ngModel)]="companyModel.Address"
-                                    [readonly]="isLocked">
-                            </mat-form-field>
-                        </div>
-                        <div fxFlex="2%"></div>
-                        <div fxFlex="49%">
-                            <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>SSS No.</mat-label>
-                                <input matInput placeholder="SSSNumber" [(ngModel)]="companyModel.SSSNumber"
-                                    [readonly]="isLocked">
-                            </mat-form-field>
-                        </div>
-                    </div>
-                </div>
-                <div fxLayout="row" fxLayout.xs="column">
-                    <div fxFlex="100%">
-                        <div fxFlex="49%">
-                            <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>PHIC No.</mat-label>
-                                <input matInput placeholder="PHIC No." [(ngModel)]="companyModel.PHICNumber"
-                                    [readonly]="isLocked">
-                            </mat-form-field>
-                        </div>
-                        <div fxFlex="2%"></div>
-                        <div fxFlex="49%">
-                            <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>Tax No.</mat-label>
-                                <input matInput placeholder="Tax No." [(ngModel)]="companyModel.TaxNumber"
-                                    [readonly]="isLocked">
-                            </mat-form-field>
-                        </div>
-                    </div>
-                </div>
-                <div fxLayout="row" fxLayout.xs="column">
-                    <div fxFlex="100%">
-                        <div fxFlex="49%">
-                            <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>Created By</mat-label>
-                                <input matInput placeholder="PHIC No." [(ngModel)]="companyModel.CreatedByUser"
-                                    readonly>
-                            </mat-form-field>
-                        </div>
-                        <div fxFlex="2%"></div>
-                        <div fxFlex="49%">
-                            <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>Created Date</mat-label>
-                                <input matInput placeholder="Tax No." [(ngModel)]="companyModel.CreatedDateTime"
-                                    readonly>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                </div>
-                <div fxLayout="row" fxLayout.xs="column">
-                    <div fxFlex="100%">
-                        <div fxFlex="49%">
-                            <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>Updated By</mat-label>
-                                <input matInput placeholder="PHIC No." [(ngModel)]="companyModel.UpdatedByUser"
-                                    readonly>
-                            </mat-form-field>
-                        </div>
-                        <div fxFlex="2%"></div>
-                        <div fxFlex="49%">
-                            <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>Updated Date</mat-label>
-                                <input matInput placeholder="Tax No." [(ngModel)]="companyModel.UpdatedDateTime"
-                                    readonly>
-                            </mat-form-field>
-                        </div>
-                    </div>
+        <div fxFlex="50" style="padding: 5px;">
+            <div fxLayout="row" fxLayout.xs="column">
+                <div fxFlex="100" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Address</mat-label>
+                        <textarea matInput placeholder="Address" [(ngModel)]="companyModel.Address"
+                            [readonly]="isLocked" rows="5" style="min-height: 102px;"></textarea>
+                    </mat-form-field>
                 </div>
             </div>
-            <div fxFlex="20%"></div>
         </div>
-        <mat-divider></mat-divider>
-        <br><br><br>
+    </div>
+    <mat-divider></mat-divider>
 
-        <!-- <mat-divider></mat-divider>
-        <br>
-        <div fxLayout="row" fxLayout.xs="column">
-            <div fxFlex="20%">
-                <mat-label style="color: gray;">
-                    Created By:
-                </mat-label>&nbsp;&nbsp;
-                <mat-form-field class="example-full-width">
-                    <input matInput disabled [(ngModel)]="companyModel.CreatedByUser">
-                </mat-form-field>
+    <div fxLayout="row" fxLayout.xs="column">
+        <div fxFlex="50" style="padding: 5px;">
+            <div fxLayout="row" fxLayout.xs="column">
+                <div fxFlex="50" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Created By</mat-label>
+                        <input matInput placeholder="Created By" [(ngModel)]="companyModel.CreatedByUser" readonly>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="50" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Created Date</mat-label>
+                        <input matInput [matDatepicker]="datePickerCreatedDateTime" readonly
+                            [(ngModel)]="companyModel.CreatedDateTime">
+                        <mat-datepicker-toggle matSuffix [for]="datePickerCreatedDateTime" disabled>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #datePickerCreatedDateTime color="primary "></mat-datepicker>
+                    </mat-form-field>
+                </div>
             </div>
-            <div fxFlex="20%">
-                <mat-label style="color: gray;">
-                    Created Date:
-                </mat-label>&nbsp;&nbsp;
-                <mat-form-field class="example-full-width">
-                    <input matInput disabled [(ngModel)]="companyModel.CreatedDateTime">
-                </mat-form-field>
+        </div>
+        <div fxFlex="50" style="padding: 5px;">
+            <div fxLayout="row" fxLayout.xs="column">
+                <div fxFlex="50" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Updated By</mat-label>
+                        <input matInput placeholder="Updated By" [(ngModel)]="companyModel.UpdatedByUser" readonly>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="50" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Updated Date</mat-label>
+                        <input matInput [matDatepicker]="datePickerUpdatedDateTime" readonly
+                            [(ngModel)]="companyModel.UpdatedDateTime">
+                        <mat-datepicker-toggle matSuffix [for]="datePickerUpdatedDateTime" disabled>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #datePickerUpdatedDateTime color="primary"></mat-datepicker>
+                    </mat-form-field>
+                </div>
             </div>
-            <div fxFlex="20%">
-                <mat-label style="color: gray;">Updated By: </mat-label>&nbsp;&nbsp;
-                <mat-form-field class="example-full-width">
-                    <input matInput disabled [(ngModel)]="companyModel.UpdatedByUser">
-                </mat-form-field>
-            </div>
-            <div fxFlex="20%">
-                <mat-label style="color: gray;">Updated By: </mat-label>&nbsp;&nbsp;
-                <mat-form-field class="example-full-width">
-                    <input matInput disabled [(ngModel)]="companyModel.UpdatedDateTime">
-                </mat-form-field>
-            </div>
-        </div> -->
-    </mat-card>
+        </div>
+    </div>
 </div>

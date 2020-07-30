@@ -23,7 +23,7 @@ export class EmployeeDetailComponent implements OnInit {
     await this.GetZipCodeListData();
   }
 
-  public employeePayroll: EmployeePayrollModel = {
+  public employeePayrollModel: EmployeePayrollModel = {
     Id: 0,
     EmployeeId: 0,
     PayrollGroup: '',
@@ -85,7 +85,7 @@ export class EmployeeDetailComponent implements OnInit {
     Weight: '',
     BloodType: '',
     Remarks: '',
-    PictureURL: '',
+    PictureURL: 'https://filbrokerstorage.blob.core.windows.net/crm-easyfis/3d225df6-aba5-40e7-9cb9-e8e97ee76762',
     CompanyId: 0,
     UserId: 0,
     User: '',
@@ -96,13 +96,9 @@ export class EmployeeDetailComponent implements OnInit {
     UpdatedByUser: '',
     UpdatedDateTime: new Date(),
     IsLocked: false,
-    EmployeePayroll: this.employeePayroll,
-    EmployeeHR: this.employeeHRModel
+    EmployeePayroll: new EmployeePayrollModel,
+    EmployeeHR: new EmployeeHRModel
   }
-
-  public buttonSave: boolean = true;
-  public buttonLock: boolean = true;
-  public buttonUnlock: boolean = true;
 
   public isLocked: boolean = false;
   public isProgressBarHidden: boolean = false;
@@ -111,12 +107,13 @@ export class EmployeeDetailComponent implements OnInit {
   private employeeDetailSubscription: any;
   private uploadPhotoSubscription: any;
 
-  private employeePayrollDetailSubscription: any;
-  private employeeHRDetailSubscription: any;
-
   private saveEmployeeDetailSubscription: any;
   private lockEmployeeDetailSubscription: any;
   private unlockEmployeeDetailSubscription: any;
+
+  public btnSaveDisabled: boolean = true;
+  public btnLockisabled: boolean = true;
+  public btnUnlockDisabled: boolean = true;
 
   @ViewChild('tabGroup') tabGroup;
 
@@ -268,6 +265,7 @@ export class EmployeeDetailComponent implements OnInit {
     this.userDropdownSubscription = await (await this.employeeDetailService.UserList()).subscribe(
       response => {
         this.userListDropdown = response;
+        console.log(this.userListDropdown)
         this.GetEmployeeDetail();
         if (this.userDropdownSubscription !== null) this.userDropdownSubscription.unsubscribe();
       },
@@ -413,6 +411,7 @@ export class EmployeeDetailComponent implements OnInit {
   // Employee Detail
   // =============== 
   private async GetEmployeeDetail() {
+    this.disableButtons();
     let id = 0;
     this.isProgressBarHidden = true;
     this.activatedRoute.params.subscribe(params => { id = params["id"]; });
@@ -451,33 +450,31 @@ export class EmployeeDetailComponent implements OnInit {
           this.employeeModel.User = result["User"];
           this.employeeModel.CreatedByUserId = result["CreatedByUserId"];
           this.employeeModel.CreatedByUser = result["CreatedByUser"];
-          this.employeeModel.CreatedDateTime = result["CreatedDateTime"];
+          this.employeeModel.CreatedDateTime = new Date(result["CreatedDateTime"]);
           this.employeeModel.UpdatedByUserId = result["UpdatedByUserId"];
           this.employeeModel.UpdatedByUser = result["UpdatedByUser"];
-          this.employeeModel.UpdatedDateTime = result["UpdatedDateTime"];
+          this.employeeModel.UpdatedDateTime = new Date(result["UpdatedDateTime"]);
           this.employeeModel.IsLocked = result["IsLocked"];
-          this.employeeModel.EmployeePayroll = result["EmployeePayroll"];
-          this.employeeModel.EmployeeHR = result["EmployeeHR"];
-          this.employeeModel.EmployeeHR.DateHired = new Date(result["EmployeeHR"].DateHired);
-          this.employeeModel.EmployeeHR.DateRegular = new Date(result["EmployeeHR"].DateRegular);
-          this.employeeModel.EmployeeHR.DateResigned = new Date(result["EmployeeHR"].DateResigned);
+          if (result["EmployeePayroll"] !== null) {
+            this.employeeModel.EmployeePayroll = result["EmployeePayroll"];
+          } else {
+            this.employeeModel.EmployeePayroll = this.employeePayrollModel;
+            this.snackBarTemplate.snackBarError(this.snackBar, "Employee Payroll Null");
+          }
+
+          if (result["EmployeeHR"] !== null) {
+            this.employeeModel.EmployeeHR = result["EmployeeHR"];
+            this.employeeModel.EmployeeHR.DateHired = new Date(result["EmployeeHR"].DateHired);
+            this.employeeModel.EmployeeHR.DateRegular = new Date(result["EmployeeHR"].DateRegular);
+            this.employeeModel.EmployeeHR.DateResigned = new Date(result["EmployeeHR"].DateResigned);
+          } else {
+            this.employeeModel.EmployeeHR = this.employeeHRModel;
+            this.snackBarTemplate.snackBarError(this.snackBar, "Employee HR Null");
+          }
+
         }
 
-        if (this.employeeModel.IsLocked == true) {
-          this.isLocked = result["IsLocked"];
-          this.buttonSave = true;
-          this.buttonLock = true;
-          this.buttonUnlock = false;
-        } else {
-          this.buttonSave = false;
-          this.buttonLock = false;
-          this.buttonUnlock = true;
-        }
-
-
-
-        this.snackBarTemplate.snackBarSuccess(this.snackBar, "Successfully.");
-
+        this.loadComponent(result["IsLocked"]);
         this.isProgressBarHidden = false;
         this.isDataLoaded = true;
         if (this.employeeDetailSubscription !== null) this.employeeDetailSubscription.unsubscribe();
@@ -498,26 +495,19 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   public async SaveEmployeeDetail() {
-    this.buttonSave = true;
-    this.buttonLock = true;
-    this.buttonUnlock = true;
-
+    this.disableButtons();
     if (this.isDataLoaded == true) {
       this.isDataLoaded = false;
       this.saveEmployeeDetailSubscription = await (await this.employeeDetailService.SaveEmployee(this.employeeModel.Id, this.employeeModel)).subscribe(
         response => {
+          this.loadComponent(this.employeeModel.IsLocked);
           this.isDataLoaded = true;
-          this.buttonSave = false;
-          this.buttonLock = false;
-          this.buttonUnlock = true;
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Save Successfully.");
           if (this.saveEmployeeDetailSubscription !== null) this.saveEmployeeDetailSubscription.unsubscribe();
         },
         error => {
+          this.loadComponent(this.employeeModel.IsLocked);
           this.isDataLoaded = true;
-          this.buttonSave = false;
-          this.buttonLock = false;
-          this.buttonUnlock = true;
           this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
           if (this.saveEmployeeDetailSubscription !== null) this.saveEmployeeDetailSubscription.unsubscribe();
         }
@@ -526,27 +516,20 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   public async LockEmployeeDetail() {
-    this.buttonSave = true;
-    this.buttonLock = true;
-    this.buttonUnlock = true;
+    this.disableButtons();
 
     if (this.isDataLoaded == true) {
       this.isDataLoaded = false;
       this.lockEmployeeDetailSubscription = await (await this.employeeDetailService.LockEmployee(this.employeeModel.Id, this.employeeModel)).subscribe(
         response => {
-          this.isLocked = true;
+          this.loadComponent(true);
           this.isDataLoaded = true;
-          this.buttonSave = true;
-          this.buttonLock = true;
-          this.buttonUnlock = false;
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Lock Successfully.");
           if (this.lockEmployeeDetailSubscription !== null) this.lockEmployeeDetailSubscription.unsubscribe();
         },
         error => {
+          this.loadComponent(false);
           this.isDataLoaded = true;
-          this.buttonSave = false;
-          this.buttonLock = false;
-          this.buttonUnlock = true;
           this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
           if (this.lockEmployeeDetailSubscription !== null) this.lockEmployeeDetailSubscription.unsubscribe();
         }
@@ -555,27 +538,20 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   public async UnlockEmployeeDetail() {
-    this.buttonSave = true;
-    this.buttonLock = true;
-    this.buttonUnlock = true;
+    this.disableButtons();
 
     if (this.isDataLoaded == true) {
       this.isDataLoaded = false;
       this.unlockEmployeeDetailSubscription = await (await this.employeeDetailService.Unlockemployee(this.employeeModel.Id)).subscribe(
         response => {
-          this.isLocked = false;
+          this.loadComponent(false);
           this.isDataLoaded = true;
-          this.buttonSave = false;
-          this.buttonLock = false;
-          this.buttonUnlock = true;
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Unlock Successfully.");
           if (this.unlockEmployeeDetailSubscription !== null) this.unlockEmployeeDetailSubscription.unsubscribe();
         },
         error => {
+          this.loadComponent(true);
           this.isDataLoaded = true;
-          this.buttonSave = true;
-          this.buttonLock = true;
-          this.buttonUnlock = false;
           this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
           if (this.unlockEmployeeDetailSubscription !== null) this.unlockEmployeeDetailSubscription.unsubscribe();
         }
@@ -586,7 +562,6 @@ export class EmployeeDetailComponent implements OnInit {
 
   public async btnUploadImage() {
     let btnUploadPhoto: Element = document.getElementById("btnUploadPhoto");
-
     btnUploadPhoto.setAttribute("disabled", "disabled");
 
     let inputFileImage = document.getElementById("inputFileUploadPhoto") as HTMLInputElement;
@@ -613,6 +588,26 @@ export class EmployeeDetailComponent implements OnInit {
     // if (this.tabGroup.selectedIndex == 1) {
     //   await this.GetEmployeePayrollDetail();
     // }
+  }
+
+  private async loadComponent(isDisable) {
+    if (isDisable == true) {
+      this.btnSaveDisabled = isDisable;
+      this.btnLockisabled = isDisable;
+      this.btnUnlockDisabled = !isDisable;
+    } else {
+      this.btnSaveDisabled = isDisable;
+      this.btnLockisabled = isDisable;
+      this.btnUnlockDisabled = !isDisable;
+    }
+
+    this.isLocked = isDisable;
+  }
+
+  private disableButtons() {
+    this.btnSaveDisabled = true;
+    this.btnLockisabled = true;
+    this.btnUnlockDisabled = true;
   }
 
 }

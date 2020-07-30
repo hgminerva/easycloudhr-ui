@@ -2,17 +2,17 @@
     <img src="../../../../assets/menu-icons/employees.png" height="35" />
     <span>&nbsp;&nbsp; Employee Detail</span>
     <span class="spacer"></span>
-    <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="buttonSave"
+    <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="btnSaveDisabled"
         (click)="SaveEmployeeDetail()">
         <mat-icon>save</mat-icon>
         Save
     </button>
-    <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="buttonLock"
+    <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="btnLockisabled"
         (click)="LockEmployeeDetail()">
         <mat-icon>lock</mat-icon>
         Lock
     </button>
-    <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="buttonUnlock"
+    <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="btnUnlockDisabled"
         (click)="UnlockEmployeeDetail()">
         <mat-icon>lock_open</mat-icon>
         Unlock
@@ -30,17 +30,17 @@
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
                     <mat-card>
-                        <!-- <img src="{{employeeModel.PictureURL}}" style="width: 100%;" /> -->
+                        <img src="{{employeeModel.PictureURL}}" style="width: 100%;" />
                     </mat-card>
                     <br />
                     <button mat-flat-button color="accent" style="width: 100%;" (click)="btnUploadImage()"
-                        id="btnUploadPhoto">
+                        [disabled]="isLocked" id="btnUploadPhoto">
                         <mat-icon>insert_photo</mat-icon>
                         Upload Photo
                     </button>
                     <div mat-dialog-content style="padding: 15px 30px;">
                         <input id="inputFileUploadPhoto" placeholder="" type="file" style="width: 100%;"
-                            accept="image/*" />
+                            [disabled]="isLocked" accept="image/*" />
                     </div>
                     <br />
                     <br />
@@ -147,7 +147,7 @@
                                 <mat-label>Date Of Birth</mat-label>
                                 <input matInput [matDatepicker]="datePickerDateOfBirth"
                                     [(ngModel)]="employeeModel.DateOfBirth" [readonly]="isLocked">
-                                <mat-datepicker-toggle matSuffix [for]="datePickerDateOfBirth">
+                                <mat-datepicker-toggle matSuffix [for]="datePickerDateOfBirth" [disabled]="isLocked">
                                 </mat-datepicker-toggle>
                                 <mat-datepicker #datePickerDateOfBirth color="primary"></mat-datepicker>
                             </mat-form-field>
@@ -271,7 +271,6 @@
                             </mat-form-field>
                         </div>
                     </div>
-
                 </div>
             </div>
         </mat-tab>
@@ -471,6 +470,7 @@
             </div>
         </mat-tab>
         <mat-tab label="HR Information">
+            <br>
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="50" style="padding: 5px;">
                     <div fxLayout="row" fxLayout.xs="column">
@@ -478,8 +478,8 @@
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>Date Hired</mat-label>
                                 <input matInput [matDatepicker]="datePickerDateHired"
-                                    [(ngModel)]="this.employeeModel.EmployeeHR.DateHired" [disabled]="isLocked">
-                                <mat-datepicker-toggle matSuffix [for]="datePickerDateHired">
+                                    [(ngModel)]="this.employeeModel.EmployeeHR.DateHired" [readonly]="isLocked">
+                                <mat-datepicker-toggle matSuffix [for]="datePickerDateHired" [disabled]="isLocked">
                                 </mat-datepicker-toggle>
                                 <mat-datepicker #datePickerDateHired color="primary"></mat-datepicker>
                             </mat-form-field>
@@ -488,8 +488,8 @@
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>DateRegular</mat-label>
                                 <input matInput [matDatepicker]="datePickerDateRegular"
-                                    [(ngModel)]="this.employeeModel.EmployeeHR.DateRegular" [disabled]="isLocked">
-                                <mat-datepicker-toggle matSuffix [for]="datePickerDateRegular">
+                                    [(ngModel)]="this.employeeModel.EmployeeHR.DateRegular" [readonly]="isLocked">
+                                <mat-datepicker-toggle matSuffix [for]="datePickerDateRegular" [disabled]="isLocked">
                                 </mat-datepicker-toggle>
                                 <mat-datepicker #datePickerDateRegular color="primary"></mat-datepicker>
                             </mat-form-field>
@@ -498,8 +498,8 @@
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>Date Resigned</mat-label>
                                 <input matInput [matDatepicker]="datePickerDateResigned"
-                                    [(ngModel)]="this.employeeModel.EmployeeHR.DateResigned" [disabled]="isLocked">
-                                <mat-datepicker-toggle matSuffix [for]="datePickerDateResigned">
+                                    [(ngModel)]="this.employeeModel.EmployeeHR.DateResigned" [readonly]="isLocked">
+                                <mat-datepicker-toggle matSuffix [for]="datePickerDateResigned" [disabled]="isLocked">
                                 </mat-datepicker-toggle>
                                 <mat-datepicker #datePickerDateResigned color="primary"></mat-datepicker>
                             </mat-form-field>
@@ -573,4 +573,43 @@
             </div>
         </mat-tab>
     </mat-tab-group>
+    <mat-divider></mat-divider>
+    <div fxLayout="row" fxLayout.xs="column">
+        <div fxFlex="50" style="padding: 5px;">
+            <div fxFlex="50" style="padding: 5px;">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Created By</mat-label>
+                    <input matInput placeholder="Contact No." [(ngModel)]="employeeModel.CreatedByUser" readonly>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" style="padding: 5px;">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Created Date</mat-label>
+                    <input matInput [matDatepicker]="datePickerCreatedDateTime" readonly
+                        [(ngModel)]="employeeModel.CreatedDateTime">
+                    <mat-datepicker-toggle matSuffix [for]="datePickerCreatedDateTime" disabled>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #datePickerCreatedDateTime color="primary "></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+        <div fxFlex="50" style="padding: 5px;">
+            <div fxFlex="50" style="padding: 5px;">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Updated By</mat-label>
+                    <input matInput placeholder="Contact No." [(ngModel)]="employeeModel.UpdatedByUser" readonly>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" style="padding: 5px;">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Updated Date</mat-label>
+                    <input matInput [matDatepicker]="datePickerUpdatedDateTime" readonly
+                        [(ngModel)]="employeeModel.UpdatedDateTime">
+                    <mat-datepicker-toggle matSuffix [for]="datePickerUpdatedDateTime" disabled>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #datePickerUpdatedDateTime color="primary"></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
 </div>

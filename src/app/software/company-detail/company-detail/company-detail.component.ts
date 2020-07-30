@@ -52,11 +52,16 @@ export class CompanyDetailComponent implements OnInit {
   private unlockCompanyDetailSubscription: any;
 
   private isDataLoaded: boolean = true;
+  public isProgressBarHidden: boolean = true;
+
+  public btnSaveDisabled: boolean = true;
+  public btnLockisabled: boolean = true;
+  public btnUnlockDisabled: boolean = true;
 
   private async GetCompanyDetail() {
+    this.disableButtons();
     let id = 0;
     this.activatedRoute.params.subscribe(params => { id = params["id"]; });
-
     this.companyDetailSubscription = await (await this.companyDetialService.CompanyDetail(id)).subscribe(
       response => {
         let result = response;
@@ -71,19 +76,14 @@ export class CompanyDetailComponent implements OnInit {
           this.companyModel.TaxNumber = result["TaxNumber"];
           this.companyModel.CreatedByUserId = result["CreatedByUserId"];
           this.companyModel.CreatedByUser = result["CreatedByUser"];
-          this.companyModel.CreatedDateTime = result["CreatedDateTime"];
+          this.companyModel.CreatedDateTime = new Date(result["CreatedDateTime"]);
           this.companyModel.UpdatedByUserId = result["UpdatedByUserId"];
           this.companyModel.UpdatedByUser = result["UpdatedByUser"];
-          this.companyModel.UpdatedDateTime = result["UpdatedDateTime"];
+          this.companyModel.UpdatedDateTime = new Date(result["UpdatedDateTime"]);
           this.companyModel.IsLocked = result["IsLocked"];
-          console.log(this.companyModel);
         }
 
-        if (this.companyModel.IsLocked == true) {
-          this.isLocked = this.companyModel.IsLocked;
-        }
-
-        this.isCompanyDataLoaded = true;
+        this.loadComponent(result["IsLocked"]);
         if (this.companyDetailSubscription !== null) this.companyDetailSubscription.unsubscribe();
       },
       error => {
@@ -95,15 +95,18 @@ export class CompanyDetailComponent implements OnInit {
 
 
   public async SaveCompanyDetail() {
+    this.disableButtons();
     if (this.isDataLoaded == true) {
       this.isDataLoaded = false;
       this.saveCompanyDetailSubscription = await (await this.companyDetialService.SaveCompany(this.companyModel.Id, this.companyModel)).subscribe(
         response => {
+          this.loadComponent(this.companyModel.IsLocked);
           this.isDataLoaded = true;
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Save Successfully.");
           if (this.saveCompanyDetailSubscription !== null) this.saveCompanyDetailSubscription.unsubscribe();
         },
         error => {
+          this.loadComponent(this.companyModel.IsLocked);
           this.isDataLoaded = true;
           this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
           if (this.saveCompanyDetailSubscription !== null) this.saveCompanyDetailSubscription.unsubscribe();
@@ -114,43 +117,66 @@ export class CompanyDetailComponent implements OnInit {
 
 
   public async LockCompanyDetail() {
+    this.disableButtons();
     if (this.isDataLoaded == true) {
       this.isDataLoaded = false;
       this.lockCompanyDetailSubscription = await (await this.companyDetialService.LockCompany(this.companyModel.Id, this.companyModel)).subscribe(
         response => {
-          this.isLocked = true;
+          this.loadComponent(true);
           this.isDataLoaded = true;
-
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Lock Successfully.");
           if (this.lockCompanyDetailSubscription !== null) this.lockCompanyDetailSubscription.unsubscribe();
         },
         error => {
+          this.loadComponent(false);
           this.isDataLoaded = true;
           this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
           if (this.lockCompanyDetailSubscription !== null) this.lockCompanyDetailSubscription.unsubscribe();
         }
       );
     }
-
   }
 
   public async UnlockCompanyDetail() {
+    this.disableButtons();
     if (this.isDataLoaded == true) {
       this.isDataLoaded = false;
       this.unlockCompanyDetailSubscription = await (await this.companyDetialService.UnlockCompany(this.companyModel.Id)).subscribe(
         response => {
-          this.isLocked = false;
+          this.loadComponent(false);
           this.isDataLoaded = true;
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Unlock Successfully.");
           if (this.unlockCompanyDetailSubscription !== null) this.unlockCompanyDetailSubscription.unsubscribe();
         },
         error => {
+          this.loadComponent(true);
           this.isDataLoaded = true;
           this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
           if (this.unlockCompanyDetailSubscription !== null) this.unlockCompanyDetailSubscription.unsubscribe();
         }
       );
     }
+  }
 
+  private loadComponent(isDisable) {
+    if (isDisable == true) {
+      this.btnSaveDisabled = isDisable;
+      this.btnLockisabled = isDisable;
+      this.btnUnlockDisabled = !isDisable;
+    } else {
+      this.btnSaveDisabled = isDisable;
+      this.btnLockisabled = isDisable;
+      this.btnUnlockDisabled = !isDisable;
+    }
+
+    this.isLocked = isDisable;
+    this.isProgressBarHidden = false;
+  }
+
+  private disableButtons() {
+    this.btnSaveDisabled = true;
+    this.btnLockisabled = true;
+    this.btnUnlockDisabled = true;
+    this.isProgressBarHidden = true;
   }
 }
