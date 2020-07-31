@@ -1,0 +1,91 @@
+<h3 mat-dialog-title>
+    {{ title }}
+</h3>
+<mat-divider></mat-divider>
+<div mat-dialog-content style="height: 70%;">
+    <div class="dialog-body">
+        <div fxLayout="row" fxLayout.xs="column">
+            <div fxFlex="100" style="margin: 5px;">
+                <mat-form-field appearance="outline" style="width: 100%;" readonly>
+                    <mat-label>Module</mat-label>
+                    <mat-select [(ngModel)]="userModuleModel.ModuleId">
+                        <mat-option *ngFor="let sysModule of sysModuleListDropdown" [value]="sysModule.Id">
+                            {{sysModule.Module}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayout.xs="column">
+            <div fxFlex="33" style="margin: 5px;">
+                <div fxLayout="row" fxLayout.xs="column">
+                    <div fxFlex="100" style="margin: 5px;">
+                        <mat-checkbox color="primary" [(ngModel)]="userModuleModel.CanOpen"><span style="color: gray;">
+                                Can Open</span>
+                        </mat-checkbox>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column">
+                    <div fxFlex="100" style="margin: 5px;">
+                        <mat-checkbox color="primary" [(ngModel)]="userModuleModel.CanAdd"><span style="color: gray;">
+                                CanAdd</span>
+                        </mat-checkbox>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column">
+                    <div fxFlex="100" style="margin: 5px;">
+                        <mat-checkbox color="primary" [(ngModel)]="userModuleModel.CanEdit"><span style="color: gray;">
+                                CanEdit</span>
+                        </mat-checkbox>
+                    </div>
+                </div>
+
+            </div>
+            <div fxFlex="33" style="margin: 5px;">
+                <div fxLayout="row" fxLayout.xs="column">
+                    <div fxFlex="100" style="margin: 5px;">
+                        <mat-checkbox color="primary" [(ngModel)]="userModuleModel.CanLock"><span style="color: gray;">
+                                CanLock</span>
+                        </mat-checkbox>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column">
+                    <div fxFlex="100" style="margin: 5px;">
+                        <mat-checkbox color="primary" [(ngModel)]="userModuleModel.CanUnlock"><span
+                                style="color: gray;">
+                                CanUnlock</span>
+                        </mat-checkbox>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column">
+                    <div fxFlex="100" style="margin: 5px;">
+                        <mat-checkbox color="primary" [(ngModel)]="userModuleModel.CanDelete"><span
+                                style="color: gray;">
+                                CanDelete</span>
+                        </mat-checkbox>
+                    </div>
+                </div>
+            </div>
+            <div fxFlex="34" style="margin: 5px;">
+                <div fxLayout="row" fxLayout.xs="column">
+                    <div fxFlex="100" style="margin: 5px;">
+                        <mat-checkbox color="primary" [(ngModel)]="userModuleModel.CanPrint"><span style="color: gray;">
+                                CanPrint</span>
+                        </mat-checkbox>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions align="right">
+    <button mat-flat-button color="primary" (click)="SaveUserModule()" align-self="right" style="margin-right: 5px;"
+        id="btnYes">
+        Yes
+    </button>
+    <button mat-raised-button style="margin: 5px;" (click)="Close()" color="warn">
+        <mat-icon>close</mat-icon>
+        Close
+    </button>
+</div>

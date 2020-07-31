@@ -179,7 +179,7 @@ export class EmployeeDetailComponent implements OnInit {
   private async GetZipCodeListData() {
     this.companyDropdownSubscription = await (await this.employeeDetailService.ZipCodeList()).subscribe(
       response => {
-        this.zipCodeListDropdown = response;
+        this.companyListDropdown = response;
         this.GetGenderListData();
         if (this.companyDropdownSubscription !== null) this.companyDropdownSubscription.unsubscribe();
       },
@@ -250,7 +250,7 @@ export class EmployeeDetailComponent implements OnInit {
   private async GetCompanyDropdownListData() {
     this.zipCodeDropdownSubscription = await (await this.employeeDetailService.CompanyList()).subscribe(
       response => {
-        this.companyListDropdown = response;
+        this.zipCodeListDropdown = response;
         this.GetUserDropdownListData();
         if (this.zipCodeDropdownSubscription !== null) this.zipCodeDropdownSubscription.unsubscribe();
       },

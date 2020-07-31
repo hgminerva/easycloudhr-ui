@@ -50,6 +50,8 @@ import { DeleteDialogBoxComponent } from './shared/delete-dialog-box/delete-dial
 import { SystemTalesListComponent } from './system-tables-list/system-tales-list/system-tales-list.component';
 import { SystemTablesTaxExemptionDetailComponent } from './system-tables-detail/system-tables-tax-exemption-detail/system-tables-tax-exemption-detail.component';
 import { SystemTablesCodeTablesDetailComponent } from './system-tables-detail/system-tables-code-tables-detail/system-tables-code-tables-detail.component';
+import { UserDetailUserModuleDialogComponent } from './user-detail/user-detail-user-module-dialog/user-detail-user-module-dialog.component';
+import { UserDetailUserPayrollGroupDialogComponent } from './user-detail/user-detail-user-payroll-group-dialog/user-detail-user-payroll-group-dialog.component';
 
 @NgModule({
   declarations: [
@@ -82,7 +84,9 @@ import { SystemTablesCodeTablesDetailComponent } from './system-tables-detail/sy
     DeleteDialogBoxComponent,
     SystemTalesListComponent,
     SystemTablesTaxExemptionDetailComponent,
-    SystemTablesCodeTablesDetailComponent
+    SystemTablesCodeTablesDetailComponent,
+    UserDetailUserModuleDialogComponent,
+    UserDetailUserPayrollGroupDialogComponent
   ],
   imports: [
     CommonModule,
