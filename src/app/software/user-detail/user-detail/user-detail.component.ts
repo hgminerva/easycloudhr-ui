@@ -51,13 +51,13 @@ export class UserDetailComponent implements OnInit {
     UserId: 0,
     ModuleId: 0,
     Module: '',
-    CanOpen: false,
-    CanAdd: false,
-    CanEdit: false,
-    CanLock: false,
-    CanUnlock: false,
-    CanDelete: false,
-    CanPrint: false
+    CanOpen: true,
+    CanAdd: true,
+    CanEdit: true,
+    CanLock: true,
+    CanUnlock: true,
+    CanDelete: true,
+    CanPrint: true
   }
 
   public userPayrollGroupModel: UserPayrollGroupModel = {
@@ -497,6 +497,4 @@ export class UserDetailComponent implements OnInit {
       this.UserPayrollGroupDetailDailog(this.userPayrollGroupModel, "Add Payroll Group");
     }
   }
-
-
 }

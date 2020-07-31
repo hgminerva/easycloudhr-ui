@@ -35,6 +35,7 @@ export class EmployeeListComponent implements OnInit {
   @ViewChild('flexEmployees') flexEmployees: wjcGrid.FlexGrid;
   public isProgressBarHidden = false;
   public isDataLoaded: boolean = false;
+  public isEmployeeListAuthorized: boolean = false;
 
   private employeeListSubscription: any;
   private AddEmployeeSubscription: any;
@@ -72,6 +73,13 @@ export class EmployeeListComponent implements OnInit {
         if (this.employeeListSubscription != null) this.employeeListSubscription.unsubscribe();
       },
       error => {
+        // if (error.status === '401') {
+        //   console.log(this.isEmployeeListAuthorized);
+        //   if (!this.isEmployeeListAuthorized) {
+        //     this.isEmployeeListAuthorized = true;
+        //     this.GetEmployeeData();
+        //   }
+        // }
         this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
         if (this.employeeListSubscription != null) this.employeeListSubscription.unsubscribe();
       }

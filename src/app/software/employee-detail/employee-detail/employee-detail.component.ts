@@ -5,6 +5,7 @@ import { SnackBarTemplate } from '../../shared/snack-bar-template';
 
 import { EmployeeDetailService } from './../employee-detail.service';
 import { EmployeeModel, EmployeePayrollModel, EmployeeHRModel } from './../employee.model';
+import { SoftwareSecurityService } from '../../software-security/software-security.service';
 @Component({
   selector: 'app-employee-detail',
   templateUrl: './employee-detail.component.html',
@@ -17,11 +18,22 @@ export class EmployeeDetailComponent implements OnInit {
     private snackBar: MatSnackBar,
     private snackBarTemplate: SnackBarTemplate,
     private employeeDetailService: EmployeeDetailService,
+    private softwareSecurityService: SoftwareSecurityService
+
   ) { }
 
   async ngOnInit() {
     await this.GetZipCodeListData();
+    console.log();
+
+    if (this.softwareSecurityService.openModule("Employee Detail") == true) {
+    }
+
+    this.userRightEmployeeDetail = this.softwareSecurityService.GetModuleRights("Employees Detail");
+    console.log(this.userRightEmployeeDetail);
   }
+
+  private userRightEmployeeDetail: any = null;
 
   public employeePayrollModel: EmployeePayrollModel = {
     Id: 0,

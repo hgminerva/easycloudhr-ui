@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { Router } from '@angular/router';
 import { MatExpansionPanelHeader } from '@angular/material/expansion/expansion-panel-header';
-
+import { SoftwareSecurityService } from './software-security/software-security.service';
 @Component({
   selector: 'app-software',
   templateUrl: './software.component.html',
@@ -15,12 +15,19 @@ export class SoftwareComponent implements OnInit {
   constructor(
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher,
-    private router: Router
+    private router: Router,
+    private softwareSecurityService: SoftwareSecurityService
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
   }
+
+  public moduleDashBoard: boolean = false;
+  public moduleUserList: boolean = false;
+  public moduleEmployeeList: boolean = false;
+  public moduleOthers: boolean = false;
+
 
   @ViewChild("logoutPanelHeader") logoutPanelHeader: MatExpansionPanelHeader;
   public currentUserName: string = localStorage.getItem('username');
@@ -39,7 +46,20 @@ export class SoftwareComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.softwareSecurityService.openModule("Dashboard") == true) {
+      this.moduleDashBoard = true;
+    }
 
+    if (this.softwareSecurityService.openModule("User List") == true) {
+      this.moduleUserList = true;
+    }
+
+    if (this.softwareSecurityService.openModule("Employee List") == true) {
+      this.moduleEmployeeList = true;
+    }
+    if (this.softwareSecurityService.openModule("Others") == true) {
+      this.moduleOthers = true;
+    }
   }
 
   ngOnDestroy(): void {

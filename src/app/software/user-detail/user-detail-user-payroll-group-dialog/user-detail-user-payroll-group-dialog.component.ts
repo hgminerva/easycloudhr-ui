@@ -62,7 +62,7 @@ export class UserDetailUserPayrollGroupDialogComponent implements OnInit {
 
   public async SavePayrollGroup() {
     this.disableButton();
-    if (this.title === "Add User Payroll Group") {
+    if (this.title === "Add Payroll Group") {
       this.addUserPayrollGroupSubscription = await (await this.userDetailService.CreateUserPayrollGroup(this.UserPayrollGroupModel)).subscribe(
         response => {
           this.enableButton();

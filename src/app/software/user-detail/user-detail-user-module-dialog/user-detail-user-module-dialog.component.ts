@@ -47,6 +47,7 @@ export class UserDetailUserModuleDialogComponent implements OnInit {
   private updateUserModuleSubscription: any;
 
   ngOnInit(): void {
+    console.log(this.caseData);
     this.userModuleModel.Id = this.caseData.objUserModuleData.Id;
     this.userModuleModel.UserId = this.caseData.objUserId;
     this.userModuleModel.ModuleId = this.caseData.objUserModuleData.ModuleId;
@@ -76,7 +77,7 @@ export class UserDetailUserModuleDialogComponent implements OnInit {
 
   public async SaveUserModule() {
     this.disableButton();
-    if (this.title === "Add User Medule") {
+    if (this.title === "Add User Module") {
       this.addUserModuleSubscription = await (await this.userDetailService.CreateUserModule(this.userModuleModel)).subscribe(
         response => {
           this.enableButton();
