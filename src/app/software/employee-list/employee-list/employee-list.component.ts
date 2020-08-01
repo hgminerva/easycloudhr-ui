@@ -26,12 +26,91 @@ export class EmployeeListComponent implements OnInit {
   }
 
   async ngOnInit() {
-    await this.GetEmployeeData();
+    await this.GetPayrollGroupDropdownListData();
+    await this.createCboShowNumberOfRows();
   }
+  // ========================
+  // EmployeePayroll Dropdown
+  // ========================
+
+  public cboShowNumberOfRows: ObservableArray = new ObservableArray();
+  public listPageIndex: number = 15;
+
+  public createCboShowNumberOfRows(): void {
+    for (var i = 0; i <= 4; i++) {
+      var rows = 0;
+      var rowsString = "";
+      if (i == 0) {
+        rows = 15;
+        rowsString = "Show 15";
+      } else if (i == 1) {
+        rows = 50;
+        rowsString = "Show 50";
+      } else if (i == 2) {
+        rows = 100;
+        rowsString = "Show 100";
+      } else if (i == 3) {
+        rows = 150;
+        rowsString = "Show 150";
+      } else {
+        rows = 200;
+        rowsString = "Show 200";
+      }
+
+      this.cboShowNumberOfRows.push({
+        rowNumber: rows,
+        rowString: rowsString
+      });
+    }
+  }
+
+  public cboShowNumberOfRowsOnSelectedIndexChanged(): void {
+    console.log(this.listPageIndex);
+    this.listEmployeeCollectionView.pageSize = this.listPageIndex;
+    this.listEmployeeCollectionView.refresh();
+    this.listEmployeeCollectionView.refresh();
+  }
+
+  // ========================
+  // EmployeePayroll Dropdown
+  // ========================
+  private payrollGroupDropdownSubscription: any;
+  public payrollGroupListDropdown: any = [];
+  public filterPayrollGroup = '';
+
+
+  private async GetPayrollGroupDropdownListData() {
+    this.payrollGroupDropdownSubscription = await (await this.employeeListService.PayrollGroupList()).subscribe(
+      response => {
+        var results = response;
+        this.payrollGroupListDropdown.push({ Id: 0, Code: '', Value: "ALL EMPLOYEE", Category: "" });
+        if (results["length"] > 0) {
+          for (var i = 0; i < results["length"]; i++) {
+            this.payrollGroupListDropdown.push(results[i]);
+          }
+        }
+        this.filterPayrollGroup = this.payrollGroupListDropdown[0].Value;
+
+        this.GetEmployeeData();
+        if (this.payrollGroupDropdownSubscription !== null) this.payrollGroupDropdownSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this.payrollGroupDropdownSubscription !== null) this.payrollGroupDropdownSubscription.unsubscribe();
+      }
+    );
+  }
+
+  public payrollGroupSelectionChange() {
+    this.GetEmployeeData();
+  }
+
+  // =============
+  // Employee List
+  // =============
 
   public listEmployeeObservableArray: ObservableArray = new ObservableArray();
   public listEmployeeCollectionView: CollectionView = new CollectionView(this.listEmployeeObservableArray);
-  public listPageIndex: number = 15;
   @ViewChild('flexEmployees') flexEmployees: wjcGrid.FlexGrid;
   public isProgressBarHidden = false;
   public isDataLoaded: boolean = false;
@@ -53,7 +132,7 @@ export class EmployeeListComponent implements OnInit {
 
     this.isProgressBarHidden = true;
 
-    this.employeeListSubscription = await (await this.employeeListService.EmployeeList()).subscribe(
+    this.employeeListSubscription = await (await this.employeeListService.EmployeeList(this.filterPayrollGroup)).subscribe(
       (response: any) => {
         var results = response;
         console.log("Response:", results);
@@ -144,4 +223,53 @@ export class EmployeeListComponent implements OnInit {
       }
     });
   }
+
+  public btnCSVEmployeesListClick(): void {
+    var fileName = "";
+
+    fileName = "employees-list.csv";
+
+    var csvData = this.generateCSV();
+    var csvURL = window.URL.createObjectURL(csvData);
+    var tempLink = document.createElement('a');
+
+    tempLink.href = csvURL;
+    tempLink.setAttribute('download', fileName);
+    tempLink.click();
+  }
+
+  public generateCSV(): Blob {
+    var data = "";
+    var collection;
+    var fileName = "";
+
+    data = 'Employees List' + '\r\n\n';
+    collection = this.listEmployeeCollectionView;
+    fileName = "employees-list.csv";
+
+    if (data != "") {
+      var label = '';
+      for (var s in collection.items[0]) {
+        label += s + ',';
+      }
+      label = label.slice(0, -1);
+
+      data += label + '\r\n';
+
+      collection.moveToFirstPage();
+      for (var p = 0; p < collection.pageCount; p++) {
+        for (var i = 0; i < collection.items.length; i++) {
+          var row = '';
+          for (var s in collection.items[i]) {
+            row += '"' + collection.items[i][s] + '",';
+          }
+          row.slice(0, row.length - 1);
+          data += row + '\r\n';
+        }
+        collection.moveToNextPage();
+      }
+    }
+    return new Blob([data], { type: 'text/csv;charset=utf-8;' });
+  }
+
 }

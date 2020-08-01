@@ -13,6 +13,8 @@ import { SoftwareSecurityService } from '../../software-security/software-securi
 })
 export class EmployeeDetailComponent implements OnInit {
 
+  private userRightEmployeeDetail: any = null;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBar,
@@ -29,11 +31,10 @@ export class EmployeeDetailComponent implements OnInit {
     if (this.softwareSecurityService.openModule("Employee Detail") == true) {
     }
 
-    this.userRightEmployeeDetail = this.softwareSecurityService.GetModuleRights("Employees Detail");
+    this.userRightEmployeeDetail = this.softwareSecurityService.GetModuleRights("Employee Detail");
     console.log(this.userRightEmployeeDetail);
   }
 
-  private userRightEmployeeDetail: any = null;
 
   public employeePayrollModel: EmployeePayrollModel = {
     Id: 0,

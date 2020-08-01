@@ -2,7 +2,12 @@
     <img src="../../../../assets/menu-icons/employees.png" height="35" />
     <span>&nbsp;&nbsp; Employee List</span>
     <span class="spacer"></span>
-    <button mat-flat-button color="primary" id="btnAddEmployee" [disabled]="btnAddDisabled"
+    <button mat-flat-button color="accent" id="btnAddEmployee" [disabled]="btnAddDisabled" style="margin: 5px;"
+        (click)="btnCSVEmployeesListClick()">
+        <mat-icon>get_app</mat-icon>
+        CSV
+    </button>
+    <button mat-flat-button color="primary" id="btnAddEmployee" [disabled]="btnAddDisabled" style="margin: 5px;"
         (click)="AddEmployeeDetail()">
         <mat-icon>add</mat-icon>
         Add
@@ -14,13 +19,25 @@
 </mat-toolbar>
 <div class="software-container">
     <div fxLayout="row" fxLayout.xs="column">
+        <div fxFlex="20" style="padding: 5px;">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Payroll Group</mat-label>
+                <mat-select [(ngModel)]="filterPayrollGroup" (selectionChange)='payrollGroupSelectionChange()'>
+                    <mat-option *ngFor="let payrollGroup of payrollGroupListDropdown" [value]="payrollGroup.Value">
+                        {{payrollGroup.Value}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column">
         <div fxFlex="100" style="margin: 5px;">
             <mat-progress-bar *ngIf="isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'">
             </mat-progress-bar>
             <wj-flex-grid #flexEmployees [itemsSource]="listEmployeeCollectionView" [selectionMode]="3"
                 [frozenColumns]="2">
                 <wj-flex-grid-filter></wj-flex-grid-filter>
-                <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="90">
+                <wj-flex-grid-column [isReadOnly]="true" [width]="90">
                     <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                         <button mat-raised-button color="primary"
                             style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
@@ -30,7 +47,7 @@
                         </button>
                     </ng-template>
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="90">
+                <wj-flex-grid-column [isReadOnly]="true" [width]="90">
                     <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                         <button mat-raised-button color="warn"
                             style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
@@ -40,75 +57,68 @@
                         </button>
                     </ng-template>
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Employee Code'" [binding]="'EmployeeCode'" [isReadOnly]="true"
+                <wj-flex-grid-column [header]="'Code'" [binding]="'EmployeeCode'" [isReadOnly]="true"
                     [isReadOnly]="true" [width]="150">
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'ID Number'" [binding]="'IdNumber'" [isReadOnly]="true"
+                <wj-flex-grid-column [header]="'ID'" [binding]="'IdNumber'" [isReadOnly]="true" [isReadOnly]="true"
+                    [width]="150">
+                </wj-flex-grid-column>
+                <wj-flex-grid-column [header]="'Biometric ID'" [binding]="'BiometricIdNumber'" [isReadOnly]="true"
                     [isReadOnly]="true" [width]="150">
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Biometric ID No.'" [binding]="'BiometricIdNumber'" [isReadOnly]="true"
-                    [isReadOnly]="true" [width]="150">
+                <wj-flex-grid-column [header]="'Full Name'" [binding]="'FullName'" [isReadOnly]="true" [width]="150">
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'FullName'" [binding]="'FullName'" [isReadOnly]="true" [width]="150">
+                <wj-flex-grid-column [header]="'Position'" [binding]="'Position'" [isReadOnly]="true" [width]="150">
                 </wj-flex-grid-column>
                 <wj-flex-grid-column [header]="'Address'" [binding]="'Address'" [isReadOnly]="true" [width]="150">
-                </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'ZipCode'" [binding]="'ZipCode'" [isReadOnly]="true" [width]="150">
                 </wj-flex-grid-column>
                 <wj-flex-grid-column [header]="'Contact No.'" [binding]="'ContactNumber'" [isReadOnly]="true"
                     [width]="150">
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Contact Mobile No.'" [binding]="'ContactMobileNumber'"
-                    [isReadOnly]="true" [width]="150">
-                </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Email'" [binding]="'EmailAddress'" [isReadOnly]="true" [width]="150">
-                </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Date Of Birth'" [binding]="'DateOfBirth'" [isReadOnly]="true"
+                <wj-flex-grid-column [header]="'Mobile No.'" [binding]="'ContactMobileNumber'" [isReadOnly]="true"
                     [width]="150">
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Place Of Birth'" [binding]="'PlaceOfBirth'" [isReadOnly]="true"
+                <wj-flex-grid-column [header]="'Email Address'" [binding]="'EmailAddress'" [isReadOnly]="true"
                     [width]="150">
-                </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Sex'" [binding]="'Sex'" [isReadOnly]="true" [width]="150">
-                </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Civil Status'" [binding]="'CivilStatus'" [isReadOnly]="true"
-                    [width]="150">
-                </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Citizenship'" [binding]="'Citizenship'" [isReadOnly]="true"
-                    [width]="150">
-                </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Height'" [binding]="'Height'" [isReadOnly]="true" [width]="150">
-                </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Weight'" [binding]="'Weight'" [isReadOnly]="true" [width]="150">
-                </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Blood Type'" [binding]="'BloodType'" [isReadOnly]="true" [width]="150">
                 </wj-flex-grid-column>
                 <wj-flex-grid-column [header]="'Remarks'" [binding]="'Remarks'" [isReadOnly]="true" [width]="150">
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'L'" [binding]="'IsLocked'" [isReadOnly]="true" [width]="30">
+                <wj-flex-grid-column [header]="'L'" [binding]="'IsLocked'" [isReadOnly]="true" [width]="40">
                 </wj-flex-grid-column>
-                <!-- <wj-flex-grid-column [header]="'Picture URL'" [binding]="'PictureURL'" [isReadOnly]="true"
-                    [width]="150">
-                </wj-flex-grid-column> -->
             </wj-flex-grid>
-            <mat-button-toggle-group style="margin-top: 7px;">
-                <mat-button-toggle (click)="listEmployeeCollectionView.moveToFirstPage()">
-                    <mat-icon style="margin-right: -15px">navigate_before</mat-icon>
-                    <mat-icon>navigate_before</mat-icon>
-                </mat-button-toggle>
-                <mat-button-toggle (click)="listEmployeeCollectionView.moveToPreviousPage()">
-                    <mat-icon>navigate_before</mat-icon>
-                </mat-button-toggle>
-                <mat-button-toggle style="width: 100px;">{{ listEmployeeCollectionView.pageIndex + 1 }} /
-                    {{ listEmployeeCollectionView.pageCount }}</mat-button-toggle>
-                <mat-button-toggle (click)="listEmployeeCollectionView.moveToNextPage()">
-                    <mat-icon>navigate_next</mat-icon>
-                </mat-button-toggle>
-                <mat-button-toggle (click)="listEmployeeCollectionView.moveToLastPage()">
-                    <mat-icon style="margin-right: -15px">navigate_next</mat-icon>
-                    <mat-icon>navigate_next</mat-icon>
-                </mat-button-toggle>
-            </mat-button-toggle-group>
+            <div fxLayout="row" fxLayout.xs="column">
+                <div fxFlex="20" style="padding: 2px;">
+                    <mat-button-toggle-group style="margin-top: 7px;">
+                        <mat-button-toggle (click)="listEmployeeCollectionView.moveToFirstPage()">
+                            <mat-icon style="margin-right: -15px">navigate_before</mat-icon>
+                            <mat-icon>navigate_before</mat-icon>
+                        </mat-button-toggle>
+                        <mat-button-toggle (click)="listEmployeeCollectionView.moveToPreviousPage()">
+                            <mat-icon>navigate_before</mat-icon>
+                        </mat-button-toggle>
+                        <mat-button-toggle style="width: 100px;">{{ listEmployeeCollectionView.pageIndex + 1 }} /
+                            {{ listEmployeeCollectionView.pageCount }}</mat-button-toggle>
+                        <mat-button-toggle (click)="listEmployeeCollectionView.moveToNextPage()">
+                            <mat-icon>navigate_next</mat-icon>
+                        </mat-button-toggle>
+                        <mat-button-toggle (click)="listEmployeeCollectionView.moveToLastPage()">
+                            <mat-icon style="margin-right: -15px">navigate_next</mat-icon>
+                            <mat-icon>navigate_next</mat-icon>
+                        </mat-button-toggle>
+                    </mat-button-toggle-group>
+                </div>
+                <div fxFlex="15" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Row</mat-label>
+                        <mat-select [(ngModel)]="listPageIndex"
+                            (selectionChange)='cboShowNumberOfRowsOnSelectedIndexChanged()'>
+                            <mat-option *ngFor="let rowSize of cboShowNumberOfRows" [value]="rowSize.rowNumber">
+                                {{rowSize.rowString}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
         </div>
     </div>
 </div>

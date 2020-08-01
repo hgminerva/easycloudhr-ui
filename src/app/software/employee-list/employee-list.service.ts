@@ -12,8 +12,9 @@ export class EmployeeListService {
     private httpClient: HttpClient
   ) { }
 
-  public async EmployeeList() {
-    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/list', this.appSettings.defaultOptions);
+  public async EmployeeList(payrollGroup: string) {
+    console.log(payrollGroup);
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/list/filteredBy/' + payrollGroup, this.appSettings.defaultOptions);
   }
 
   public async AddEmployee() {
@@ -23,4 +24,9 @@ export class EmployeeListService {
   public async DeleteEmployee(id: number) {
     return this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/api/employee/delete/' + id, this.appSettings.defaultOptions);
   }
+
+  public async PayrollGroupList() {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/payroll/group/list', this.appSettings.defaultOptions);
+  }
+
 }
