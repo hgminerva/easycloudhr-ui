@@ -56,6 +56,14 @@ export class EmployeeDetailService {
     return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/payroll/group/list', this.appSettings.defaultOptions);
   }
 
+  public async SSSComputationList() {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/payroll/sss/computation/list', this.appSettings.defaultOptions);
+  }
+
+  public async HDMFComputationList() {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/payroll/hdmf/computation/list', this.appSettings.defaultOptions);
+  }
+
   public async TaxTableList() {
     return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/payroll/tax/table/list', this.appSettings.defaultOptions);
   }
@@ -67,7 +75,7 @@ export class EmployeeDetailService {
   //====================
   // EmployeeHR Dropdown
   //====================
-  
+
   public async BranchList() {
     return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/hr/branch/list', this.appSettings.defaultOptions);
   }

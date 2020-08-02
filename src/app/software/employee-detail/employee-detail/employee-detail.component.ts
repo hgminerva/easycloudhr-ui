@@ -170,6 +170,12 @@ export class EmployeeDetailComponent implements OnInit {
   private payrollTypeDropdownSubscription: any;
   public payrollTypeListDropdown: any = [];
 
+  private sssComputationDropdownSubscription: any;
+  public sssComputationListDropdown: any = [];
+
+  private hdmfComputationDropdownSubscription: any;
+  public hdmfComputationListDropdown: any = [];
+
   private taxTableDropdownSubscription: any;
   public taxTableListDropdown: any = [];
 
@@ -316,12 +322,40 @@ export class EmployeeDetailComponent implements OnInit {
     this.payrollGroupDropdownSubscription = await (await this.employeeDetailService.PayrollGroupList()).subscribe(
       response => {
         this.payrollGroupListDropdown = response;
-        this.GetTaxTableDropdownListData();
+        this.SSSComputationDropdownListData();
         if (this.payrollGroupDropdownSubscription !== null) this.payrollGroupDropdownSubscription.unsubscribe();
       },
       error => {
         this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
         if (this.payrollGroupDropdownSubscription !== null) this.payrollGroupDropdownSubscription.unsubscribe();
+      }
+    );
+  }
+
+  private async SSSComputationDropdownListData() {
+    this.sssComputationDropdownSubscription = await (await this.employeeDetailService.SSSComputationList()).subscribe(
+      response => {
+        this.sssComputationListDropdown = response;
+        this.HDMFComputationDropdownListData();
+        if (this.sssComputationDropdownSubscription !== null) this.sssComputationDropdownSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this.sssComputationDropdownSubscription !== null) this.sssComputationDropdownSubscription.unsubscribe();
+      }
+    );
+  }
+
+  private async HDMFComputationDropdownListData() {
+    this.hdmfComputationDropdownSubscription = await (await this.employeeDetailService.HDMFComputationList()).subscribe(
+      response => {
+        this.hdmfComputationListDropdown = response;
+        this.GetTaxTableDropdownListData();
+        if (this.hdmfComputationDropdownSubscription !== null) this.hdmfComputationDropdownSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this.hdmfComputationDropdownSubscription !== null) this.hdmfComputationDropdownSubscription.unsubscribe();
       }
     );
   }
@@ -438,6 +472,7 @@ export class EmployeeDetailComponent implements OnInit {
     this.employeeDetailSubscription = await (await this.employeeDetailService.EmployeeDetail(id)).subscribe(
       response => {
         let result = response;
+        console.log(result)
         if (result != null) {
           this.employeeModel.Id = result["Id"];
           this.employeeModel.EmployeeCode = result["EmployeeCode"];

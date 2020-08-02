@@ -32,16 +32,15 @@
                     <mat-card>
                         <img src="{{employeeModel.PictureURL}}" style="width: 100%;" />
                     </mat-card>
-                    <br />
+                    <div mat-dialog-content style="padding: 15px 30px;">
+                        <input id="inputFileUploadPhoto" placeholder="" type="file" style="width: 100%;"
+                            [disabled]="isLocked" accept="image/*" />
+                    </div>
                     <button mat-flat-button color="accent" style="width: 100%;" (click)="btnUploadImage()"
                         [disabled]="isLocked" id="btnUploadPhoto">
                         <mat-icon>insert_photo</mat-icon>
                         Upload Photo
                     </button>
-                    <div mat-dialog-content style="padding: 15px 30px;">
-                        <input id="inputFileUploadPhoto" placeholder="" type="file" style="width: 100%;"
-                            [disabled]="isLocked" accept="image/*" />
-                    </div>
                 </div>
             </div>
         </div>
@@ -416,36 +415,7 @@
                             </mat-form-field>
                         </div>
                     </div>
-                    <div fxLayout="row" fxLayout.xs="column">
-                        <div fxFlex="33" style="padding: 5px;"
-                            style="padding: 23px; text-align: start; display: inline;">
-                            <div style="width: 100%; border: gray 1px !important">
-                                <mat-checkbox color="primary" [disabled]="isLocked"
-                                    [(ngModel)]="employeeModel.EmployeePayroll.IsMinimumWageEarner"><span
-                                        style="color: gray;">
-                                        Is Minimum
-                                        Wage
-                                        Earner</span>
-                                </mat-checkbox>
-                            </div>
-                        </div>
-                        <div fxFlex="33" style="padding: 5px;">
-                            <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>PHICNumber</mat-label>
-                                <input matInput placeholder="PHICNumber"
-                                    [(ngModel)]="employeeModel.EmployeePayroll.PHICNumber" [readonly]="isLocked">
-                            </mat-form-field>
-                        </div>
-                        <div fxFlex="34" style="padding: 5px;">
-                            <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>Additional Allowance</mat-label>
-                                <input matInput placeholder="0.00"
-                                    [(ngModel)]="employeeModel.EmployeePayroll.AdditionalAllowance"
-                                    [readonly]="isLocked">
-                            </mat-form-field>
 
-                        </div>
-                    </div>
                     <div fxLayout="row" fxLayout.xs="column">
                         <div fxFlex="33" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
@@ -473,17 +443,23 @@
                         <div fxFlex="33" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>SSS Computation Type</mat-label>
-                                <input matInput placeholder="SSS Computation Type"
-                                    [(ngModel)]="employeeModel.EmployeePayroll.SSSComputationType"
-                                    [readonly]="isLocked">
+                                <mat-select [(ngModel)]="employeeModel.EmployeePayroll.SSSComputationType">
+                                    <mat-option *ngFor="let sssComputation of sssComputationListDropdown"
+                                        [disabled]="isLocked" [value]="sssComputation.Value">
+                                        {{sssComputation.Value}}
+                                    </mat-option>
+                                </mat-select>
                             </mat-form-field>
                         </div>
                         <div fxFlex="33" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>HDMF Computation Type</mat-label>
-                                <input matInput placeholder="HDMF Computation Type"
-                                    [(ngModel)]="employeeModel.EmployeePayroll.HDMFComputationType"
-                                    [readonly]="isLocked">
+                                <mat-select [(ngModel)]="employeeModel.EmployeePayroll.HDMFComputationType">
+                                    <mat-option *ngFor="let hdmfCompution of hdmfComputationListDropdown"
+                                        [disabled]="isLocked" [value]="hdmfCompution.Value">
+                                        {{hdmfCompution.Value}}
+                                    </mat-option>
+                                </mat-select>
                             </mat-form-field>
                         </div>
                         <div fxFlex="34" style="padding: 5px;">
@@ -514,13 +490,45 @@
                             </mat-form-field>
                         </div>
                         <div fxFlex="34" style="padding: 5px;">
-                            <mat-label>Tax Exemption</mat-label>
-                            <mat-select [(ngModel)]="employeeModel.EmployeePayroll.TaxExemptionId">
-                                <mat-option *ngFor="let taxExemption of taxExemptionListDropdown" [disabled]="isLocked"
-                                    [value]="taxExemption.Id">
-                                    {{taxExemption.TaxExemptionCode}}
-                                </mat-option>
-                            </mat-select>
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Tax Exemption</mat-label>
+                                <mat-select [(ngModel)]="employeeModel.EmployeePayroll.TaxExemptionId">
+                                    <mat-option *ngFor="let taxExemption of taxExemptionListDropdown"
+                                        [disabled]="isLocked" [value]="taxExemption.Id">
+                                        {{taxExemption.TaxExemptionCode}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="column">
+                        <div fxFlex="33" style="padding: 5px;">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Additional Allowance</mat-label>
+                                <input matInput placeholder="0.00"
+                                    [(ngModel)]="employeeModel.EmployeePayroll.AdditionalAllowance"
+                                    [readonly]="isLocked">
+                            </mat-form-field>
+
+                        </div>
+                        <div fxFlex="33" style="padding: 5px;">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>PHICNumber</mat-label>
+                                <input matInput placeholder="PHICNumber"
+                                    [(ngModel)]="employeeModel.EmployeePayroll.PHICNumber" [readonly]="isLocked">
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="34" style="padding: 5px;"
+                            style="padding: 23px; text-align: start; display: inline;">
+                            <div style="width: 100%; border: gray 1px !important">
+                                <mat-checkbox color="primary" [disabled]="isLocked"
+                                    [(ngModel)]="employeeModel.EmployeePayroll.IsMinimumWageEarner"><span
+                                        style="color: gray;">
+                                        Is Minimum
+                                        Wage
+                                        Earner</span>
+                                </mat-checkbox>
+                            </div>
                         </div>
                     </div>
                 </div>
