@@ -52,6 +52,8 @@ import { SystemTablesTaxExemptionDetailComponent } from './system-tables-detail/
 import { SystemTablesCodeTablesDetailComponent } from './system-tables-detail/system-tables-code-tables-detail/system-tables-code-tables-detail.component';
 import { UserDetailUserModuleDialogComponent } from './user-detail/user-detail-user-module-dialog/user-detail-user-module-dialog.component';
 import { UserDetailUserPayrollGroupDialogComponent } from './user-detail/user-detail-user-payroll-group-dialog/user-detail-user-payroll-group-dialog.component';
+import { EmployeeDetailEditNameDialogComponent } from './employee-detail/employee-detail-edit-name-dialog/employee-detail-edit-name-dialog.component';
+import { EmployeeDetialLinkToUsernameDialogComponent } from './employee-detail/employee-detial-link-to-username-dialog/employee-detial-link-to-username-dialog.component';
 
 @NgModule({
   declarations: [
@@ -86,7 +88,9 @@ import { UserDetailUserPayrollGroupDialogComponent } from './user-detail/user-de
     SystemTablesTaxExemptionDetailComponent,
     SystemTablesCodeTablesDetailComponent,
     UserDetailUserModuleDialogComponent,
-    UserDetailUserPayrollGroupDialogComponent
+    UserDetailUserPayrollGroupDialogComponent,
+    EmployeeDetailEditNameDialogComponent,
+    EmployeeDetialLinkToUsernameDialogComponent
   ],
   imports: [
     CommonModule,

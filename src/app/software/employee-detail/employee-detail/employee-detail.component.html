@@ -24,9 +24,9 @@
 </mat-toolbar>
 <mat-progress-bar *ngIf="isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'" style="width: 100%;">
 </mat-progress-bar>
-<div class="software-container" style='min-height:800px'>
+<div class="software-container" style='min-height:1000px'>
     <div fxLayout="row" fxLayout.xs="column">
-        <div fxFlex="25">
+        <div fxFlex="18">
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
                     <mat-card>
@@ -42,143 +42,102 @@
                         <input id="inputFileUploadPhoto" placeholder="" type="file" style="width: 100%;"
                             [disabled]="isLocked" accept="image/*" />
                     </div>
-                    <br />
-                    <br />
                 </div>
             </div>
         </div>
-        <div fxFlex="75">
+        <div fxFlex="80">
             <div fxLayout="row" fxLayout.xs="column">
-                <div fxFlex="50" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
-                        <mat-label>Employee Code</mat-label>
-                        <input matInput placeholder="Full Name" [(ngModel)]="employeeModel.EmployeeCode"
-                            [readonly]="isLocked">
-                    </mat-form-field>
-                </div>
-                <div fxFlex="25" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
-                        <mat-label>ID Number</mat-label>
-                        <input matInput placeholder="Full Name" [(ngModel)]="employeeModel.IdNumber"
-                            [readonly]="isLocked">
-                    </mat-form-field>
-                </div>
-                <div fxFlex="25" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
-                        <mat-label>Biometric ID Number</mat-label>
-                        <input matInput placeholder="Full Name" [(ngModel)]="employeeModel.BiometricIdNumber"
-                            [readonly]="isLocked">
-                    </mat-form-field>
-                </div>
-            </div>
-            <div fxLayout="row" fxLayout.xs="column">
-                <div fxFlex="25" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
-                        <mat-label>Last Name</mat-label>
-                        <input matInput placeholder="Full Name" [(ngModel)]="employeeModel.LastName"
-                            [readonly]="isLocked">
-                    </mat-form-field>
-                </div>
-                <div fxFlex="25" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
-                        <mat-label>First Name</mat-label>
-                        <input matInput placeholder="Full Name" [(ngModel)]="employeeModel.FirstName"
-                            [readonly]="isLocked">
-                    </mat-form-field>
-                </div>
-                <div fxFlex="25" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
-                        <mat-label>Middle Name</mat-label>
-                        <input matInput placeholder="Full Name" [(ngModel)]="employeeModel.MiddleName"
-                            [readonly]="isLocked">
-                    </mat-form-field>
-                </div>
-                <div fxFlex="25" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
-                        <mat-label>Extension Name</mat-label>
-                        <input matInput placeholder="Full Name" [(ngModel)]="employeeModel.ExtensionName"
-                            [readonly]="isLocked">
-                    </mat-form-field>
-                </div>
-            </div>
-            <div fxLayout="row" fxLayout.xs="column">
-                <div fxFlex="50" style="margin: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;" readonly>
-                        <mat-label>Company</mat-label>
-                        <mat-select [(ngModel)]="employeeModel.CompanyId">
-                            <mat-option *ngFor="let company of companyListDropdown" [value]="company.Id"
-                                [disabled]="isLocked">
-                                {{company.Company}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div fxFlex="50" style="margin: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;" readonly>
-                        <mat-label>User</mat-label>
-                        <mat-select [(ngModel)]="employeeModel.UserId">
-                            <mat-option *ngFor="let user of userListDropdown" [value]="user.Id" [disabled]="isLocked">
-                                {{user.FullName}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-            </div>
-            <div fxLayout="row" fxLayout.xs="column">
-                <div fxFlex="100" style="margin: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
-                        <mat-label>Remarks</mat-label>
-                        <textarea matInput placeholder="Remarks" [(ngModel)]="employeeModel.Remarks"
-                            [readonly]="isLocked" rows="5"> </textarea>
-                    </mat-form-field>
-                </div>
-            </div>
-        </div>
-    </div>
-    <mat-divider></mat-divider>
-    <mat-tab-group #tabGroup (selectedTabChange)="activeTab()" style="max-height:500px;">
-        <mat-tab label="General Information">
-            <br>
-            <div fxLayout="row" fxLayout.xs="column">
+                <mat-divider style="margin-left: 5px;" [vertical]="true"></mat-divider>
                 <div fxFlex="50" style="padding: 5px;">
                     <div fxLayout="row" fxLayout.xs="column">
                         <div fxFlex="50" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>Date Of Birth</mat-label>
-                                <input matInput [matDatepicker]="datePickerDateOfBirth"
-                                    [(ngModel)]="employeeModel.DateOfBirth" [readonly]="isLocked">
-                                <mat-datepicker-toggle matSuffix [for]="datePickerDateOfBirth" [disabled]="isLocked">
-                                </mat-datepicker-toggle>
-                                <mat-datepicker #datePickerDateOfBirth color="primary"></mat-datepicker>
+                                <mat-label>Employee Code</mat-label>
+                                <input matInput placeholder="Full Name" [(ngModel)]="employeeModel.EmployeeCode"
+                                    [readonly]="isLocked">
                             </mat-form-field>
                         </div>
                         <div fxFlex="50" style="padding: 5px;">
-                            <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>Place Of Birth</mat-label>
-                                <input matInput placeholder="Place Of Birth" [(ngModel)]="employeeModel.PlaceOfBirth"
-                                    [readonly]="isLocked">
-                            </mat-form-field>
+                            <button mat-flat-button (click)="EditEmployeeNameDialog()"
+                                style="margin-top: 5px; width: 100%; height: 60%; background-color: #985eff; color: white;">
+                                <mat-icon>edit</mat-icon>
+                                Edit Name
+                            </button>
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="column">
+                        <div fxFlex="100" style="padding: 15px;">
+                            <h1><b>{{ employeeModel.FirstName}}&nbsp;{{ employeeModel.MiddleName}}
+                                    &nbsp;{{ employeeModel.LastName}}&nbsp;{{ employeeModel.ExtensionName}}</b></h1>
                         </div>
                     </div>
                     <div fxLayout="row" fxLayout.xs="column">
                         <div fxFlex="50" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>Sex</mat-label>
-                                <mat-select [(ngModel)]="employeeModel.Sex">
-                                    <mat-option *ngFor="let gender of genderListDropdown" [disabled]="isLocked"
-                                        [value]="gender.Value">
-                                        {{gender.Value}}
+                                <mat-label>Position</mat-label>
+                                <mat-select [(ngModel)]="this.employeeModel.EmployeeHR.Position">
+                                    <mat-option *ngFor="let position of positionListDropdown" [disabled]="isLocked"
+                                        disabled [value]="position.Value">
+                                        {{ position.Value}}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
                         <div fxFlex="50" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>Civil Status</mat-label>
-                                <mat-select [(ngModel)]="employeeModel.CivilStatus">
-                                    <mat-option *ngFor="let civilStatus of civilStatusListDropdown"
-                                        [disabled]="isLocked" [value]="civilStatus.Value">
-                                        {{civilStatus.Value}}
+                                <mat-label>Payroll Group</mat-label>
+                                <mat-select [(ngModel)]="employeeModel.EmployeePayroll.PayrollGroup">
+                                    <mat-option *ngFor="let payrollGroup of payrollGroupListDropdown"
+                                        [disabled]="isLocked" [value]="payrollGroup.Value">
+                                        {{payrollGroup.Value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="column">
+                        <div fxFlex="50" style="padding: 5px;">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Contact Tel No.</mat-label>
+                                <input matInput placeholder="Contact No." [(ngModel)]="employeeModel.ContactNumber"
+                                    [readonly]="isLocked">
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="50" style="padding: 5px;">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Contact Mobile No.</mat-label>
+                                <input matInput placeholder="Contact Mobile No."
+                                    [(ngModel)]="employeeModel.ContactMobileNumber" [readonly]="isLocked">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <mat-divider [vertical]="true"></mat-divider>
+                <div fxFlex="50" style="padding: 5px;">
+                    <div fxLayout="row" fxLayout.xs="column">
+                        <div fxFlex="50" style="padding: 5px;">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>ID Number</mat-label>
+                                <input matInput placeholder="Full Name" [(ngModel)]="employeeModel.IdNumber"
+                                    [readonly]="isLocked">
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="50" style="padding: 5px;">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Biometric ID Number</mat-label>
+                                <input matInput placeholder="Full Name" [(ngModel)]="employeeModel.BiometricIdNumber"
+                                    [readonly]="isLocked">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="column">
+                        <div fxFlex="100" style="padding: 5px;">
+                            <mat-form-field appearance="outline" style="width: 100%;" readonly>
+                                <mat-label>Company</mat-label>
+                                <mat-select [(ngModel)]="employeeModel.CompanyId">
+                                    <mat-option *ngFor="let company of companyListDropdown" [value]="company.Id"
+                                        [disabled]="isLocked">
+                                        {{company.Company}}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
@@ -187,44 +146,37 @@
                     <div fxLayout="row" fxLayout.xs="column">
                         <div fxFlex="100" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>Citizenship</mat-label>
-                                <mat-select [(ngModel)]="employeeModel.Citizenship">
-                                    <mat-option *ngFor="let citizenship of citizenshipListDropdown"
-                                        [disabled]="isLocked" [value]="citizenship.Value">
-                                        {{citizenship.Value}}
+                                <mat-label>Branch</mat-label>
+                                <mat-select [(ngModel)]="this.employeeModel.EmployeeHR.Branch">
+                                    <mat-option *ngFor="let branch of branchListDropdown" [disabled]="isLocked"
+                                        [value]="branch.Value">
+                                        {{branch.Value}}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
                     </div>
                     <div fxLayout="row" fxLayout.xs="column">
-                        <div fxFlex="25" style="padding: 5px;">
-                            <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>Height</mat-label>
-                                <input type="number" matInput placeholder="Contact No."
-                                    [(ngModel)]="employeeModel.Height" [readonly]="isLocked">
-                            </mat-form-field>
-                        </div>
-                        <div fxFlex="25" style="padding: 5px;">
-                            <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>Weight</mat-label>
-                                <input type="number" matInput placeholder="Civil Status"
-                                    [(ngModel)]="employeeModel.Weight" [readonly]="isLocked">
-                            </mat-form-field>
+                        <div fxFlex="50" style="padding: 5px; margin: 10px;">
+                            <h3>Username:&nbsp;{{employeeModel.Username}}</h3>
                         </div>
                         <div fxFlex="50" style="padding: 5px;">
-                            <mat-form-field appearance="outline" style="width: 100%;" readonly disabled>
-                                <mat-label>BloodType</mat-label>
-                                <mat-select [(ngModel)]="employeeModel.BloodType">
-                                    <mat-option *ngFor="let gender of bloodTypeListDropdown" [disabled]="isLocked"
-                                        [value]="gender.Value">
-                                        {{gender.Value}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
+                            <button mat-flat-button (click)="LinkToUserName()"
+                                style="width: 100%; height: 70%; background-color: #00a4ef;  color: white;">
+                                <mat-icon>link</mat-icon>
+                                Link Username
+                            </button>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <mat-divider></mat-divider>
+    <mat-tab-group #tabGroup (selectedTabChange)="activeTab()">
+        <mat-tab label="General Information">
+            <br>
+            <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="50" style="padding: 5px;">
                     <div fxLayout="row" fxLayout.xs="column">
                         <div fxFlex="100" style="padding: 5px;">
@@ -258,16 +210,92 @@
                     <div fxLayout="row" fxLayout.xs="column">
                         <div fxFlex="50" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>Contact Tel No.</mat-label>
-                                <input matInput placeholder="Contact No." [(ngModel)]="employeeModel.ContactNumber"
-                                    [readonly]="isLocked">
+                                <mat-label>Date Of Birth</mat-label>
+                                <input matInput [matDatepicker]="datePickerDateOfBirth"
+                                    [(ngModel)]="employeeModel.DateOfBirth" [readonly]="isLocked">
+                                <mat-datepicker-toggle matSuffix [for]="datePickerDateOfBirth" [disabled]="isLocked">
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #datePickerDateOfBirth color="primary"></mat-datepicker>
                             </mat-form-field>
                         </div>
                         <div fxFlex="50" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>Contact Mobile No.</mat-label>
-                                <input matInput placeholder="Contact Mobile No."
-                                    [(ngModel)]="employeeModel.ContactMobileNumber" [readonly]="isLocked">
+                                <mat-label>Place Of Birth</mat-label>
+                                <input matInput placeholder="Place Of Birth" [(ngModel)]="employeeModel.PlaceOfBirth"
+                                    [readonly]="isLocked">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div fxFlex="50" style="padding: 5px;">
+                    <div fxLayout="row" fxLayout.xs="column">
+                        <div fxFlex="33" style="padding: 5px;">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Civil Status</mat-label>
+                                <mat-select [(ngModel)]="employeeModel.CivilStatus">
+                                    <mat-option *ngFor="let civilStatus of civilStatusListDropdown"
+                                        [disabled]="isLocked" [value]="civilStatus.Value">
+                                        {{civilStatus.Value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="33" style="padding: 5px;">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Sex</mat-label>
+                                <mat-select [(ngModel)]="employeeModel.Sex">
+                                    <mat-option *ngFor="let gender of genderListDropdown" [disabled]="isLocked"
+                                        [value]="gender.Value">
+                                        {{gender.Value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="34" style="padding: 5px;">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Citizenship</mat-label>
+                                <mat-select [(ngModel)]="employeeModel.Citizenship">
+                                    <mat-option *ngFor="let citizenship of citizenshipListDropdown"
+                                        [disabled]="isLocked" [value]="citizenship.Value">
+                                        {{citizenship.Value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="column">
+                        <div fxFlex="33" style="padding: 5px;">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Height</mat-label>
+                                <input type="number" matInput placeholder="Contact No."
+                                    [(ngModel)]="employeeModel.Height" [readonly]="isLocked">
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="33" style="padding: 5px;">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Weight</mat-label>
+                                <input type="number" matInput placeholder="Civil Status"
+                                    [(ngModel)]="employeeModel.Weight" [readonly]="isLocked">
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="34" style="padding: 5px;">
+                            <mat-form-field appearance="outline" style="width: 100%;" readonly disabled>
+                                <mat-label>BloodType</mat-label>
+                                <mat-select [(ngModel)]="employeeModel.BloodType">
+                                    <mat-option *ngFor="let gender of bloodTypeListDropdown" [disabled]="isLocked"
+                                        [value]="gender.Value">
+                                        {{gender.Value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="column">
+                        <div fxFlex="100" style="margin: 5px;">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Remarks</mat-label>
+                                <textarea matInput placeholder="Remarks" [(ngModel)]="employeeModel.Remarks"
+                                    [readonly]="isLocked" rows="5" style="min-height: 102px;"> </textarea>
                             </mat-form-field>
                         </div>
                     </div>
@@ -281,17 +309,6 @@
                     <div fxLayout="row" fxLayout.xs="column">
                         <div fxFlex="50" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>Payroll Group</mat-label>
-                                <mat-select [(ngModel)]="employeeModel.EmployeePayroll.PayrollGroup">
-                                    <mat-option *ngFor="let payrollGroup of payrollGroupListDropdown"
-                                        [disabled]="isLocked" [value]="payrollGroup.Value">
-                                        {{payrollGroup.Value}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div fxFlex="50" style="padding: 5px;">
-                            <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>Payroll Type</mat-label>
                                 <mat-select [(ngModel)]="employeeModel.EmployeePayroll.PayrollType">
                                     <mat-option *ngFor="let payrollType of payrollTypeListDropdown"
@@ -299,6 +316,13 @@
                                         {{payrollType.Value}}
                                     </mat-option>
                                 </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="50" style="padding: 5px;">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Hourly Rate</mat-label>
+                                <input type="number" matInput placeholder="0.00"
+                                    [(ngModel)]="employeeModel.EmployeePayroll.HourlyRate" [readonly]="isLocked">
                             </mat-form-field>
                         </div>
                     </div>
@@ -312,37 +336,23 @@
                         </div>
                         <div fxFlex="50" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>Daily Rate</mat-label>
-                                <input type="number" matInput placeholder="0.00"
-                                    [(ngModel)]="employeeModel.EmployeePayroll.DailyRate" [readonly]="isLocked">
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div fxLayout="row" fxLayout.xs="column">
-                        <div fxFlex="50" style="padding: 5px;">
-                            <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>Hourly Rate</mat-label>
-                                <input type="number" matInput placeholder="0.00"
-                                    [(ngModel)]="employeeModel.EmployeePayroll.HourlyRate" [readonly]="isLocked">
-                            </mat-form-field>
-                        </div>
-                        <div fxFlex="50" style="padding: 5px;">
-                            <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>Absent Daily Rate</mat-label>
-                                <input type="number" matInput placeholder="0.00"
-                                    [(ngModel)]="employeeModel.EmployeePayroll.AbsentDailyRate" [readonly]="isLocked">
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div fxLayout="row" fxLayout.xs="column">
-                        <div fxFlex="25" style="padding: 5px;">
-                            <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>Late Hourly Rate</mat-label>
                                 <input matInput placeholder="0.00"
                                     [(ngModel)]="employeeModel.EmployeePayroll.LateHourlyRate" [readonly]="isLocked">
                             </mat-form-field>
                         </div>
-                        <div fxFlex="25" style="padding: 5px;">
+                    </div>
+                    <!-- <mat-label>Hourly Rate</mat-label> -->
+
+                    <div fxLayout="row" fxLayout.xs="column">
+                        <div fxFlex="50" style="padding: 5px;">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Payroll Rate</mat-label>
+                                <input type="number" matInput placeholder="0.00" [readonly]="isLocked"
+                                    [(ngModel)]="employeeModel.EmployeePayroll.PayrollRate">
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="50" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>Under timeHourly Rate</mat-label>
                                 <input type="number" matInput placeholder="0.00"
@@ -350,7 +360,16 @@
                                     [readonly]="isLocked">
                             </mat-form-field>
                         </div>
-                        <div fxFlex="25" style="padding: 5px;">
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="column">
+                        <div fxFlex="50" style="padding: 5px;">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Daily Rate</mat-label>
+                                <input type="number" matInput placeholder="0.00"
+                                    [(ngModel)]="employeeModel.EmployeePayroll.DailyRate" [readonly]="isLocked">
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="50" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>Overtime Hourly Rate</mat-label>
                                 <input type="number" matInput placeholder="0.00"
@@ -358,7 +377,17 @@
                                     [readonly]="isLocked">
                             </mat-form-field>
                         </div>
-                        <div fxFlex="25" style="padding: 5px;">
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="column">
+                        <div fxFlex="50" style="padding: 5px;">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Absent Daily Rate</mat-label>
+                                <input type="number" matInput placeholder="0.00"
+                                    [(ngModel)]="employeeModel.EmployeePayroll.AbsentDailyRate" [readonly]="isLocked">
+                            </mat-form-field>
+
+                        </div>
+                        <div fxFlex="50" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>Night Differential Rate</mat-label>
                                 <input type="number" matInput placeholder="0.00"
@@ -367,17 +396,81 @@
                             </mat-form-field>
                         </div>
                     </div>
+
                 </div>
                 <div fxFlex="50" style="padding: 5px;">
                     <div fxLayout="row" fxLayout.xs="column">
                         <div fxFlex="50" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>SSS Add On Amount</mat-label>
-                                <input matInput placeholder="0.00"
-                                    [(ngModel)]="employeeModel.EmployeePayroll.SSSAddOnAmount" [readonly]="isLocked">
+                                <mat-label>ATMA ccount No.</mat-label>
+                                <input matInput placeholder="ATMA ccount No."
+                                    [(ngModel)]="employeeModel.EmployeePayroll.ATMAccountNumber" [readonly]="isLocked">
                             </mat-form-field>
                         </div>
                         <div fxFlex="50" style="padding: 5px;">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Cost Of Living Allowance</mat-label>
+                                <input matInput placeholder="0.00"
+                                    [(ngModel)]="employeeModel.EmployeePayroll.HDMFComputationType"
+                                    [readonly]="isLocked">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="column">
+                        <div fxFlex="33" style="padding: 5px;"
+                            style="padding: 23px; text-align: start; display: inline;">
+                            <div style="width: 100%; border: gray 1px !important">
+                                <mat-checkbox color="primary" [disabled]="isLocked"
+                                    [(ngModel)]="employeeModel.EmployeePayroll.IsMinimumWageEarner"><span
+                                        style="color: gray;">
+                                        Is Minimum
+                                        Wage
+                                        Earner</span>
+                                </mat-checkbox>
+                            </div>
+                        </div>
+                        <div fxFlex="33" style="padding: 5px;">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>PHICNumber</mat-label>
+                                <input matInput placeholder="PHICNumber"
+                                    [(ngModel)]="employeeModel.EmployeePayroll.PHICNumber" [readonly]="isLocked">
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="34" style="padding: 5px;">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Additional Allowance</mat-label>
+                                <input matInput placeholder="0.00"
+                                    [(ngModel)]="employeeModel.EmployeePayroll.AdditionalAllowance"
+                                    [readonly]="isLocked">
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="column">
+                        <div fxFlex="33" style="padding: 5px;">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>SSSNumber</mat-label>
+                                <input matInput placeholder="SSSNumber"
+                                    [(ngModel)]="employeeModel.EmployeePayroll.SSSNumber" [readonly]="isLocked">
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="33" style="padding: 5px;">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>HDMFNumber</mat-label>
+                                <input matInput placeholder="HDMFNumber"
+                                    [(ngModel)]="employeeModel.EmployeePayroll.HDMFNumber" [readonly]="isLocked">
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="34" style="padding: 5px;">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>TIN</mat-label>
+                                <input matInput placeholder="TIN" [(ngModel)]="employeeModel.EmployeePayroll.TIN"
+                                    [readonly]="isLocked">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="column">
+                        <div fxFlex="33" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>SSS Computation Type</mat-label>
                                 <input matInput placeholder="SSS Computation Type"
@@ -385,16 +478,7 @@
                                     [readonly]="isLocked">
                             </mat-form-field>
                         </div>
-                    </div>
-                    <div fxLayout="row" fxLayout.xs="column">
-                        <div fxFlex="50" style="padding: 5px;">
-                            <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>HDMF Add On Amount</mat-label>
-                                <input type="number" matInput placeholder="0.00"
-                                    [(ngModel)]="employeeModel.EmployeePayroll.HDMFAddOnAmount" [readonly]="isLocked">
-                            </mat-form-field>
-                        </div>
-                        <div fxFlex="50" style="padding: 5px;">
+                        <div fxFlex="33" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>HDMF Computation Type</mat-label>
                                 <input matInput placeholder="HDMF Computation Type"
@@ -402,9 +486,7 @@
                                     [readonly]="isLocked">
                             </mat-form-field>
                         </div>
-                    </div>
-                    <div fxLayout="row" fxLayout.xs="column">
-                        <div fxFlex="25" style="padding: 5px;">
+                        <div fxFlex="34" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>Tax Table</mat-label>
                                 <mat-select [(ngModel)]="employeeModel.EmployeePayroll.TaxTable">
@@ -415,56 +497,31 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                        <div fxFlex="25" style="padding: 5px;">
-                            <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>Tax Exemption</mat-label>
-                                <mat-select [(ngModel)]="employeeModel.EmployeePayroll.TaxExemptionId">
-                                    <mat-option *ngFor="let taxExemption of taxExemptionListDropdown"
-                                        [disabled]="isLocked" [value]="taxExemption.Id">
-                                        {{taxExemption.TaxExemptionCode}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div fxFlex="50" style="padding: 23px; text-align: start; display: inline;">
-                            <div style="width: 100%; border: gray 1px !important">
-                                <mat-checkbox color="primary" [disabled]="isLocked"
-                                    [(ngModel)]="employeeModel.EmployeePayroll.IsMinimumWageEarner"
-                                    (change)="handleData(employeeModel.EmployeePayroll.IsMinimumWageEarner)"><span
-                                        style="color: gray;">
-                                        Is Minimum
-                                        Wage
-                                        Earner</span>
-                                </mat-checkbox>
-                            </div>
-                        </div>
                     </div>
                     <div fxLayout="row" fxLayout.xs="column">
-
-                        <div fxFlex="25" style="padding: 5px;">
+                        <div fxFlex="33" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>Cost Of Living Allowance</mat-label>
+                                <mat-label>SSS Add On Amount</mat-label>
                                 <input matInput placeholder="0.00"
-                                    [(ngModel)]="employeeModel.EmployeePayroll.HDMFComputationType"
-                                    [readonly]="isLocked">
+                                    [(ngModel)]="employeeModel.EmployeePayroll.SSSAddOnAmount" [readonly]="isLocked">
                             </mat-form-field>
                         </div>
-                        <div fxFlex="25" style="padding: 5px;">
+                        <div fxFlex="33" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>Additional Allowance</mat-label>
-                                <input matInput placeholder="0.00"
-                                    [(ngModel)]="employeeModel.EmployeePayroll.AdditionalAllowance"
-                                    [readonly]="isLocked">
+                                <mat-label>HDMF Add On Amount</mat-label>
+                                <input type="number" matInput placeholder="0.00"
+                                    [(ngModel)]="employeeModel.EmployeePayroll.HDMFAddOnAmount" [readonly]="isLocked">
                             </mat-form-field>
                         </div>
-                        <div fxFlex="50" style="padding: 5px;">
-                            <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>ATMA ccount No.</mat-label>
-                                <input matInput placeholder="ATMA ccount No."
-                                    [(ngModel)]="employeeModel.EmployeePayroll.ATMAccountNumber" [readonly]="isLocked">
-                            </mat-form-field>
+                        <div fxFlex="34" style="padding: 5px;">
+                            <mat-label>Tax Exemption</mat-label>
+                            <mat-select [(ngModel)]="employeeModel.EmployeePayroll.TaxExemptionId">
+                                <mat-option *ngFor="let taxExemption of taxExemptionListDropdown" [disabled]="isLocked"
+                                    [value]="taxExemption.Id">
+                                    {{taxExemption.TaxExemptionCode}}
+                                </mat-option>
+                            </mat-select>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -473,6 +530,19 @@
             <br>
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="50" style="padding: 5px;">
+                    <div fxLayout="row" fxLayout.xs="column">
+                        <div fxFlex="100" style="padding: 5px;">
+                            <mat-form-field appearance="outline" style="width: 100%;" readonly disabled>
+                                <mat-label>Shift Code</mat-label>
+                                <mat-select [(ngModel)]="this.employeeModel.EmployeeHR.DefaultShiftId">
+                                    <mat-option *ngFor="let shift of shiftDropdown" [disabled]="isLocked"
+                                        [value]="shift.Id">
+                                        {{shift.Shift}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
                     <div fxLayout="row" fxLayout.xs="column">
                         <div fxFlex="33" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
@@ -486,7 +556,7 @@
                         </div>
                         <div fxFlex="33" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>DateRegular</mat-label>
+                                <mat-label>Date Regular</mat-label>
                                 <input matInput [matDatepicker]="datePickerDateRegular"
                                     [(ngModel)]="this.employeeModel.EmployeeHR.DateRegular" [readonly]="isLocked">
                                 <mat-datepicker-toggle matSuffix [for]="datePickerDateRegular" [disabled]="isLocked">
@@ -504,20 +574,6 @@
                                 <mat-datepicker #datePickerDateResigned color="primary"></mat-datepicker>
                             </mat-form-field>
                         </div>
-                    </div>
-                    <div fxLayout="row" fxLayout.xs="column">
-                        <div fxFlex="100" style="padding: 5px;">
-                            <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>Branch</mat-label>
-                                <mat-select [(ngModel)]="this.employeeModel.EmployeeHR.Branch">
-                                    <mat-option *ngFor="let branch of branchListDropdown" [disabled]="isLocked"
-                                        [value]="branch.Value">
-                                        {{branch.Value}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-
                     </div>
                     <div fxLayout="row" fxLayout.xs="column">
                         <div fxFlex="50" style="padding: 5px;">
@@ -543,30 +599,6 @@
                             </mat-form-field>
                         </div>
                     </div>
-                    <div fxLayout="row" fxLayout.xs="column">
-                        <div fxFlex="50" style="padding: 5px;">
-                            <mat-form-field appearance="outline" style="width: 100%;">
-                                <mat-label>Position</mat-label>
-                                <mat-select [(ngModel)]="this.employeeModel.EmployeeHR.Position">
-                                    <mat-option *ngFor="let position of positionListDropdown" [disabled]="isLocked"
-                                        disabled [value]="position.Value">
-                                        {{ position.Value}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div fxFlex="50" style="padding: 5px;">
-                            <mat-form-field appearance="outline" style="width: 100%;" readonly disabled>
-                                <mat-label>Shift Code</mat-label>
-                                <mat-select [(ngModel)]="this.employeeModel.EmployeeHR.DefaultShiftId">
-                                    <mat-option *ngFor="let shift of shiftDropdown" [disabled]="isLocked"
-                                        [value]="shift.Id">
-                                        {{shift.Shift}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                    </div>
                 </div>
                 <div fxFlex="50" style="padding: 5px;">
                 </div>
@@ -574,41 +606,37 @@
         </mat-tab>
     </mat-tab-group>
     <mat-divider></mat-divider>
-    <div fxLayout="row" fxLayout.xs="column">
+    <div fxLayout="row" fxLayout.xs="column" style="color: gray;">
         <div fxFlex="50" style="padding: 5px;">
-            <div fxFlex="50" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
-                    <mat-label>Created By</mat-label>
-                    <input matInput placeholder="Contact No." [(ngModel)]="employeeModel.CreatedByUser" readonly>
-                </mat-form-field>
-            </div>
-            <div fxFlex="50" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
-                    <mat-label>Created Date</mat-label>
-                    <input matInput [matDatepicker]="datePickerCreatedDateTime" readonly
-                        [(ngModel)]="employeeModel.CreatedDateTime">
-                    <mat-datepicker-toggle matSuffix [for]="datePickerCreatedDateTime" disabled>
-                    </mat-datepicker-toggle>
-                    <mat-datepicker #datePickerCreatedDateTime color="primary "></mat-datepicker>
-                </mat-form-field>
+            <div fxLayout="row" fxLayout.xs="column">
+                <div fxFlex="13" style="padding: 5px;">
+                    <mat-label>Created By:</mat-label>
+                </div>
+                <div fxFlex="37" style="padding: 5px;">
+                    <mat-label>{{employeeModel.CreatedByUser}}</mat-label>
+                </div>
+                <div fxFlex="20" style="padding: 5px;">
+                    <mat-label>Created DateTime:</mat-label>
+                </div>
+                <div fxFlex="30" style="padding: 5px;">
+                    <mat-label>{{employeeModel.CreatedDateTime}}</mat-label>
+                </div>
             </div>
         </div>
         <div fxFlex="50" style="padding: 5px;">
-            <div fxFlex="50" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
-                    <mat-label>Updated By</mat-label>
-                    <input matInput placeholder="Contact No." [(ngModel)]="employeeModel.UpdatedByUser" readonly>
-                </mat-form-field>
-            </div>
-            <div fxFlex="50" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
-                    <mat-label>Updated Date</mat-label>
-                    <input matInput [matDatepicker]="datePickerUpdatedDateTime" readonly
-                        [(ngModel)]="employeeModel.UpdatedDateTime">
-                    <mat-datepicker-toggle matSuffix [for]="datePickerUpdatedDateTime" disabled>
-                    </mat-datepicker-toggle>
-                    <mat-datepicker #datePickerUpdatedDateTime color="primary"></mat-datepicker>
-                </mat-form-field>
+            <div fxLayout="row" fxLayout.xs="column">
+                <div fxFlex="13" style="padding: 5px;">
+                    <mat-label>Updated By:</mat-label>
+                </div>
+                <div fxFlex="37" style="padding: 5px;">
+                    <mat-label>{{employeeModel.UpdatedByUser}}</mat-label>
+                </div>
+                <div fxFlex="20" style="padding: 5px;">
+                    <mat-label>Updated DateTime:</mat-label>
+                </div>
+                <div fxFlex="30" style="padding: 5px;">
+                    <mat-label>{{employeeModel.UpdatedDateTime}}</mat-label>
+                </div>
             </div>
         </div>
     </div>

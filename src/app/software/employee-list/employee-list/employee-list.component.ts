@@ -65,7 +65,6 @@ export class EmployeeListComponent implements OnInit {
   }
 
   public cboShowNumberOfRowsOnSelectedIndexChanged(): void {
-    console.log(this.listPageIndex);
     this.listEmployeeCollectionView.pageSize = this.listPageIndex;
     this.listEmployeeCollectionView.refresh();
     this.listEmployeeCollectionView.refresh();
@@ -83,7 +82,6 @@ export class EmployeeListComponent implements OnInit {
     this.payrollGroupDropdownSubscription = await (await this.employeeListService.PayrollGroupList()).subscribe(
       response => {
         var results = response;
-        this.payrollGroupListDropdown.push({ Id: 0, Code: '', Value: "ALL EMPLOYEE", Category: "" });
         if (results["length"] > 0) {
           for (var i = 0; i < results["length"]; i++) {
             this.payrollGroupListDropdown.push(results[i]);
@@ -135,8 +133,6 @@ export class EmployeeListComponent implements OnInit {
     this.employeeListSubscription = await (await this.employeeListService.EmployeeList(this.filterPayrollGroup)).subscribe(
       (response: any) => {
         var results = response;
-        console.log("Response:", results);
-
         if (results["length"] > 0) {
           this.listEmployeeObservableArray = results;
           this.listEmployeeCollectionView = new CollectionView(this.listEmployeeObservableArray);
@@ -152,13 +148,6 @@ export class EmployeeListComponent implements OnInit {
         if (this.employeeListSubscription != null) this.employeeListSubscription.unsubscribe();
       },
       error => {
-        // if (error.status === '401') {
-        //   console.log(this.isEmployeeListAuthorized);
-        //   if (!this.isEmployeeListAuthorized) {
-        //     this.isEmployeeListAuthorized = true;
-        //     this.GetEmployeeData();
-        //   }
-        // }
         this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
         if (this.employeeListSubscription != null) this.employeeListSubscription.unsubscribe();
       }
@@ -212,7 +201,7 @@ export class EmployeeListComponent implements OnInit {
       width: '500px',
       data: {
         objDialogTitle: "Delete Employee",
-        objComfirmationMessage: `Delete this ${currentEmployee.FullName}?`,
+        objComfirmationMessage: `Delete ${currentEmployee.FullName}?`,
       },
       disableClose: true
     });

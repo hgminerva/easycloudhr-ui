@@ -25,7 +25,7 @@ export class EmployeeModel {
     PictureURL: string;
     CompanyId: number;
     UserId: number;
-    User: string;
+    Username: string;
     CreatedByUserId: number;
     CreatedByUser: string;
     CreatedDateTime: Date;
@@ -42,24 +42,29 @@ export class EmployeePayrollModel {
     EmployeeId: number;
     PayrollGroup: string;
     PayrollType: string;
-    MonthlyRate: string;
-    DailyRate: string;
-    HourlyRate: string;
-    AbsentDailyRate: string;
-    LateHourlyRate: string;
-    UndertimeHourlyRate: string;
-    OvertimeHourlyRate: string;
-    NightDifferentialRate: string;
-    SSSAddOnAmount: string;
+    PayrollRate: number;
+    MonthlyRate: number;
+    DailyRate: number;
+    HourlyRate: number;
+    AbsentDailyRate: number;
+    LateHourlyRate: number;
+    UndertimeHourlyRate: number;
+    OvertimeHourlyRate: number;
+    NightDifferentialRate: number;
+    SSSAddOnAmount: number;
     SSSComputationType: string;
-    HDMFAddOnAmount: string;
+    HDMFAddOnAmount: number;
     HDMFComputationType: string;
     TaxTable: string;
     TaxExemptionId: number;
     IsMinimumWageEarner: boolean;
-    CostOfLivingAllowance: string;
-    AdditionalAllowance: string;
+    CostOfLivingAllowance: number;
+    AdditionalAllowance: number;
     ATMAccountNumber: string;
+    SSSNumber: string;
+    HDMFNumber: string;
+    PHICNumber: string;
+    TIN: string;
 }
 
 export class EmployeeHRModel {

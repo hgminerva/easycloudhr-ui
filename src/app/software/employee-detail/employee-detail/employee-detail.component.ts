@@ -2,10 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { EmployeeDetailService } from './../employee-detail.service';
 import { EmployeeModel, EmployeePayrollModel, EmployeeHRModel } from './../employee.model';
 import { SoftwareSecurityService } from '../../software-security/software-security.service';
+import { EmployeeDetailEditNameDialogComponent } from '../employee-detail-edit-name-dialog/employee-detail-edit-name-dialog.component';
+import { EmployeeDetialLinkToUsernameDialogComponent } from '../employee-detial-link-to-username-dialog/employee-detial-link-to-username-dialog.component';
 @Component({
   selector: 'app-employee-detail',
   templateUrl: './employee-detail.component.html',
@@ -20,19 +23,18 @@ export class EmployeeDetailComponent implements OnInit {
     private snackBar: MatSnackBar,
     private snackBarTemplate: SnackBarTemplate,
     private employeeDetailService: EmployeeDetailService,
-    private softwareSecurityService: SoftwareSecurityService
+    private softwareSecurityService: SoftwareSecurityService,
+    private editNameDialog: MatDialog,
+    private lickToUserNameDialog: MatDialog
 
   ) { }
 
   async ngOnInit() {
     await this.GetZipCodeListData();
-    console.log();
-
     if (this.softwareSecurityService.openModule("Employee Detail") == true) {
     }
 
     this.userRightEmployeeDetail = this.softwareSecurityService.GetModuleRights("Employee Detail");
-    console.log(this.userRightEmployeeDetail);
   }
 
 
@@ -41,24 +43,29 @@ export class EmployeeDetailComponent implements OnInit {
     EmployeeId: 0,
     PayrollGroup: '',
     PayrollType: '',
-    MonthlyRate: '',
-    DailyRate: '',
-    HourlyRate: '',
-    AbsentDailyRate: '',
-    LateHourlyRate: '',
-    UndertimeHourlyRate: '',
-    OvertimeHourlyRate: '',
-    NightDifferentialRate: '',
-    SSSAddOnAmount: '',
+    PayrollRate: 0,
+    MonthlyRate: 0,
+    DailyRate: 0,
+    HourlyRate: 0,
+    AbsentDailyRate: 0,
+    LateHourlyRate: 0,
+    UndertimeHourlyRate: 0,
+    OvertimeHourlyRate: 0,
+    NightDifferentialRate: 0,
+    SSSAddOnAmount: 0,
     SSSComputationType: '',
-    HDMFAddOnAmount: '',
+    HDMFAddOnAmount: 0,
     HDMFComputationType: '',
     TaxTable: '',
     TaxExemptionId: 0,
     IsMinimumWageEarner: true,
-    CostOfLivingAllowance: '',
-    AdditionalAllowance: '',
+    CostOfLivingAllowance: 0,
+    AdditionalAllowance: 0,
     ATMAccountNumber: '',
+    SSSNumber: '',
+    HDMFNumber: '',
+    PHICNumber: '',
+    TIN: '',
   }
 
   public employeeHRModel: EmployeeHRModel = {
@@ -101,7 +108,7 @@ export class EmployeeDetailComponent implements OnInit {
     PictureURL: 'https://filbrokerstorage.blob.core.windows.net/crm-easyfis/3d225df6-aba5-40e7-9cb9-e8e97ee76762',
     CompanyId: 0,
     UserId: 0,
-    User: '',
+    Username: '',
     CreatedByUserId: 0,
     CreatedByUser: '',
     CreatedDateTime: new Date(),
@@ -190,15 +197,15 @@ export class EmployeeDetailComponent implements OnInit {
   // Employee Dropdown
   // =================
   private async GetZipCodeListData() {
-    this.companyDropdownSubscription = await (await this.employeeDetailService.ZipCodeList()).subscribe(
+    this.zipCodeDropdownSubscription = await (await this.employeeDetailService.ZipCodeList()).subscribe(
       response => {
-        this.companyListDropdown = response;
+        this.zipCodeListDropdown = response;
         this.GetGenderListData();
-        if (this.companyDropdownSubscription !== null) this.companyDropdownSubscription.unsubscribe();
+        if (this.zipCodeDropdownSubscription !== null) this.zipCodeDropdownSubscription.unsubscribe();
       },
       error => {
         this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
-        if (this.companyDropdownSubscription !== null) this.companyDropdownSubscription.unsubscribe();
+        if (this.zipCodeDropdownSubscription !== null) this.zipCodeDropdownSubscription.unsubscribe();
       }
     );
   }
@@ -261,15 +268,15 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   private async GetCompanyDropdownListData() {
-    this.zipCodeDropdownSubscription = await (await this.employeeDetailService.CompanyList()).subscribe(
+    this.companyDropdownSubscription = await (await this.employeeDetailService.CompanyList()).subscribe(
       response => {
-        this.zipCodeListDropdown = response;
+        this.companyListDropdown = response;
         this.GetUserDropdownListData();
-        if (this.zipCodeDropdownSubscription !== null) this.zipCodeDropdownSubscription.unsubscribe();
+        if (this.companyDropdownSubscription !== null) this.companyDropdownSubscription.unsubscribe();
       },
       error => {
         this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
-        if (this.zipCodeDropdownSubscription !== null) this.zipCodeDropdownSubscription.unsubscribe();
+        if (this.companyDropdownSubscription !== null) this.companyDropdownSubscription.unsubscribe();
       }
     );
   }
@@ -278,7 +285,6 @@ export class EmployeeDetailComponent implements OnInit {
     this.userDropdownSubscription = await (await this.employeeDetailService.UserList()).subscribe(
       response => {
         this.userListDropdown = response;
-        console.log(this.userListDropdown)
         this.GetEmployeeDetail();
         if (this.userDropdownSubscription !== null) this.userDropdownSubscription.unsubscribe();
       },
@@ -432,7 +438,6 @@ export class EmployeeDetailComponent implements OnInit {
     this.employeeDetailSubscription = await (await this.employeeDetailService.EmployeeDetail(id)).subscribe(
       response => {
         let result = response;
-        console.log(result);
         if (result != null) {
           this.employeeModel.Id = result["Id"];
           this.employeeModel.EmployeeCode = result["EmployeeCode"];
@@ -460,7 +465,7 @@ export class EmployeeDetailComponent implements OnInit {
           this.employeeModel.PictureURL = result["PictureURL"];
           this.employeeModel.CompanyId = result["CompanyId"];
           this.employeeModel.UserId = result["UserId"];
-          this.employeeModel.User = result["User"];
+          this.employeeModel.Username = result["Username"];
           this.employeeModel.CreatedByUserId = result["CreatedByUserId"];
           this.employeeModel.CreatedByUser = result["CreatedByUser"];
           this.employeeModel.CreatedDateTime = new Date(result["CreatedDateTime"]);
@@ -504,7 +509,6 @@ export class EmployeeDetailComponent implements OnInit {
 
   handleData(data: boolean) {
     this.employeeModel.EmployeePayroll.IsMinimumWageEarner = data;
-    console.log(this.employeeModel.EmployeePayroll.IsMinimumWageEarner);
   }
 
   public async SaveEmployeeDetail() {
@@ -582,7 +586,6 @@ export class EmployeeDetailComponent implements OnInit {
     this.uploadPhotoSubscription = await (await this.employeeDetailService.uploadFile(inputFileImage.files[0], this.employeeModel.FullName, this.employeeModel.Id)).subscribe(
       (response: any) => {
         this.snackBarTemplate.snackBarSuccess(this.snackBar, "Uploaded Successfully.");
-        console.log(response);
         this.employeeModel.PictureURL = response;
         if (this.uploadPhotoSubscription !== null) this.uploadPhotoSubscription.unsubscribe();
       },
@@ -621,6 +624,49 @@ export class EmployeeDetailComponent implements OnInit {
     this.btnSaveDisabled = true;
     this.btnLockisabled = true;
     this.btnUnlockDisabled = true;
+  }
+
+  public EditEmployeeNameDialog() {
+    let objEmployeeFullName: any = {
+      LastName: this.employeeModel.LastName,
+      FirstName: this.employeeModel.FirstName,
+      MiddleName: this.employeeModel.MiddleName,
+      ExtensionName: this.employeeModel.ExtensionName
+    };
+    const matDialogRef = this.editNameDialog.open(EmployeeDetailEditNameDialogComponent, {
+      width: '1000px',
+      data: {
+        objDialogTitle: "Edit Employee Name",
+        objEmployeeName: objEmployeeFullName,
+      },
+      disableClose: true
+    });
+
+    matDialogRef.afterClosed().subscribe(data => {
+      if (data.event == "Save") {
+        this.employeeModel.LastName = data.objEmployeeName.LastName;
+        this.employeeModel.FirstName = data.objEmployeeName.FirstName;
+        this.employeeModel.MiddleName = data.objEmployeeName.MiddleName;
+        this.employeeModel.ExtensionName = data.objEmployeeName.ExtensionName;
+      }
+    });
+  }
+
+  public LinkToUserName() {
+    const matDialogRef = this.lickToUserNameDialog.open(EmployeeDetialLinkToUsernameDialogComponent, {
+      width: '500px',
+      data: {
+        objDialogTitle: "Link Username",
+      },
+      disableClose: true
+    });
+
+    matDialogRef.afterClosed().subscribe(data => {
+      if (data.event == "Link") {
+        this.employeeModel.UserId = data.UserId;
+        this.employeeModel.Username = data.Username;
+      }
+    });
   }
 
 }

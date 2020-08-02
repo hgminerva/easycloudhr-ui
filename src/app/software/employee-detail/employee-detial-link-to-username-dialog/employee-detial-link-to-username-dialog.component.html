@@ -1,0 +1,21 @@
+<mat-form-field appearance="outline" style="width: 100%;" readonly>
+    <mat-label>User</mat-label>
+    <mat-select [(ngModel)]="UserId" (selectionChange)="selected($event)">
+        <mat-option *ngFor="let user of userListDropdown" [value]="user.Id" [disabled]="isLocked">
+            {{user.Username}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+
+<mat-divider></mat-divider>
+<div mat-dialog-actions align="right">
+    <button mat-flat-button color="primary" mat-dialog-close align-self="right" style="margin-right: 5px;"
+        (click)="Link()">
+        <mat-icon>link</mat-icon>
+        Link
+    </button>
+    <button mat-flat-button mat-dialog-close style="margin: 5px;" color="warn" (click)="Close()">
+        <mat-icon>close</mat-icon>
+        Cancel
+    </button>
+</div>
