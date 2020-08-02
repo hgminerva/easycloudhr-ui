@@ -266,14 +266,16 @@
                         <div fxFlex="33" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>Height</mat-label>
-                                <input type="number" matInput placeholder="Contact No."
+                                <input type="text" matInput placeholder="Contact No." style="text-align:right;"
+                                    (keypress)="restrictNumeric($event)" (change)="formatValueHeight()"
                                     [(ngModel)]="employeeModel.Height" [readonly]="isLocked">
                             </mat-form-field>
                         </div>
                         <div fxFlex="33" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>Weight</mat-label>
-                                <input type="number" matInput placeholder="Civil Status"
+                                <input type="text" matInput placeholder="Civil Status" style="text-align:right;"
+                                    (keypress)="restrictNumeric($event)" (change)="formatValueWeight()"
                                     [(ngModel)]="employeeModel.Weight" [readonly]="isLocked">
                             </mat-form-field>
                         </div>
@@ -320,8 +322,9 @@
                         <div fxFlex="50" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>Hourly Rate</mat-label>
-                                <input type="number" matInput placeholder="0.00"
-                                    [(ngModel)]="employeeModel.EmployeePayroll.HourlyRate" [readonly]="isLocked">
+                                <input type="text" matInput placeholder="0.00" style="text-align:right;"
+                                    [(ngModel)]="employeeModel.EmployeePayroll.HourlyRate" [readonly]="isLocked"
+                                    (keypress)="restrictNumeric($event)" (change)="formatValueHourlyRate()">
                             </mat-form-field>
                         </div>
                     </div>
@@ -329,15 +332,17 @@
                         <div fxFlex="50" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>Monthly Rate</mat-label>
-                                <input type="number" matInput placeholder="0.00"
-                                    [(ngModel)]="employeeModel.EmployeePayroll.MonthlyRate" [readonly]="isLocked">
+                                <input type="text" matInput placeholder="0.00" style="text-align:right;"
+                                    [(ngModel)]="employeeModel.EmployeePayroll.MonthlyRate" [readonly]="isLocked"
+                                    (keypress)="restrictNumeric($event)" (change)="formatValueMonthlyRate()">
                             </mat-form-field>
                         </div>
                         <div fxFlex="50" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>Late Hourly Rate</mat-label>
-                                <input matInput placeholder="0.00"
-                                    [(ngModel)]="employeeModel.EmployeePayroll.LateHourlyRate" [readonly]="isLocked">
+                                <input matInput placeholder="0.00" style="text-align:right;"
+                                    [(ngModel)]="employeeModel.EmployeePayroll.LateHourlyRate" [readonly]="isLocked"
+                                    (keypress)="restrictNumeric($event)" (change)="formatValueLateHourlyRate()">
                             </mat-form-field>
                         </div>
                     </div>
@@ -347,16 +352,18 @@
                         <div fxFlex="50" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>Payroll Rate</mat-label>
-                                <input type="number" matInput placeholder="0.00" [readonly]="isLocked"
-                                    [(ngModel)]="employeeModel.EmployeePayroll.PayrollRate">
+                                <input type="text" matInput placeholder="0.00" [readonly]="isLocked"
+                                    style="text-align:right;" [(ngModel)]="employeeModel.EmployeePayroll.PayrollRate"
+                                    (keypress)="restrictNumeric($event)" (change)="formatValuePayrollRate()">
                             </mat-form-field>
                         </div>
                         <div fxFlex="50" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>Under timeHourly Rate</mat-label>
-                                <input type="number" matInput placeholder="0.00"
+                                <input type="text" matInput placeholder="0.00"
                                     [(ngModel)]="employeeModel.EmployeePayroll.UndertimeHourlyRate"
-                                    [readonly]="isLocked">
+                                    (keypress)="restrictNumeric($event)" style="text-align:right;" [readonly]="isLocked"
+                                    (change)="formatValueLateUndertimeHourlyRate()">
                             </mat-form-field>
                         </div>
                     </div>
@@ -364,16 +371,19 @@
                         <div fxFlex="50" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>Daily Rate</mat-label>
-                                <input type="number" matInput placeholder="0.00"
-                                    [(ngModel)]="employeeModel.EmployeePayroll.DailyRate" [readonly]="isLocked">
+                                <input type="text" matInput placeholder="0.00" style="text-align:right;"
+                                    (keypress)="restrictNumeric($event)"
+                                    [(ngModel)]="employeeModel.EmployeePayroll.DailyRate" [readonly]="isLocked"
+                                    (change)="formatValueDailyRate()">
                             </mat-form-field>
                         </div>
                         <div fxFlex="50" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>Overtime Hourly Rate</mat-label>
-                                <input type="number" matInput placeholder="0.00"
-                                    [(ngModel)]="employeeModel.EmployeePayroll.OvertimeHourlyRate"
-                                    [readonly]="isLocked">
+                                <input type="text" matInput placeholder="0.00" ui-number-mask="2"
+                                    style="text-align:right;"
+                                    [(ngModel)]="employeeModel.EmployeePayroll.OvertimeHourlyRate" [readonly]="isLocked"
+                                    (keypress)="restrictNumeric($event)" (change)="formatValueOvertimeHourlyRate()">
                             </mat-form-field>
                         </div>
                     </div>
@@ -381,17 +391,19 @@
                         <div fxFlex="50" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>Absent Daily Rate</mat-label>
-                                <input type="number" matInput placeholder="0.00"
-                                    [(ngModel)]="employeeModel.EmployeePayroll.AbsentDailyRate" [readonly]="isLocked">
+                                <input type="text" matInput placeholder="0.00" style="text-align:right;"
+                                    [(ngModel)]="employeeModel.EmployeePayroll.AbsentDailyRate" [readonly]="isLocked"
+                                    (keypress)="restrictNumeric($event)" (change)="formatValueAbsentDailyRate()">
                             </mat-form-field>
 
                         </div>
                         <div fxFlex="50" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>Night Differential Rate</mat-label>
-                                <input type="number" matInput placeholder="0.00"
+                                <input type="text" matInput placeholder="0.00" style="text-align:right;"
                                     [(ngModel)]="employeeModel.EmployeePayroll.NightDifferentialRate"
-                                    [readonly]="isLocked">
+                                    (keypress)="restrictNumeric($event)" [readonly]="isLocked"
+                                    (change)="formatValueLateNightDifferentialRate()">
                             </mat-form-field>
                         </div>
                     </div>
@@ -409,8 +421,9 @@
                         <div fxFlex="50" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>Cost Of Living Allowance</mat-label>
-                                <input matInput placeholder="0.00"
-                                    [(ngModel)]="employeeModel.EmployeePayroll.HDMFComputationType"
+                                <input matInput placeholder="0.00" style="text-align:right;"
+                                    [(ngModel)]="employeeModel.EmployeePayroll.CostOfLivingAllowance"
+                                    (keypress)="restrictNumeric($event)" (change)="formatValueCostOfLivingAllowance()"
                                     [readonly]="isLocked">
                             </mat-form-field>
                         </div>
@@ -478,15 +491,19 @@
                         <div fxFlex="33" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>SSS Add On Amount</mat-label>
-                                <input matInput placeholder="0.00"
-                                    [(ngModel)]="employeeModel.EmployeePayroll.SSSAddOnAmount" [readonly]="isLocked">
+                                <input matInput placeholder="0.00" style="text-align:right;"
+                                    (keypress)="restrictNumeric($event)"
+                                    [(ngModel)]="employeeModel.EmployeePayroll.SSSAddOnAmount" [readonly]="isLocked"
+                                    (change)="formatValueSSSAddOnAmount()">
                             </mat-form-field>
                         </div>
                         <div fxFlex="33" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>HDMF Add On Amount</mat-label>
-                                <input type="number" matInput placeholder="0.00"
-                                    [(ngModel)]="employeeModel.EmployeePayroll.HDMFAddOnAmount" [readonly]="isLocked">
+                                <input type="number" matInput placeholder="0.00" style="text-align:right;"
+                                    (keypress)="restrictNumeric($event)"
+                                    [(ngModel)]="employeeModel.EmployeePayroll.HDMFAddOnAmount" [readonly]="isLocked"
+                                    (change)="formatValueHDMFAddOnAmount()">
                             </mat-form-field>
                         </div>
                         <div fxFlex="34" style="padding: 5px;">
@@ -505,9 +522,10 @@
                         <div fxFlex="33" style="padding: 5px;">
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>Additional Allowance</mat-label>
-                                <input matInput placeholder="0.00"
+                                <input matInput placeholder="0.00" style="text-align:right;"
                                     [(ngModel)]="employeeModel.EmployeePayroll.AdditionalAllowance"
-                                    [readonly]="isLocked">
+                                    (keypress)="restrictNumeric($event)" [readonly]="isLocked"
+                                    (change)="formatValueAdditionalAllowance()">
                             </mat-form-field>
 
                         </div>

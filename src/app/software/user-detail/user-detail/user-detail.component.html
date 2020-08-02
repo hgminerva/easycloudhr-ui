@@ -67,9 +67,7 @@
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Password</mat-label>
                             <input type="password" matInput placeholder="Password" [(ngModel)]="userModel.Password"
-                                readonly formControlName="password" [type]="hide ? 'password' : 'text'" readonly>
-                            <mat-icon matSuffix (click)="passwordIconClick()">{{hide ? 'visibility_off' : 'visibility'}}
-                            </mat-icon>
+                                readonly formControlName="password">
                         </mat-form-field>
                     </form>
                 </div>

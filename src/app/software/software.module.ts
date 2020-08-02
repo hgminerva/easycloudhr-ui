@@ -1,6 +1,6 @@
 // Angular Modules
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Routing Module
@@ -106,7 +106,8 @@ import { EmployeeDetialLinkToUsernameDialogComponent } from './employee-detail/e
     SoftwareRoutingActivate,
     UserRegistrationDialogComponent,
     DeleteDialogBoxComponent,
-    SnackBarTemplate
+    SnackBarTemplate,
+    DecimalPipe
   ]
 })
 export class SoftwareModule { }

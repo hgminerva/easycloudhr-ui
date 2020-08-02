@@ -206,12 +206,6 @@ export class UserDetailComponent implements OnInit {
   public hide: boolean = true;
   get passwordInput() { return this.passwordField.get('password'); }
 
-  public async passwordIconClick() {
-    if (!this.isLocked) {
-      this.hide = await !this.hide;
-    }
-  }
-
   private loadComponent(isDisable) {
     if (isDisable == true) {
       this.btnSaveDisabled = isDisable;

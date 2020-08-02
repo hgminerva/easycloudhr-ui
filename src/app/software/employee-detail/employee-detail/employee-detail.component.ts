@@ -9,6 +9,7 @@ import { EmployeeModel, EmployeePayrollModel, EmployeeHRModel } from './../emplo
 import { SoftwareSecurityService } from '../../software-security/software-security.service';
 import { EmployeeDetailEditNameDialogComponent } from '../employee-detail-edit-name-dialog/employee-detail-edit-name-dialog.component';
 import { EmployeeDetialLinkToUsernameDialogComponent } from '../employee-detial-link-to-username-dialog/employee-detial-link-to-username-dialog.component';
+import { DecimalPipe } from '@angular/common';
 @Component({
   selector: 'app-employee-detail',
   templateUrl: './employee-detail.component.html',
@@ -17,7 +18,7 @@ import { EmployeeDetialLinkToUsernameDialogComponent } from '../employee-detial-
 export class EmployeeDetailComponent implements OnInit {
 
   private userRightEmployeeDetail: any = null;
-
+  decimal_value: number = 1000000;
   constructor(
     private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBar,
@@ -25,9 +26,13 @@ export class EmployeeDetailComponent implements OnInit {
     private employeeDetailService: EmployeeDetailService,
     private softwareSecurityService: SoftwareSecurityService,
     private editNameDialog: MatDialog,
-    private lickToUserNameDialog: MatDialog
-
-  ) { }
+    private lickToUserNameDialog: MatDialog,
+    private _decimalPipe: DecimalPipe
+  ) {
+    var decimal_formatted =
+      this._decimalPipe.transform(this.decimal_value, "1.2-2")
+    console.log(decimal_formatted);
+  }
 
   async ngOnInit() {
     await this.GetZipCodeListData();
@@ -43,24 +48,24 @@ export class EmployeeDetailComponent implements OnInit {
     EmployeeId: 0,
     PayrollGroup: '',
     PayrollType: '',
-    PayrollRate: 0,
-    MonthlyRate: 0,
-    DailyRate: 0,
-    HourlyRate: 0,
-    AbsentDailyRate: 0,
-    LateHourlyRate: 0,
-    UndertimeHourlyRate: 0,
-    OvertimeHourlyRate: 0,
-    NightDifferentialRate: 0,
-    SSSAddOnAmount: 0,
+    PayrollRate: '',
+    MonthlyRate: '',
+    DailyRate: '',
+    HourlyRate: '',
+    AbsentDailyRate: '',
+    LateHourlyRate: '',
+    UndertimeHourlyRate: '',
+    OvertimeHourlyRate: '',
+    NightDifferentialRate: '',
+    SSSAddOnAmount: '',
     SSSComputationType: '',
-    HDMFAddOnAmount: 0,
+    HDMFAddOnAmount: '',
     HDMFComputationType: '',
     TaxTable: '',
     TaxExemptionId: 0,
     IsMinimumWageEarner: true,
-    CostOfLivingAllowance: 0,
-    AdditionalAllowance: 0,
+    CostOfLivingAllowance: '',
+    AdditionalAllowance: '',
     ATMAccountNumber: '',
     SSSNumber: '',
     HDMFNumber: '',
@@ -493,8 +498,8 @@ export class EmployeeDetailComponent implements OnInit {
           this.employeeModel.Sex = result["Sex"];
           this.employeeModel.CivilStatus = result["CivilStatus"];
           this.employeeModel.Citizenship = result["Citizenship"];
-          this.employeeModel.Height = result["Height"];
-          this.employeeModel.Weight = result["Weight"];
+          this.employeeModel.Height = this._decimalPipe.transform(result["Height"], "1.2-2");
+          this.employeeModel.Weight = this._decimalPipe.transform(result["Weight"], "1.2-2");;
           this.employeeModel.BloodType = result["BloodType"];
           this.employeeModel.Remarks = result["Remarks"];
           this.employeeModel.PictureURL = result["PictureURL"];
@@ -510,6 +515,19 @@ export class EmployeeDetailComponent implements OnInit {
           this.employeeModel.IsLocked = result["IsLocked"];
           if (result["EmployeePayroll"] !== null) {
             this.employeeModel.EmployeePayroll = result["EmployeePayroll"];
+            this.employeeModel.EmployeePayroll.PayrollRate = this._decimalPipe.transform(result["EmployeePayroll"].PayrollRate, "1.2-2");
+            this.employeeModel.EmployeePayroll.MonthlyRate = this._decimalPipe.transform(result["EmployeePayroll"].MonthlyRate, "1.2-2");
+            this.employeeModel.EmployeePayroll.DailyRate = this._decimalPipe.transform(result["EmployeePayroll"].DailyRate, "1.2-2");
+            this.employeeModel.EmployeePayroll.HourlyRate = this._decimalPipe.transform(result["EmployeePayroll"].HourlyRate, "1.2-2");
+            this.employeeModel.EmployeePayroll.AbsentDailyRate = this._decimalPipe.transform(result["EmployeePayroll"].AbsentDailyRate, "1.2-2");
+            this.employeeModel.EmployeePayroll.LateHourlyRate = this._decimalPipe.transform(result["EmployeePayroll"].LateHourlyRate, "1.2-2");
+            this.employeeModel.EmployeePayroll.UndertimeHourlyRate = this._decimalPipe.transform(result["EmployeePayroll"].UndertimeHourlyRate, "1.2-2");
+            this.employeeModel.EmployeePayroll.OvertimeHourlyRate = this._decimalPipe.transform(result["EmployeePayroll"].OvertimeHourlyRate, "1.2-2");
+            this.employeeModel.EmployeePayroll.SSSAddOnAmount = this._decimalPipe.transform(result["EmployeePayroll"].SSSAddOnAmount, "1.2-2");
+            this.employeeModel.EmployeePayroll.HDMFAddOnAmount = this._decimalPipe.transform(result["EmployeePayroll"].HDMFAddOnAmount, "1.2-2");
+            this.employeeModel.EmployeePayroll.CostOfLivingAllowance = this._decimalPipe.transform(result["EmployeePayroll"].CostOfLivingAllowance, "1.2-2");
+            this.employeeModel.EmployeePayroll.AdditionalAllowance = this._decimalPipe.transform(result["EmployeePayroll"].AdditionalAllowance, "1.2-2");
+            this.employeeModel.EmployeePayroll.NightDifferentialRate = this._decimalPipe.transform(result["EmployeePayroll"].NightDifferentialRate, "1.2-2");
           } else {
             this.employeeModel.EmployeePayroll = this.employeePayrollModel;
             this.snackBarTemplate.snackBarError(this.snackBar, "Employee Payroll Null");
@@ -704,4 +722,148 @@ export class EmployeeDetailComponent implements OnInit {
     });
   }
 
+  restrictNumeric(e) {
+    let input;
+    if (e.key == '') {
+      return 0.00;
+    }
+    if (e.metaKey || e.ctrlKey) {
+      return true;
+    }
+    if (e.which === 32) {
+      return false;
+    }
+    if (e.which === 0) {
+      return true;
+    }
+    if (e.which < 33) {
+      return true;
+    }
+    if (e.which < 33) {
+      return true;
+    }
+    input = String.fromCharCode(e.which);
+    return !!/^[0-9.,]+$/.test(input);
+  }
+
+  formatValuePayrollRate() {
+    if (this.employeeModel.EmployeePayroll.PayrollRate == '') {
+      this.employeeModel.EmployeePayroll.PayrollRate = this._decimalPipe.transform(0, "1.2-2");
+    } else {
+      this.employeeModel.EmployeePayroll.PayrollRate = this._decimalPipe.transform(this.employeeModel.EmployeePayroll.PayrollRate, "1.2-2");
+    }
+  }
+
+  formatValueMonthlyRate() {
+    if (this.employeeModel.EmployeePayroll.MonthlyRate == '') {
+      this.employeeModel.EmployeePayroll.MonthlyRate = this._decimalPipe.transform(0, "1.2-2");
+    } else {
+      this.employeeModel.EmployeePayroll.MonthlyRate = this._decimalPipe.transform(this.employeeModel.EmployeePayroll.MonthlyRate, "1.2-2");
+    }
+  }
+
+  formatValueHourlyRate() {
+    if (this.employeeModel.EmployeePayroll.HourlyRate == '') {
+      this.employeeModel.EmployeePayroll.HourlyRate = this._decimalPipe.transform(0, "1.2-2");
+    } else {
+      this.employeeModel.EmployeePayroll.HourlyRate = this._decimalPipe.transform(this.employeeModel.EmployeePayroll.HourlyRate, "1.2-2");
+    }
+  }
+
+  formatValueAbsentDailyRate() {
+    if (this.employeeModel.EmployeePayroll.AbsentDailyRate == '') {
+      this.employeeModel.EmployeePayroll.AbsentDailyRate = this._decimalPipe.transform(0, "1.2-2");
+    } else {
+      this.employeeModel.EmployeePayroll.AbsentDailyRate = this._decimalPipe.transform(this.employeeModel.EmployeePayroll.AbsentDailyRate, "1.2-2");
+    }
+  }
+
+  formatValueLateHourlyRate() {
+    if (this.employeeModel.EmployeePayroll.LateHourlyRate == '') {
+      this.employeeModel.EmployeePayroll.LateHourlyRate = this._decimalPipe.transform(0, "1.2-2");
+    } else {
+      this.employeeModel.EmployeePayroll.LateHourlyRate = this._decimalPipe.transform(this.employeeModel.EmployeePayroll.LateHourlyRate, "1.2-2");
+    }
+  }
+
+  formatValueDailyRate() {
+    if (this.employeeModel.EmployeePayroll.DailyRate == '') {
+      this.employeeModel.EmployeePayroll.DailyRate = this._decimalPipe.transform(0, "1.2-2");
+    } else {
+      this.employeeModel.EmployeePayroll.DailyRate = this._decimalPipe.transform(this.employeeModel.EmployeePayroll.DailyRate, "1.2-2");
+    }
+  }
+
+
+  formatValueLateUndertimeHourlyRate() {
+    if (this.employeeModel.EmployeePayroll.UndertimeHourlyRate == '') {
+      this.employeeModel.EmployeePayroll.UndertimeHourlyRate = this._decimalPipe.transform(0, "1.2-2");
+    } else {
+      this.employeeModel.EmployeePayroll.UndertimeHourlyRate = this._decimalPipe.transform(this.employeeModel.EmployeePayroll.UndertimeHourlyRate, "1.2-2");
+    }
+  }
+
+  formatValueLateNightDifferentialRate() {
+    if (this.employeeModel.EmployeePayroll.NightDifferentialRate == '') {
+      this.employeeModel.EmployeePayroll.NightDifferentialRate = this._decimalPipe.transform(0, "1.2-2");
+    } else {
+      this.employeeModel.EmployeePayroll.NightDifferentialRate = this._decimalPipe.transform(this.employeeModel.EmployeePayroll.NightDifferentialRate, "1.2-2");
+    }
+  }
+
+  formatValueOvertimeHourlyRate() {
+    if (this.employeeModel.EmployeePayroll.OvertimeHourlyRate == '') {
+      this.employeeModel.EmployeePayroll.OvertimeHourlyRate = this._decimalPipe.transform(0, "1.2-2");
+    } else {
+      this.employeeModel.EmployeePayroll.OvertimeHourlyRate = this._decimalPipe.transform(this.employeeModel.EmployeePayroll.OvertimeHourlyRate, "1.2-2");
+    }
+  }
+
+  formatValueSSSAddOnAmount() {
+    if (this.employeeModel.EmployeePayroll.SSSAddOnAmount == '') {
+      this.employeeModel.EmployeePayroll.SSSAddOnAmount = this._decimalPipe.transform(0, "1.2-2");
+    } else {
+      this.employeeModel.EmployeePayroll.SSSAddOnAmount = this._decimalPipe.transform(this.employeeModel.EmployeePayroll.OvertimeHourlyRate, "1.2-2");
+    }
+  }
+
+  formatValueHDMFAddOnAmount() {
+    if (this.employeeModel.EmployeePayroll.HDMFAddOnAmount == '') {
+      this.employeeModel.EmployeePayroll.HDMFAddOnAmount = this._decimalPipe.transform(0, "1.2-2");
+    } else {
+      this.employeeModel.EmployeePayroll.HDMFAddOnAmount = this._decimalPipe.transform(this.employeeModel.EmployeePayroll.HDMFAddOnAmount, "1.2-2");
+    }
+  }
+
+  formatValueCostOfLivingAllowance() {
+    if (this.employeeModel.EmployeePayroll.CostOfLivingAllowance == '') {
+      this.employeeModel.EmployeePayroll.CostOfLivingAllowance = this._decimalPipe.transform(0, "1.2-2");
+    } else {
+      this.employeeModel.EmployeePayroll.CostOfLivingAllowance = this._decimalPipe.transform(this.employeeModel.EmployeePayroll.CostOfLivingAllowance, "1.2-2");
+    }
+  }
+
+  formatValueAdditionalAllowance() {
+    if (this.employeeModel.EmployeePayroll.AdditionalAllowance == '') {
+      this.employeeModel.EmployeePayroll.AdditionalAllowance = this._decimalPipe.transform(0, "1.2-2");
+    } else {
+      this.employeeModel.EmployeePayroll.AdditionalAllowance = this._decimalPipe.transform(this.employeeModel.EmployeePayroll.AdditionalAllowance, "1.2-2");
+    }
+  }
+
+  formatValueHeight() {
+    if (this.employeeModel.Height == '') {
+      this.employeeModel.Height = this._decimalPipe.transform(0, "1.2-2");
+    } else {
+      this.employeeModel.Height = this._decimalPipe.transform(this.employeeModel.Height, "1.2-2");
+    }
+  }
+
+  formatValueWeight() {
+    if (this.employeeModel.Weight == '') {
+      this.employeeModel.Weight = this._decimalPipe.transform(0, "1.2-2");
+    } else {
+      this.employeeModel.Weight = this._decimalPipe.transform(this.employeeModel.Weight, "1.2-2");
+    }
+  }
 }
