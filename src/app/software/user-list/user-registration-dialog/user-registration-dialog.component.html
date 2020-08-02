@@ -79,9 +79,11 @@
 <div mat-dialog-actions>
     <button mat-flat-button color="primary" style="margin-right: 5px;" (click)="RegisterUser()"
         [disabled]="!buttonDisable">
+        <mat-icon>save</mat-icon>
         Save
     </button>
     <button mat-flat-button color="warn" [disabled]="buttonCloseDisable" (click)="CloseDialog()">
+        <mat-icon>close</mat-icon>
         Close
     </button>
 </div>
