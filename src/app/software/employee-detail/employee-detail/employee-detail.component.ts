@@ -18,7 +18,6 @@ import { DecimalPipe } from '@angular/common';
 export class EmployeeDetailComponent implements OnInit {
 
   private userRightEmployeeDetail: any = null;
-  decimal_value: number = 1000000;
   constructor(
     private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBar,
@@ -29,9 +28,6 @@ export class EmployeeDetailComponent implements OnInit {
     private lickToUserNameDialog: MatDialog,
     private _decimalPipe: DecimalPipe
   ) {
-    var decimal_formatted =
-      this._decimalPipe.transform(this.decimal_value, "1.2-2")
-    console.log(decimal_formatted);
   }
 
   async ngOnInit() {
