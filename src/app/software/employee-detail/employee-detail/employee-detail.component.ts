@@ -468,10 +468,10 @@ export class EmployeeDetailComponent implements OnInit {
           this.employeeModel.Username = result["Username"];
           this.employeeModel.CreatedByUserId = result["CreatedByUserId"];
           this.employeeModel.CreatedByUser = result["CreatedByUser"];
-          this.employeeModel.CreatedDateTime = new Date(result["CreatedDateTime"]);
+          this.employeeModel.CreatedDateTime = result["CreatedDateTime"];
           this.employeeModel.UpdatedByUserId = result["UpdatedByUserId"];
           this.employeeModel.UpdatedByUser = result["UpdatedByUser"];
-          this.employeeModel.UpdatedDateTime = new Date(result["UpdatedDateTime"]);
+          this.employeeModel.UpdatedDateTime = result["UpdatedDateTime"];
           this.employeeModel.IsLocked = result["IsLocked"];
           if (result["EmployeePayroll"] !== null) {
             this.employeeModel.EmployeePayroll = result["EmployeePayroll"];
