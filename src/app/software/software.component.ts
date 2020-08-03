@@ -27,6 +27,7 @@ export class SoftwareComponent implements OnInit {
   public moduleUserList: boolean = false;
   public moduleEmployeeList: boolean = false;
   public moduleCompanyList: boolean = false;
+  public moduleSystemTables: boolean = false;
   public moduleOthers: boolean = false;
 
 
@@ -61,6 +62,10 @@ export class SoftwareComponent implements OnInit {
 
     if (this.softwareSecurityService.openModule("Company List") == true) {
       this.moduleCompanyList = true;
+    }
+
+    if (this.softwareSecurityService.openModule("System Tables") == true) {
+      this.moduleSystemTables = true;
     }
     
     if (this.softwareSecurityService.openModule("Others") == true) {

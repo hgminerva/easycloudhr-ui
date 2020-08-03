@@ -20,7 +20,7 @@
 
             <mat-accordion>
                 <mat-expansion-panel hideToggle class="mat-elevation-z0" style="border-bottom: 1px solid #e0e0e0;">
-                    <mat-expansion-panel-header routerLink="/software" #dashboardPanelHeader
+                    <mat-expansion-panel-header routerLink="/software" #dashboardPanelHeader *ngIf="moduleDashBoard"
                         (click)="dashboardPanelHeader._toggle()">
                         <mat-panel-title>
                             <mat-icon>dashboard</mat-icon>
@@ -313,7 +313,7 @@
                     </mat-expansion-panel-header>
 
                     <mat-nav-list style="margin-left: -25px; margin-right: -25px;">
-                        <a mat-list-item routerLink="/software/system-tables-list">
+                        <a mat-list-item routerLink="/software/system-tables-list" *ngIf="moduleSystemTables">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/system tables.png" height="30" />
@@ -321,7 +321,7 @@
                             &nbsp;
                             System Tables
                         </a>
-                        <a mat-list-item routerLink=".">
+                        <a mat-list-item routerLink="." *ngIf="moduleOthers">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/settings.png" height="30" />
