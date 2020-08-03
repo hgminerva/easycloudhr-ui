@@ -8,6 +8,8 @@ import { SnackBarTemplate } from '../../shared/snack-bar-template';
 
 import { SystemTablesListService } from './../system-tables-list.service';
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
+import { SystemTablesCodeTablesDetailComponent } from '../../system-tables-detail/system-tables-code-tables-detail/system-tables-code-tables-detail.component';
+import { SystemTablesTaxExemptionDetailComponent } from '../../system-tables-detail/system-tables-tax-exemption-detail/system-tables-tax-exemption-detail.component';
 
 @Component({
   selector: 'app-system-tales-list',
@@ -21,12 +23,181 @@ export class SystemTalesListComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar,
     private snackBarTemplate: SnackBarTemplate,
-    public DeleteConfirmDialog: MatDialog,
+    public matDialog: MatDialog,
+
   ) { }
 
-  async ngOnInit() {
-    // await this.GetTaxExemptionListData();
+  ngOnInit() {
+    this.GetCodeTablesListData();
+    this.GetTaxExemptionListData();
   }
+
+
+  // =============
+  // Code Tables
+  // =============
+  public listCodeTablesObservableArray: ObservableArray = new ObservableArray();
+  public listCodeTablesCollectionView: CollectionView = new CollectionView(this.listCodeTablesObservableArray);
+  public listTablesCodePageIndex: number = 15;
+  @ViewChild('flexCodeTables') flexCodeTables: wjcGrid.FlexGrid;
+  public isTablesCodeProgressBarHidden = false;
+  public isTablesCodeDataLoaded: boolean = false;
+
+  private codeTableCodeTablesListSubscription: any;
+  private addCodeTablesSubscription: any;
+  private aeleteCodeTablesSubscription: any;
+
+  private async GetCodeTablesListData() {
+    this.listCodeTablesObservableArray = new ObservableArray();
+    this.listCodeTablesCollectionView = new CollectionView(this.listCodeTablesObservableArray);
+    this.listCodeTablesCollectionView.pageSize = 15;
+    this.listCodeTablesCollectionView.trackChanges = true;
+    await this.listCodeTablesCollectionView.refresh();
+    await this.flexCodeTables.refresh();
+
+    this.isTablesCodeProgressBarHidden = true;
+
+    this.codeTableCodeTablesListSubscription = (await this.systemTablesListService.CodeTableList()).subscribe(
+      (response: any) => {
+        var results = response;
+        console.log("Response:", results);
+
+        if (results["length"] > 0) {
+          this.listCodeTablesCollectionView = results;
+          this.listCodeTablesCollectionView = new CollectionView(this.listCodeTablesCollectionView);
+          this.listCodeTablesCollectionView.pageSize = 15;
+          this.listCodeTablesCollectionView.trackChanges = true;
+          this.listCodeTablesCollectionView.refresh();
+          this.flexCodeTables.refresh();
+        }
+
+        this.isTablesCodeDataLoaded = true;
+        this.isTablesCodeProgressBarHidden = false;
+        if (this.codeTableCodeTablesListSubscription != null) this.codeTableCodeTablesListSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this.codeTableCodeTablesListSubscription !== null) this.codeTableCodeTablesListSubscription.unsubscribe();
+      }
+    );
+  }
+
+  public AddCodeTable() {
+    let objCodeTable: any = { Id: 0, Code: 'NA', Value: 'NA', Category: 'NA' };
+    this.DetailCodeTable(objCodeTable, "Add Table Code");
+  }
+
+  public EditCodeTable() {
+    let currentCodeTables = this.listCodeTablesCollectionView.currentItem;
+    this.DetailCodeTable(currentCodeTables, "Edit Table Code");
+  }
+
+  public async AddCodeTables(objTableCode: any) {
+    this.buttonDisabled = true;
+    if (this.isTablesCodeDataLoaded == true) {
+      this.isTablesCodeDataLoaded = false;
+      this.addCodeTablesSubscription = (await this.systemTablesListService.AddCodeTable(objTableCode)).subscribe(
+        response => {
+          this.buttonDisabled = false;
+          this.isTablesCodeDataLoaded = true;
+          this.GetCodeTablesListData();
+          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Added Successfully");
+          if (this.addCodeTablesSubscription != null) this.addCodeTablesSubscription.unsubscribe();
+        },
+        error => {
+          this.buttonDisabled = false;
+          this.isTablesCodeDataLoaded = true;
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this.addCodeTablesSubscription != null) this.addCodeTablesSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
+  public async SaveCodeTable(objTableCode: any) {
+    this.buttonDisabled = true;
+    if (this.isTablesCodeDataLoaded == true) {
+      this.isTablesCodeDataLoaded = false;
+      this.addCodeTablesSubscription = (await this.systemTablesListService.SaveCodeTable(objTableCode)).subscribe(
+        response => {
+          this.buttonDisabled = false;
+          this.isTablesCodeDataLoaded = true;
+          this.GetCodeTablesListData();
+          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Added Successfully");
+        },
+        error => {
+          this.buttonDisabled = false;
+          this.isTablesCodeDataLoaded = true;
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this.addCodeTablesSubscription != null) this.addCodeTablesSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
+  public async DeleteCodeTables() {
+    if (this.isTablesCodeDataLoaded == true) {
+      this.isTablesCodeDataLoaded = false;
+      let currentCodeTables = this.listCodeTablesCollectionView.currentItem;
+      this.isTablesCodeProgressBarHidden = true;
+
+      this.aeleteCodeTablesSubscription = (await this.systemTablesListService.DeleteCodeTable(currentCodeTables.Id)).subscribe(
+        response => {
+          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Delete Successfully");
+          this.GetCodeTablesListData();
+          this.isTablesCodeProgressBarHidden = false;
+          this.isTablesCodeDataLoaded = true;
+        },
+        error => {
+          this.isTablesCodeDataLoaded = true;
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + error.status);
+          if (this.aeleteCodeTablesSubscription != null) this.aeleteCodeTablesSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
+  public ComfirmDeleteCodeTable(): void {
+    let currentCodeTable = this.listCodeTablesCollectionView.currentItem;
+    const matDialogRef = this.matDialog.open(DeleteDialogBoxComponent, {
+      width: '500px',
+      data: {
+        objDialogTitle: "Delete Tables Code",
+        objComfirmationMessage: `Delete ${currentCodeTable.Code}?`,
+      },
+      disableClose: true
+    });
+
+    matDialogRef.afterClosed().subscribe(result => {
+      if (result.message == "Yes") {
+        this.DeleteCodeTables();
+      }
+    });
+  }
+
+  activeTab() { }
+
+  public DetailCodeTable(data: any[], eventTitle: string): void {
+    const matDialogRef = this.matDialog.open(SystemTablesCodeTablesDetailComponent, {
+      width: '800px',
+      data: {
+        objDialogTitle: eventTitle,
+        objData: data,
+      },
+      disableClose: true
+    });
+
+    matDialogRef.afterClosed().subscribe(data => {
+      if (data.event === "Add") {
+        this.AddCodeTables(data.objData);
+      }
+      if (data.event === "Edit") {
+        console.log(data);
+        this.SaveCodeTable(data.objData);
+      }
+    });
+  }
+
 
   // =============
   // Tax Exemption
@@ -36,7 +207,7 @@ export class SystemTalesListComponent implements OnInit {
   public listTaxExemptionPageIndex: number = 15;
   @ViewChild('flexTaxExemption') flexTaxExemption: wjcGrid.FlexGrid;
   public isTaxExemptionProgressBarHidden = false;
-  public isDataLoaded: boolean = false;
+  public isTaxExemptionDataLoaded: boolean = false;
 
   private taxExemptionListSubscription: any;
   private addTaxExemptionSubscription: any;
@@ -57,7 +228,7 @@ export class SystemTalesListComponent implements OnInit {
 
     this.isTaxExemptionProgressBarHidden = true;
 
-    this.taxExemptionListSubscription = await (await this.systemTablesListService.TaxExemptionList()).subscribe(
+    this.taxExemptionListSubscription = (await this.systemTablesListService.TaxExemptionList()).subscribe(
       (response: any) => {
         var results = response;
         console.log("Response:", results);
@@ -71,7 +242,7 @@ export class SystemTalesListComponent implements OnInit {
           this.flexTaxExemption.refresh();
         }
 
-        this.isDataLoaded = true;
+        this.isTaxExemptionDataLoaded = true;
         this.isTaxExemptionProgressBarHidden = false;
 
         if (this.taxExemptionListSubscription != null) this.taxExemptionListSubscription.unsubscribe();
@@ -83,46 +254,75 @@ export class SystemTalesListComponent implements OnInit {
     );
   }
 
-  public async AddTaxExemption() {
-    // this.buttonDisabled = true;
-    // if (this.isDataLoaded == true) {
-    //   this.isDataLoaded = false;
-    //   this.addTaxExemptionSubscription = await (await this.systemTablesListService.AddTaxExemption()).subscribe(
-    //     response => {
-    //       this.buttonDisabled = false;
-    //       this.isDataLoaded = true;
-    //       this.GetTaxExemptionListData();
-    //       this.snackBarTemplate.snackBarSuccess(this.snackBar, "Added Successfully");
-    //     },
-    //     error => {
-    //       this.buttonDisabled = false;
-    //       this.isDataLoaded = true;
-    //       this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
-    //       if (this.addTaxExemptionSubscription != null) this.addTaxExemptionSubscription.unsubscribe();
-    //     }
-    //   );
-    // }
+  public async AddTaxExemption(objTaxExemption: any) {
+    this.buttonDisabled = true;
+    if (this.isTaxExemptionDataLoaded == true) {
+      this.isTaxExemptionDataLoaded = false;
+      this.addCodeTablesSubscription = (await this.systemTablesListService.AddTaxExemption(objTaxExemption)).subscribe(
+        response => {
+          this.buttonDisabled = false;
+          this.isTaxExemptionDataLoaded = true;
+          this.GetTaxExemptionListData();
+          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Added Successfully");
+          if (this.addCodeTablesSubscription != null) this.addCodeTablesSubscription.unsubscribe();
+        },
+        error => {
+          this.buttonDisabled = false;
+          this.isTaxExemptionDataLoaded = true;
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this.addCodeTablesSubscription != null) this.addCodeTablesSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
+  public async SaveTaxExemption(objTaxExemption: any) {
+    this.buttonDisabled = true;
+    if (this.isTaxExemptionDataLoaded == true) {
+      this.isTaxExemptionDataLoaded = false;
+      this.addCodeTablesSubscription = (await this.systemTablesListService.SaveTaxExemption(objTaxExemption)).subscribe(
+        response => {
+          this.buttonDisabled = false;
+          this.isTaxExemptionDataLoaded = true;
+          this.GetTaxExemptionListData();
+          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Added Successfully");
+        },
+        error => {
+          this.buttonDisabled = false;
+          this.isTaxExemptionDataLoaded = true;
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this.addCodeTablesSubscription != null) this.addCodeTablesSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
+
+  public Add_TaxExemption() {
+    let objCodeTable: any = { Id: 0, TaxExemptionCode: 'NA', ExemptionAmount: '0.00', DependentAmount: '0.00' };
+    this.DetailTaxExemption(objCodeTable, "Add Tax Exemption");
   }
 
   public EditTaxExemption() {
     let currentTaxExemption = this.listTaxExemptionCollectionView.currentItem;
+    this.DetailTaxExemption(currentTaxExemption, "Edit Tax Exemption");
   }
 
   public async DeleteTaxExemption() {
-    if (this.isDataLoaded == true) {
-      this.isDataLoaded = false;
+    if (this.isTaxExemptionDataLoaded == true) {
+      this.isTaxExemptionDataLoaded = false;
       let currentTaxExemption = this.listTaxExemptionCollectionView.currentItem;
       this.isTaxExemptionProgressBarHidden = true;
 
-      this.deleteTaxExemptionubscription = await (await this.systemTablesListService.DeleteTaxExemption(currentTaxExemption.Id)).subscribe(
+      this.deleteTaxExemptionubscription = (await this.systemTablesListService.DeleteTaxExemption(currentTaxExemption.Id)).subscribe(
         response => {
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Delete Successfully");
           this.GetTaxExemptionListData();
           this.isTaxExemptionProgressBarHidden = false;
-          this.isDataLoaded = true;
+          this.isTaxExemptionDataLoaded = true;
         },
         error => {
-          this.isDataLoaded = true;
+          this.isTaxExemptionDataLoaded = true;
           this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + error.status);
           if (this.deleteTaxExemptionubscription != null) this.deleteTaxExemptionubscription.unsubscribe();
         }
@@ -133,135 +333,51 @@ export class SystemTalesListComponent implements OnInit {
   public ComfirmDeleteTaxExemption(): void {
     let currentTaxExemption = this.listTaxExemptionCollectionView.currentItem;
 
-    const userRegistrationlDialogRef = this.DeleteConfirmDialog.open(DeleteDialogBoxComponent, {
+    const matDialogRef = this.matDialog.open(DeleteDialogBoxComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete Tax Exemption",
-        objComfirmationMessage: `Delete this ${currentTaxExemption.Shift}?`,
+        objComfirmationMessage: `Delete ${currentTaxExemption.TaxExemptionCode}?`,
       },
       disableClose: true
     });
 
-    userRegistrationlDialogRef.afterClosed().subscribe(result => {
+    matDialogRef.afterClosed().subscribe(result => {
       if (result.message == "Yes") {
         this.DeleteTaxExemption();
       }
     });
   }
 
-  public listCodeTablesObservableArray: ObservableArray = new ObservableArray();
-  public listCodeTablesCollectionView: CollectionView = new CollectionView(this.listCodeTablesObservableArray);
-  public listTablesCodePageIndex: number = 15;
-  @ViewChild('flexCodeTables') flexCodeTables: wjcGrid.FlexGrid;
-  public isTablesCodeProgressBarHidden = false;
-  // public isDataLoaded: boolean = false;
-
-  private codeTableCodeTablesListSubscription: any;
-  private AddCodeTablesSubscription: any;
-  private DeleteCodeTablesSubscription: any;
-
-  private async GetCodeTablesListData() {
-    this.listCodeTablesObservableArray = new ObservableArray();
-    this.listCodeTablesCollectionView = new CollectionView(this.listCodeTablesObservableArray);
-    this.listCodeTablesCollectionView.pageSize = 15;
-    this.listCodeTablesCollectionView.trackChanges = true;
-    await this.listCodeTablesCollectionView.refresh();
-    await this.flexCodeTables.refresh();
-
-    this.isTablesCodeProgressBarHidden = true;
-
-    this.codeTableCodeTablesListSubscription = await (await this.systemTablesListService.TaxCodeTableList()).subscribe(
-      (response: any) => {
-        var results = response;
-        console.log("Response:", results);
-
-        if (results["length"] > 0) {
-          this.listCodeTablesCollectionView = results;
-          this.listCodeTablesCollectionView = new CollectionView(this.listCodeTablesCollectionView);
-          this.listCodeTablesCollectionView.pageSize = 15;
-          this.listCodeTablesCollectionView.trackChanges = true;
-          this.listCodeTablesCollectionView.refresh();
-          this.flexCodeTables.refresh();
-        }
-
-        this.isDataLoaded = true;
-        this.isTablesCodeProgressBarHidden = false;
-
-        if (this.codeTableCodeTablesListSubscription != null) this.codeTableCodeTablesListSubscription.unsubscribe();
-      },
-      error => {
-        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
-        if (this.codeTableCodeTablesListSubscription !== null) this.codeTableCodeTablesListSubscription.unsubscribe();
-      }
-    );
-  }
-
-  public async AddCodeTables() {
-    // this.buttonDisabled = true;
-    // if (this.isDataLoaded == true) {
-    //   this.isDataLoaded = false;
-    //   this.AddCodeTablesSubscription = await (await this.systemTablesListService.AddCodeTable()).subscribe(
-    //     response => {
-    //       this.buttonDisabled = false;
-    //       this.isDataLoaded = true;
-    //       this.GetCodeTablesListData();
-    //       this.snackBarTemplate.snackBarSuccess(this.snackBar, "Added Successfully");
-    //     },
-    //     error => {
-    //       this.buttonDisabled = false;
-    //       this.isDataLoaded = true;
-    //       this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
-    //       if (this.AddCodeTablesSubscription != null) this.AddCodeTablesSubscription.unsubscribe();
-    //     }
-    //   );
-    // }
-  }
-
-  public EditCodeTables() {
-    let currentCodeTables = this.listCodeTablesCollectionView.currentItem;
-  }
-
-  public async DeleteCodeTables() {
-    if (this.isDataLoaded == true) {
-      this.isDataLoaded = false;
-      let currentCodeTables = this.listCodeTablesCollectionView.currentItem;
-      this.isTablesCodeProgressBarHidden = true;
-
-      this.DeleteCodeTablesSubscription = await (await this.systemTablesListService.DeleteCodeTable(currentCodeTables.Id)).subscribe(
-        response => {
-          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Delete Successfully");
-          this.GetCodeTablesListData();
-          this.isTablesCodeProgressBarHidden = false;
-          this.isDataLoaded = true;
-        },
-        error => {
-          this.isDataLoaded = true;
-          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + error.status);
-          if (this.DeleteCodeTablesSubscription != null) this.DeleteCodeTablesSubscription.unsubscribe();
-        }
-      );
-    }
-  }
-
-  public ComfirmDeleteCodeTables(): void {
-    let currentCodeTables = this.listCodeTablesCollectionView.currentItem;
-    const userRegistrationlDialogRef = this.DeleteConfirmDialog.open(DeleteDialogBoxComponent, {
-      width: '500px',
+  public DetailTaxExemption(data: any[], eventTitle: string): void {
+    const matDialogRef = this.matDialog.open(SystemTablesTaxExemptionDetailComponent, {
+      width: '800px',
       data: {
-        objDialogTitle: "Delete Tables Code",
-        objComfirmationMessage: `Delete this ${currentCodeTables.Shift}?`,
+        objDialogTitle: eventTitle,
+        objData: data,
       },
       disableClose: true
     });
 
-    userRegistrationlDialogRef.afterClosed().subscribe(result => {
-      if (result.message == "Yes") {
-        this.DeleteCodeTables();
+    matDialogRef.afterClosed().subscribe(data => {
+      if (data.event === "Add") {
+        this.AddTaxExemption(data.objData);
+      }
+      if (data.event === "Edit") {
+        console.log(data);
+        this.SaveTaxExemption(data.objData);
       }
     });
   }
 
-  activeTab() {
+  @ViewChild('tabGroup') tabGroup;
+  public async AddUserTable() {
+    if (this.tabGroup.selectedIndex == 0) {
+      this.AddCodeTable();
+    }
 
+    if (this.tabGroup.selectedIndex == 1) {
+      this.Add_TaxExemption();
+    }
   }
 }

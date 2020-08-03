@@ -79,7 +79,8 @@ export class UserDetailComponent implements OnInit {
   public btnLockisabled: boolean = true;
   public btnUnlockDisabled: boolean = true;
 
-  public isLocked: boolean = false;;
+  public isLocked: boolean = false;
+  public isComponentsShown: boolean = false;
 
   @ViewChild('tabGroup') tabGroup;
 
@@ -89,6 +90,7 @@ export class UserDetailComponent implements OnInit {
 
   private async GetUserDetail() {
     if (this.isUserDetailLoaded == false) {
+      this.isComponentsShown = false;
       this.disableButtons();
     }
     let id = 0;
@@ -111,11 +113,11 @@ export class UserDetailComponent implements OnInit {
         }
 
         if (this.isUserDetailLoaded == false) {
+          this.isComponentsShown = true;
           this.GetUserModuleListData();
           this.isUserDetailLoaded = true;
           this.loadComponent(result["IsLocked"]);
         }
-
 
         this.isDataLoaded = true;
         if (this.userDetailSubscription !== null) this.userDetailSubscription.unsubscribe();
@@ -239,12 +241,10 @@ export class UserDetailComponent implements OnInit {
   public listUserModulePageIndex: number = 15;
   @ViewChild('flexUserModule') flexUserModule: wjcGrid.FlexGrid;
   public isUserModuleProgressBarHidden = false;
-  public isDataLoaded: boolean = false;
+  public isDataLoadedUserModule: boolean = false;
 
   private userModuleListSubscription: any;
   private deleteUserModuleubscription: any;
-
-  public buttonDisabled: boolean = false;
 
   private async GetUserModuleListData() {
     this.listUserModuleObservableArray = new ObservableArray();
@@ -355,7 +355,7 @@ export class UserDetailComponent implements OnInit {
   public listUserPayrollGroupPageIndex: number = 15;
   @ViewChild('flexUserPayrollGroup') flexUserPayrollGroup: wjcGrid.FlexGrid;
   public isUserPayrollGroupProgressBarHidden = false;
-  public isDataLoaded: boolean = false;
+  public isUserPayrollGroupDataLoaded: boolean = false;
 
   private UserPayrollGroupListSubscription: any;
   private deleteUserPayrollGroupubscription: any;

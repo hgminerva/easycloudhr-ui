@@ -48,7 +48,7 @@ export class UserDetailUserPayrollGroupDialogComponent implements OnInit {
   }
 
   private async GetPayrollGroupDropdownListData() {
-    this.payrollGroupDropdownSubscription = await (await this.userDetailService.PayrollGroupList()).subscribe(
+    this.payrollGroupDropdownSubscription = (await this.userDetailService.PayrollGroupList()).subscribe(
       response => {
         this.payrollGroupListDropdown = response;
         if (this.payrollGroupDropdownSubscription !== null) this.payrollGroupDropdownSubscription.unsubscribe();
@@ -63,7 +63,7 @@ export class UserDetailUserPayrollGroupDialogComponent implements OnInit {
   public async SavePayrollGroup() {
     this.disableButton();
     if (this.title === "Add Payroll Group") {
-      this.addUserPayrollGroupSubscription = await (await this.userDetailService.CreateUserPayrollGroup(this.UserPayrollGroupModel)).subscribe(
+      this.addUserPayrollGroupSubscription = (await this.userDetailService.CreateUserPayrollGroup(this.UserPayrollGroupModel)).subscribe(
         response => {
           this.enableButton();
           this.CloseOnSavePayrollGroup();
@@ -77,7 +77,7 @@ export class UserDetailUserPayrollGroupDialogComponent implements OnInit {
         }
       );
     } else {
-      this.updateUserPayrollGroupSubscription = await (await this.userDetailService.UpdateUserPayrollGroup(this.UserPayrollGroupModel.Id, this.UserPayrollGroupModel)).subscribe(
+      this.updateUserPayrollGroupSubscription = (await this.userDetailService.UpdateUserPayrollGroup(this.UserPayrollGroupModel.Id, this.UserPayrollGroupModel)).subscribe(
         response => {
           this.enableButton();
           this.CloseOnSavePayrollGroup();

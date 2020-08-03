@@ -15,7 +15,6 @@ import { CompanyModel } from "./../company.model";
 export class CompanyDetailComponent implements OnInit {
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBar,
     private snackBarTemplate: SnackBarTemplate,
     private companyDetialService: CompanyDetialService,
@@ -65,7 +64,11 @@ export class CompanyDetailComponent implements OnInit {
   public btnLockisabled: boolean = true;
   public btnUnlockDisabled: boolean = true;
 
+  public isComponentsShown: boolean = false;
+
+
   private async GetCompanyDetail(id) {
+    this.isComponentsShown = false;
     this.disableButtons();
     this.companyDetailSubscription = await (await this.companyDetialService.CompanyDetail(id)).subscribe(
       response => {
@@ -88,6 +91,7 @@ export class CompanyDetailComponent implements OnInit {
           this.companyModel.IsLocked = result["IsLocked"];
         }
         this.loadComponent(result["IsLocked"]);
+        this.isComponentsShown = true;
         if (this.companyDetailSubscription !== null) this.companyDetailSubscription.unsubscribe();
       },
       error => {
