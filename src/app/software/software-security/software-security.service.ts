@@ -58,6 +58,10 @@ export class SoftwareSecurityService {
           openFlag = true;
         } else if (module === "Employee Detail") {
           openFlag = true;
+        } else if (module === "Compnay List") {
+          openFlag = true;
+        } else if (module === "Compnay Detail") {
+          openFlag = true;
         } else {
           openFlag = false;
         }

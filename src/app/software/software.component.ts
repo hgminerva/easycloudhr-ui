@@ -26,6 +26,7 @@ export class SoftwareComponent implements OnInit {
   public moduleDashBoard: boolean = false;
   public moduleUserList: boolean = false;
   public moduleEmployeeList: boolean = false;
+  public moduleCompanyList: boolean = false;
   public moduleOthers: boolean = false;
 
 
@@ -57,6 +58,11 @@ export class SoftwareComponent implements OnInit {
     if (this.softwareSecurityService.openModule("Employee List") == true) {
       this.moduleEmployeeList = true;
     }
+
+    if (this.softwareSecurityService.openModule("Company List") == true) {
+      this.moduleCompanyList = true;
+    }
+    
     if (this.softwareSecurityService.openModule("Others") == true) {
       this.moduleOthers = true;
     }
@@ -65,5 +71,4 @@ export class SoftwareComponent implements OnInit {
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
-
 }

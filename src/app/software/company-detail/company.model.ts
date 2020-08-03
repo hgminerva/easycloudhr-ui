@@ -10,9 +10,9 @@ export class CompanyModel {
     ExtenTaxNumbersionName: string;
     CreatedByUserId: number;
     CreatedByUser: string;
-    CreatedDateTime: Date;
+    CreatedDateTime: string;
     UpdatedByUserId: number;
     UpdatedByUser: string;
-    UpdatedDateTime: Date;
+    UpdatedDateTime: string;
     IsLocked: boolean;
 }

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
@@ -17,11 +18,17 @@ export class CompanyDetailComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBar,
     private snackBarTemplate: SnackBarTemplate,
-    private companyDetialService: CompanyDetialService
+    private companyDetialService: CompanyDetialService,
+    public comfirmMessageDialogRef: MatDialogRef<CompanyDetailComponent>,
+    @Inject(MAT_DIALOG_DATA) public caseData: any
   ) { }
 
+  public title = '';
+  public event = 'Close';
+
   async ngOnInit() {
-    await this.GetCompanyDetail();
+    this.title = this.caseData.objDialogTitle;
+    await this.GetCompanyDetail(this.caseData.objCompanyId);
   }
 
   public companyModel: CompanyModel = {
@@ -36,10 +43,10 @@ export class CompanyDetailComponent implements OnInit {
     ExtenTaxNumbersionName: '',
     CreatedByUserId: 0,
     CreatedByUser: '',
-    CreatedDateTime: new Date(),
+    CreatedDateTime: '',
     UpdatedByUserId: 0,
     UpdatedByUser: '',
-    UpdatedDateTime: new Date(),
+    UpdatedDateTime: '',
     IsLocked: false
   }
 
@@ -58,10 +65,8 @@ export class CompanyDetailComponent implements OnInit {
   public btnLockisabled: boolean = true;
   public btnUnlockDisabled: boolean = true;
 
-  private async GetCompanyDetail() {
+  private async GetCompanyDetail(id) {
     this.disableButtons();
-    let id = 0;
-    this.activatedRoute.params.subscribe(params => { id = params["id"]; });
     this.companyDetailSubscription = await (await this.companyDetialService.CompanyDetail(id)).subscribe(
       response => {
         let result = response;
@@ -76,13 +81,12 @@ export class CompanyDetailComponent implements OnInit {
           this.companyModel.TaxNumber = result["TaxNumber"];
           this.companyModel.CreatedByUserId = result["CreatedByUserId"];
           this.companyModel.CreatedByUser = result["CreatedByUser"];
-          this.companyModel.CreatedDateTime = new Date(result["CreatedDateTime"]);
+          this.companyModel.CreatedDateTime = result["CreatedDateTime"];
           this.companyModel.UpdatedByUserId = result["UpdatedByUserId"];
           this.companyModel.UpdatedByUser = result["UpdatedByUser"];
-          this.companyModel.UpdatedDateTime = new Date(result["UpdatedDateTime"]);
+          this.companyModel.UpdatedDateTime = result["UpdatedDateTime"];
           this.companyModel.IsLocked = result["IsLocked"];
         }
-
         this.loadComponent(result["IsLocked"]);
         if (this.companyDetailSubscription !== null) this.companyDetailSubscription.unsubscribe();
       },
@@ -102,6 +106,8 @@ export class CompanyDetailComponent implements OnInit {
         response => {
           this.loadComponent(this.companyModel.IsLocked);
           this.isDataLoaded = true;
+          this.event = "Save";
+
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Save Successfully.");
           if (this.saveCompanyDetailSubscription !== null) this.saveCompanyDetailSubscription.unsubscribe();
         },
@@ -124,6 +130,7 @@ export class CompanyDetailComponent implements OnInit {
         response => {
           this.loadComponent(true);
           this.isDataLoaded = true;
+          this.event = "Lock";
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Lock Successfully.");
           if (this.lockCompanyDetailSubscription !== null) this.lockCompanyDetailSubscription.unsubscribe();
         },
@@ -145,6 +152,7 @@ export class CompanyDetailComponent implements OnInit {
         response => {
           this.loadComponent(false);
           this.isDataLoaded = true;
+          this.event = "Unlock";
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Unlock Successfully.");
           if (this.unlockCompanyDetailSubscription !== null) this.unlockCompanyDetailSubscription.unsubscribe();
         },
@@ -178,5 +186,9 @@ export class CompanyDetailComponent implements OnInit {
     this.btnLockisabled = true;
     this.btnUnlockDisabled = true;
     this.isProgressBarHidden = true;
+  }
+
+  public Close(): void {
+    this.comfirmMessageDialogRef.close({ event: this.event });
   }
 }

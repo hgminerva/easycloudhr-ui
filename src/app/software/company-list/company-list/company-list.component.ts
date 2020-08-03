@@ -8,6 +8,7 @@ import { SnackBarTemplate } from '../../shared/snack-bar-template';
 
 import { CompanyListService } from './../company-list.service'
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
+import { CompanyDetailComponent } from '../../company-detail/company-detail/company-detail.component';
 
 @Component({
   selector: 'app-company-list',
@@ -21,7 +22,7 @@ export class CompanyListComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar,
     private snackBarTemplate: SnackBarTemplate,
-    public DeleteConfirmDialog: MatDialog,
+    public matDialogRef: MatDialog,
   ) {
   }
 
@@ -53,7 +54,7 @@ export class CompanyListComponent implements OnInit {
 
     this.isProgressBarHidden = true;
 
-    this.companyListSubscription = await (await this.companyListService.CompanyList()).subscribe(
+    this.companyListSubscription = (await this.companyListService.CompanyList()).subscribe(
       (response: any) => {
         var results = response;
         console.log("Response:", results);
@@ -83,13 +84,13 @@ export class CompanyListComponent implements OnInit {
     this.btnAddDisabled = true;
     if (this.isDataLoaded == true) {
       this.isDataLoaded = false;
-      this.AddCompanySubscription = await (await this.companyListService.AddCompany()).subscribe(
-        response => {
+      this.AddCompanySubscription = (await this.companyListService.AddCompany()).subscribe(
+        (response: any) => {
           this.btnAddDisabled = false;
           this.isDataLoaded = true;
           this.GetCompanyListData();
+          this.DetailCompany(response, "Company Detail")
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Added Successfully");
-          this.router.navigate(['/software/company-detail/' + response]);
         },
         error => {
           this.btnAddDisabled = false;
@@ -103,7 +104,7 @@ export class CompanyListComponent implements OnInit {
 
   public EditCompany() {
     let currentCompany = this.listCompanyCollectionView.currentItem;
-    this.router.navigate(['/software/company-detail/' + currentCompany.Id]);
+    this.DetailCompany(currentCompany.Id, "Edit Company Detail");
   }
 
   public async DeleteCompany() {
@@ -112,7 +113,7 @@ export class CompanyListComponent implements OnInit {
 
     if (this.isDataLoaded == true) {
       this.isDataLoaded = false;
-      this.DeleteCompanySubscription = await (await this.companyListService.DeleteCompany(currentCompany.Id)).subscribe(
+      this.DeleteCompanySubscription = (await this.companyListService.DeleteCompany(currentCompany.Id)).subscribe(
         response => {
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Delete Successfully");
           this.GetCompanyListData();
@@ -129,13 +130,13 @@ export class CompanyListComponent implements OnInit {
     }
   }
 
-  public ComfirmDeleteEmployee(): void {
-    let currentEmployee = this.listCompanyCollectionView.currentItem;
-    const userRegistrationlDialogRef = this.DeleteConfirmDialog.open(DeleteDialogBoxComponent, {
+  public ComfirmDeleteCompany(): void {
+    let currentCompany = this.listCompanyCollectionView.currentItem;
+    const userRegistrationlDialogRef = this.matDialogRef.open(DeleteDialogBoxComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete Company",
-        objComfirmationMessage: ` Delete this ${currentEmployee.Company}?`,
+        objComfirmationMessage: ` Delete this ${currentCompany.Company}?`,
       },
       disableClose: true
     });
@@ -143,6 +144,24 @@ export class CompanyListComponent implements OnInit {
     userRegistrationlDialogRef.afterClosed().subscribe(result => {
       if (result.message == "Yes") {
         this.DeleteCompany();
+      }
+    });
+  }
+
+  public DetailCompany(companyId: string, eventTitle: string): void {
+    const userRegistrationlDialogRef = this.matDialogRef.open(CompanyDetailComponent, {
+      width: '1200px',
+      height: '550px',
+      data: {
+        objDialogTitle: eventTitle,
+        objCompanyId: companyId,
+      },
+      disableClose: true
+    });
+
+    userRegistrationlDialogRef.afterClosed().subscribe(result => {
+      if (result.event !== "Close") {
+        this.GetCompanyListData();
       }
     });
   }
