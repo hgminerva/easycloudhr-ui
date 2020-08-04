@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import * as wjcGrid from '@grapecity/wijmo.grid';
 import { CollectionView, ObservableArray } from '@grapecity/wijmo';
+
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 
@@ -16,123 +17,125 @@ import { CompanyDetailComponent } from '../../company-detail/company-detail/comp
   styleUrls: ['./company-list.component.css']
 })
 export class CompanyListComponent implements OnInit {
+  // Class properties
+  public _listCompanyObservableArray: ObservableArray = new ObservableArray();
+  public _listCompanyCollectionView: CollectionView = new CollectionView(this._listCompanyObservableArray);
+  public _listPageIndex: number = 15;
 
-  constructor(private companyListService: CompanyListService,
-    public CompanyRegistrationlDialog: MatDialog,
-    private router: Router,
-    private snackBar: MatSnackBar,
-    private snackBarTemplate: SnackBarTemplate,
-    public matDialogRef: MatDialog,
-  ) {
+  public _isProgressBarHidden = false;
+  public _isDataLoaded: boolean = false;
+
+  private _companyListSubscription: any;
+  private _addCompanySubscription: any;
+  private _deleteCompanySubscription: any;
+
+  public _btnAddDisabled: boolean = false;
+
+  // DOM declaration
+  @ViewChild('flexCompany') flexCompany: wjcGrid.FlexGrid;
+
+  // Constructor and overrides
+  constructor(private _companyListService: CompanyListService,
+              public _companyRegistrationlDialog: MatDialog,
+              private _snackBar: MatSnackBar,
+              private _snackBarTemplate: SnackBarTemplate,
+              public _matDialogRef: MatDialog) {
   }
-
   async ngOnInit() {
     await this.GetCompanyListData();
   }
 
-  public listCompanyObservableArray: ObservableArray = new ObservableArray();
-  public listCompanyCollectionView: CollectionView = new CollectionView(this.listCompanyObservableArray);
-  public listPageIndex: number = 15;
-  @ViewChild('flexCompany') flexCompany: wjcGrid.FlexGrid;
-  public isProgressBarHidden = false;
-  public isDataLoaded: boolean = false;
-
-  private companyListSubscription: any;
-  private AddCompanySubscription: any;
-  private DeleteCompanySubscription: any;
-
-  public btnAddDisabled: boolean = false;
-
+  // Methods
   private async GetCompanyListData() {
 
-    this.listCompanyObservableArray = new ObservableArray();
-    this.listCompanyCollectionView = new CollectionView(this.listCompanyObservableArray);
-    this.listCompanyCollectionView.pageSize = 15;
-    this.listCompanyCollectionView.trackChanges = true;
-    await this.listCompanyCollectionView.refresh();
+    this._listCompanyObservableArray = new ObservableArray();
+    this._listCompanyCollectionView = new CollectionView(this._listCompanyObservableArray);
+    this._listCompanyCollectionView.pageSize = 15;
+    this._listCompanyCollectionView.trackChanges = true;
+    await this._listCompanyCollectionView.refresh();
     await this.flexCompany.refresh();
 
-    this.isProgressBarHidden = true;
+    this._isProgressBarHidden = true;
 
-    this.companyListSubscription = (await this.companyListService.CompanyList()).subscribe(
+    this._companyListSubscription = (await this._companyListService.CompanyList()).subscribe(
       (response: any) => {
         var results = response;
         console.log("Response:", results);
 
         if (results["length"] > 0) {
-          this.listCompanyObservableArray = results;
-          this.listCompanyCollectionView = new CollectionView(this.listCompanyObservableArray);
-          this.listCompanyCollectionView.pageSize = 15;
-          this.listCompanyCollectionView.trackChanges = true;
-          this.listCompanyCollectionView.refresh();
+          this._listCompanyObservableArray = results;
+          this._listCompanyCollectionView = new CollectionView(this._listCompanyObservableArray);
+          this._listCompanyCollectionView.pageSize = 15;
+          this._listCompanyCollectionView.trackChanges = true;
+          this._listCompanyCollectionView.refresh();
           this.flexCompany.refresh();
         }
 
-        this.isDataLoaded = true;
-        this.isProgressBarHidden = false;
+        this._isDataLoaded = true;
+        this._isProgressBarHidden = false;
 
-        if (this.companyListSubscription != null) this.companyListSubscription.unsubscribe();
+        if (this._companyListSubscription != null) this._companyListSubscription.unsubscribe();
       },
       error => {
-        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
-        if (this.companyListSubscription !== null) this.companyListSubscription.unsubscribe();
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        if (this._companyListSubscription !== null) this._companyListSubscription.unsubscribe();
       }
     );
   }
 
   public async AddCompany() {
-    this.btnAddDisabled = true;
-    if (this.isDataLoaded == true) {
-      this.isDataLoaded = false;
-      this.AddCompanySubscription = (await this.companyListService.AddCompany()).subscribe(
+    this._btnAddDisabled = true;
+    if (this._isDataLoaded == true) {
+      this._isDataLoaded = false;
+      this._addCompanySubscription = (await this._companyListService.AddCompany()).subscribe(
         (response: any) => {
-          this.btnAddDisabled = false;
-          this.isDataLoaded = true;
+          this._btnAddDisabled = false;
+          this._isDataLoaded = true;
           this.GetCompanyListData();
           this.DetailCompany(response, "Company Detail")
-          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Added Successfully");
+          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Added Successfully");
         },
         error => {
-          this.btnAddDisabled = false;
-          this.isDataLoaded = true;
-          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
-          if (this.AddCompanySubscription != null) this.AddCompanySubscription.unsubscribe();
+          this._btnAddDisabled = false;
+          this._isDataLoaded = true;
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this._addCompanySubscription != null) this._addCompanySubscription.unsubscribe();
         }
       );
     }
   }
 
   public EditCompany() {
-    let currentCompany = this.listCompanyCollectionView.currentItem;
+    let currentCompany = this._listCompanyCollectionView.currentItem;
     this.DetailCompany(currentCompany.Id, "Edit Company Detail");
   }
 
   public async DeleteCompany() {
-    let currentCompany = this.listCompanyCollectionView.currentItem;
-    this.isProgressBarHidden = true;
+    let currentCompany = this._listCompanyCollectionView.currentItem;
+    this._isProgressBarHidden = true;
 
-    if (this.isDataLoaded == true) {
-      this.isDataLoaded = false;
-      this.DeleteCompanySubscription = (await this.companyListService.DeleteCompany(currentCompany.Id)).subscribe(
+    if (this._isDataLoaded == true) {
+      this._isDataLoaded = false;
+      this._deleteCompanySubscription = (await this._companyListService.DeleteCompany(currentCompany.Id)).subscribe(
         response => {
-          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Delete Successfully");
+          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Delete Successfully");
           this.GetCompanyListData();
-          this.isProgressBarHidden = false;
-          this.isDataLoaded = true;
+          this._isProgressBarHidden = false;
+          this._isDataLoaded = true;
         },
         error => {
-          this.isDataLoaded = true;
-          this.isProgressBarHidden = false;
-          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + error.status);
-          if (this.DeleteCompanySubscription != null) this.DeleteCompanySubscription.unsubscribe();
+          this._isDataLoaded = true;
+          this._isProgressBarHidden = false;
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + error.status);
+          if (this._deleteCompanySubscription != null) this._deleteCompanySubscription.unsubscribe();
         }
       );
     }
   }
 
   public ComfirmDeleteCompany(): void {
-    let currentCompany = this.listCompanyCollectionView.currentItem;
-    const userRegistrationlDialogRef = this.matDialogRef.open(DeleteDialogBoxComponent, {
+    let currentCompany = this._listCompanyCollectionView.currentItem;
+    const userRegistrationlDialogRef = this._matDialogRef.open(DeleteDialogBoxComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete Company",
@@ -149,7 +152,7 @@ export class CompanyListComponent implements OnInit {
   }
 
   public DetailCompany(companyId: string, eventTitle: string): void {
-    const userRegistrationlDialogRef = this.matDialogRef.open(CompanyDetailComponent, {
+    const userRegistrationlDialogRef = this._matDialogRef.open(CompanyDetailComponent, {
       width: '1200px',
       height: '550px',
       data: {

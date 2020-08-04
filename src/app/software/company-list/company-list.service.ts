@@ -13,14 +13,17 @@ export class CompanyListService {
   ) { }
 
   public async CompanyList() {
-    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/company/list', this.appSettings.defaultOptions);
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/company/list',
+                               this.appSettings.defaultOptions);
   }
 
   public async AddCompany() {
-    return this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/company/create', "", this.appSettings.defaultOptions);
+    return this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/company/create', "",
+                                this.appSettings.defaultOptions);
   }
 
   public async DeleteCompany(id: number) {
-    return this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/api/company/delete/' + id, this.appSettings.defaultOptions);
+    return this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/api/company/delete/' + id,
+                                  this.appSettings.defaultOptions);
   }
 }

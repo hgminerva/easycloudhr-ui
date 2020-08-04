@@ -2,7 +2,7 @@
     <img src="../../../../assets/menu-icons/company.png" height="35" />
     <span>&nbsp;&nbsp; Company List</span>
     <span class="spacer"></span>
-    <button mat-flat-button color="primary" (click)="AddCompany()" [disabled]="btnAddDisabled">
+    <button mat-flat-button color="primary" (click)="AddCompany()" [disabled]="_btnAddDisabled">
         <mat-icon>add</mat-icon>
         ADD
     </button>
@@ -11,12 +11,16 @@
         Close
     </button>
 </mat-toolbar>
+
 <div class="software-container">
+
     <div fxLayout="row" fxLayout.xs="column">
+
         <div fxFlex="100" style="margin: 5px;">
-            <mat-progress-bar *ngIf="isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'">
-            </mat-progress-bar>
-            <wj-flex-grid #flexCompany [itemsSource]="listCompanyCollectionView" [selectionMode]="3" [frozenColumns]="2"
+
+            <mat-progress-bar *ngIf="_isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'"></mat-progress-bar>
+
+            <wj-flex-grid #flexCompany [itemsSource]="_listCompanyCollectionView" [selectionMode]="3" [frozenColumns]="2"
                 [headersVisibility]="1">
                 <wj-flex-grid-filter></wj-flex-grid-filter>
                 <wj-flex-grid-column [isReadOnly]="true" [width]="80">
@@ -57,24 +61,28 @@
                 <wj-flex-grid-column [header]="'L'" [binding]="'IsLocked'" [isReadOnly]="true" [width]="'.40*'">
                 </wj-flex-grid-column>
             </wj-flex-grid>
+
             <mat-button-toggle-group>
-                <mat-button-toggle (click)="listCompanyCollectionView.moveToFirstPage()">
+                <mat-button-toggle (click)="_listCompanyCollectionView.moveToFirstPage()">
                     <mat-icon style="margin-right: -15px">navigate_before</mat-icon>
                     <mat-icon>navigate_before</mat-icon>
                 </mat-button-toggle>
-                <mat-button-toggle (click)="listCompanyCollectionView.moveToPreviousPage()">
+                <mat-button-toggle (click)="_listCompanyCollectionView.moveToPreviousPage()">
                     <mat-icon>navigate_before</mat-icon>
                 </mat-button-toggle>
-                <mat-button-toggle>{{ listCompanyCollectionView.pageIndex + 1 }} /
-                    {{ listCompanyCollectionView.pageCount }}</mat-button-toggle>
-                <mat-button-toggle (click)="listCompanyCollectionView.moveToNextPage()">
+                <mat-button-toggle>{{ _listCompanyCollectionView.pageIndex + 1 }} /
+                    {{ _listCompanyCollectionView.pageCount }}</mat-button-toggle>
+                <mat-button-toggle (click)="_listCompanyCollectionView.moveToNextPage()">
                     <mat-icon>navigate_next</mat-icon>
                 </mat-button-toggle>
-                <mat-button-toggle (click)="listCompanyCollectionView.moveToLastPage()">
+                <mat-button-toggle (click)="_listCompanyCollectionView.moveToLastPage()">
                     <mat-icon style="margin-right: -15px">navigate_next</mat-icon>
                     <mat-icon>navigate_next</mat-icon>
                 </mat-button-toggle>
             </mat-button-toggle-group>
+
         </div>
+
     </div>
+
 </div>
