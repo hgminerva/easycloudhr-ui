@@ -18,16 +18,16 @@ export class CompanyDetailComponent implements OnInit {
     private snackBar: MatSnackBar,
     private snackBarTemplate: SnackBarTemplate,
     private companyDetialService: CompanyDetialService,
-    public comfirmMessageDialogRef: MatDialogRef<CompanyDetailComponent>,
+    public _companyDetailDialogRef: MatDialogRef<CompanyDetailComponent>,
     @Inject(MAT_DIALOG_DATA) public caseData: any
   ) { }
 
   public title = '';
   public event = 'Close';
 
-  async ngOnInit() {
+  ngOnInit(): void {
     this.title = this.caseData.objDialogTitle;
-    await this.GetCompanyDetail(this.caseData.objCompanyId);
+    this.GetCompanyDetail(this.caseData.objCompanyId);
   }
 
   public companyModel: CompanyModel = {
@@ -111,7 +111,6 @@ export class CompanyDetailComponent implements OnInit {
           this.loadComponent(this.companyModel.IsLocked);
           this.isDataLoaded = true;
           this.event = "Save";
-
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Save Successfully.");
           if (this.saveCompanyDetailSubscription !== null) this.saveCompanyDetailSubscription.unsubscribe();
         },
@@ -193,6 +192,6 @@ export class CompanyDetailComponent implements OnInit {
   }
 
   public Close(): void {
-    this.comfirmMessageDialogRef.close({ event: this.event });
+    this._companyDetailDialogRef.close({ event: this.event });
   }
 }
