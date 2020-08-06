@@ -6,6 +6,7 @@ export class AppSettings {
     public defaultAPIURLHost = "https://easycloudhrapi.azurewebsites.net";
     // public defaultAPIURLHost = "https://localhost:44369";
 
+    
     // URL Encoded Options
     public URLEncodedOptions: any = {
         headers: new HttpHeaders({
