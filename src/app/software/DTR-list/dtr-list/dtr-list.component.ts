@@ -33,6 +33,10 @@ export class DTRListComponent implements OnInit {
   // DOM declaration
   @ViewChild('flexDTR') flexDTR: wjcGrid.FlexGrid;
 
+  private _payrollGroupDropdownSubscription: any;
+  public _payrollGroupListDropdown: any = [];
+  public _filterPayrollGroup = '';
+
   // Constructor and overrides
   constructor(private _dTRListService: DTRListService,
     public _DTRRegistrationlDialog: MatDialog,
@@ -86,10 +90,6 @@ export class DTRListComponent implements OnInit {
     this._listDTRCollectionView.refresh();
   }
 
-  private _payrollGroupDropdownSubscription: any;
-  public _payrollGroupListDropdown: any = [];
-  public _filterPayrollGroup = '';
-
   private async GetPayrollGroupDropdownListData() {
     this._payrollGroupDropdownSubscription = await (await this._dTRListService.PayrollGroupList()).subscribe(
       response => {
@@ -115,41 +115,43 @@ export class DTRListComponent implements OnInit {
     this.GetDTRListData();
   }
 
-  // Methods
   private async GetDTRListData() {
-    this._listDTRObservableArray = new ObservableArray();
-    this._listDTRCollectionView = new CollectionView(this._listDTRObservableArray);
-    this._listDTRCollectionView.pageSize = 15;
-    this._listDTRCollectionView.trackChanges = true;
-    await this._listDTRCollectionView.refresh();
-    await this.flexDTR.refresh();
+    try {
+      this._listDTRObservableArray = await new ObservableArray();
+      this._listDTRCollectionView = await new CollectionView(this._listDTRObservableArray);
+      this._listDTRCollectionView.pageSize = await 15;
+      this._listDTRCollectionView.trackChanges = true;
+      await this._listDTRCollectionView.refresh();
+      await this.flexDTR.refresh();
 
-    this._isProgressBarHidden = true;
+      this._isProgressBarHidden = true;
 
-    this._dTRListSubscription = (await this._dTRListService.DTRList(this._filterPayrollGroup)).subscribe(
-      (response: any) => {
-        var results = response;
-        console.log("Response:", results);
+      this._dTRListSubscription = (await this._dTRListService.DTRList(this._filterPayrollGroup)).subscribe(
+        (response: any) => {
+          var results = response;
+          if (results["length"] > 0) {
+            this._listDTRObservableArray = results;
+            this._listDTRCollectionView = new CollectionView(this._listDTRObservableArray);
+            this._listDTRCollectionView.pageSize = 15;
+            this._listDTRCollectionView.trackChanges = true;
+            this._listDTRCollectionView.refresh();
+            this.flexDTR.refresh();
+          }
 
-        if (results["length"] > 0) {
-          this._listDTRObservableArray = results;
-          this._listDTRCollectionView = new CollectionView(this._listDTRObservableArray);
-          this._listDTRCollectionView.pageSize = 15;
-          this._listDTRCollectionView.trackChanges = true;
-          this._listDTRCollectionView.refresh();
-          this.flexDTR.refresh();
+          this._isDataLoaded = true;
+          this._isProgressBarHidden = false;
+
+          if (this._dTRListSubscription != null) this._dTRListSubscription.unsubscribe();
+        },
+        error => {
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+          if (this._dTRListSubscription !== null) this._dTRListSubscription.unsubscribe();
         }
-
-        this._isDataLoaded = true;
-        this._isProgressBarHidden = false;
-
-        if (this._dTRListSubscription != null) this._dTRListSubscription.unsubscribe();
-      },
-      error => {
-        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this._dTRListSubscription !== null) this._dTRListSubscription.unsubscribe();
-      }
-    );
+      );
+    }
+    catch (e) {
+      console.log(e);
+    }
   }
 
   public async AddDTR() {
@@ -179,7 +181,6 @@ export class DTRListComponent implements OnInit {
   public EditDTR() {
     let currentDTR = this._listDTRCollectionView.currentItem;
     this._router.navigate(['/software/DTR-detail/' + currentDTR.Id]);
-
   }
 
   public async DeleteDTR() {
