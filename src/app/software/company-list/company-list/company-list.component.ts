@@ -32,7 +32,7 @@ export class CompanyListComponent implements OnInit {
   public _btnAddDisabled: boolean = false;
 
   // DOM declaration
-  @ViewChild('flexCompany') flexCompany: wjcGrid.FlexGrid;
+  @ViewChild('flexCompany') _flexCompany: wjcGrid.FlexGrid;
 
   // Constructor and overrides
   constructor(private _companyListService: CompanyListService,
@@ -53,7 +53,7 @@ export class CompanyListComponent implements OnInit {
     this._listCompanyCollectionView.pageSize = 15;
     this._listCompanyCollectionView.trackChanges = true;
     await this._listCompanyCollectionView.refresh();
-    await this.flexCompany.refresh();
+    await this._flexCompany.refresh();
 
     this._isProgressBarHidden = true;
 
@@ -68,7 +68,7 @@ export class CompanyListComponent implements OnInit {
           this._listCompanyCollectionView.pageSize = 15;
           this._listCompanyCollectionView.trackChanges = true;
           this._listCompanyCollectionView.refresh();
-          this.flexCompany.refresh();
+          this._flexCompany.refresh();
         }
 
         this._isDataLoaded = true;
