@@ -38,7 +38,6 @@ export class EmployeeDetailComponent implements OnInit {
     this.userRightEmployeeDetail = this.softwareSecurityService.GetModuleRights("Employee Detail");
   }
 
-
   public employeePayrollModel: EmployeePayrollModel = {
     Id: 0,
     EmployeeId: 0,

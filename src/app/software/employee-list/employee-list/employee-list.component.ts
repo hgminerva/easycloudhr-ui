@@ -186,6 +186,7 @@ export class EmployeeListComponent implements OnInit {
       response => {
         this.GetEmployeeData();
         this.snackBarTemplate.snackBarSuccess(this.snackBar, "Deleted Successfully");
+        if (this.DeletemployeeListSubscription != null) this.DeletemployeeListSubscription.unsubscribe();
       },
       error => {
         this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
