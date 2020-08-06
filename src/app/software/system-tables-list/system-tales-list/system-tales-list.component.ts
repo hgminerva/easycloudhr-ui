@@ -60,8 +60,6 @@ export class SystemTalesListComponent implements OnInit {
     this.codeTableCodeTablesListSubscription = (await this.systemTablesListService.CodeTableList()).subscribe(
       (response: any) => {
         var results = response;
-        console.log("Response:", results);
-
         if (results["length"] > 0) {
           this.listCodeTablesCollectionView = results;
           this.listCodeTablesCollectionView = new CollectionView(this.listCodeTablesCollectionView);
@@ -192,7 +190,6 @@ export class SystemTalesListComponent implements OnInit {
         this.AddCodeTables(data.objData);
       }
       if (data.event === "Edit") {
-        console.log(data);
         this.SaveCodeTable(data.objData);
       }
     });
@@ -231,8 +228,6 @@ export class SystemTalesListComponent implements OnInit {
     this.taxExemptionListSubscription = (await this.systemTablesListService.TaxExemptionList()).subscribe(
       (response: any) => {
         var results = response;
-        console.log("Response:", results);
-
         if (results["length"] > 0) {
           this.listTaxExemptionCollectionView = results;
           this.listTaxExemptionCollectionView = new CollectionView(this.listTaxExemptionCollectionView);
@@ -364,7 +359,6 @@ export class SystemTalesListComponent implements OnInit {
         this.AddTaxExemption(data.objData);
       }
       if (data.event === "Edit") {
-        console.log(data);
         this.SaveTaxExemption(data.objData);
       }
     });

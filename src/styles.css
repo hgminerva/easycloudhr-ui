@@ -29,12 +29,20 @@ body {
     padding: 15px;
 }
 
-.user-detail-tab .mat-tab-label:last-child {
+.user-detail-tab .mat-tab-label:last-child, .dtr-detail-tab .mat-tab-label:last-child {
     margin-left: auto; 
     min-width: 0;
     padding: 0 12px;
     opacity: unset; 
     color: unset;
+}
+
+.timepicker-overlay {
+    z-index: 10000000 !important;
+}
+
+.timepicker-backdrop-overlay {
+    z-index: 10000000 !important;
 }
 
 

@@ -46,13 +46,11 @@ const routes: Routes = [
       { path: 'mandatory-tables', canActivate: [SoftwareRoutingActivate], component: MandatoryTablesComponent },
       { path: 'shift-code-list', canActivate: [SoftwareRoutingActivate], component: ShiftCodeListComponent },
       { path: 'shift-code-detail/:id', canActivate: [SoftwareRoutingActivate], component: ShiftCodeDetailComponent },
-      { path: 'shift-code-detail', canActivate: [SoftwareRoutingActivate], component: ShiftCodeDetailComponent },
       { path: 'day-type-list', canActivate: [SoftwareRoutingActivate], component: DayTypeListComponent },
       { path: 'day-type-detail/:id', canActivate: [SoftwareRoutingActivate], component: DayTypeDetailComponent },
       { path: 'other-income', canActivate: [SoftwareRoutingActivate], component: OtherIncomeComponent },
       { path: 'other-deductions', canActivate: [SoftwareRoutingActivate], component: OtherDeductionsComponent },
       { path: 'user-list', canActivate: [SoftwareRoutingActivate], component: UserListComponent },
-      { path: 'user-detail', canActivate: [SoftwareRoutingActivate], component: UserDetailComponent },
       { path: 'user-detail/:id', canActivate: [SoftwareRoutingActivate], component: UserDetailComponent },
       { path: 'leave-credits-list', canActivate: [SoftwareRoutingActivate], component: LeaveCreditsListComponent },
       { path: 'leave-credits-detail/:id', canActivate: [SoftwareRoutingActivate], component: LeaveCreditsDetailComponent },
@@ -64,6 +62,7 @@ const routes: Routes = [
       { path: 'overtime-application-detail/:id', canActivate: [SoftwareRoutingActivate], component: OvertimeApplicationDetailComponent },
       { path: 'DTR-list', canActivate: [SoftwareRoutingActivate], component: DTRListComponent },
       { path: 'DTR-detail/:id', canActivate: [SoftwareRoutingActivate], component: DTRDetailComponent },
+      { path: 'DTR-detail', canActivate: [SoftwareRoutingActivate], component: DTRDetailComponent },
       { path: 'system-tables-list', canActivate: [SoftwareRoutingActivate], component: SystemTalesListComponent },
 
     ]

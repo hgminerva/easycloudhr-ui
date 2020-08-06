@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ShiftModel } from './../shift-code-model';
 import { ShiftCodeDetailService } from './../shift-code-detail.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-shift-code-detail',
@@ -16,9 +17,16 @@ export class ShiftCodeDetailComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBar,
     private snackBarTemplate: SnackBarTemplate,
+    public _companyDetailDialogRef: MatDialogRef<ShiftCodeDetailComponent>,
+    @Inject(MAT_DIALOG_DATA) public caseData: any
   ) { }
 
+  public title = '';
+  public event = 'Close';
+
   ngOnInit(): void {
+    this.title = this.caseData.objDialogTitle;
+    this.GetShiftDetail(this.caseData.objShiftCodeId);
   }
 
   public shiftModel: ShiftModel = {
@@ -48,34 +56,24 @@ export class ShiftCodeDetailComponent implements OnInit {
   public btnUnlockDisabled: boolean = true;
 
   public isLocked: boolean = false;
+  public isComponentsShown: boolean = false;
 
-  private async GetShiftDetail() {
+  private async GetShiftDetail(id) {
     this.disableButtons();
-    let id = 0;
-    this.isProgressBarHidden = true;
-    this.activatedRoute.params.subscribe(params => { id = params["id"]; });
-
-    this.shiftDetailSubscription = await (await this.shiftCodeDetailService.ShiftDetail(id)).subscribe(
-      response => {
+    this.isComponentsShown = false;
+    this.shiftDetailSubscription = (await this.shiftCodeDetailService.ShiftDetail(id)).subscribe(
+      (response: any) => {
         let result = response;
         console.log(result);
         if (result != null) {
-          this.shiftModel.Id = result["Id"];
-          this.shiftModel.ShiftCode = result["ShiftCode"];
-          this.shiftModel.Shift = result["Shift"];
-          this.shiftModel.Particulars = result["Particulars"];
-          this.shiftModel.CreatedByUserId = result["CreatedByUserId"];
-          this.shiftModel.CreatedByUser = result["CreatedByUser"];
-          this.shiftModel.CreatedDateTime = result["CreatedDateTime"];
-          this.shiftModel.UpdatedByUserId = result["UpdatedByUserId"];
-          this.shiftModel.UpdatedByUser = result["UpdatedByUser"];
-          this.shiftModel.UpdatedDateTime = result["UpdatedDateTime"];
+          this.shiftModel = result;
           this.shiftModel.IsLocked = result["IsLocked"];
           console.log(result["IsLocked"]);
         }
 
         this.loadComponent(result["IsLocked"]);
         this.isDataLoaded = true;
+        this.isComponentsShown = true;
         if (this.shiftDetailSubscription !== null) this.shiftDetailSubscription.unsubscribe();
       },
       error => {
@@ -91,6 +89,7 @@ export class ShiftCodeDetailComponent implements OnInit {
       this.isDataLoaded = false;
       this.saveShiftDetailSubscription = await (await this.shiftCodeDetailService.SaveShift(this.shiftModel.Id, this.shiftModel)).subscribe(
         response => {
+          this.event = "Save";
           this.isDataLoaded = true;
           this.loadComponent(this.shiftModel.IsLocked);
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Save Successfully.");
@@ -113,6 +112,7 @@ export class ShiftCodeDetailComponent implements OnInit {
       this.isDataLoaded = false;
       this.lockShiftDetailSubscription = await (await this.shiftCodeDetailService.LockShift(this.shiftModel.Id, this.shiftModel)).subscribe(
         response => {
+          this.event = "Lock";
           this.loadComponent(true);
           this.isDataLoaded = true;
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Lock Successfully.");
@@ -135,6 +135,7 @@ export class ShiftCodeDetailComponent implements OnInit {
       this.isDataLoaded = false;
       this.unlockShiftDetailSubscription = await (await this.shiftCodeDetailService.UnlockShift(this.shiftModel.Id)).subscribe(
         response => {
+          this.event = "Unlock";
           this.loadComponent(false);
           this.isDataLoaded = true;
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Unlock Successfully.");
@@ -178,4 +179,7 @@ export class ShiftCodeDetailComponent implements OnInit {
     this.isProgressBarHidden = true;
   }
 
+  public Close(): void {
+    this._companyDetailDialogRef.close({ event: this.event });
+  }
 }

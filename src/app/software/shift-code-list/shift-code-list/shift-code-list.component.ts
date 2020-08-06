@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { ShiftCodeListService } from './../shift-code-list.service';
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
+import { ShiftCodeDetailComponent } from '../../shift-code-detail/shift-code-detail/shift-code-detail.component';
 
 @Component({
   selector: 'app-shift-code-list',
@@ -21,6 +22,7 @@ export class ShiftCodeListComponent implements OnInit {
     private snackBar: MatSnackBar,
     private snackBarTemplate: SnackBarTemplate,
     public DeleteConfirmDialog: MatDialog,
+    public _shiftCodeDetailMatDialogRef: MatDialog
   ) {
   }
 
@@ -82,12 +84,12 @@ export class ShiftCodeListComponent implements OnInit {
     if (this.isDataLoaded == true) {
       this.isDataLoaded = false;
       this.AddShiftCodeSubscription = await (await this.shiftCodeListService.AddShiftCode()).subscribe(
-        response => {
+        (response: any) => {
           this.buttonDisabled = false;
           this.isDataLoaded = true;
           this.GetShiftCodeListData();
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Added Successfully");
-          this.router.navigate(['/software/shift-code-detail/' + response]);
+          this.DetailShiftCode(response, "Shift Code Detail")
         },
         error => {
           this.buttonDisabled = false;
@@ -101,7 +103,7 @@ export class ShiftCodeListComponent implements OnInit {
 
   public EditShiftCode() {
     let currentShiftCode = this.listShiftCodeCollectionView.currentItem;
-    this.router.navigate(['/software/shift-code-detail/' + currentShiftCode.Id]);
+    this.DetailShiftCode(currentShiftCode.Id, "Edit Shift Code Detail")
   }
 
   public async DeleteShiftCode() {
@@ -140,6 +142,23 @@ export class ShiftCodeListComponent implements OnInit {
     userRegistrationlDialogRef.afterClosed().subscribe(result => {
       if (result.message == "Yes") {
         this.DeleteShiftCode();
+      }
+    });
+  }
+
+  public DetailShiftCode(shiftCodeId: string, eventTitle: string): void {
+    const userRegistrationlDialogRef = this._shiftCodeDetailMatDialogRef.open(ShiftCodeDetailComponent, {
+      width: '1200px',
+      data: {
+        objDialogTitle: eventTitle,
+        objShiftCodeId: shiftCodeId,
+      },
+      disableClose: true
+    });
+
+    userRegistrationlDialogRef.afterClosed().subscribe(result => {
+      if (result.event !== "Close") {
+        this.GetShiftCodeListData();
       }
     });
   }
