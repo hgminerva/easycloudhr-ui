@@ -54,6 +54,7 @@ import { UserDetailUserModuleDialogComponent } from './user-detail/user-detail-u
 import { UserDetailUserPayrollGroupDialogComponent } from './user-detail/user-detail-user-payroll-group-dialog/user-detail-user-payroll-group-dialog.component';
 import { EmployeeDetailEditNameDialogComponent } from './employee-detail/employee-detail-edit-name-dialog/employee-detail-edit-name-dialog.component';
 import { EmployeeDetialLinkToUsernameDialogComponent } from './employee-detail/employee-detial-link-to-username-dialog/employee-detial-link-to-username-dialog.component';
+import { DtrDetialDtrLineDetailDialogComponent } from './DTR-detail/dtr-detial-dtr-line-detail-dialog/dtr-detial-dtr-line-detail-dialog.component';
 
 @NgModule({
   declarations: [
@@ -90,7 +91,8 @@ import { EmployeeDetialLinkToUsernameDialogComponent } from './employee-detail/e
     UserDetailUserModuleDialogComponent,
     UserDetailUserPayrollGroupDialogComponent,
     EmployeeDetailEditNameDialogComponent,
-    EmployeeDetialLinkToUsernameDialogComponent
+    EmployeeDetialLinkToUsernameDialogComponent,
+    DtrDetialDtrLineDetailDialogComponent
   ],
   imports: [
     CommonModule,

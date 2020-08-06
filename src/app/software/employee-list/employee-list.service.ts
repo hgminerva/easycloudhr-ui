@@ -13,7 +13,6 @@ export class EmployeeListService {
   ) { }
 
   public async EmployeeList(payrollGroup: string) {
-    console.log(payrollGroup);
     return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/list/filteredBy/' + payrollGroup, this.appSettings.defaultOptions);
   }
 

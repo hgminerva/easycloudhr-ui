@@ -76,7 +76,7 @@
                             <div fxFlex="50" style="padding: 5px;">
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>Position</mat-label>
-                                    <mat-select [(ngModel)]="this.employeeModel.EmployeeHR.Position">
+                                    <mat-select [(ngModel)]="employeeModel.EmployeeHR.Position">
                                         <mat-option *ngFor="let position of positionListDropdown" [disabled]="isLocked"
                                             disabled [value]="position.Value">
                                             {{ position.Value}}
@@ -148,7 +148,7 @@
                             <div fxFlex="100" style="padding: 5px;">
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>Branch</mat-label>
-                                    <mat-select [(ngModel)]="this.employeeModel.EmployeeHR.Branch">
+                                    <mat-select [(ngModel)]="employeeModel.EmployeeHR.Branch">
                                         <mat-option *ngFor="let branch of branchListDropdown" [disabled]="isLocked"
                                             [value]="branch.Value">
                                             {{branch.Value}}
@@ -567,7 +567,7 @@
                             <div fxFlex="100" style="padding: 5px;">
                                 <mat-form-field appearance="outline" style="width: 100%;" readonly disabled>
                                     <mat-label>Shift Code</mat-label>
-                                    <mat-select [(ngModel)]="this.employeeModel.EmployeeHR.DefaultShiftId">
+                                    <mat-select [(ngModel)]="employeeModel.EmployeeHR.DefaultShiftId">
                                         <mat-option *ngFor="let shift of shiftDropdown" [disabled]="isLocked"
                                             [value]="shift.Id">
                                             {{shift.Shift}}
@@ -581,7 +581,7 @@
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>Date Hired</mat-label>
                                     <input matInput [matDatepicker]="datePickerDateHired"
-                                        [(ngModel)]="this.employeeModel.EmployeeHR.DateHired" [readonly]="isLocked">
+                                        [(ngModel)]="employeeModel.EmployeeHR.DateHired" [readonly]="isLocked">
                                     <mat-datepicker-toggle matSuffix [for]="datePickerDateHired" [disabled]="isLocked">
                                     </mat-datepicker-toggle>
                                     <mat-datepicker #datePickerDateHired color="primary"></mat-datepicker>
@@ -591,7 +591,7 @@
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>Date Regular</mat-label>
                                     <input matInput [matDatepicker]="datePickerDateRegular"
-                                        [(ngModel)]="this.employeeModel.EmployeeHR.DateRegular" [readonly]="isLocked">
+                                        [(ngModel)]="employeeModel.EmployeeHR.DateRegular" [readonly]="isLocked">
                                     <mat-datepicker-toggle matSuffix [for]="datePickerDateRegular"
                                         [disabled]="isLocked">
                                     </mat-datepicker-toggle>
@@ -602,7 +602,7 @@
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>Date Resigned</mat-label>
                                     <input matInput [matDatepicker]="datePickerDateResigned"
-                                        [(ngModel)]="this.employeeModel.EmployeeHR.DateResigned" [readonly]="isLocked">
+                                        [(ngModel)]="employeeModel.EmployeeHR.DateResigned" [readonly]="isLocked">
                                     <mat-datepicker-toggle matSuffix [for]="datePickerDateResigned"
                                         [disabled]="isLocked">
                                     </mat-datepicker-toggle>
@@ -614,7 +614,7 @@
                             <div fxFlex="50" style="padding: 5px;">
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>Division</mat-label>
-                                    <mat-select [(ngModel)]="this.employeeModel.EmployeeHR.Division">
+                                    <mat-select [(ngModel)]="employeeModel.EmployeeHR.Division">
                                         <mat-option *ngFor="let division of divisionListDropdown" [disabled]="isLocked"
                                             [value]="division.Value">
                                             {{division.Value}}
@@ -625,7 +625,7 @@
                             <div fxFlex="50" style="padding: 5px;">
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>Department</mat-label>
-                                    <mat-select [(ngModel)]="this.employeeModel.EmployeeHR.Department">
+                                    <mat-select [(ngModel)]="employeeModel.EmployeeHR.Department">
                                         <mat-option *ngFor="let  department of departmentListDropdown"
                                             [disabled]="isLocked" [value]="department.Value">
                                             {{ department.Value}}

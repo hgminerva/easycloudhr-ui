@@ -28,6 +28,9 @@ export class SoftwareComponent implements OnInit {
   public moduleEmployeeList: boolean = false;
   public moduleCompanyList: boolean = false;
   public moduleSystemTables: boolean = false;
+  public moduleDTR: boolean = false;
+  public moduleDTRList: boolean = false;
+  public moduleDTRDetail: boolean = false;
   public moduleOthers: boolean = false;
 
 
@@ -48,6 +51,7 @@ export class SoftwareComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     if (this.softwareSecurityService.openModule("Dashboard") == true) {
       this.moduleDashBoard = true;
     }
@@ -67,7 +71,19 @@ export class SoftwareComponent implements OnInit {
     if (this.softwareSecurityService.openModule("System Tables") == true) {
       this.moduleSystemTables = true;
     }
-    
+
+    if (this.softwareSecurityService.openModule("DTR") == true) {
+      this.moduleDTR = true;
+    }
+
+    if (this.softwareSecurityService.openModule("DTR List") == true) {
+      this.moduleDTRList = true;
+    }
+
+    if (this.softwareSecurityService.openModule("DTR Detail") == true) {
+      this.moduleDTRDetail = true;
+    }
+
     if (this.softwareSecurityService.openModule("Others") == true) {
       this.moduleOthers = true;
     }

@@ -36,7 +36,6 @@ export class CompanyListComponent implements OnInit {
 
   // Constructor and overrides
   constructor(private _companyListService: CompanyListService,
-              public _companyRegistrationlDialog: MatDialog,
               private _snackBar: MatSnackBar,
               private _snackBarTemplate: SnackBarTemplate,
               public _matDialogRef: MatDialog) {
@@ -47,7 +46,6 @@ export class CompanyListComponent implements OnInit {
 
   // Methods
   private async GetCompanyListData() {
-
     this._listCompanyObservableArray = new ObservableArray();
     this._listCompanyCollectionView = new CollectionView(this._listCompanyObservableArray);
     this._listCompanyCollectionView.pageSize = 15;
