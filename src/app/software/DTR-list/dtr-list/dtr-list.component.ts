@@ -47,6 +47,7 @@ export class DTRListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this._isProgressBarHidden = true;
     this.GetPayrollGroupDropdownListData();
     this.CreateCboShowNumberOfRows();
   }
@@ -124,7 +125,6 @@ export class DTRListComponent implements OnInit {
       await this._listDTRCollectionView.refresh();
       await this.flexDTR.refresh();
 
-      this._isProgressBarHidden = true;
 
       this._dTRListSubscription = (await this._dTRListService.DTRList(this._filterPayrollGroup)).subscribe(
         (response: any) => {
@@ -159,7 +159,7 @@ export class DTRListComponent implements OnInit {
     this._btnAddDisabled = true;
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
-      this._addDTRSubscription = (await this._dTRListService.AddDTR()).subscribe(
+      this._addDTRSubscription = (await this._dTRListService.AddDTR(this._filterPayrollGroup)).subscribe(
         (response: any) => {
           this._btnAddDisabled = false;
           this._isDataLoaded = true;

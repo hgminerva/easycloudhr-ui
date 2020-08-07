@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import * as wjcCore from '@grapecity/wijmo';
 import * as wjcGrid from '@grapecity/wijmo.grid';
-import { EmployeeListService } from '../employee-list.service';
 import { CollectionView, ObservableArray } from '@grapecity/wijmo';
+
+import { EmployeeListService } from '../employee-list.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { Router } from '@angular/router';

@@ -31,7 +31,7 @@ export class SoftwareComponent implements OnInit {
   public moduleDTR: boolean = false;
   public moduleDTRList: boolean = false;
   public moduleDTRDetail: boolean = false;
-  public moduleOthers: boolean = true;
+  public moduleOthers: boolean = false;
 
 
   @ViewChild("logoutPanelHeader") logoutPanelHeader: MatExpansionPanelHeader;
