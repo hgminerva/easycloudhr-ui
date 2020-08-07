@@ -94,7 +94,6 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
         this._dateTypeListDropdown = response;
         this._dTRLineModel.DateType = response[0].Value;
         this.BranchListData();
-
         if (this._dateTypeDropdownSubscription !== null) this._dateTypeDropdownSubscription.unsubscribe();
       },
       error => {
@@ -134,43 +133,15 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
     );
   }
 
-  public async UpdateDTRLine() {
-    if (this._isDTRLineDataLoaded == true) {
-      this._isDTRLineDataLoaded = false;
-      this._saveDTRLineSubscription = (await this._dtrDetialService.UpdateTRLine(this._dTRLineModel.Id, this._dTRLineModel)).subscribe(
-        (response: any) => {
-          this._isDTRLineDataLoaded = true;
-          this.CloseOnSave("Update");
+  fillLeadingZeroes(number: string, length: number) {
+    let result = number;
+    let pad = length - result.length;
+    while (pad > 0) { result = '0' + result; pad--; }
 
-        },
-        error => {
-          this._isDTRLineDataLoaded = true;
-          this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
-          if (this._saveDTRLineSubscription != null) this._saveDTRLineSubscription.unsubscribe();
-        }
-      );
-    }
+    return result;
   }
 
-  public Close(): void {
-    this._dTRLineModel = new DTRLineModel;
-    this._matDialogRef.close({ event: "Close" });
-  }
-
-  public CloseOnSave(state: string): void {
-    this._dTRLineModel = new DTRLineModel;
-    this._matDialogRef.close({ event: state });
-    if (this._saveDTRLineSubscription != null) this._saveDTRLineSubscription.unsubscribe();
-  }
-
-  public Save(): void {
-    if (this._title == "Edit DTR Line Detail") {
-
-      this.UpdateDTRLine();
-    }
-  }
-
-  convertTime1(time12h) {
+  convertTime(time12h) {
     const [time, modifier] = time12h.split(' ');
 
     let [hours, minutes] = time.split(':');
@@ -183,56 +154,12 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
       hours = parseInt(hours, 10) + 12;
     }
 
-    return `${hours}:${minutes}`;
+    let hrs = this.fillLeadingZeroes(hours, 2);
+    let mins = this.fillLeadingZeroes(minutes, 2);
+
+    return `${hrs}:${mins}`;
   }
 
-  convertTimeOut1(time12h) {
-    const [time, modifier] = time12h.split(' ');
-
-    let [hours, minutes] = time.split(':');
-
-    if (hours === '12') {
-      hours = '00';
-    }
-
-    if (modifier === 'PM') {
-      hours = parseInt(hours, 10) + 12;
-    }
-
-    return `${hours}:${minutes}`;
-  }
-
-  convertTime2(time12h) {
-    const [time, modifier] = time12h.split(' ');
-
-    let [hours, minutes] = time.split(':');
-
-    if (hours === '12') {
-      hours = '00';
-    }
-
-    if (modifier === 'PM') {
-      hours = parseInt(hours, 10) + 12;
-    }
-
-    return `${hours}:${minutes}`;
-  }
-
-  convertTimeOut2(time12h) {
-    const [time, modifier] = time12h.split(' ');
-
-    let [hours, minutes] = time.split(':');
-
-    if (hours === '12') {
-      hours = '00';
-    }
-
-    if (modifier === 'PM') {
-      hours = parseInt(hours, 10) + 12;
-    }
-
-    return `${hours}:${minutes}`;
-  }
 
   restrictNumeric(e) {
     let input;
@@ -370,15 +297,13 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
     }
   }
 
-  async loadDTRLineDetail() {
-    if (this._title == "Edit DTR Line Detail") {
-      this._dTRLineModel = await this._caseData.objDTRLine;
-    }
+  public async loadDTRLineDetail() {
+    this._dTRLineModel = await this._caseData.objDTRLine;
     this._dTRLineModel.DTRId = await this._caseData.objDTRLine.DTRId;
-    this._dTRLineModel.TimeIn1 = await this.convertTime1(this._caseData.objDTRLine.TimeIn1);
-    this._dTRLineModel.TimeOut1 = await this.convertTimeOut1(this._caseData.objDTRLine.TimeOut1);
-    this._dTRLineModel.TimeIn2 = await this.convertTime2(this._caseData.objDTRLine.TimeIn2);
-    this._dTRLineModel.TimeOut2 = await this.convertTimeOut2(this._caseData.objDTRLine.TimeOut2);
+    this._dTRLineModel.TimeIn1 = await this.convertTime(this._caseData.objDTRLine.TimeIn1);
+    this._dTRLineModel.TimeOut1 = await this.convertTime(this._caseData.objDTRLine.TimeOut1);
+    this._dTRLineModel.TimeIn2 = await this.convertTime(this._caseData.objDTRLine.TimeIn2);
+    this._dTRLineModel.TimeOut2 = await this.convertTime(this._caseData.objDTRLine.TimeOut2);
     this._dTRLineModel.DTRDate = this._caseData.objDTRLine.DTRDate;
     this._dTRLineModel.NumberOfHoursWorked = this._decimalPipe.transform(this._dTRLineModel.NumberOfHoursWorked, "1.2-2");
     this._dTRLineModel.OvertimeHours = this._decimalPipe.transform(this._dTRLineModel.NumberOfHoursWorked, "1.2-2");
@@ -394,8 +319,18 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
     this._dTRLineModel.UndertimeDeduction = this._decimalPipe.transform(this._dTRLineModel.NumberOfHoursWorked, "1.2-2");
     this._dTRLineModel.AbsentDeduction = this._decimalPipe.transform(this._dTRLineModel.NumberOfHoursWorked, "1.2-2");
     this._dTRLineModel.DailyNetPay = this._decimalPipe.transform(this._dTRLineModel.NumberOfHoursWorked, "1.2-2");
-
     this._isComponentsShown = false;
   }
 
+
+  public Close(): void {
+    this._matDialogRef.close({ data: "Close" });
+  }
+
+  public CloseOnSave(): void {
+    this._matDialogRef.close({ data: this._dTRLineModel });
+  }
+
+  ngOnDestroy() {
+  }
 }

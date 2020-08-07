@@ -296,35 +296,10 @@
             </div>
         </div>
     </div>
-    <!-- <div fxLayout="row" fxLayout.xs="column">
-        <div fxFlex="25" style="padding: 5px;">
-           
-        </div>
-        <div fxFlex="25" style="padding: 5px;">
-           
-        </div>
-        <div fxFlex="25" style="padding: 5px;">
-            <mat-form-field appearance="outline" style="width: 100%;">
-                <mat-label>Absent Deduction</mat-label>
-                <input type="text" matInput placeholder="0.00" style="text-align:right;"
-                    (keypress)="restrictNumeric($event)" (change)="formatValueAbsentDeduction()"
-                    [(ngModel)]="_dTRLineModel.AbsentDeduction">
-            </mat-form-field>
-        </div>
-        <div fxFlex="25" style="padding: 5px;">
-            <mat-form-field appearance="outline" style="width: 100%;">
-                <mat-label>Daily Net Pay</mat-label>
-                <input type="text" matInput placeholder="0.00" style="text-align:right;"
-                    (keypress)="restrictNumeric($event)" (change)="formatValueDailyNetPay()"
-                    [(ngModel)]="_dTRLineModel.DailyNetPay">
-            </mat-form-field>
-        </div>
-    </div> -->
 </div>
 <mat-divider></mat-divider>
 <div mat-dialog-actions align="right">
-    <button mat-flat-button color="primary" mat-dialog-close align-self="right" style="margin-right: 5px;"
-        (click)="Save()">
+    <button mat-flat-button color="primary" mat-dialog-close style="margin-right: 5px;" (click)="CloseOnSave()">
         <mat-icon>save</mat-icon>
         Save
     </button>

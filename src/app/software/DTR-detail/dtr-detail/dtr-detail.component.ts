@@ -28,7 +28,9 @@ export class DTRDetailComponent implements OnInit {
     private _activatedRoute: ActivatedRoute,
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
-    public _matDialogRef: MatDialog,
+    public _addDTRLinesatDialogRef: MatDialog,
+    public _updateDTRLineDialogRef: MatDialog,
+    public _deleteDTRLineDialogRef: MatDialog,
   ) { }
 
   async ngOnInit() {
@@ -364,21 +366,19 @@ export class DTRDetailComponent implements OnInit {
 
   private async GetDTRLineListData() {
 
-    this._listDTRLineObservableArray = await new ObservableArray();
-    this._listDTRLineCollectionView = await new CollectionView(this._listDTRLineObservableArray);
-    this._listDTRLineCollectionView.pageSize = await 15;
-    this._listDTRLineCollectionView.trackChanges = await true;
+    this._listDTRLineObservableArray = new ObservableArray();
+    this._listDTRLineCollectionView = new CollectionView(this._listDTRLineObservableArray);
+    this._listDTRLineCollectionView.pageSize = 15;
+    this._listDTRLineCollectionView.trackChanges = true;
     await this._listDTRLineCollectionView.refresh();
     await this.flexDTRLine.refresh();
 
-    this._isProgressBarHidden = true;
+    this._isDTRLineProgressBarHidden = true;
 
-    this._dTRLineListSubscription = (await this._dtrDetialService.DTRLineList(this._dTRModel.Id)).subscribe(
+    this._dTRLineListSubscription = await (await this._dtrDetialService.DTRLineList(this._dTRModel.Id)).subscribe(
       (response: any) => {
-        var results = response;
-        console.log(results);
-        if (results["length"] > 0) {
-          this._listDTRLineObservableArray = results;
+        if (response["length"] > 0) {
+          this._listDTRLineObservableArray = response;
           this._listDTRLineCollectionView = new CollectionView(this._listDTRLineObservableArray);
           this._listDTRLineCollectionView.pageSize = 15;
           this._listDTRLineCollectionView.trackChanges = true;
@@ -387,12 +387,11 @@ export class DTRDetailComponent implements OnInit {
         }
 
         this._isDTRLineDataLoaded = true;
-        this._isProgressBarHidden = false;
-
-        if (this._dTRLineListSubscription != null) this._dTRLineListSubscription.unsubscribe();
+        this._isDTRLineProgressBarHidden = false;
+        if (this._dTRLineListSubscription !== null) this._dTRLineListSubscription.unsubscribe();
       },
       error => {
-        this._isProgressBarHidden = false;
+        this._isDTRLineProgressBarHidden = false;
         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
         if (this._dTRLineListSubscription !== null) this._dTRLineListSubscription.unsubscribe();
       }
@@ -405,7 +404,6 @@ export class DTRDetailComponent implements OnInit {
 
   public EditDTRLine() {
     let currentDTRLine = this._listDTRLineCollectionView.currentItem;
-    console.log("Edit DTR Line", currentDTRLine);
     this.DetailDTRLine(currentDTRLine, "Edit DTR Line Detail");
   }
 
@@ -434,7 +432,7 @@ export class DTRDetailComponent implements OnInit {
 
   public ComfirmDeleteDTRLine(): void {
     let currentDTRLine = this._listDTRLineCollectionView.currentItem;
-    const matDialogRef = this._matDialogRef.open(DeleteDialogBoxComponent, {
+    const matDialogRef = this._deleteDTRLineDialogRef.open(DeleteDialogBoxComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete DTRLine",
@@ -450,27 +448,9 @@ export class DTRDetailComponent implements OnInit {
     });
   }
 
-  public DetailDTRLine(objDTRLine: DTRLineModel, eventTitle: string) {
-    const matDialogRef = this._matDialogRef.open(DtrDetialDtrLineDetailDialogComponent, {
-      width: '1300px',
-      data: {
-        objDialogTitle: eventTitle,
-        objDTRLine: objDTRLine,
-      },
-      disableClose: true
-    });
-
-    matDialogRef.afterClosed().subscribe(result => {
-      if (result.event !== "Close") {
-        setTimeout(() => {
-          this.GetDTRLineListData();
-        }, 500);
-      }
-    });
-  }
 
   public async AddDTRLineDialog() {
-    const matDialogRef = await this._matDialogRef.open(DtrDetailDtrLineAddDialogComponent, {
+    const matDialogRef = this._addDTRLinesatDialogRef.open(DtrDetailDtrLineAddDialogComponent, {
       width: '1200px',
       data: {
         objDialogTitle: "ADD DTR LINES",
@@ -479,17 +459,48 @@ export class DTRDetailComponent implements OnInit {
       disableClose: true
     });
 
-    await matDialogRef.afterClosed().subscribe(result => {
+    matDialogRef.afterClosed().subscribe((result) => {
       if (result.event !== "Close") {
-        this._listDTRLineObservableArray = new ObservableArray();
-        this._listDTRLineCollectionView = new CollectionView(this._listDTRLineObservableArray);
-        this._listDTRLineCollectionView.pageSize = 15;
-        this._listDTRLineCollectionView.trackChanges = true;
-        this._listDTRLineCollectionView.refresh();
-        this.flexDTRLine.refresh();
-        if (this._dTRLineListSubscription != null) this._dTRLineListSubscription.unsubscribe();
         this.GetDTRLineListData();
       }
     });
+  }
+
+  public DetailDTRLine(objDTRLine: DTRLineModel, eventTitle: string) {
+    if (this._dTRLineListSubscription !== null) this._dTRLineListSubscription.unsubscribe();
+
+    const matDialogRef = this._updateDTRLineDialogRef.open(DtrDetialDtrLineDetailDialogComponent, {
+      width: '1300px',
+      data: {
+        objDialogTitle: eventTitle,
+        objDTRLine: objDTRLine,
+      },
+      disableClose: true
+    });
+
+    matDialogRef.afterClosed().subscribe((result: any) => {
+      if (result.event !== "Close") {
+        this.UpdateDTRLine(result["data"].Id, result["data"]);
+      }
+    });
+  }
+
+  ngOnDestroy() {
+  }
+
+  private _saveDTRLineSubscription: any;
+
+  public async UpdateDTRLine(id: number, objDTRLine: DTRLineModel) {
+    this._saveDTRLineSubscription = await (await this._dtrDetialService.UpdateTRLine(id, objDTRLine)).subscribe(
+      response => {
+        this._snackBarTemplate.snackBarSuccess(this._snackBar, "Update Successfully");
+        this.GetDTRLineListData();
+        if (this._saveDTRLineSubscription != null) this._saveDTRLineSubscription.unsubscribe();
+      },
+      error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
+        if (this._saveDTRLineSubscription != null) this._saveDTRLineSubscription.unsubscribe();
+      }
+    );
   }
 }

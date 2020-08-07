@@ -202,7 +202,6 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
         this._isDataLoaded = true;
         this._isProgressBarHidden = false;
 
-        this._snackBarTemplate.snackBarSuccess(this._snackBar, "Save Successfully");
         if (this._employeeListSubscription != null) this._employeeListSubscription.unsubscribe();
       },
       error => {
