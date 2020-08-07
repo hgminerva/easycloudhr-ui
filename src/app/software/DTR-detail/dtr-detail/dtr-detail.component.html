@@ -22,20 +22,24 @@
         Close
     </button>
 </mat-toolbar>
+<mat-progress-bar *ngIf="_isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'" style="width: 100%;">
+</mat-progress-bar>
 <div class="software-container">
     <div [hidden]="_isComponentsShown">
-
         <div fxLayout="row" fxLayout.xs="column">
-
             <div fxFlex="50" style="padding: 5px;">
                 <div fxLayout="row" fxLayout.xs="column">
-                    <div fxFlex="33" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;" readonly disabled>
-                            <mat-label>DTR No.</mat-label>
-                            <input type="text" matInput placeholder="Code" style="text-align:right;"
-                                [(ngModel)]="_dTRModel.DTRNumber" [readonly]="_isLocked">
-                        </mat-form-field>
+                    <div fxFlex="33" style="padding: 5px;margin-top: 3px;">
+                        <h2 class="text_box"><b>{{_dTRModel.DTRNumber}}</b> </h2>
                     </div>
+                    <div fxFlex="33" style="padding: 5px;margin-top: 3px;">
+                        <h2 class="text_box"><b>{{_dTRModel.PayrollGroup}}</b> </h2>
+                    </div>
+                    <div fxFlex="34" style="padding: 5px;margin-top: 3px;">
+                        <h2 class="text_box"><b>{{_dTRModel.Year}}</b> </h2>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="33" style="padding: 5px;">
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Date</mat-label>
@@ -45,30 +49,7 @@
                             </mat-datepicker-toggle>
                             <mat-datepicker #datePickerDTRDate color="primary"></mat-datepicker>
                         </mat-form-field>
-                    </div>
-                    <div fxFlex="34" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
-                            <mat-label>Payroll Group</mat-label>
-                            <mat-select [(ngModel)]="_dTRModel.PayrollGroup">
-                                <mat-option *ngFor="let payrollGroup of _payrollGroupListDropdown"
-                                    [disabled]="_isLocked" [value]="payrollGroup.Value">
-                                    {{payrollGroup.Value}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div fxLayout="row" fxLayout.xs="column">
-                    <div fxFlex="33" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
-                            <mat-label>Year</mat-label>
-                            <mat-select [(ngModel)]="_dTRModel.YearId">
-                                <mat-option *ngFor="let year of _yearListDropdown" [disabled]="_isLocked"
-                                    [value]="year.Id">
-                                    {{year.Value}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
+
                     </div>
                     <div fxFlex="33" style="padding: 5px;">
                         <mat-form-field appearance="outline" style="width: 100%;">
@@ -130,8 +111,7 @@
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Prepared By</mat-label>
                             <mat-select [(ngModel)]="_dTRModel.PreparedByUserId">
-                                <mat-option *ngFor="let user of _userListDropdown" [disabled]="_isLocked"
-                                    [value]="user.Id">
+                                <mat-option *ngFor="let user of _userListDropdown" disabled [value]="user.Id">
                                     {{user.Value}}
                                 </mat-option>
                             </mat-select>
@@ -259,7 +239,8 @@
                     <wj-flex-grid-column [header]="'Undertime Hours'" [binding]="'UndertimeHours'" [isReadOnly]="true"
                         [width]="150">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Daily Pay'" [binding]="'DailyPay'" [isReadOnly]="true" [width]="150">
+                    <wj-flex-grid-column [header]="'Daily Pay'" [binding]="'DailyPay'" [isReadOnly]="true"
+                        [width]="150">
                     </wj-flex-grid-column>
                     <wj-flex-grid-column [header]="'Rest day Pay'" [binding]="'RestdayPay'" [isReadOnly]="true"
                         [width]="150">
@@ -291,7 +272,7 @@
             </mat-tab>
             <mat-tab disabled style="background-color: transparent; ">
                 <ng-template mat-tab-label>
-                    <button mat-raised-button color="primary" style="float: right; margin: 5px;" (click)="AddDTRLine()"
+                    <button mat-raised-button color="primary" style="float: right; margin: 5px;" (click)="AddDTRLineDialog()"
                         [disabled]="_btnAddDTRLineDisabled">
                         <mat-icon>add</mat-icon> ADD
                     </button><br>

@@ -1,3 +1,5 @@
+import { DTRModel } from './dtr-detial.model';
+
 export class DTRLineModel {
     Id: number;
     DTRId: number;
@@ -7,6 +9,7 @@ export class DTRLineModel {
     DateType: string;
     IsRestDay: boolean;
     ShiftId: number;
+    Shift: string;
     Branch: string;
     TimeIn1: string;
     TimeOut1: string;
@@ -34,3 +37,17 @@ export class DTRLineModel {
     DailyNetPay: string;
     Remarks: string;
 }
+
+export class DTRLines{
+    DailyTimeRecordModel: DTRModel;
+    EmployeeList: any;
+    UseEmployeeDefaultShift: boolean;
+    StartDate: Date;
+    EndDate: Date;
+    TimeIn1: string;
+    TimeOut1: string;
+    TimeIn2: string;
+    TimeOut2: string;
+}
+
+

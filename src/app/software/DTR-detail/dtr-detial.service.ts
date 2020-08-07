@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { DTRModel } from './dtr-detial.model';
 import { from } from 'rxjs';
-import { DTRLineModel } from './dtr-line.model';
+import { DTRLineModel, DTRLines } from './dtr-line.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -15,6 +15,7 @@ export class DtrDetialService {
     private httpClient: HttpClient
   ) { }
 
+  // DTR DROPDOWN
   public async PayrollGroupList() {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/dtr/payroll/group/list', this.appSettings.defaultOptions);
   }
@@ -39,6 +40,7 @@ export class DtrDetialService {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/dtr/user/list', this.appSettings.defaultOptions);
   }
 
+  // DTR
   public async DTRDetail(id: number) {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/dtr/detail/' + id, this.appSettings.defaultOptions);
   }
@@ -55,12 +57,13 @@ export class DtrDetialService {
     return await this.httpClient.put(this.appSettings.defaultAPIURLHost + '/api/DTR/unlock/' + id, "", this.appSettings.defaultOptions);
   }
 
+  // DTR LINE
   public async DTRLineList(dTRId: number) {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/dtr/line/list/' + dTRId, this.appSettings.defaultOptions);
   }
 
-  public async ADDTRLine(objDTRLine: DTRLineModel) {
-    return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/dtr/line/create', JSON.stringify(objDTRLine), this.appSettings.defaultOptions);
+  public async ADDTRLine(objDTRLines: DTRLines) {
+    return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/dtr/line/create/lines/', JSON.stringify(objDTRLines), this.appSettings.defaultOptions);
   }
 
   public async UpdateTRLine(id: number, objDTRLine: DTRLineModel) {
@@ -71,8 +74,9 @@ export class DtrDetialService {
     return await this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/api/dtr/line/delete/' + id, this.appSettings.defaultOptions);
   }
 
-  public async EmployeeList() {
-    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/dtr/line/employee/list', this.appSettings.defaultOptions);
+  // DTR LINE DROPDOWN
+  public async EmployeeList(payrollGroup: string) {
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/dtr/line/employee/filteredBy/' + payrollGroup, this.appSettings.defaultOptions);
   }
 
   public async DateTypeList() {

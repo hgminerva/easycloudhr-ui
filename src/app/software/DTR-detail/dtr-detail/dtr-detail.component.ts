@@ -13,6 +13,7 @@ import { DTRModel } from '../dtr-detial.model';
 import { DTRLineModel } from '../dtr-line.model';
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { DtrDetialDtrLineDetailDialogComponent } from '../dtr-detial-dtr-line-detail-dialog/dtr-detial-dtr-line-detail-dialog.component';
+import { DtrDetailDtrLineAddDialogComponent } from '../dtr-detail-dtr-line-add-dialog/dtr-detail-dtr-line-add-dialog.component';
 
 
 @Component({
@@ -34,7 +35,7 @@ export class DTRDetailComponent implements OnInit {
     await this.PayrollGroupListData();
   }
 
-  public _isProgressBarHidden: boolean = true;
+  public _isProgressBarHidden: boolean = false;
   public _isComponentsShown: boolean = true;
 
   public _btnSaveDisabled: boolean = true;
@@ -113,6 +114,7 @@ export class DTRDetailComponent implements OnInit {
     DateType: '',
     IsRestDay: false,
     ShiftId: 0,
+    Shift: '',
     Branch: '',
     TimeIn1: '0:00',
     TimeOut1: '0:00',
@@ -244,6 +246,7 @@ export class DTRDetailComponent implements OnInit {
     let id = 0;
     this._activatedRoute.params.subscribe(params => { id = params["id"]; });
     this._isComponentsShown = true;
+    this._isProgressBarHidden = true;
 
     this.DisableButtons();
     this._dTRDetailSubscription = await (await this._dtrDetialService.DTRDetail(id)).subscribe(
@@ -255,11 +258,11 @@ export class DTRDetailComponent implements OnInit {
           this._dTRModel.DateStart = new Date(result["DateStart"]);
           this._dTRModel.DateEnd = new Date(result["DateEnd"]);
           this._dTRLineModel.DTRId = result["Id"];
-          console.log(this._dTRModel);
         }
         this.loadComponent(result["_isLocked"]);
         this.GetDTRLineListData();
         this._isDataLoaded = true;
+        this._isProgressBarHidden = false;
         this._isComponentsShown = false;
         if (this._dTRDetailSubscription !== null) this._dTRDetailSubscription.unsubscribe();
       },
@@ -274,7 +277,6 @@ export class DTRDetailComponent implements OnInit {
     this.DisableButtons();
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
-      console.log("SaveDTRDetail");
       this._saveDTRDetailSubscription = (await this._dtrDetialService.SaveDTR(this._dTRModel.Id, this._dTRModel)).subscribe(
         response => {
           this.loadComponent(this._dTRModel.IsLocked);
@@ -361,20 +363,20 @@ export class DTRDetailComponent implements OnInit {
   activeTab() { }
 
   private async GetDTRLineListData() {
-    this._listDTRLineObservableArray = new ObservableArray();
-    this._listDTRLineCollectionView = new CollectionView(this._listDTRLineObservableArray);
-    this._listDTRLineCollectionView.pageSize = 15;
-    this._listDTRLineCollectionView.trackChanges = true;
+
+    this._listDTRLineObservableArray = await new ObservableArray();
+    this._listDTRLineCollectionView = await new CollectionView(this._listDTRLineObservableArray);
+    this._listDTRLineCollectionView.pageSize = await 15;
+    this._listDTRLineCollectionView.trackChanges = await true;
     await this._listDTRLineCollectionView.refresh();
     await this.flexDTRLine.refresh();
 
     this._isProgressBarHidden = true;
 
-    this._dTRLineListSubscription = await (await this._dtrDetialService.DTRLineList(this._dTRModel.Id)).subscribe(
+    this._dTRLineListSubscription = (await this._dtrDetialService.DTRLineList(this._dTRModel.Id)).subscribe(
       (response: any) => {
         var results = response;
-        console.log("Response:", results);
-
+        console.log(results);
         if (results["length"] > 0) {
           this._listDTRLineObservableArray = results;
           this._listDTRLineCollectionView = new CollectionView(this._listDTRLineObservableArray);
@@ -403,6 +405,7 @@ export class DTRDetailComponent implements OnInit {
 
   public EditDTRLine() {
     let currentDTRLine = this._listDTRLineCollectionView.currentItem;
+    console.log("Edit DTR Line", currentDTRLine);
     this.DetailDTRLine(currentDTRLine, "Edit DTR Line Detail");
   }
 
@@ -447,9 +450,9 @@ export class DTRDetailComponent implements OnInit {
     });
   }
 
-  public async DetailDTRLine(objDTRLine: DTRLineModel, eventTitle: string) {
-    const matDialogRef = await this._matDialogRef.open(DtrDetialDtrLineDetailDialogComponent, {
-      width: '1200px',
+  public DetailDTRLine(objDTRLine: DTRLineModel, eventTitle: string) {
+    const matDialogRef = this._matDialogRef.open(DtrDetialDtrLineDetailDialogComponent, {
+      width: '1300px',
       data: {
         objDialogTitle: eventTitle,
         objDTRLine: objDTRLine,
@@ -457,12 +460,35 @@ export class DTRDetailComponent implements OnInit {
       disableClose: true
     });
 
-    await matDialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+    matDialogRef.afterClosed().subscribe(result => {
       if (result.event !== "Close") {
         setTimeout(() => {
           this.GetDTRLineListData();
         }, 500);
+      }
+    });
+  }
+
+  public async AddDTRLineDialog() {
+    const matDialogRef = await this._matDialogRef.open(DtrDetailDtrLineAddDialogComponent, {
+      width: '1200px',
+      data: {
+        objDialogTitle: "ADD DTR LINES",
+        objData: this._dTRModel,
+      },
+      disableClose: true
+    });
+
+    await matDialogRef.afterClosed().subscribe(result => {
+      if (result.event !== "Close") {
+        this._listDTRLineObservableArray = new ObservableArray();
+        this._listDTRLineCollectionView = new CollectionView(this._listDTRLineObservableArray);
+        this._listDTRLineCollectionView.pageSize = 15;
+        this._listDTRLineCollectionView.trackChanges = true;
+        this._listDTRLineCollectionView.refresh();
+        this.flexDTRLine.refresh();
+        if (this._dTRLineListSubscription != null) this._dTRLineListSubscription.unsubscribe();
+        this.GetDTRLineListData();
       }
     });
   }
