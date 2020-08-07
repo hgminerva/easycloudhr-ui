@@ -105,6 +105,7 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
 
   public _title = '';
   public _isComponentsShown: boolean = true;
+  public disableComponentOnInsert: boolean = false;
 
   public _isDTRLineDataLoaded: boolean = true;
 
@@ -179,7 +180,6 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
   private async GetEmployeeData() {
     this._listEmployeeObservableArray = new ObservableArray();
     this._listEmployeeCollectionView = new CollectionView(this._listEmployeeObservableArray);
-    this._listEmployeeCollectionView.pageSize = 15;
     this._listEmployeeCollectionView.trackChanges = true;
     await this._listEmployeeCollectionView.refresh();
     await this.flexEmployees.refresh();
@@ -194,7 +194,6 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
           this._employees = results;
           this._listEmployeeObservableArray = results;
           this._listEmployeeCollectionView = new CollectionView(this._listEmployeeObservableArray);
-          this._listEmployeeCollectionView.pageSize = 15;
           this._listEmployeeCollectionView.trackChanges = true;
           this._listEmployeeCollectionView.refresh();
           this.flexEmployees.refresh();
@@ -211,8 +210,10 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
     );
   }
 
+  headerClick() {
+    console.log("Select all");
+  }
   topLeftClicked(e) {
-    console.log("CC", this._listEmployeeCollectionViewSize);
 
     let val = e.target.checked;
     this.flexEmployees.beginUpdate();
@@ -223,17 +224,24 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
     this.flexEmployees.endUpdate();
   }
 
-  public event: any;
   rowHeaderClicked(e) {
-    this.event = e;
-    let val = e.target.checked;
-    let selectedRowCnt = this._getTotalSelectedRows(this.flexEmployees);
-    let checked = selectedRowCnt > 0;
-    let indeterminate = (selectedRowCnt > 0 && this.flexEmployees.rows.length > selectedRowCnt);
-    console.log(this.flexEmployees.topLeftCells.getCellElement(0, 0))
-    let cb = this.flexEmployees.topLeftCells.getCellElement(0, 0).querySelector("input") as HTMLInputElement;
-    cb.checked = checked;
-    cb.indeterminate = indeterminate;
+    var collection;
+    collection = this._listEmployeeCollectionView;
+    for (var p = 0; p < collection.pageCount; p++) {
+
+      let val = e.target.checked;
+      let selectedRowCnt = this._getTotalSelectedRows(this.flexEmployees);
+      let checked = selectedRowCnt > 0;
+      let indeterminate = (selectedRowCnt > 0 && this.flexEmployees.rows.length > selectedRowCnt);
+      let cb = this.flexEmployees.topLeftCells.getCellElement(0, 0).querySelector("input") as HTMLInputElement;
+      cb.checked = checked;
+      cb.indeterminate = indeterminate;
+
+      for (var i = 0; i < collection.items.length; i++) {
+        var row = '';
+        collection.items[i].isSelected = true;
+      }
+    }
   }
 
   _getTotalSelectedRows(grid: wjcGrid.FlexGrid) {
@@ -247,7 +255,6 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
   }
 
   selectRow() {
-    let val = this.event.checked;
     let selectedRowCnt = this._getTotalSelectedRows(this.flexEmployees);
     let checked = selectedRowCnt > 0;
     let indeterminate = (selectedRowCnt > 0 && this.flexEmployees.rows.length > selectedRowCnt);
@@ -257,24 +264,15 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
     cb.indeterminate = indeterminate;
   }
 
-  moveToFirstPage() {
-    this._listEmployeeCollectionView.moveToFirstPage();
-    this.selectRow();
-  }
-
-  moveToPreviousPage() {
-    this._listEmployeeCollectionView.moveToPreviousPage();
-    this.selectRow();
-  }
-
-  moveToNextPage() {
-    this._listEmployeeCollectionView.moveToNextPage();
-    this.selectRow();
-  }
-
-  moveToLastPage() {
-    this._listEmployeeCollectionView.moveToLastPage();
-    this.selectRow();
+  public selectRows() {
+    var collection;
+    collection = this._listEmployeeCollectionView;
+    for (var p = 0; p < collection.pageCount; p++) {
+      for (var i = 0; i < collection.items.length; i++) {
+        var row = '';
+        collection.items[i].isSelected = true;
+      }
+    }
   }
 
   public Close(): void {
@@ -288,26 +286,29 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
   public Save(): void {
     this._dTRLines.EmployeeList = this.flexEmployees.selectedItems;
     this._dTRLines.DailyTimeRecordModel = this._dTRModel;
-    console.log(this._dTRLines);
-    console.log("Employee List: ", this._dTRLines.EmployeeList);
-    console.log("DTR: ", this._dTRLines.EmployeeList);
-    console.log("DTR: ", this._dTRLines);
-
     this.SaveDTRLine();
   }
 
   public async SaveDTRLine() {
+    this.disableComponentOnInsert = true;
     if (this._isDTRLineDataLoaded == true) {
       this._isDTRLineDataLoaded = false;
+      this._isProgressBarHidden = true;
+
       this._addDTRLineSubscription = await (await this._dtrDetialService.ADDTRLine(this._dTRLines)).subscribe(
         (response: any) => {
           this._isDTRLineDataLoaded = true;
           this._snackBarTemplate.snackBarSuccess(this._snackBar, "Added Successfully");
+          this.disableComponentOnInsert = false;
+          this._isProgressBarHidden = false;
+          this._isDTRLineDataLoaded = true;
           this.CloseOnSave("Add");
           if (this._addDTRLineSubscription != null) this._addDTRLineSubscription.unsubscribe();
         },
         error => {
           this._isDTRLineDataLoaded = true;
+          this.disableComponentOnInsert = false;
+          this._isProgressBarHidden = false;
           this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
           if (this._addDTRLineSubscription != null) this._addDTRLineSubscription.unsubscribe();
         }
