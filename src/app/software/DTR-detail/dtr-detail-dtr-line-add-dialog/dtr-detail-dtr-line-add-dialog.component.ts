@@ -192,7 +192,6 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
       (response: any) => {
         var results = response;
         if (results["length"] > 0) {
-          this._listEmployeeCollectionViewSize = results.length;
           this._employees = results;
           this._listEmployeeObservableArray = results;
           this._listEmployeeCollectionView = new CollectionView(this._listEmployeeObservableArray);
@@ -215,9 +214,10 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
   headerClick() {
     console.log("Select all");
   }
-  topLeftClicked(e) {
 
+  topLeftClicked(e) {
     let val = e.target.checked;
+    console.log("Click", val);
     this.flexEmployees.beginUpdate();
     for (let i = 0; i < this.flexEmployees.rows.length; i++) {
       this.flexEmployees.rows[i].isSelected = val;
@@ -227,23 +227,13 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
   }
 
   rowHeaderClicked(e) {
-    var collection;
-    collection = this._listEmployeeCollectionView;
-    for (var p = 0; p < collection.pageCount; p++) {
-
-      let val = e.target.checked;
-      let selectedRowCnt = this._getTotalSelectedRows(this.flexEmployees);
-      let checked = selectedRowCnt > 0;
-      let indeterminate = (selectedRowCnt > 0 && this.flexEmployees.rows.length > selectedRowCnt);
-      let cb = this.flexEmployees.topLeftCells.getCellElement(0, 0).querySelector("input") as HTMLInputElement;
-      cb.checked = checked;
-      cb.indeterminate = indeterminate;
-
-      for (var i = 0; i < collection.items.length; i++) {
-        var row = '';
-        collection.items[i].isSelected = true;
-      }
-    }
+    let val = e.target.checked;
+    let selectedRowCnt = this._getTotalSelectedRows(this.flexEmployees);
+    let checked = selectedRowCnt > 0;
+    let indeterminate = (selectedRowCnt > 0 && this.flexEmployees.rows.length > selectedRowCnt);
+    let cb = this.flexEmployees.topLeftCells.getCellElement(0, 0).querySelector("input") as HTMLInputElement;
+    cb.checked = checked;
+    cb.indeterminate = indeterminate;
   }
 
   _getTotalSelectedRows(grid: wjcGrid.FlexGrid) {
@@ -288,7 +278,8 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
   public Save(): void {
     this._dTRLines.EmployeeList = this.flexEmployees.selectedItems;
     this._dTRLines.DailyTimeRecordModel = this._dTRModel;
-    this.SaveDTRLine();
+    console.log(this.flexEmployees.selectedItems);
+    // this.SaveDTRLine();
   }
 
   public async SaveDTRLine() {
