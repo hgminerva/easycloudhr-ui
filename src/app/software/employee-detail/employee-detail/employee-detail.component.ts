@@ -467,9 +467,9 @@ export class EmployeeDetailComponent implements OnInit {
   private async GetEmployeeDetail() {
     this.disableButtons();
     let id = 0;
+    this.activatedRoute.params.subscribe(params => { id = params["id"]; });
     this.isProgressBarHidden = true;
     this.isComponentsShown = false;
-    this.activatedRoute.params.subscribe(params => { id = params["id"]; });
 
     this.employeeDetailSubscription = await (await this.employeeDetailService.EmployeeDetail(id)).subscribe(
       response => {

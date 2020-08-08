@@ -154,6 +154,7 @@ export class DTRDetailComponent implements OnInit {
   public _isDTRLineDataLoaded: boolean = false;
 
   private _dTRLineListSubscription: any;
+  private _saveDTRLineSubscription: any;
   private _deleteDTRLineSubscription: any;
 
   public _btnAddDTRLineDisabled: boolean = false;
@@ -453,7 +454,7 @@ export class DTRDetailComponent implements OnInit {
     const matDialogRef = this._addDTRLinesatDialogRef.open(DtrDetailDtrLineAddDialogComponent, {
       width: '1200px',
       data: {
-        objDialogTitle: "ADD DTR LINES",
+        objDialogTitle: "Add DTR Lines",
         objData: this._dTRModel,
       },
       disableClose: true
@@ -488,19 +489,23 @@ export class DTRDetailComponent implements OnInit {
   ngOnDestroy() {
   }
 
-  private _saveDTRLineSubscription: any;
 
   public async UpdateDTRLine(id: number, objDTRLine: DTRLineModel) {
-    this._saveDTRLineSubscription = await (await this._dtrDetialService.UpdateTRLine(id, objDTRLine)).subscribe(
-      response => {
-        this._snackBarTemplate.snackBarSuccess(this._snackBar, "Update Successfully");
-        this.GetDTRLineListData();
-        if (this._saveDTRLineSubscription != null) this._saveDTRLineSubscription.unsubscribe();
-      },
-      error => {
-        this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
-        if (this._saveDTRLineSubscription != null) this._saveDTRLineSubscription.unsubscribe();
-      }
-    );
+    if (this._isDataLoaded == true) {
+      this._isDataLoaded = false;
+      this._saveDTRLineSubscription = await (await this._dtrDetialService.UpdateTRLine(id, objDTRLine)).subscribe(
+        response => {
+          this._isDataLoaded = true;
+          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Update Successfully");
+          this.GetDTRLineListData();
+          if (this._saveDTRLineSubscription != null) this._saveDTRLineSubscription.unsubscribe();
+        },
+        error => {
+          this._isDataLoaded = true;
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this._saveDTRLineSubscription != null) this._saveDTRLineSubscription.unsubscribe();
+        }
+      );
+    }
   }
 }

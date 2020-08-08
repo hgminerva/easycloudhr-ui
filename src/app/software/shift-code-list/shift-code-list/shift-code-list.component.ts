@@ -89,7 +89,8 @@ export class ShiftCodeListComponent implements OnInit {
           this.isDataLoaded = true;
           this.GetShiftCodeListData();
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Added Successfully");
-          this.DetailShiftCode(response, "Shift Code Detail")
+          this.router.navigate(['/software/shift-code-detail/' + response]);
+          // this.DetailShiftCode(response, "Shift Code Detail")
         },
         error => {
           this.buttonDisabled = false;
@@ -103,7 +104,9 @@ export class ShiftCodeListComponent implements OnInit {
 
   public EditShiftCode() {
     let currentShiftCode = this.listShiftCodeCollectionView.currentItem;
-    this.DetailShiftCode(currentShiftCode.Id, "Edit Shift Code Detail")
+    this.router.navigate(['/software/shift-code-detail/' + currentShiftCode.Id]);
+
+    // this.DetailShiftCode(currentShiftCode.Id, "Edit Shift Code Detail")
   }
 
   public async DeleteShiftCode() {

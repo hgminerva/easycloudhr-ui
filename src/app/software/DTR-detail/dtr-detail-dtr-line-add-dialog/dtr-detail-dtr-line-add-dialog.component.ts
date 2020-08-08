@@ -104,7 +104,7 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
   }
 
   public _title = '';
-  public _isComponentsShown: boolean = true;
+  public _isComponentsShown: boolean = false;
   public disableComponentOnInsert: boolean = false;
 
   public _isDTRLineDataLoaded: boolean = true;
@@ -180,6 +180,8 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
   private async GetEmployeeData() {
     this._listEmployeeObservableArray = new ObservableArray();
     this._listEmployeeCollectionView = new CollectionView(this._listEmployeeObservableArray);
+    this._listEmployeeCollectionView.pageSize = 8;
+
     this._listEmployeeCollectionView.trackChanges = true;
     await this._listEmployeeCollectionView.refresh();
     await this.flexEmployees.refresh();
@@ -314,5 +316,9 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
         }
       );
     }
+  }
+
+  UseEmployeeDefaultShift(isShown) {
+    this._isComponentsShown = isShown;
   }
 }

@@ -56,6 +56,7 @@ import { EmployeeDetailEditNameDialogComponent } from './employee-detail/employe
 import { EmployeeDetialLinkToUsernameDialogComponent } from './employee-detail/employee-detial-link-to-username-dialog/employee-detial-link-to-username-dialog.component';
 import { DtrDetialDtrLineDetailDialogComponent } from './DTR-detail/dtr-detial-dtr-line-detail-dialog/dtr-detial-dtr-line-detail-dialog.component';
 import { DtrDetailDtrLineAddDialogComponent } from './DTR-detail/dtr-detail-dtr-line-add-dialog/dtr-detail-dtr-line-add-dialog.component';
+import { ShiftCodeDetialShiftLineComponent } from './shift-code-detail/shift-code-detial-shift-line/shift-code-detial-shift-line.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +95,8 @@ import { DtrDetailDtrLineAddDialogComponent } from './DTR-detail/dtr-detail-dtr-
     EmployeeDetailEditNameDialogComponent,
     EmployeeDetialLinkToUsernameDialogComponent,
     DtrDetialDtrLineDetailDialogComponent,
-    DtrDetailDtrLineAddDialogComponent
+    DtrDetailDtrLineAddDialogComponent,
+    ShiftCodeDetialShiftLineComponent
   ],
   imports: [
     CommonModule,

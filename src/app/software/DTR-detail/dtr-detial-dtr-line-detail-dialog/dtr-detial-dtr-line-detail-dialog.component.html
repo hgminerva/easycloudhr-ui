@@ -19,11 +19,15 @@
             <h2 class="text_box"><b>P {{_dTRLineModel.DailyPay}}</b> </h2>
         </div>
     </div>
-    <div fxLayout="row" fxLayout.xs="column" style="margin-top: -20px;">
+    <div fxLayout="row" fxLayout.xs="column" style="margin-top: -5px;">
         <div fxFlex="36" style="padding: 5px;">
             <mat-form-field appearance="outline" style="width: 100%;">
                 <mat-label>Shift Code</mat-label>
-                <input type="text" matInput placeholder="Shift Code" readonly [(ngModel)]="_dTRLineModel.Shift">
+                <mat-select [(ngModel)]="_dTRLineModel.ShiftId">
+                    <mat-option *ngFor="let shift of _shiftsListDropdown" [value]="shift.Id">
+                        {{shift.Value}}
+                    </mat-option>
+                </mat-select>
             </mat-form-field>
         </div>
         <div fxFlex="16" style="padding: 5px;">
@@ -149,21 +153,163 @@
             </mat-form-field>
         </div>
     </div>
+    <!-- <span>Number Fields</span> -->
+    <mat-tab-group #tabGroup style="max-height:100%;">
+        <mat-tab label="Hours">
+            <div fxLayout="row" fxLayout.xs="column" style="margin-top: 15px;">
+                <div fxFlex="25" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Number Of Hours Worked</mat-label>
+                        <input matInput placeholder="0.00" style="text-align:right;"
+                            (keypress)="restrictNumeric($event)" (change)="formatValueNumberOfHoursWorked()" readonly
+                            [(ngModel)]="_dTRLineModel.NumberOfHoursWorked">
+                    </mat-form-field>
+                </div>
+                <div fxFlex="25" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Overtime Hours</mat-label>
+                        <input matInput placeholder="0.00" style="text-align:right;" readonly
+                            (keypress)="restrictNumeric($event)" (change)="formatValueOvertimeHours()"
+                            [(ngModel)]="_dTRLineModel.OvertimeHours">
+                    </mat-form-field>
+                </div>
+                <div fxFlex="25" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Night Differential Hours</mat-label>
+                        <input type="text" matInput placeholder="0.00" style="text-align:right;" readonly
+                            (keypress)="restrictNumeric($event)" (change)="formatValueNightDifferentialHours()"
+                            [(ngModel)]="_dTRLineModel.NightDifferentialHours">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column">
+                <div fxFlex="25" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Late Hours</mat-label>
+                        <input type="text" matInput placeholder="0.00" style="text-align:right;" readonly
+                            (keypress)="restrictNumeric($event)" (change)="formatValueLateHours()"
+                            [(ngModel)]="_dTRLineModel.LateHours">
+                    </mat-form-field>
+                </div>
+                <div fxFlex="25" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Undertime Hours</mat-label>
+                        <input type="text" matInput placeholder="0.00" style="text-align:right;" readonly
+                            (keypress)="restrictNumeric($event)" (change)="formatValueUndertimeHours()"
+                            [(ngModel)]="_dTRLineModel.UndertimeHours">
+                    </mat-form-field>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Pays">
+            <div fxLayout="row" fxLayout.xs="column" style="margin-top: 15px;">
+                <div fxFlex="25" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Daily Pay</mat-label>
+                        <input type="text" matInput placeholder="0.00" style="text-align:right;" readonly
+                            (keypress)="restrictNumeric($event)" (change)="formatValueDailyPay()"
+                            [(ngModel)]="_dTRLineModel.DailyPay">
+                    </mat-form-field>
+                </div>
+                <div fxFlex="25" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Overtime Pay</mat-label>
+                        <input type="text" matInput placeholder="0.00" style="text-align:right;" readonly
+                            (keypress)="restrictNumeric($event)" (change)="formatValueOvertimePay()"
+                            [(ngModel)]="_dTRLineModel.OvertimePay">
+                    </mat-form-field>
+                </div>
+                <div fxFlex="25" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Night Differential Pay</mat-label>
+                        <input type="text" matInput placeholder="0.00" style="text-align:right;" readonly
+                            (keypress)="restrictNumeric($event)" (change)="formatValueNightDifferentialPay()"
+                            [(ngModel)]="_dTRLineModel.NightDifferentialPay">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column">
+                <div fxFlex="25" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Holiday Pay</mat-label>
+                        <input type="text" matInput placeholder="0.00" style="text-align:right;" readonly
+                            (keypress)="restrictNumeric($event)" (change)="formatValueRestdayPay()"
+                            [(ngModel)]="_dTRLineModel.HolidayPay">
+                    </mat-form-field>
+                </div>
+                <div fxFlex="25" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Restday Pay</mat-label>
+                        <input type="text" matInput placeholder="0.00" style="text-align:right;" readonly
+                            (keypress)="restrictNumeric($event)" (change)="formatValueRestdayPay()"
+                            [(ngModel)]="_dTRLineModel.RestdayPay">
+                    </mat-form-field>
+                </div>
+                <div fxFlex="25" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Daily Net Pay</mat-label>
+                        <input type="text" matInput placeholder="0.00" style="text-align:right;" readonly
+                            (keypress)="restrictNumeric($event)" (change)="formatValueDailyNetPay()"
+                            [(ngModel)]="_dTRLineModel.DailyNetPay">
+                    </mat-form-field>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Deductions">
+            <div fxLayout="row" fxLayout.xs="column" style="height:12.45em; margin-top: 15px;">
+                <div fxFlex="25" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Late Deduction</mat-label>
+                        <input type="text" matInput placeholder="0.00" style="text-align:right;" readonly
+                            (keypress)="restrictNumeric($event)" (change)="formatValueLateDeduction()"
+                            [(ngModel)]="_dTRLineModel.LateDeduction">
+                    </mat-form-field>
+                </div>
+                <div fxFlex="25" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Undertime Deduction</mat-label>
+                        <input type="text" matInput placeholder="0.00" style="text-align:right;" readonly
+                            (keypress)="restrictNumeric($event)" (change)="formatValueUndertimeDeduction()"
+                            [(ngModel)]="_dTRLineModel.UndertimeDeduction">
+                    </mat-form-field>
+                </div>
+                <div fxFlex="25" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Absent Deduction</mat-label>
+                        <input type="text" matInput placeholder="0.00" style="text-align:right;" readonly
+                            (keypress)="restrictNumeric($event)" (change)="formatValueAbsentDeduction()"
+                            [(ngModel)]="_dTRLineModel.AbsentDeduction">
+                    </mat-form-field>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Remarks">
+            <div fxLayout="row" fxLayout.xs="column" style="height:12.45em; margin-top: 15px;">
+                <div fxFlex="75" style="padding: 5px;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Remarks</mat-label>
+                        <textarea matInput placeholder="AddrRemarksess" [(ngModel)]="_dTRLineModel.Remarks"
+                            rows="6"></textarea>
+                    </mat-form-field>
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
     <div fxLayout="row" fxLayout.xs="column">
-        <div fxFlex="36">
+        <!-- <div fxFlex="36">
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="50" style="padding: 5px;">
                     <mat-form-field appearance="outline" style="width: 100%;">
                         <mat-label>Number Of Hours Worked</mat-label>
                         <input matInput placeholder="0.00" style="text-align:right;"
-                            (keypress)="restrictNumeric($event)" (change)="formatValueNumberOfHoursWorked()"
+                            (keypress)="restrictNumeric($event)" (change)="formatValueNumberOfHoursWorked()" readonly
                             [(ngModel)]="_dTRLineModel.NumberOfHoursWorked">
                     </mat-form-field>
                 </div>
                 <div fxFlex="50" style="padding: 5px;">
                     <mat-form-field appearance="outline" style="width: 100%;">
                         <mat-label>Daily Pay</mat-label>
-                        <input type="text" matInput placeholder="0.00" style="text-align:right;"
+                        <input type="text" matInput placeholder="0.00" style="text-align:right;" readonly
                             (keypress)="restrictNumeric($event)" (change)="formatValueDailyPay()"
                             [(ngModel)]="_dTRLineModel.DailyPay">
                     </mat-form-field>
@@ -173,7 +319,7 @@
                 <div fxFlex="50" style="padding: 5px;">
                     <mat-form-field appearance="outline" style="width: 100%;">
                         <mat-label>Overtime Hours</mat-label>
-                        <input matInput placeholder="0.00" style="text-align:right;"
+                        <input matInput placeholder="0.00" style="text-align:right;" readonly
                             (keypress)="restrictNumeric($event)" (change)="formatValueOvertimeHours()"
                             [(ngModel)]="_dTRLineModel.OvertimeHours">
                     </mat-form-field>
@@ -181,7 +327,7 @@
                 <div fxFlex="50" style="padding: 5px;">
                     <mat-form-field appearance="outline" style="width: 100%;">
                         <mat-label>Overtime Pay</mat-label>
-                        <input type="text" matInput placeholder="0.00" style="text-align:right;"
+                        <input type="text" matInput placeholder="0.00" style="text-align:right;" readonly
                             (keypress)="restrictNumeric($event)" (change)="formatValueOvertimePay()"
                             [(ngModel)]="_dTRLineModel.OvertimePay">
                     </mat-form-field>
@@ -191,7 +337,7 @@
                 <div fxFlex="50" style="padding: 5px;">
                     <mat-form-field appearance="outline" style="width: 100%;">
                         <mat-label>Night Differential Hours</mat-label>
-                        <input type="text" matInput placeholder="0.00" style="text-align:right;"
+                        <input type="text" matInput placeholder="0.00" style="text-align:right;" readonly
                             (keypress)="restrictNumeric($event)" (change)="formatValueNightDifferentialHours()"
                             [(ngModel)]="_dTRLineModel.NightDifferentialHours">
                     </mat-form-field>
@@ -199,7 +345,7 @@
                 <div fxFlex="50" style="padding: 5px;">
                     <mat-form-field appearance="outline" style="width: 100%;">
                         <mat-label>Night Differential Pay</mat-label>
-                        <input type="text" matInput placeholder="0.00" style="text-align:right;"
+                        <input type="text" matInput placeholder="0.00" style="text-align:right;" readonly
                             (keypress)="restrictNumeric($event)" (change)="formatValueNightDifferentialPay()"
                             [(ngModel)]="_dTRLineModel.NightDifferentialPay">
                     </mat-form-field>
@@ -209,7 +355,7 @@
                 <div fxFlex="50" style="padding: 5px;">
                     <mat-form-field appearance="outline" style="width: 100%;">
                         <mat-label>Late Hours</mat-label>
-                        <input type="text" matInput placeholder="0.00" style="text-align:right;"
+                        <input type="text" matInput placeholder="0.00" style="text-align:right;" readonly
                             (keypress)="restrictNumeric($event)" (change)="formatValueLateHours()"
                             [(ngModel)]="_dTRLineModel.LateHours">
                     </mat-form-field>
@@ -217,7 +363,7 @@
                 <div fxFlex="50" style="padding: 5px;">
                     <mat-form-field appearance="outline" style="width: 100%;">
                         <mat-label>Late Deduction</mat-label>
-                        <input type="text" matInput placeholder="0.00" style="text-align:right;"
+                        <input type="text" matInput placeholder="0.00" style="text-align:right;" readonly
                             (keypress)="restrictNumeric($event)" (change)="formatValueLateDeduction()"
                             [(ngModel)]="_dTRLineModel.LateDeduction">
                     </mat-form-field>
@@ -227,7 +373,7 @@
                 <div fxFlex="50" style="padding: 5px;">
                     <mat-form-field appearance="outline" style="width: 100%;">
                         <mat-label>Undertime Hours</mat-label>
-                        <input type="text" matInput placeholder="0.00" style="text-align:right;"
+                        <input type="text" matInput placeholder="0.00" style="text-align:right;" readonly
                             (keypress)="restrictNumeric($event)" (change)="formatValueUndertimeHours()"
                             [(ngModel)]="_dTRLineModel.UndertimeHours">
                     </mat-form-field>
@@ -235,19 +381,19 @@
                 <div fxFlex="50" style="padding: 5px;">
                     <mat-form-field appearance="outline" style="width: 100%;">
                         <mat-label>Undertime Deduction</mat-label>
-                        <input type="text" matInput placeholder="0.00" style="text-align:right;"
+                        <input type="text" matInput placeholder="0.00" style="text-align:right;" readonly
                             (keypress)="restrictNumeric($event)" (change)="formatValueUndertimeDeduction()"
                             [(ngModel)]="_dTRLineModel.UndertimeDeduction">
                     </mat-form-field>
                 </div>
             </div>
-        </div>
-        <div fxFlex="16">
+        </div> -->
+        <!-- <div fxFlex="16">
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
                     <mat-form-field appearance="outline" style="width: 100%;">
                         <mat-label>Holiday Pay</mat-label>
-                        <input type="text" matInput placeholder="0.00" style="text-align:right;"
+                        <input type="text" matInput placeholder="0.00" style="text-align:right;" readonly
                             (keypress)="restrictNumeric($event)" (change)="formatValueRestdayPay()"
                             [(ngModel)]="_dTRLineModel.HolidayPay">
                     </mat-form-field>
@@ -257,7 +403,7 @@
                 <div fxFlex="100" style="padding: 5px;">
                     <mat-form-field appearance="outline" style="width: 100%;">
                         <mat-label>Restday Pay</mat-label>
-                        <input type="text" matInput placeholder="0.00" style="text-align:right;"
+                        <input type="text" matInput placeholder="0.00" style="text-align:right;" readonly
                             (keypress)="restrictNumeric($event)" (change)="formatValueRestdayPay()"
                             [(ngModel)]="_dTRLineModel.RestdayPay">
                     </mat-form-field>
@@ -267,7 +413,7 @@
                 <div fxFlex="100" style="padding: 5px;">
                     <mat-form-field appearance="outline" style="width: 100%;">
                         <mat-label>Absent Deduction</mat-label>
-                        <input type="text" matInput placeholder="0.00" style="text-align:right;"
+                        <input type="text" matInput placeholder="0.00" style="text-align:right;" readonly
                             (keypress)="restrictNumeric($event)" (change)="formatValueAbsentDeduction()"
                             [(ngModel)]="_dTRLineModel.AbsentDeduction">
                     </mat-form-field>
@@ -277,14 +423,14 @@
                 <div fxFlex="100" style="padding: 5px;">
                     <mat-form-field appearance="outline" style="width: 100%;">
                         <mat-label>Daily Net Pay</mat-label>
-                        <input type="text" matInput placeholder="0.00" style="text-align:right;"
+                        <input type="text" matInput placeholder="0.00" style="text-align:right;" readonly
                             (keypress)="restrictNumeric($event)" (change)="formatValueDailyNetPay()"
                             [(ngModel)]="_dTRLineModel.DailyNetPay">
                     </mat-form-field>
                 </div>
             </div>
-        </div>
-        <div fxFlex="48" style="bottom: 0;">
+        </div> -->
+        <!-- <div fxFlex="48" style="bottom: 0;">
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
                     <mat-form-field appearance="outline" style="width: 100%;">
@@ -294,7 +440,7 @@
                     </mat-form-field>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 <mat-divider></mat-divider>

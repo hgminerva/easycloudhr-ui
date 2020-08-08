@@ -18,7 +18,7 @@
 
         Unlock
     </button>
-    <button mat-raised-button style="margin: 5px;" (click)="Close()" color="warn">
+    <button mat-raised-button style="margin: 5px;" routerLink="/software/shift-code-list" color="warn">
         <mat-icon>close</mat-icon>
         Close
     </button>
@@ -26,7 +26,7 @@
 <mat-progress-bar *ngIf="isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'" style="width: 100%;">
 </mat-progress-bar>
 <div class="software-container">
-    <div *ngIf="isComponentsShown">
+    <div [hidden]="!isComponentsShown">
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="50" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
@@ -45,11 +45,118 @@
             <div fxFlex="100" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>Particulars</mat-label>
-                    <textarea matInput placeholder="Full Name" [(ngModel)]="shiftModel.Particulars" [readonly]="isLocked"
-                        rows="5" style="min-height: 102px;"></textarea>
+                    <textarea matInput placeholder="Full Name" [(ngModel)]="shiftModel.Particulars"
+                        [readonly]="isLocked" rows="5" style="min-height: 102px;"></textarea>
                 </mat-form-field>
             </div>
         </div>
+
+        <mat-tab-group #tabGroup (selectedTabChange)="activeTab()" style="max-height:100%;" class="shift-detail-tab">
+            <mat-tab label="Shift Line">
+                <mat-progress-bar *ngIf="_isShiftLineProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'">
+                </mat-progress-bar>
+
+                <wj-flex-grid #flexShiftLine [itemsSource]="_listShiftLineCollectionView" [selectionMode]="3"
+                    [frozenColumns]="2" [headersVisibility]="1">
+                    <wj-flex-grid-filter></wj-flex-grid-filter>
+                    <wj-flex-grid-column [isReadOnly]="true" [width]="80">
+                        <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
+                            <button mat-raised-button color="primary"
+                                style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
+                                (click)="EditShiftLine()" id="btnEditShiftLine">
+                                <mat-icon>edit</mat-icon>
+                                Edit
+                            </button>
+                        </ng-template>
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [isReadOnly]="true" [width]="80">
+                        <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
+                            <button mat-raised-button color="warn"
+                                style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
+                                (click)="ComfirmDeleteShiftLine()">
+                                <mat-icon>delete</mat-icon>
+                                Delete
+                            </button>
+                        </ng-template>
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Shift Date'" [binding]="'ShiftDate'" [isReadOnly]="true"
+                        [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Shift'" [binding]="'Shift'" [isReadOnly]="true" [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Time In 1'" [binding]="'TimeIn1'" [isReadOnly]="true" [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Time Out 1'" [binding]="'TimeOut1'" [isReadOnly]="true"
+                        [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Time In 2'" [binding]="'TimeIn2'" [isReadOnly]="true" [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Time Out 2'" [binding]="'TimeOut2'" [isReadOnly]="true"
+                        [width]="150">
+                    </wj-flex-grid-column>
+
+
+                    <wj-flex-grid-column [header]="'IsRestDay'" [binding]="'IsRestDay'" [isReadOnly]="true"
+                        [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'TotalNumberOfHours'" [binding]="'TotalNumberOfHours'"
+                        [isReadOnly]="true" [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Night Differential Hours'" [binding]="'NightDifferentialHours'"
+                        [isReadOnly]="true" [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'IsFlexible'" [binding]="'IsFlexible'" [isReadOnly]="true"
+                        [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'FixibilityHoursLimit'" [binding]="'FixibilityHoursLimit'"
+                        [isReadOnly]="true" [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Remarks'" [binding]="'Remarks'" [isReadOnly]="true" [width]="150">
+                    </wj-flex-grid-column>
+                </wj-flex-grid>
+            </mat-tab>
+            <mat-tab disabled style="background-color: transparent; ">
+                <ng-template mat-tab-label>
+                    <button mat-raised-button color="primary" style="float: right; margin: 5px;"
+                        (click)="AddShiftLineDialog()" [disabled]="_btnAddShiftLineDisabled">
+                        <mat-icon>add</mat-icon> ADD
+                    </button><br>
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+
+        <div fxLayout="row" fxLayout.xs="column">
+            <div fxFlex="20" style="padding: 2px;">
+                <div fxLayout="row" fxLayout.xs="column">
+                    <mat-button-toggle-group style="margin-top: 7px; width: 100%;">
+                        <mat-button-toggle (click)="_listShiftLineCollectionView.moveToFirstPage()"
+                            style=" width: 100%;">
+                            <mat-icon style="margin-right: -15px">navigate_before</mat-icon>
+                            <mat-icon>navigate_before</mat-icon>
+                        </mat-button-toggle>
+                        <mat-button-toggle (click)="_listShiftLineCollectionView.moveToPreviousPage()"
+                            style=" width: 100%;">
+                            <mat-icon>navigate_before</mat-icon>
+                        </mat-button-toggle>
+                        <mat-button-toggle style=" width: 100%;">{{ _listShiftLineCollectionView.pageIndex + 1 }} /
+                            {{ _listShiftLineCollectionView.pageCount }}</mat-button-toggle>
+                        <mat-button-toggle (click)="_listShiftLineCollectionView.moveToNextPage()"
+                            style=" width: 100%;">
+                            <mat-icon>navigate_next</mat-icon>
+                        </mat-button-toggle>
+                        <mat-button-toggle (click)="_listShiftLineCollectionView.moveToLastPage()"
+                            style=" width: 100%;">
+                            <mat-icon style="margin-right: -15px">navigate_next</mat-icon>
+                            <mat-icon>navigate_next</mat-icon>
+                        </mat-button-toggle>
+                    </mat-button-toggle-group>
+                </div>
+            </div>
+            <div fxFlex="15" style="padding: 5px;">
+            </div>
+        </div>
+        <mat-divider></mat-divider>
+
         <div fxLayout="row" fxLayout.xs="column" style="color: gray;">
             <div fxFlex="50" style="padding: 5px;">
                 <div fxLayout="row" fxLayout.xs="column">
@@ -85,4 +192,5 @@
             </div>
         </div>
     </div>
+
 </div>

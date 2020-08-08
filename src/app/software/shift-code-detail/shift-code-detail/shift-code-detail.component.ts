@@ -1,10 +1,18 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+
+import * as wjcGrid from '@grapecity/wijmo.grid';
+import { CollectionView, ObservableArray } from '@grapecity/wijmo';
+
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackBarTemplate } from '../../shared/snack-bar-template';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+
 import { ShiftModel } from './../shift-code-model';
 import { ShiftCodeDetailService } from './../shift-code-detail.service';
 import { ActivatedRoute } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { SnackBarTemplate } from '../../shared/snack-bar-template';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ShiftLineModel } from '../shift-code-line.model';
+import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
+import { ShiftCodeDetialShiftLineComponent } from './../shift-code-detial-shift-line/shift-code-detial-shift-line.component';
 
 @Component({
   selector: 'app-shift-code-detail',
@@ -17,16 +25,20 @@ export class ShiftCodeDetailComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBar,
     private snackBarTemplate: SnackBarTemplate,
-    public _companyDetailDialogRef: MatDialogRef<ShiftCodeDetailComponent>,
-    @Inject(MAT_DIALOG_DATA) public caseData: any
+    public shiftLineDetailDialog: MatDialog,
+    public deleteShiftLineDetailDialog: MatDialog,
+
+    // public _ShiftLineDetailDialogRef: MatDialogRef<ShiftCodeDetailComponent>,
+    // @Inject(MAT_DIALOG_DATA) public caseData: any
   ) { }
 
   public title = '';
   public event = 'Close';
 
   ngOnInit(): void {
-    this.title = this.caseData.objDialogTitle;
-    this.GetShiftDetail(this.caseData.objShiftCodeId);
+    this.GetShiftDetail();
+    // this.title = this.caseData.objDialogTitle;
+    // this.GetShiftDetail(this.caseData.objShiftCodeId);
   }
 
   public shiftModel: ShiftModel = {
@@ -58,7 +70,41 @@ export class ShiftCodeDetailComponent implements OnInit {
   public isLocked: boolean = false;
   public isComponentsShown: boolean = false;
 
-  private async GetShiftDetail(id) {
+  public _listShiftLineObservableArray: ObservableArray = new ObservableArray();
+  public _listShiftLineCollectionView: CollectionView = new CollectionView(this._listShiftLineObservableArray);
+  public _listPageIndex: number = 15;
+
+  public _isShiftLineProgressBarHidden = false;
+  public _isDataLoaded: boolean = false;
+
+  private _shiftLineListSubscription: any;
+  private _addShiftLineSubscription: any;
+  private _deleteShiftLineSubscription: any;
+
+  public _btnAddShiftLineDisabled: boolean = false;
+
+  // DOM declaration
+  @ViewChild('flexShiftLine') flexShiftLine: wjcGrid.FlexGrid;
+
+  public ShiftLineModel: ShiftLineModel = {
+    Id: 0,
+    ShiftId: 0,
+    ShiftDate: new Date(),
+    TimeIn1: '',
+    TimeOut1: '',
+    TimeIn2: '',
+    TimeOut2: '',
+    IsRestDay: false,
+    TotalNumberOfHours: 0,
+    NightDifferentialHours: 0,
+    IsFlexible: false,
+    FixibilityHoursLimit: 0,
+    Remarks: '',
+  }
+
+  private async GetShiftDetail() {
+    let id = 0;
+    this.activatedRoute.params.subscribe(params => { id = params["id"]; });
     this.disableButtons();
     this.isComponentsShown = false;
     this.shiftDetailSubscription = (await this.shiftCodeDetailService.ShiftDetail(id)).subscribe(
@@ -70,6 +116,7 @@ export class ShiftCodeDetailComponent implements OnInit {
           this.shiftModel.IsLocked = result["IsLocked"];
           console.log(result["IsLocked"]);
         }
+        this.GetShiftLineListData();
 
         this.loadComponent(result["IsLocked"]);
         this.isDataLoaded = true;
@@ -159,10 +206,12 @@ export class ShiftCodeDetailComponent implements OnInit {
   // ==================
   private loadComponent(isDisable) {
     if (isDisable == true) {
+      this._btnAddShiftLineDisabled = isDisable;
       this.btnSaveDisabled = isDisable;
       this.btnLockisabled = isDisable;
       this.btnUnlockDisabled = !isDisable;
     } else {
+      this._btnAddShiftLineDisabled = isDisable;
       this.btnSaveDisabled = isDisable;
       this.btnLockisabled = isDisable;
       this.btnUnlockDisabled = !isDisable;
@@ -179,7 +228,137 @@ export class ShiftCodeDetailComponent implements OnInit {
     this.isProgressBarHidden = true;
   }
 
-  public Close(): void {
-    this._companyDetailDialogRef.close({ event: this.event });
+  // public Close(): void {
+  //   this._ShiftLineDetailDialogRef.close({ event: this.event });
+  // }
+
+  // Class properties
+
+  private async GetShiftLineListData() {
+    this._listShiftLineObservableArray = new ObservableArray();
+    this._listShiftLineCollectionView = new CollectionView(this._listShiftLineObservableArray);
+    this._listShiftLineCollectionView.pageSize = 15;
+    this._listShiftLineCollectionView.trackChanges = true;
+    await this._listShiftLineCollectionView.refresh();
+    await this.flexShiftLine.refresh();
+
+    this._isShiftLineProgressBarHidden = true;
+
+    this._shiftLineListSubscription = (await this.shiftCodeDetailService.ShiftLineList(this.shiftModel.Id)).subscribe(
+      (response: any) => {
+        var results = response;
+        console.log("Response:", results);
+
+        if (results["length"] > 0) {
+          this._listShiftLineObservableArray = results;
+          this._listShiftLineCollectionView = new CollectionView(this._listShiftLineObservableArray);
+          this._listShiftLineCollectionView.pageSize = 15;
+          this._listShiftLineCollectionView.trackChanges = true;
+          this._listShiftLineCollectionView.refresh();
+          this.flexShiftLine.refresh();
+        }
+
+        this._isDataLoaded = true;
+        this._isShiftLineProgressBarHidden = false;
+
+        if (this._shiftLineListSubscription != null) this._shiftLineListSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this._shiftLineListSubscription !== null) this._shiftLineListSubscription.unsubscribe();
+      }
+    );
   }
+
+  public async AddShiftLine() {
+    this._btnAddShiftLineDisabled = true;
+    if (this._isDataLoaded == true) {
+      this._isDataLoaded = false;
+      this._addShiftLineSubscription = (await this.shiftCodeDetailService.AddShiftLine(this.ShiftLineModel)).subscribe(
+        (response: any) => {
+          this._btnAddShiftLineDisabled = false;
+          this._isDataLoaded = true;
+          this.GetShiftLineListData();
+          this.DetailShiftLine(response, "ShiftLine Detail")
+          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Added Successfully");
+        },
+        error => {
+          this._btnAddShiftLineDisabled = false;
+          this._isDataLoaded = true;
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this._addShiftLineSubscription != null) this._addShiftLineSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
+  AddShiftLineDialog() {
+    this.DetailShiftLine(this.ShiftLineModel, "Edit ShiftLine Detail");
+  }
+
+  public EditShiftLine() {
+    let currentShiftLine = this._listShiftLineCollectionView.currentItem;
+    this.DetailShiftLine(currentShiftLine.Id, "Edit ShiftLine Detail");
+  }
+
+  public async DeleteShiftLine() {
+    let currentShiftLine = this._listShiftLineCollectionView.currentItem;
+    this._isShiftLineProgressBarHidden = true;
+
+    if (this._isDataLoaded == true) {
+      this._isDataLoaded = false;
+      this._deleteShiftLineSubscription = (await this.shiftCodeDetailService.DeleteShiftLine(currentShiftLine.Id)).subscribe(
+        response => {
+          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Delete Successfully");
+          this.GetShiftLineListData();
+          this._isShiftLineProgressBarHidden = false;
+          this._isDataLoaded = true;
+        },
+        error => {
+          this._isDataLoaded = true;
+          this._isShiftLineProgressBarHidden = false;
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + error.status);
+          if (this._deleteShiftLineSubscription != null) this._deleteShiftLineSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
+  public ComfirmDeleteShiftLine(): void {
+    let currentShiftLine = this._listShiftLineCollectionView.currentItem;
+    const userRegistrationlDialogRef = this.deleteShiftLineDetailDialog.open(DeleteDialogBoxComponent, {
+      width: '500px',
+      data: {
+        objDialogTitle: "Delete ShiftLine",
+        objComfirmationMessage: ` Delete this ${currentShiftLine.ShiftLine}?`,
+      },
+      disableClose: true
+    });
+
+    userRegistrationlDialogRef.afterClosed().subscribe(result => {
+      if (result.message == "Yes") {
+        this.DeleteShiftLine();
+      }
+    });
+  }
+
+  public DetailShiftLine(objShiftLine: ShiftLineModel, eventTitle: string): void {
+    const userRegistrationlDialogRef = this.shiftLineDetailDialog.open(ShiftCodeDetialShiftLineComponent, {
+      width: '1200px',
+      height: '550px',
+      data: {
+        objDialogTitle: eventTitle,
+        objShiftLine: objShiftLine,
+      },
+      disableClose: true
+    });
+
+    userRegistrationlDialogRef.afterClosed().subscribe(result => {
+      if (result.event !== "Close") {
+        this.GetShiftLineListData();
+      }
+    });
+  }
+
+  activeTab() { }
 }

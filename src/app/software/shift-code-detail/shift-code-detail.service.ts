@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { AppSettings } from 'src/app/app-settings';
 import { HttpClient } from '@angular/common/http';
 import { ShiftModel } from './shift-code-model';
+import { ShiftLineModel } from './shift-code-line.model';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -27,5 +29,21 @@ export class ShiftCodeDetailService {
 
   public async UnlockShift(id: number) {
     return this.httpClient.put(this.appSettings.defaultAPIURLHost + '/api/shift/unlock/' + id, "", this.appSettings.defaultOptions);
+  }
+
+  public async ShiftLineList(shiftId: number) {
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/shift/line/list/' + shiftId, this.appSettings.defaultOptions);
+  }
+
+  public async AddShiftLine(objShiftLines: ShiftLineModel) {
+    return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/shift/line/create/lines/', JSON.stringify(objShiftLines), this.appSettings.defaultOptions);
+  }
+
+  public async UpdateTRLine(id: number, objShiftLine: ShiftLineModel) {
+    return await this.httpClient.put(this.appSettings.defaultAPIURLHost + '/api/shift/line/update/' + id, JSON.stringify(objShiftLine), this.appSettings.defaultOptions);
+  }
+
+  public async DeleteShiftLine(id: number) {
+    return await this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/api/shift/line/delete/' + id, this.appSettings.defaultOptions);
   }
 }

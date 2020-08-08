@@ -29,7 +29,7 @@ body {
     padding: 15px;
 }
 
-.user-detail-tab .mat-tab-label:last-child, .dtr-detail-tab .mat-tab-label:last-child {
+.user-detail-tab .mat-tab-label:last-child, .dtr-detail-tab .mat-tab-label:last-child, .shift-detail-tab .mat-tab-label:last-child {
     margin-left: auto; 
     min-width: 0;
     padding: 0 12px;
