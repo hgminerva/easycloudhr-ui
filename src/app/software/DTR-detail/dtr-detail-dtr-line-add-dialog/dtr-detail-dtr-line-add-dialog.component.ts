@@ -120,7 +120,6 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
     this._dTRModel = this._caseData.objData;
     this._dTRLines.StartDate = this._caseData.objData.DateStart;
     this._dTRLines.EndDate = this._caseData.objData.DateEnd;
-    console.log(this._dTRModel);
     this.Create_cboShowNumberOfRows();
     this.GetEmployeeData();
   }
@@ -212,16 +211,16 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
   }
 
   headerClick() {
-    console.log("Select all");
+    // console.log("Select all");
   }
 
   topLeftClicked(e) {
     let val = e.target.checked;
-    console.log("Click", val);
+    // console.log("Click", val);
     this.flexEmployees.beginUpdate();
     for (let i = 0; i < this.flexEmployees.rows.length; i++) {
       this.flexEmployees.rows[i].isSelected = val;
-      console.log(this.flexEmployees.rows[i].isSelected);
+      // console.log(this.flexEmployees.rows[i].isSelected);
     }
     this.flexEmployees.endUpdate();
   }
@@ -250,7 +249,7 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
     let selectedRowCnt = this._getTotalSelectedRows(this.flexEmployees);
     let checked = selectedRowCnt > 0;
     let indeterminate = (selectedRowCnt > 0 && this.flexEmployees.rows.length > selectedRowCnt);
-    console.log(this.flexEmployees.topLeftCells.getCellElement(0, 0))
+    // console.log(this.flexEmployees.topLeftCells.getCellElement(0, 0))
     let cb = this.flexEmployees.topLeftCells.getCellElement(0, 0).querySelector("input") as HTMLInputElement;
     cb.checked = checked;
     cb.indeterminate = indeterminate;
@@ -278,8 +277,8 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
   public Save(): void {
     this._dTRLines.EmployeeList = this.flexEmployees.selectedItems;
     this._dTRLines.DailyTimeRecordModel = this._dTRModel;
-    console.log(this.flexEmployees.selectedItems);
-    // this.SaveDTRLine();
+    // console.log(this.flexEmployees.selectedItems);
+    this.SaveDTRLine();
   }
 
   public async SaveDTRLine() {
