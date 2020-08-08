@@ -15,7 +15,6 @@
     <button mat-raised-button style="margin: 5px;" color="primary" (click)="UnlockUserDetail()"
         [disabled]="btnUnlockDisabled">
         <mat-icon>lock_open</mat-icon>
-
         Unlock
     </button>
     <button mat-raised-button style="margin: 5px;" routerLink="/software/user-list" color="warn">
@@ -28,7 +27,7 @@
 <div class="software-container">
     <div [hidden]="!isComponentsShown">
         <div fxLayout="row" fxLayout.xs="column">
-            <div fxFlex="50" style="padding: 5px;">
+            <div fxFlex="35" style="padding: 5px;">
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="100" style="padding: 5px;">
                         <mat-form-field appearance="outline" style="width: 100%;">
@@ -39,7 +38,7 @@
                     </div>
                 </div>
             </div>
-            <div fxFlex="50" style="padding: 5px;">
+            <div fxFlex="65" style="padding: 5px;">
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="50" style="padding: 5px;">
                         <mat-form-field appearance="outline" style="width: 100%;">
@@ -55,6 +54,14 @@
                                     readonly formControlName="password">
                             </mat-form-field>
                         </form>
+                    </div>
+                    <div fxFlex="50" style="padding: 5px;">
+                        <button mat-raised-button
+                            style="margin: 5px; width: 100%; height: 60%; background-color: white; color: #742774;"
+                            (click)="ChangePassword()" [disabled]="isLocked">
+                            <mat-icon>vpn_key</mat-icon>
+                            Change Password
+                        </button>
                     </div>
                 </div>
             </div>

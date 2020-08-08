@@ -37,5 +37,9 @@ body {
     color: unset;
 }
 
+.mat-dialog-actions {
+    justify-content: flex-end;
+}
+
 
 
