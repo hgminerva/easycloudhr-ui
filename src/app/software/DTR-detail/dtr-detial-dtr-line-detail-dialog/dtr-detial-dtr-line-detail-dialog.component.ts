@@ -142,6 +142,11 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
   }
 
   convertTime(time12h) {
+
+    if (time12h == '') {
+      return '';
+    }
+    
     const [time, modifier] = time12h.split(' ');
 
     let [hours, minutes] = time.split(':');
@@ -324,11 +329,11 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
 
 
   public Close(): void {
-    this._matDialogRef.close({ data: "Close" });
+    this._matDialogRef.close({ event: "Close" });
   }
 
   public CloseOnSave(): void {
-    this._matDialogRef.close({ data: this._dTRLineModel });
+    this._matDialogRef.close({ event: "Save", data: this._dTRLineModel });
   }
 
   ngOnDestroy() {

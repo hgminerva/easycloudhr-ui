@@ -36,9 +36,9 @@ export class CompanyListComponent implements OnInit {
 
   // Constructor and overrides
   constructor(private _companyListService: CompanyListService,
-              private _snackBar: MatSnackBar,
-              private _snackBarTemplate: SnackBarTemplate,
-              public _matDialogRef: MatDialog) {
+    private _snackBar: MatSnackBar,
+    private _snackBarTemplate: SnackBarTemplate,
+    public _matDialogRef: MatDialog) {
   }
   async ngOnInit() {
     await this.GetCompanyListData();
@@ -75,8 +75,7 @@ export class CompanyListComponent implements OnInit {
         if (this._companyListSubscription != null) this._companyListSubscription.unsubscribe();
       },
       error => {
-        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this._companyListSubscription !== null) this._companyListSubscription.unsubscribe();
+        location.reload();
       }
     );
   }
@@ -165,5 +164,9 @@ export class CompanyListComponent implements OnInit {
         this.GetCompanyListData();
       }
     });
+  }
+
+  ngOnDestroy() {
+    if (this._companyListSubscription !== null) this._companyListSubscription.unsubscribe();
   }
 }

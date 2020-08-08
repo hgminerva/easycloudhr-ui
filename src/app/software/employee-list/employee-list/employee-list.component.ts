@@ -95,11 +95,11 @@ export class EmployeeListComponent implements OnInit {
         if (this.payrollGroupDropdownSubscription !== null) this.payrollGroupDropdownSubscription.unsubscribe();
       },
       error => {
-        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
-        if (this.payrollGroupDropdownSubscription !== null) this.payrollGroupDropdownSubscription.unsubscribe();
+        location.reload();
       }
     );
   }
+
 
   public payrollGroupSelectionChange() {
     this.GetEmployeeData();
@@ -262,6 +262,11 @@ export class EmployeeListComponent implements OnInit {
       }
     }
     return new Blob([data], { type: 'text/csv;charset=utf-8;' });
+  }
+
+
+  ngOnDestroy() {
+    if (this.payrollGroupDropdownSubscription !== null) this.payrollGroupDropdownSubscription.unsubscribe();
   }
 
 }

@@ -92,6 +92,7 @@ export class EmployeeDetailComponent implements OnInit {
     ExtensionName: '',
     FullName: '',
     Address: '',
+    CityId: 0,
     ZipCode: '',
     ContactNumber: '',
     ContactMobileNumber: '',
@@ -104,6 +105,7 @@ export class EmployeeDetailComponent implements OnInit {
     Height: '',
     Weight: '',
     BloodType: '',
+    Religion: '',
     Remarks: '',
     PictureURL: 'https://filbrokerstorage.blob.core.windows.net/crm-easyfis/3d225df6-aba5-40e7-9cb9-e8e97ee76762',
     CompanyId: 0,
@@ -161,6 +163,13 @@ export class EmployeeDetailComponent implements OnInit {
 
   private userDropdownSubscription: any;
   public userListDropdown: any = [];
+
+  private cityDropdownSubscription: any;
+  public cityListDropdown: any = [];
+
+  private religionDropdownSubscription: any;
+  public religionListDropdown: any = [];
+
 
   // ========================
   // EmployeePayroll Dropdown
@@ -292,12 +301,40 @@ export class EmployeeDetailComponent implements OnInit {
     this.userDropdownSubscription = await (await this.employeeDetailService.UserList()).subscribe(
       response => {
         this.userListDropdown = response;
-        this.GetEmployeeDetail();
+        this.GetCityDropdownListData();
         if (this.userDropdownSubscription !== null) this.userDropdownSubscription.unsubscribe();
       },
       error => {
         this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
         if (this.userDropdownSubscription !== null) this.userDropdownSubscription.unsubscribe();
+      }
+    );
+  }
+
+  private async GetCityDropdownListData() {
+    this.cityDropdownSubscription = await (await this.employeeDetailService.CityList()).subscribe(
+      response => {
+        this.cityListDropdown = response;
+        this.GetReligionDropdownListData();
+        if (this.cityDropdownSubscription !== null) this.cityDropdownSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this.cityDropdownSubscription !== null) this.cityDropdownSubscription.unsubscribe();
+      }
+    );
+  }
+
+  private async GetReligionDropdownListData() {
+    this.religionDropdownSubscription = await (await this.employeeDetailService.ReligionList()).subscribe(
+      response => {
+        this.religionListDropdown = response;
+        this.GetEmployeeDetail();
+        if (this.religionDropdownSubscription !== null) this.religionDropdownSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this.religionDropdownSubscription !== null) this.religionDropdownSubscription.unsubscribe();
       }
     );
   }
@@ -467,9 +504,9 @@ export class EmployeeDetailComponent implements OnInit {
   private async GetEmployeeDetail() {
     this.disableButtons();
     let id = 0;
+    this.activatedRoute.params.subscribe(params => { id = params["id"]; });
     this.isProgressBarHidden = true;
     this.isComponentsShown = false;
-    this.activatedRoute.params.subscribe(params => { id = params["id"]; });
 
     this.employeeDetailSubscription = await (await this.employeeDetailService.EmployeeDetail(id)).subscribe(
       response => {
@@ -486,6 +523,7 @@ export class EmployeeDetailComponent implements OnInit {
           this.employeeModel.ExtensionName = result["ExtensionName"];
           this.employeeModel.FullName = result["FullName"];
           this.employeeModel.Address = result["Address"];
+          this.employeeModel.CityId = result["CityId"];
           this.employeeModel.ZipCode = result["ZipCode"];
           this.employeeModel.ContactNumber = result["ContactNumber"];
           this.employeeModel.ContactMobileNumber = result["ContactMobileNumber"];
@@ -498,6 +536,7 @@ export class EmployeeDetailComponent implements OnInit {
           this.employeeModel.Height = this.decimalPipe.transform(result["Height"], "1.2-2");
           this.employeeModel.Weight = this.decimalPipe.transform(result["Weight"], "1.2-2");;
           this.employeeModel.BloodType = result["BloodType"];
+          this.employeeModel.Religion = result["Religion"];
           this.employeeModel.Remarks = result["Remarks"];
           this.employeeModel.PictureURL = result["PictureURL"];
           this.employeeModel.CompanyId = result["CompanyId"];

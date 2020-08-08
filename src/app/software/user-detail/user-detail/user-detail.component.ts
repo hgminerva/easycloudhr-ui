@@ -15,6 +15,8 @@ import { UserModuleModel } from '../user-module.model';
 import { UserPayrollGroupModel } from '../user-payroll-group.model';
 import { UserDetailUserPayrollGroupDialogComponent } from '../user-detail-user-payroll-group-dialog/user-detail-user-payroll-group-dialog.component';
 
+import { UserDetialChangePasswordComponent } from './../user-detial-change-password/user-detial-change-password.component';
+
 @Component({
   selector: 'app-user-detail',
   templateUrl: './user-detail.component.html',
@@ -27,7 +29,8 @@ export class UserDetailComponent implements OnInit {
     private snackBar: MatSnackBar,
     private snackBarTemplate: SnackBarTemplate,
     private userDetailService: UserDetailService,
-    public DeleteConfirmDialog: MatDialog,
+    public matDialog: MatDialog,
+
   ) {
   }
 
@@ -310,7 +313,7 @@ export class UserDetailComponent implements OnInit {
   }
 
   public UserModuleDetailDailog(objUserModule: any, dialogHeader: string): void {
-    const userRegistrationlDialogRef = this.DeleteConfirmDialog.open(UserDetailUserModuleDialogComponent, {
+    const userRegistrationlDialogRef = this.matDialog.open(UserDetailUserModuleDialogComponent, {
       width: '500px',
       height: '350px',
       data: {
@@ -332,7 +335,7 @@ export class UserDetailComponent implements OnInit {
   public ComfirmDeleteUserModule(): void {
     let currentUserModule = this.listUserModuleCollectionView.currentItem;
 
-    const userRegistrationlDialogRef = this.DeleteConfirmDialog.open(DeleteDialogBoxComponent, {
+    const userRegistrationlDialogRef = this.matDialog.open(DeleteDialogBoxComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete User Right",
@@ -345,6 +348,20 @@ export class UserDetailComponent implements OnInit {
         this.DeleteUserModule();
       }
     });
+  }
+
+  public ChangePassword(): void {
+    let currentUserModule = this.listUserModuleCollectionView.currentItem;
+
+    const userRegistrationlDialogRef = this.matDialog.open(UserDetialChangePasswordComponent, {
+      width: '500px',
+      data: {
+        objDialogTitle: "Change Password",
+        objUserId: this.userModel.Id,
+      },
+      disableClose: true
+    });
+    userRegistrationlDialogRef.afterClosed();
   }
 
   // ===========
@@ -425,7 +442,7 @@ export class UserDetailComponent implements OnInit {
   }
 
   public UserPayrollGroupDetailDailog(objUserPayrollGroup: any, dialogHeader: string): void {
-    const userRegistrationlDialogRef = this.DeleteConfirmDialog.open(UserDetailUserPayrollGroupDialogComponent, {
+    const userRegistrationlDialogRef = this.matDialog.open(UserDetailUserPayrollGroupDialogComponent, {
       width: '500px',
       height: '250px',
       data: {
@@ -445,7 +462,7 @@ export class UserDetailComponent implements OnInit {
 
   public ComfirmDeleteUserPayrollGroup(): void {
     let currentUserPayrollGroup = this.listUserPayrollGroupCollectionView.currentItem;
-    const userRegistrationlDialogRef = this.DeleteConfirmDialog.open(DeleteDialogBoxComponent, {
+    const userRegistrationlDialogRef = this.matDialog.open(DeleteDialogBoxComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete Payroll Group",
@@ -465,7 +482,7 @@ export class UserDetailComponent implements OnInit {
   // User Payroll Group
   // ==================
   public UserPayrollGroupDailog(objUserPayrollGroup: any, dialogHeader: string): void {
-    const userRegistrationlDialogRef = this.DeleteConfirmDialog.open(UserDetailUserPayrollGroupDialogComponent, {
+    const userRegistrationlDialogRef = this.matDialog.open(UserDetailUserPayrollGroupDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: dialogHeader,

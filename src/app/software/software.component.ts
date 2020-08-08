@@ -3,6 +3,8 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { Router } from '@angular/router';
 import { MatExpansionPanelHeader } from '@angular/material/expansion/expansion-panel-header';
 import { SoftwareSecurityService } from './software-security/software-security.service';
+
+import { UserListService } from './user-list/user-list.service';
 @Component({
   selector: 'app-software',
   templateUrl: './software.component.html',
@@ -16,6 +18,7 @@ export class SoftwareComponent implements OnInit {
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher,
     private router: Router,
+    private userListService: UserListService,
     private softwareSecurityService: SoftwareSecurityService
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
@@ -51,6 +54,7 @@ export class SoftwareComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let test = this.userListService.Test();
 
     if (this.softwareSecurityService.openModule("Dashboard") == true) {
       this.moduleDashBoard = true;

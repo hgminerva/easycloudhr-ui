@@ -184,11 +184,22 @@
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>Address</mat-label>
                                     <textarea matInput placeholder="Address" [(ngModel)]="employeeModel.Address"
-                                        [readonly]="isLocked" rows="5" style="min-height: 102px;"></textarea>
+                                        [readonly]="isLocked" rows="1"></textarea>
                                 </mat-form-field>
                             </div>
                         </div>
                         <div fxLayout="row" fxLayout.xs="column">
+                            <div fxFlex="50" style="padding: 5px;">
+                                <mat-form-field appearance="outline" style="width: 100%;">
+                                    <mat-label>City</mat-label>
+                                    <mat-select [(ngModel)]="employeeModel.CityId">
+                                        <mat-option *ngFor="let city of cityListDropdown" [disabled]="isLocked"
+                                            [value]="city.Id">
+                                            {{city.Value}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
                             <div fxFlex="50" style="padding: 5px;">
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>Zip Code</mat-label>
@@ -198,13 +209,6 @@
                                             {{zipCode.Value}}
                                         </mat-option>
                                     </mat-select>
-                                </mat-form-field>
-                            </div>
-                            <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
-                                    <mat-label>Email Address</mat-label>
-                                    <input matInput placeholder="Email Address" [(ngModel)]="employeeModel.EmailAddress"
-                                        [readonly]="isLocked">
                                 </mat-form-field>
                             </div>
                         </div>
@@ -228,6 +232,27 @@
                                 </mat-form-field>
                             </div>
                         </div>
+                        <div fxLayout="row" fxLayout.xs="column">
+                            <div fxFlex="50" style="padding: 5px;">
+                                <mat-form-field appearance="outline" style="width: 100%;">
+                                    <mat-label>Religion</mat-label>
+                                    <mat-select [(ngModel)]="employeeModel.Religion">
+                                        <mat-option *ngFor="let religion of religionListDropdown" [disabled]="isLocked"
+                                            [value]="religion.Value">
+                                            {{religion.Value}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="50" style="padding: 5px;">
+                                <mat-form-field appearance="outline" style="width: 100%;">
+                                    <mat-label>Email Address</mat-label>
+                                    <input matInput placeholder="Email Address" [(ngModel)]="employeeModel.EmailAddress"
+                                        [readonly]="isLocked">
+                                </mat-form-field>
+                            </div>
+                        </div>
+
                     </div>
                     <div fxFlex="50" style="padding: 5px;">
                         <div fxLayout="row" fxLayout.xs="column">
@@ -266,9 +291,10 @@
                             </div>
                         </div>
                         <div fxLayout="row" fxLayout.xs="column">
+
                             <div fxFlex="33" style="padding: 5px;">
                                 <mat-form-field appearance="outline" style="width: 100%;">
-                                    <mat-label>Height</mat-label>
+                                    <mat-label>Height (cm)</mat-label>
                                     <input type="text" matInput placeholder="Contact No." style="text-align:right;"
                                         (keypress)="restrictNumeric($event)" (change)="formatValueHeight()"
                                         [(ngModel)]="employeeModel.Height" [readonly]="isLocked">
@@ -276,7 +302,7 @@
                             </div>
                             <div fxFlex="33" style="padding: 5px;">
                                 <mat-form-field appearance="outline" style="width: 100%;">
-                                    <mat-label>Weight</mat-label>
+                                    <mat-label>Weight (kg)</mat-label>
                                     <input type="text" matInput placeholder="Civil Status" style="text-align:right;"
                                         (keypress)="restrictNumeric($event)" (change)="formatValueWeight()"
                                         [(ngModel)]="employeeModel.Weight" [readonly]="isLocked">

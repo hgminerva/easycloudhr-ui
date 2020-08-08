@@ -62,7 +62,6 @@ const routes: Routes = [
       { path: 'overtime-application-detail/:id', canActivate: [SoftwareRoutingActivate], component: OvertimeApplicationDetailComponent },
       { path: 'DTR-list', canActivate: [SoftwareRoutingActivate], component: DTRListComponent },
       { path: 'DTR-detail/:id', canActivate: [SoftwareRoutingActivate], component: DTRDetailComponent },
-      { path: 'DTR-detail', canActivate: [SoftwareRoutingActivate], component: DTRDetailComponent },
       { path: 'system-tables-list', canActivate: [SoftwareRoutingActivate], component: SystemTalesListComponent },
 
     ]

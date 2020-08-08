@@ -19,4 +19,8 @@ export class UserListService {
   public async RegisterUser(objUser: any) {
     return this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/user/register', JSON.stringify(objUser), this.appSettings.defaultOptions);
   }
+
+  public async Test() {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/user/test', this.appSettings.defaultOptions);
+  }
 }

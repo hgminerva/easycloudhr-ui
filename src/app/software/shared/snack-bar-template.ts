@@ -8,7 +8,7 @@ export class SnackBarTemplate {
     // Snackbar Success
     public snackBarSuccess(snackBar: MatSnackBar, message: string): void {
         snackBar.open(message, '', {
-            duration: 1000,
+            duration: 3000,
             horizontalPosition: this.snackBarHorizontalPosition,
             verticalPosition: this.snackBarVerticalPosition,
             panelClass: ["green-snackbar"]
@@ -18,7 +18,7 @@ export class SnackBarTemplate {
     // Snackbar Error
     public snackBarError(snackBar: MatSnackBar, message: string): void {
         snackBar.open(message, '', {
-            duration: 1000,
+            duration: 3000,
             horizontalPosition: this.snackBarHorizontalPosition,
             verticalPosition: this.snackBarVerticalPosition,
             panelClass: ["orange-snackbar"]
