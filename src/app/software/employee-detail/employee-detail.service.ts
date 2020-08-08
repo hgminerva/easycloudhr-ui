@@ -45,6 +45,14 @@ export class EmployeeDetailService {
     return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/company/list', this.appSettings.defaultOptions);
   }
 
+  public async CityList() {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/city/list', this.appSettings.defaultOptions);
+  }
+
+  public async ReligionList() {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/religion/list', this.appSettings.defaultOptions);
+  }
+
   //=========================
   // EmployeePayroll Dropdown
   //=========================

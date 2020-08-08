@@ -9,6 +9,7 @@ export class EmployeeModel {
     ExtensionName: string;
     FullName: string;
     Address: string;
+    CityId: number;
     ZipCode: string;
     ContactNumber: string;
     ContactMobileNumber: string;
@@ -21,6 +22,7 @@ export class EmployeeModel {
     Height: string;
     Weight: string;
     BloodType: string;
+    Religion: string;
     Remarks: string;
     PictureURL: string;
     CompanyId: number;
