@@ -106,8 +106,7 @@ export class DTRListComponent implements OnInit {
         if (this._payrollGroupDropdownSubscription !== null) this._payrollGroupDropdownSubscription.unsubscribe();
       },
       error => {
-        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this._payrollGroupDropdownSubscription !== null) this._payrollGroupDropdownSubscription.unsubscribe();
+        location.reload();
       }
     );
   }
@@ -222,5 +221,9 @@ export class DTRListComponent implements OnInit {
         this.DeleteDTR();
       }
     });
+  }
+
+  ngOnDestroy() {
+    if (this._payrollGroupDropdownSubscription !== null) this._payrollGroupDropdownSubscription.unsubscribe();
   }
 }

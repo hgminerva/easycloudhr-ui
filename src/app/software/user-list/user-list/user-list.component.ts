@@ -70,8 +70,7 @@ export class UserListComponent implements OnInit {
         if (this.userListSubscription != null) this.userListSubscription.unsubscribe();
       },
       error => {
-        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
-        if (this.userListSubscription !== null) this.userListSubscription.unsubscribe();
+        location.reload();
       }
     );
   }
@@ -96,5 +95,9 @@ export class UserListComponent implements OnInit {
   public EditUser() {
     let currentUser = this.listUserCollectionView.currentItem;
     this.router.navigate(['/software/user-detail/' + currentUser.Id]);
+  }
+
+  ngOnDestroy() {
+    if (this.userListSubscription !== null) this.userListSubscription.unsubscribe();
   }
 }
