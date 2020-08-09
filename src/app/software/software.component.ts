@@ -54,8 +54,6 @@ export class SoftwareComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let test = this.userListService.Test();
-
     if (this.softwareSecurityService.openModule("Dashboard") == true) {
       this.moduleDashBoard = true;
     }

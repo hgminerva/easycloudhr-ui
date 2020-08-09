@@ -58,6 +58,7 @@ import { DtrDetialDtrLineDetailDialogComponent } from './DTR-detail/dtr-detial-d
 import { DtrDetailDtrLineAddDialogComponent } from './DTR-detail/dtr-detail-dtr-line-add-dialog/dtr-detail-dtr-line-add-dialog.component';
 import { ShiftCodeDetialShiftLineComponent } from './shift-code-detail/shift-code-detial-shift-line/shift-code-detial-shift-line.component';
 import { UserDetialChangePasswordComponent } from './user-detail/user-detial-change-password/user-detial-change-password.component';
+import { ChangeShiftCodeLineDetailComponent } from './change-shift-code-detail/change-shift-code-line-detail/change-shift-code-line-detail.component';
 
 @NgModule({
   declarations: [
@@ -98,7 +99,8 @@ import { UserDetialChangePasswordComponent } from './user-detail/user-detial-cha
     DtrDetialDtrLineDetailDialogComponent,
     DtrDetailDtrLineAddDialogComponent,
     ShiftCodeDetialShiftLineComponent,
-    UserDetialChangePasswordComponent
+    UserDetialChangePasswordComponent,
+    ChangeShiftCodeLineDetailComponent
   ],
   imports: [
     CommonModule,
