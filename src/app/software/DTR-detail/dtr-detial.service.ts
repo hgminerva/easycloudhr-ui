@@ -3,11 +3,8 @@ import { AppSettings } from 'src/app/app-settings';
 import { HttpClient } from '@angular/common/http';
 
 import { DTRModel } from './dtr-detial.model';
-import { from, Subject } from 'rxjs';
 import { DTRLineModel, DTRLines } from './dtr-line.model';
 
-import * as wjcGrid from '@grapecity/wijmo.grid';
-import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 @Injectable({
   providedIn: 'root'
 })

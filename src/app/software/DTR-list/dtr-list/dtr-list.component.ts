@@ -106,7 +106,11 @@ export class DTRListComponent implements OnInit {
         if (this._payrollGroupDropdownSubscription !== null) this._payrollGroupDropdownSubscription.unsubscribe();
       },
       error => {
-        location.reload();
+        if (error.status == "401") {
+          location.reload();
+        } else {
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + " Status Code: " + error.status);
+        }
       }
     );
   }

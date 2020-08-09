@@ -1,10 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { DTRLineModel } from '../dtr-line.model';
+
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DtrDetialService } from './../dtr-detial.service';
 import { DecimalPipe } from '@angular/common';
+
+import { DtrDetialService } from './../dtr-detial.service';
+import { DTRLineModel } from '../dtr-line.model';
 
 @Component({
   selector: 'app-dtr-detial-dtr-line-detail-dialog',
@@ -311,19 +313,19 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
     this._dTRLineModel.TimeOut2 = await this.convertTime(this._caseData.objDTRLine.TimeOut2);
     this._dTRLineModel.DTRDate = this._caseData.objDTRLine.DTRDate;
     this._dTRLineModel.NumberOfHoursWorked = this._decimalPipe.transform(this._dTRLineModel.NumberOfHoursWorked, "1.2-2");
-    this._dTRLineModel.OvertimeHours = this._decimalPipe.transform(this._dTRLineModel.NumberOfHoursWorked, "1.2-2");
-    this._dTRLineModel.NightDifferentialHours = this._decimalPipe.transform(this._dTRLineModel.NumberOfHoursWorked, "1.2-2");
-    this._dTRLineModel.LateHours = this._decimalPipe.transform(this._dTRLineModel.NumberOfHoursWorked, "1.2-2");
-    this._dTRLineModel.UndertimeHours = this._decimalPipe.transform(this._dTRLineModel.NumberOfHoursWorked, "1.2-2");
-    this._dTRLineModel.DailyPay = this._decimalPipe.transform(this._dTRLineModel.NumberOfHoursWorked, "1.2-2");
-    this._dTRLineModel.RestdayPay = this._decimalPipe.transform(this._dTRLineModel.NumberOfHoursWorked, "1.2-2");
-    this._dTRLineModel.HolidayPay = this._decimalPipe.transform(this._dTRLineModel.NumberOfHoursWorked, "1.2-2");
-    this._dTRLineModel.OvertimePay = this._decimalPipe.transform(this._dTRLineModel.NumberOfHoursWorked, "1.2-2");
-    this._dTRLineModel.NightDifferentialPay = this._decimalPipe.transform(this._dTRLineModel.NumberOfHoursWorked, "1.2-2");
-    this._dTRLineModel.LateDeduction = this._decimalPipe.transform(this._dTRLineModel.NumberOfHoursWorked, "1.2-2");
-    this._dTRLineModel.UndertimeDeduction = this._decimalPipe.transform(this._dTRLineModel.NumberOfHoursWorked, "1.2-2");
-    this._dTRLineModel.AbsentDeduction = this._decimalPipe.transform(this._dTRLineModel.NumberOfHoursWorked, "1.2-2");
-    this._dTRLineModel.DailyNetPay = this._decimalPipe.transform(this._dTRLineModel.NumberOfHoursWorked, "1.2-2");
+    this._dTRLineModel.OvertimeHours = this._decimalPipe.transform(this._dTRLineModel.OvertimeHours, "1.2-2");
+    this._dTRLineModel.NightDifferentialHours = this._decimalPipe.transform(this._dTRLineModel.NightDifferentialHours, "1.2-2");
+    this._dTRLineModel.LateHours = this._decimalPipe.transform(this._dTRLineModel.LateHours, "1.2-2");
+    this._dTRLineModel.UndertimeHours = this._decimalPipe.transform(this._dTRLineModel.UndertimeHours, "1.2-2");
+    this._dTRLineModel.DailyPay = this._decimalPipe.transform(this._dTRLineModel.DailyPay, "1.2-2");
+    this._dTRLineModel.RestdayPay = this._decimalPipe.transform(this._dTRLineModel.RestdayPay, "1.2-2");
+    this._dTRLineModel.HolidayPay = this._decimalPipe.transform(this._dTRLineModel.HolidayPay, "1.2-2");
+    this._dTRLineModel.OvertimePay = this._decimalPipe.transform(this._dTRLineModel.OvertimePay, "1.2-2");
+    this._dTRLineModel.NightDifferentialPay = this._decimalPipe.transform(this._dTRLineModel.NightDifferentialPay, "1.2-2");
+    this._dTRLineModel.LateDeduction = this._decimalPipe.transform(this._dTRLineModel.LateDeduction, "1.2-2");
+    this._dTRLineModel.UndertimeDeduction = this._decimalPipe.transform(this._dTRLineModel.UndertimeDeduction, "1.2-2");
+    this._dTRLineModel.AbsentDeduction = this._decimalPipe.transform(this._dTRLineModel.AbsentDeduction, "1.2-2");
+    this._dTRLineModel.DailyNetPay = this._decimalPipe.transform(this._dTRLineModel.DailyNetPay, "1.2-2");
     this._isComponentsShown = false;
   }
 
