@@ -1,1 +1,110 @@
-<p>shift-code-detial-shift-line works!</p>
+<h3 mat-dialog-title>
+    {{ _title }}
+</h3>
+<mat-divider></mat-divider>
+<br>
+<div [hidden]="!_isComponentsShown">
+    <div fxLayout="row" fxLayout.xs="column" style="margin-top: -5px;">
+        <div fxFlex="50" style="padding: 5px;">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Shift Date</mat-label>
+                <mat-select matNativeControl [(ngModel)]="_shiftLineModel.ShiftDate">
+                    <mat-option *ngFor="let day of _dayListDropdown" [value]="day.Value">
+                        {{day.Value}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" style="margin-top: -5px;">
+        <div fxFlex="25" style="padding: 5px;">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Time In 1</mat-label>
+                <input type="time" matInput style="text-align:right;" [(ngModel)]="_shiftLineModel.TimeIn1">
+            </mat-form-field>
+        </div>
+        <div fxFlex="25" style="padding: 5px;">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Time Out 1</mat-label>
+                <input type="time" matInput style="text-align:right;" [(ngModel)]="_shiftLineModel.TimeOut1">
+            </mat-form-field>
+        </div>
+        <div fxFlex="25" style="padding: 5px;">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Time In 2</mat-label>
+                <input type="time" matInput style="text-align:right;" [(ngModel)]="_shiftLineModel.TimeIn2">
+            </mat-form-field>
+        </div>
+        <div fxFlex="25" style="padding: 5px;">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Time Out 2</mat-label>
+                <input type="time" matInput style="text-align:right;" [(ngModel)]="_shiftLineModel.TimeOut2">
+            </mat-form-field>
+        </div>
+    </div>
+    <!-- <span>Number Fields</span> -->
+    <div fxLayout="row" fxLayout.xs="column">
+
+        <div fxFlex="25" style="padding: 5px;">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Total Number Of Hours</mat-label>
+                <input matInput placeholder="0.00" style="text-align:right;" (keypress)="restrictNumeric($event)"
+                    (change)="formatValueTotalNumberOfHours()" [(ngModel)]="_shiftLineModel.TotalNumberOfHours">
+            </mat-form-field>
+        </div>
+        <div fxFlex="25" style="padding: 5px;">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Night Differential Hours</mat-label>
+                <input type="text" matInput placeholder="0.00" style="text-align:right;"
+                    (keypress)="restrictNumeric($event)" (change)="formatValueFixibilityHoursLimit()"
+                    [(ngModel)]="_shiftLineModel.NightDifferentialHours">
+            </mat-form-field>
+        </div>
+        <div fxFlex="25" style="padding: 5px;">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Fixibility Hours Limit</mat-label>
+                <input type="text" matInput placeholder="0.00" style="text-align:right;"
+                    (keypress)="restrictNumeric($event)" (change)="formatValueFixibilityHoursLimit()"
+                    [(ngModel)]="_shiftLineModel.FixibilityHoursLimit">
+            </mat-form-field>
+        </div>
+        <div fxFlex="12" style="padding: 23px; text-align: start; display: inline; margin-right: 10px;">
+            <div style="width: 100%; border: gray 1px !important">
+                <mat-checkbox color="primary" [(ngModel)]="_shiftLineModel.IsRestDay"><span style="color: gray;">
+                        Rest Day</span>
+                </mat-checkbox>
+            </div>
+        </div>
+        <div fxFlex="13" style="padding: 23px; text-align: start; display: inline;">
+            <div style="width: 100%; border: gray 1px !important">
+                <mat-checkbox color="primary" [(ngModel)]="_shiftLineModel.IsFlexible"><span style="color: gray;">
+                        Flexible</span>
+                </mat-checkbox>
+            </div>
+        </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column">
+
+
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" style="height:12.45em;">
+        <div fxFlex="75" style="padding: 5px;">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Remarks</mat-label>
+                <textarea matInput placeholder="AddrRemarksess" [(ngModel)]="_shiftLineModel.Remarks"
+                    rows="6"></textarea>
+            </mat-form-field>
+        </div>
+    </div>
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions align="right">
+    <button mat-flat-button color="primary" mat-dialog-close style="margin-right: 5px;" (click)="CloseOnSave()">
+        <mat-icon>save</mat-icon>
+        Save
+    </button>
+    <button mat-flat-button mat-dialog-close style="margin: 5px;" color="warn" (click)="Close()">
+        <mat-icon>close</mat-icon>
+        Cancel
+    </button>
+</div>

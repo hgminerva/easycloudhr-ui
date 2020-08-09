@@ -1,15 +1,15 @@
 export class ShiftLineModel {
     Id: number;
     ShiftId: number;
-    ShiftDate: Date;
+    ShiftDate: string;
     TimeIn1: string;
     TimeOut1: string;
     TimeIn2: string;
     TimeOut2: string;
     IsRestDay: boolean;
-    TotalNumberOfHours: number;
-    NightDifferentialHours: number;
+    TotalNumberOfHours: string;
+    NightDifferentialHours: string;
     IsFlexible: boolean;
-    FixibilityHoursLimit: number;
+    FixibilityHoursLimit: string;
     Remarks: string;
 }

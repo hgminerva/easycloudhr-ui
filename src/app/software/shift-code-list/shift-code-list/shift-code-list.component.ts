@@ -5,6 +5,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
+
 import { ShiftCodeListService } from './../shift-code-list.service';
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { ShiftCodeDetailComponent } from '../../shift-code-detail/shift-code-detail/shift-code-detail.component';
@@ -21,8 +22,7 @@ export class ShiftCodeListComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar,
     private snackBarTemplate: SnackBarTemplate,
-    public DeleteConfirmDialog: MatDialog,
-    public _shiftCodeDetailMatDialogRef: MatDialog
+    public _matDialog: MatDialog,
   ) {
   }
 
@@ -133,7 +133,7 @@ export class ShiftCodeListComponent implements OnInit {
 
   public ComfirmDeleteShiftCode(): void {
     let currentShiftCode = this.listShiftCodeCollectionView.currentItem;
-    const userRegistrationlDialogRef = this.DeleteConfirmDialog.open(DeleteDialogBoxComponent, {
+    const userRegistrationlDialogRef = this._matDialog.open(DeleteDialogBoxComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete Shift",
@@ -150,7 +150,7 @@ export class ShiftCodeListComponent implements OnInit {
   }
 
   public DetailShiftCode(shiftCodeId: string, eventTitle: string): void {
-    const userRegistrationlDialogRef = this._shiftCodeDetailMatDialogRef.open(ShiftCodeDetailComponent, {
+    const userRegistrationlDialogRef = this._matDialog.open(ShiftCodeDetailComponent, {
       width: '1200px',
       data: {
         objDialogTitle: eventTitle,

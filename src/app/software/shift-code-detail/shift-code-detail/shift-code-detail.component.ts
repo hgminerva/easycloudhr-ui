@@ -89,16 +89,16 @@ export class ShiftCodeDetailComponent implements OnInit {
   public ShiftLineModel: ShiftLineModel = {
     Id: 0,
     ShiftId: 0,
-    ShiftDate: new Date(),
+    ShiftDate: '',
     TimeIn1: '',
     TimeOut1: '',
     TimeIn2: '',
     TimeOut2: '',
     IsRestDay: false,
-    TotalNumberOfHours: 0,
-    NightDifferentialHours: 0,
+    TotalNumberOfHours: '0',
+    NightDifferentialHours: '0',
     IsFlexible: false,
-    FixibilityHoursLimit: 0,
+    FixibilityHoursLimit: '0',
     Remarks: '',
   }
 
@@ -113,6 +113,7 @@ export class ShiftCodeDetailComponent implements OnInit {
         console.log(result);
         if (result != null) {
           this.shiftModel = result;
+          this.ShiftLineModel.ShiftId = result["Id"];
           this.shiftModel.IsLocked = result["IsLocked"];
           console.log(result["IsLocked"]);
         }
@@ -270,16 +271,15 @@ export class ShiftCodeDetailComponent implements OnInit {
     );
   }
 
-  public async AddShiftLine() {
+  public async AddShiftLine(objShiftline: ShiftLineModel) {
     this._btnAddShiftLineDisabled = true;
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
-      this._addShiftLineSubscription = (await this.shiftCodeDetailService.AddShiftLine(this.ShiftLineModel)).subscribe(
+      this._addShiftLineSubscription = (await this.shiftCodeDetailService.AddShiftLine(objShiftline)).subscribe(
         (response: any) => {
           this._btnAddShiftLineDisabled = false;
           this._isDataLoaded = true;
           this.GetShiftLineListData();
-          this.DetailShiftLine(response, "ShiftLine Detail")
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Added Successfully");
         },
         error => {
@@ -292,13 +292,34 @@ export class ShiftCodeDetailComponent implements OnInit {
     }
   }
 
+  public async UpdateShiftLine(objShiftline: ShiftLineModel) {
+    this._btnAddShiftLineDisabled = true;
+    if (this._isDataLoaded == true) {
+      this._isDataLoaded = false;
+      this._addShiftLineSubscription = (await this.shiftCodeDetailService.UpdateTRLine(objShiftline.Id, objShiftline)).subscribe(
+        (response: any) => {
+          this._btnAddShiftLineDisabled = false;
+          this._isDataLoaded = true;
+          this.GetShiftLineListData();
+          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Updated Successfully");
+        },
+        error => {
+          this._btnAddShiftLineDisabled = false;
+          this._isDataLoaded = true;
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this._addShiftLineSubscription != null) this._addShiftLineSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
   AddShiftLineDialog() {
-    this.DetailShiftLine(this.ShiftLineModel, "Edit ShiftLine Detail");
+    this.DetailShiftLine(this.ShiftLineModel, "Add ShiftLine Detail");
   }
 
   public EditShiftLine() {
     let currentShiftLine = this._listShiftLineCollectionView.currentItem;
-    this.DetailShiftLine(currentShiftLine.Id, "Edit ShiftLine Detail");
+    this.DetailShiftLine(currentShiftLine, "Edit ShiftLine Detail");
   }
 
   public async DeleteShiftLine() {
@@ -344,8 +365,7 @@ export class ShiftCodeDetailComponent implements OnInit {
 
   public DetailShiftLine(objShiftLine: ShiftLineModel, eventTitle: string): void {
     const userRegistrationlDialogRef = this.shiftLineDetailDialog.open(ShiftCodeDetialShiftLineComponent, {
-      width: '1200px',
-      height: '550px',
+      width: '900px',
       data: {
         objDialogTitle: eventTitle,
         objShiftLine: objShiftLine,
@@ -354,8 +374,13 @@ export class ShiftCodeDetailComponent implements OnInit {
     });
 
     userRegistrationlDialogRef.afterClosed().subscribe(result => {
-      if (result.event !== "Close") {
-        this.GetShiftLineListData();
+      if (result.event === "Add") {
+        console.log(result);
+        this.AddShiftLine(result.data);
+      }
+      if (result.event === "Update") {
+        console.log(result);
+        this.UpdateShiftLine(result.data);
       }
     });
   }

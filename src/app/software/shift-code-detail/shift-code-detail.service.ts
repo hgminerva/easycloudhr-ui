@@ -14,7 +14,7 @@ export class ShiftCodeDetailService {
     private httpClient: HttpClient
   ) { }
 
-
+ 
   public async ShiftDetail(id: number) {
     return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/shift/detail/' + id, this.appSettings.defaultOptions);
   }
@@ -36,7 +36,7 @@ export class ShiftCodeDetailService {
   }
 
   public async AddShiftLine(objShiftLines: ShiftLineModel) {
-    return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/shift/line/create/lines/', JSON.stringify(objShiftLines), this.appSettings.defaultOptions);
+    return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/shift/line/create', JSON.stringify(objShiftLines), this.appSettings.defaultOptions);
   }
 
   public async UpdateTRLine(id: number, objShiftLine: ShiftLineModel) {
@@ -46,4 +46,9 @@ export class ShiftCodeDetailService {
   public async DeleteShiftLine(id: number) {
     return await this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/api/shift/line/delete/' + id, this.appSettings.defaultOptions);
   }
+
+  public async DayList() {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/shift/line/day/list', this.appSettings.defaultOptions);
+  }
+
 }
