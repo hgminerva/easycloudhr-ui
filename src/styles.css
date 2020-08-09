@@ -41,5 +41,10 @@ body {
     justify-content: flex-end;
 }
 
+.spacer {
+    flex: 1 1 auto;
+}
+
+
 
 
