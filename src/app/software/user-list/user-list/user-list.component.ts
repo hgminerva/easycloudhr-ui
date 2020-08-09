@@ -70,7 +70,12 @@ export class UserListComponent implements OnInit {
         if (this.userListSubscription != null) this.userListSubscription.unsubscribe();
       },
       error => {
-        location.reload();
+        if (error.status == "401") {
+          location.reload();
+        } else {
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + " Status Code: " + error.status);
+          if (this.userListSubscription != null) this.userListSubscription.unsubscribe();
+        }
       }
     );
   }

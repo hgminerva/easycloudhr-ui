@@ -78,6 +78,7 @@ export class EmployeeListComponent implements OnInit {
   private payrollGroupDropdownSubscription: any;
   public payrollGroupListDropdown: any = [];
   public filterPayrollGroup = '';
+  public unauthorizedQueryCount: number = 0;
 
 
   private async GetPayrollGroupDropdownListData() {
@@ -95,7 +96,12 @@ export class EmployeeListComponent implements OnInit {
         if (this.payrollGroupDropdownSubscription !== null) this.payrollGroupDropdownSubscription.unsubscribe();
       },
       error => {
-        location.reload();
+        if (error.status == "401") {
+          location.reload();
+        } else {
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + " Status Code: " + error.status);
+          if (this.payrollGroupDropdownSubscription !== null) this.payrollGroupDropdownSubscription.unsubscribe();
+        }
       }
     );
   }
