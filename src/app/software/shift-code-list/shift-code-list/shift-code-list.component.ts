@@ -73,8 +73,12 @@ export class ShiftCodeListComponent implements OnInit {
         if (this.shiftCodeListSubscription != null) this.shiftCodeListSubscription.unsubscribe();
       },
       error => {
-        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
-        if (this.shiftCodeListSubscription !== null) this.shiftCodeListSubscription.unsubscribe();
+        if (error.status == "401") {
+          location.reload();
+        } else {
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + " Status Code: " + error.status);
+          if (this.shiftCodeListSubscription != null) this.shiftCodeListSubscription.unsubscribe();
+        }
       }
     );
   }
