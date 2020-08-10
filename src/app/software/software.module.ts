@@ -59,6 +59,10 @@ import { DtrDetailDtrLineAddDialogComponent } from './DTR-detail/dtr-detail-dtr-
 import { ShiftCodeDetialShiftLineComponent } from './shift-code-detail/shift-code-detial-shift-line/shift-code-detial-shift-line.component';
 import { UserDetialChangePasswordComponent } from './user-detail/user-detial-change-password/user-detial-change-password.component';
 import { ChangeShiftCodeLineDetailComponent } from './change-shift-code-detail/change-shift-code-line-detail/change-shift-code-line-detail.component';
+import { LeaveApplicationLineDetailComponent } from './leave-application-detail/leave-application-line-detail/leave-application-line-detail.component';
+import { EmpoloyeeListDialogComponent } from './change-shift-code-detail/change-shift-code-line-detail/empoloyee-list-dialog/empoloyee-list-dialog.component';
+import { EmployeeListDialogComponent } from './leave-application-detail/leave-application-line-detail/employee-list-dialog/employee-list-dialog.component';
+import { OvertimeApplicationLineDialogComponent } from './overtime-application-detail/overtime-application-line-dialog/overtime-application-line-dialog.component';
 
 @NgModule({
   declarations: [
@@ -100,7 +104,11 @@ import { ChangeShiftCodeLineDetailComponent } from './change-shift-code-detail/c
     DtrDetailDtrLineAddDialogComponent,
     ShiftCodeDetialShiftLineComponent,
     UserDetialChangePasswordComponent,
-    ChangeShiftCodeLineDetailComponent
+    ChangeShiftCodeLineDetailComponent,
+    LeaveApplicationLineDetailComponent,
+    EmpoloyeeListDialogComponent,
+    EmployeeListDialogComponent,
+    OvertimeApplicationLineDialogComponent
   ],
   imports: [
     CommonModule,

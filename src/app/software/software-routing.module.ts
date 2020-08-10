@@ -56,6 +56,7 @@ const routes: Routes = [
       { path: 'leave-credits-detail/:id', canActivate: [SoftwareRoutingActivate], component: LeaveCreditsDetailComponent },
       { path: 'change-shift-code-list', canActivate: [SoftwareRoutingActivate], component: ChangeShiftCodeListComponent },
       { path: 'change-shift-code-detail/:id', canActivate: [SoftwareRoutingActivate], component: ChangeShiftCodeDetailComponent },
+      { path: 'change-shift-code-detail', canActivate: [SoftwareRoutingActivate], component: ChangeShiftCodeDetailComponent },
       { path: 'leave-application-list', canActivate: [SoftwareRoutingActivate], component: LeaveApplicationListComponent },
       { path: 'leave-application-detail/:id', canActivate: [SoftwareRoutingActivate], component: LeaveApplicationDetailComponent },
       { path: 'overtime-application-list', canActivate: [SoftwareRoutingActivate], component: OvertimeApplicationListComponent },
