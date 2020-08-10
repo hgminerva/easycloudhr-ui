@@ -16,7 +16,7 @@ import { ChangeShiftCodeListService } from './../change-shift-code-list.service'
 export class ChangeShiftCodeListComponent implements OnInit {
 
   constructor(
-    private shiftCodeListService: ChangeShiftCodeListService,
+    private _changeShiftCodeListService: ChangeShiftCodeListService,
     private router: Router,
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
@@ -25,8 +25,13 @@ export class ChangeShiftCodeListComponent implements OnInit {
   }
 
   async ngOnInit() {
-    await this.GetChangeShiftCodeListData();
+    await this.GetPayrollGroupDropdownListData();
+    await this.CreateCboShowNumberOfRows();
   }
+
+  private _payrollGroupDropdownSubscription: any;
+  public _payrollGroupListDropdown: any = [];
+  public _filterPayrollGroup = '';
 
   public _listChangeShiftCodeObservableArray: ObservableArray = new ObservableArray();
   public _listChangeShiftCodeCollectionView: CollectionView = new CollectionView(this._listChangeShiftCodeObservableArray);
@@ -41,6 +46,70 @@ export class ChangeShiftCodeListComponent implements OnInit {
 
   public _buttonDisabled: boolean = false;
 
+  public _createCboShowNumberOfRows: ObservableArray = new ObservableArray();
+
+  public CreateCboShowNumberOfRows(): void {
+    for (var i = 0; i <= 4; i++) {
+      var rows = 0;
+      var rowsString = "";
+      if (i == 0) {
+        rows = 15;
+        rowsString = "Show 15";
+      } else if (i == 1) {
+        rows = 50;
+        rowsString = "Show 50";
+      } else if (i == 2) {
+        rows = 100;
+        rowsString = "Show 100";
+      } else if (i == 3) {
+        rows = 150;
+        rowsString = "Show 150";
+      } else {
+        rows = 200;
+        rowsString = "Show 200";
+      }
+
+      this._createCboShowNumberOfRows.push({
+        rowNumber: rows,
+        rowString: rowsString
+      });
+    }
+  }
+
+  public CboShowNumberOfRowsOnSelectedIndexChanged(): void {
+    this._listChangeShiftCodeCollectionView.pageSize = this._listPageIndex;
+    this._listChangeShiftCodeCollectionView.refresh();
+    this._listChangeShiftCodeCollectionView.refresh();
+  }
+
+  private async GetPayrollGroupDropdownListData() {
+    this._payrollGroupDropdownSubscription = await (await this._changeShiftCodeListService.PayrollGroupList()).subscribe(
+      response => {
+        var results = response;
+        if (results["length"] > 0) {
+          for (var i = 0; i < results["length"]; i++) {
+            this._payrollGroupListDropdown.push(results[i]);
+          }
+        }
+        this._filterPayrollGroup = this._payrollGroupListDropdown[0].Value;
+
+        this.GetChangeShiftCodeListData();
+        if (this._payrollGroupDropdownSubscription !== null) this._payrollGroupDropdownSubscription.unsubscribe();
+      },
+      error => {
+        if (error.status == "401") {
+          location.reload();
+        } else {
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + " Status Code: " + error.status);
+        }
+      }
+    );
+  }
+
+  public PayrollGroupSelectionChange() {
+    this.GetChangeShiftCodeListData();
+  }
+
   private async GetChangeShiftCodeListData() {
     this._listChangeShiftCodeObservableArray = new ObservableArray();
     this._listChangeShiftCodeCollectionView = new CollectionView(this._listChangeShiftCodeObservableArray);
@@ -51,7 +120,7 @@ export class ChangeShiftCodeListComponent implements OnInit {
 
     this._isProgressBarHidden = true;
 
-    this._changeShiftCodeListSubscription = await (await this.shiftCodeListService.ShiftCodeList()).subscribe(
+    this._changeShiftCodeListSubscription = await (await this._changeShiftCodeListService.ChangeShiftCodeList(this._filterPayrollGroup)).subscribe(
       (response: any) => {
         var results = response;
         console.log("Response:", results);
@@ -84,7 +153,7 @@ export class ChangeShiftCodeListComponent implements OnInit {
     this._buttonDisabled = true;
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
-      this._addChangeShiftCodeSubscription = await (await this.shiftCodeListService.AddShiftCode()).subscribe(
+      this._addChangeShiftCodeSubscription = await (await this._changeShiftCodeListService.AddChangeShiftCode(this._filterPayrollGroup)).subscribe(
         (response: any) => {
           this._buttonDisabled = false;
           this._isDataLoaded = true;
@@ -113,7 +182,7 @@ export class ChangeShiftCodeListComponent implements OnInit {
       let currentShiftCode = this._listChangeShiftCodeCollectionView.currentItem;
       this._isProgressBarHidden = true;
 
-      this._deleteChangeShiftCodeSubscription = await (await this.shiftCodeListService.DeleteShiftCode(currentShiftCode.Id)).subscribe(
+      this._deleteChangeShiftCodeSubscription = await (await this._changeShiftCodeListService.DeleteChangeShiftCode(currentShiftCode.Id)).subscribe(
         response => {
           this._snackBarTemplate.snackBarSuccess(this._snackBar, "Delete Successfully");
           this.GetChangeShiftCodeListData();

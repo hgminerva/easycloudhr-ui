@@ -4,23 +4,30 @@
 <mat-divider></mat-divider>
 <div mat-dialog-content style="height: 70%;">
     <div class="dialog-body" [hidden]="isComponentHidden">
+        <br>
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="33" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>Employee</mat-label>
-                    <mat-select [(ngModel)]="_changeShiftLine.EmployeeId">
-                        <mat-option *ngFor="let employee of _employeeListDropdown" disabled [value]="employee.Id">
-                            {{employee.Value}}
-                        </mat-option>
-                    </mat-select>
+                    <input type="text" [(ngModel)]="_changeShiftLine.Employee" matInput readonly>
+                    <mat-icon matSuffix (click)="EmployeeListDialog()">keyboard_arrow_down</mat-icon>
+                </mat-form-field>
+            </div>
+            <div fxFlex="25" style="padding: 5px;">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Date</mat-label>
+                    <input matInput [matDatepicker]="datePickerShiftDate" [(ngModel)]="_changeShiftLine.ShiftDate">
+                    <mat-datepicker-toggle matSuffix [for]="datePickerShiftDate">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #datePickerShiftDate color="primary"></mat-datepicker>
                 </mat-form-field>
             </div>
             <div fxFlex="33" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>Shift</mat-label>
                     <mat-select [(ngModel)]="_changeShiftLine.ShiftId">
-                        <mat-option *ngFor="let year of _employeeListDropdown" disabled [value]="year.Id">
-                            {{year.Value}}
+                        <mat-option *ngFor="let shift of _shiftListDropdown" [value]="shift.Id">
+                            {{shift.Value}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -29,7 +36,7 @@
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>Branch</mat-label>
                     <mat-select [(ngModel)]="_changeShiftLine.Branch">
-                        <mat-option *ngFor="let branch of _branchListDropdown" disabled [value]="branch.Value">
+                        <mat-option *ngFor="let branch of _branchListDropdown" [value]="branch.Value">
                             {{branch.Value}}
                         </mat-option>
                     </mat-select>
@@ -49,8 +56,7 @@
 </div>
 <mat-divider></mat-divider>
 <div mat-dialog-actions align="right">
-    <button mat-flat-button color="primary" mat-dialog-close align-self="right" style="margin-right: 5px;"
-        (click)="Save()">
+    <button mat-flat-button color="primary" align-self="right" style="margin-right: 5px;" (click)="Save()">
         <mat-icon>save</mat-icon>
         Save
     </button>

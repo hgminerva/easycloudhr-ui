@@ -12,15 +12,21 @@ export class ChangeShiftCodeListService {
     private httpClient: HttpClient
   ) { }
 
-  public async ShiftCodeList() {
-    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/change/shift/list', this.appSettings.defaultOptions);
+  public async ChangeShiftCodeList(payrollGroup: string) {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/change/shift/list/' + payrollGroup, this.appSettings.defaultOptions);
   }
 
-  public async AddShiftCode() {
-    return this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/change/shift/create', "", this.appSettings.defaultOptions);
+  public async AddChangeShiftCode(payrollGroup: string) {
+    console.log(payrollGroup);
+
+    return this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/change/shift/create/' + payrollGroup, "", this.appSettings.defaultOptions);
   }
 
-  public async DeleteShiftCode(id: number) {
+  public async DeleteChangeShiftCode(id: number) {
     return this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/api/change/shift/delete/' + id, this.appSettings.defaultOptions);
+  }
+
+  public async PayrollGroupList() {
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/change/shift/payroll/group/list', this.appSettings.defaultOptions);
   }
 }

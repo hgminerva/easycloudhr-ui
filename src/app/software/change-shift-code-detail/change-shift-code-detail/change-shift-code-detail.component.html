@@ -17,7 +17,7 @@
         <mat-icon>lock_open</mat-icon>
         Unlock
     </button>
-    <button mat-flat-button style="margin-right: 5px;" routerLink="/software/DTR-list" color="warn">
+    <button mat-flat-button style="margin-right: 5px;" routerLink="/software/change-shift-code-list" color="warn">
         <mat-icon>close</mat-icon>
         Close
     </button>
@@ -60,8 +60,8 @@
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Payroll Group</mat-label>
                             <mat-select [(ngModel)]="_changeShiftModel.PayrollGroup">
-                                <mat-option *ngFor="let payrollGroup of _payrollGroupListDropdown" disabled
-                                    [value]="payrollGroup.Value">
+                                <mat-option *ngFor="let payrollGroup of _payrollGroupListDropdown"
+                                    [disabled]="_isLocked" [value]="payrollGroup.Value">
                                     {{payrollGroup.Value}}
                                 </mat-option>
                             </mat-select>
@@ -72,8 +72,8 @@
                     <div fxFlex="33" style="padding: 5px;">
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Prepared By</mat-label>
-                            <mat-select [(ngModel)]="_changeShiftModel.PreparedByUserId">
-                                <mat-option *ngFor="let user of _userListDropdown" [disabled]="_isLocked" [value]="user.Id">
+                            <mat-select [(ngModel)]="_changeShiftModel.PreparedByUserId" disabled>
+                                <mat-option *ngFor="let user of _userListDropdown" [value]="user.Id">
                                     {{user.Value}}
                                 </mat-option>
                             </mat-select>
@@ -146,8 +146,7 @@
                     <wj-flex-grid-column [header]="'Employee'" [binding]="'Employee'" [isReadOnly]="true"
                         [width]="'2*'">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Date'" [binding]="'ShiftDate'" [isReadOnly]="true"
-                        [width]="'2*'">
+                    <wj-flex-grid-column [header]="'Date'" [binding]="'ShiftDate'" [isReadOnly]="true" [width]="'2*'">
                     </wj-flex-grid-column>
                     <wj-flex-grid-column [header]="'Shift'" [binding]="'Shift'" [isReadOnly]="true" [width]="'2*'">
                     </wj-flex-grid-column>

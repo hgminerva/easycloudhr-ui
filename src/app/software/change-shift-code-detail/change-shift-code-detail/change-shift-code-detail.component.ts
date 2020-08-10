@@ -81,6 +81,7 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
     Id: 0,
     CSId: 0,
     EmployeeId: 0,
+    Employee: '',
     ShiftDate: new Date(),
     ShiftId: 0,
     Branch: '',
@@ -92,16 +93,18 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
   public _listChangeShiftLineCollectionView: CollectionView = new CollectionView(this._listChangeShiftLineObservableArray);
   public _listPageIndex: number = 15;
 
+  @ViewChild('flexChangeShiftLine') flexChangeShiftLine: wjcGrid.FlexGrid;
+
   public _isChangeShiftLineProgressBarHidden = false;
   public _isChangeShiftLineDataLoaded: boolean = false;
 
   private _changeShiftLineListSubscription: any;
   private _saveChangeShiftLineSubscription: any;
+  private _updateChangeShiftLineSubscription: any;
   private _deleteChangeShiftLineSubscription: any;
 
   public _btnAddChangeShiftLineDisabled: boolean = false;
 
-  @ViewChild('flexChangeShiftLine') flexChangeShiftLine: wjcGrid.FlexGrid;
 
   private async PayrollGroupListData() {
     this._payrollGroupDropdownSubscription = (await this._changeShiftCodeDetailService.PayrollGroupList()).subscribe(
@@ -309,7 +312,7 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
 
   public async DeleteChangeShiftLine() {
     let currentChangeShiftLine = this._listChangeShiftLineCollectionView.currentItem;
-    this._isProgressBarHidden = true;
+    this._isChangeShiftLineProgressBarHidden = true;
 
     if (this._isChangeShiftLineDataLoaded == true) {
       this._isChangeShiftLineDataLoaded = false;
@@ -317,12 +320,12 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
         response => {
           this._snackBarTemplate.snackBarSuccess(this._snackBar, "Delete Successfully");
           this.GetChangeShiftLineListData();
-          this._isProgressBarHidden = false;
+          this._isChangeShiftLineProgressBarHidden = false;
           this._isChangeShiftLineDataLoaded = true;
         },
         error => {
           this._isChangeShiftLineDataLoaded = true;
-          this._isProgressBarHidden = false;
+          this._isChangeShiftLineProgressBarHidden = false;
           this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + error.status);
           if (this._deleteChangeShiftLineSubscription != null) this._deleteChangeShiftLineSubscription.unsubscribe();
         }
@@ -335,8 +338,8 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
     const matDialogRef = this._matDialog.open(DeleteDialogBoxComponent, {
       width: '500px',
       data: {
-        objDialogTitle: "Delete ChangeShiftLine",
-        objComfirmationMessage: ` Delete ${currentChangeShiftLine.Employee} DTR?`,
+        objDialogTitle: "",
+        objComfirmationMessage: ` Delete ${currentChangeShiftLine.Employee}?`,
       },
       disableClose: true
     });
@@ -350,8 +353,6 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
 
 
   public DetailChangeShiftLine(objChangeShiftLine: ChangeShiftLineModel, eventTitle: string) {
-    if (this._changeShiftLineListSubscription !== null) this._changeShiftLineListSubscription.unsubscribe();
-
     const matDialogRef = this._matDialog.open(ChangeShiftCodeLineDetailComponent, {
       width: '1300px',
       data: {
@@ -362,8 +363,15 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
     });
 
     matDialogRef.afterClosed().subscribe((result: any) => {
-      if (result.event !== "Close") {
-        this.UpdateChangeShiftLine(result["data"].Id, result["data"]);
+      if (result.event === "Add Shift Line") {
+        this._isChangeShiftLineDataLoaded = true;
+
+        this.AddSaveChangeShiftLine(result.data);
+      }
+      if (result.event === "Edit Shift Line Detail") {
+        this._isChangeShiftLineDataLoaded = true;
+
+        this.UpdateChangeShiftLine(result.data.Id, result.data);
       }
     });
   }
@@ -371,14 +379,17 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
   ngOnDestroy() {
   }
 
+  public async AddSaveChangeShiftLine(objChangeShiftLine: ChangeShiftLineModel) {
+    this._isChangeShiftLineProgressBarHidden = true;
 
-  public async UpdateChangeShiftLine(id: number, objChangeShiftLine: ChangeShiftLineModel) {
     if (this._isChangeShiftLineDataLoaded == true) {
       this._isChangeShiftLineDataLoaded = false;
-      this._saveChangeShiftLineSubscription = await (await this._changeShiftCodeDetailService.UpdateTRLine(id, objChangeShiftLine)).subscribe(
+      this._saveChangeShiftLineSubscription = await (await this._changeShiftCodeDetailService.AddChangeShiftCodeLine(objChangeShiftLine)).subscribe(
         response => {
           this._isChangeShiftLineDataLoaded = true;
-          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Update Successfully");
+          this._isChangeShiftLineProgressBarHidden = false;
+
+          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Save Successfully");
           this.GetChangeShiftLineListData();
           if (this._saveChangeShiftLineSubscription != null) this._saveChangeShiftLineSubscription.unsubscribe();
         },
@@ -386,6 +397,29 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
           this._isChangeShiftLineDataLoaded = true;
           this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
           if (this._saveChangeShiftLineSubscription != null) this._saveChangeShiftLineSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
+  public async UpdateChangeShiftLine(id: number, objChangeShiftLine: ChangeShiftLineModel) {
+    this._isChangeShiftLineProgressBarHidden = true;
+
+    if (this._isChangeShiftLineDataLoaded == true) {
+      this._isChangeShiftLineDataLoaded = false;
+      this._updateChangeShiftLineSubscription = await (await this._changeShiftCodeDetailService.UpdateTRLine(id, objChangeShiftLine)).subscribe(
+        response => {
+          this._isChangeShiftLineDataLoaded = true;
+          this._isChangeShiftLineProgressBarHidden = false;
+
+          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Update Successfully");
+          this.GetChangeShiftLineListData();
+          if (this._updateChangeShiftLineSubscription != null) this._updateChangeShiftLineSubscription.unsubscribe();
+        },
+        error => {
+          this._isChangeShiftLineDataLoaded = true;
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this._updateChangeShiftLineSubscription != null) this._updateChangeShiftLineSubscription.unsubscribe();
         }
       );
     }

@@ -1,9 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { ChangeShiftCodeDetailService } from '../change-shift-code-detail.service';
 import { ChangeShiftLineModel } from '../change-shift-code-line.model';
+import { EmpoloyeeListDialogComponent } from './empoloyee-list-dialog/empoloyee-list-dialog.component';
 
 @Component({
   selector: 'app-change-shift-code-line-detail',
@@ -17,19 +18,21 @@ export class ChangeShiftCodeLineDetailComponent implements OnInit {
     private _changeShiftCodeDetailService: ChangeShiftCodeDetailService,
     @Inject(MAT_DIALOG_DATA) public caseData: any,
     private _snackBar: MatSnackBar,
-    private _snackBarTemplate: SnackBarTemplate
+    private _snackBarTemplate: SnackBarTemplate,
+    public _matDialog: MatDialog,
   ) { }
 
 
   ngOnInit(): void {
     this.title = this.caseData.objDialogTitle;
-    this.EmployeeListData();
+    this.ShiftsListData();
   }
 
   public _changeShiftLine: ChangeShiftLineModel = {
     Id: 0,
     CSId: 0,
     EmployeeId: 0,
+    Employee: '',
     ShiftDate: new Date(),
     ShiftId: 0,
     Branch: '',
@@ -37,11 +40,9 @@ export class ChangeShiftCodeLineDetailComponent implements OnInit {
   }
 
   public title = '';
+  public Employee = '';
 
   public isComponentHidden: boolean = true;
-
-  public _employeeListDropdownSubscription: any;
-  public _employeeListDropdown: any = [];
 
   public _branchListDropdownSubscription: any;
   public _branchListDropdown: any = [];
@@ -49,25 +50,28 @@ export class ChangeShiftCodeLineDetailComponent implements OnInit {
   public _shiftListDropdownSubscription: any;
   public _shiftListDropdown: any = [];
 
-  private async EmployeeListData() {
-    this._employeeListDropdownSubscription = (await this._changeShiftCodeDetailService.EmployeeList()).subscribe(
+  private async ShiftsListData() {
+    this._shiftListDropdownSubscription = (await this._changeShiftCodeDetailService.ShiftsList()).subscribe(
       response => {
-        this._employeeListDropdown = response;
+        this._shiftListDropdown = response;
+        this._changeShiftLine.ShiftId = this._shiftListDropdown[0].Id;
         this.BranchListData();
-        if (this._employeeListDropdownSubscription !== null) this._employeeListDropdownSubscription.unsubscribe();
+        if (this._shiftListDropdownSubscription !== null) this._shiftListDropdownSubscription.unsubscribe();
       },
       error => {
         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this._employeeListDropdownSubscription !== null) this._employeeListDropdownSubscription.unsubscribe();
+        if (this._shiftListDropdownSubscription !== null) this._shiftListDropdownSubscription.unsubscribe();
       }
     );
   }
+
 
   private async BranchListData() {
     this._branchListDropdownSubscription = (await this._changeShiftCodeDetailService.BranchList()).subscribe(
       response => {
         this._branchListDropdown = response;
-        this.ShiftsListData();
+        this._changeShiftLine.Branch = this._branchListDropdown[0].Value;
+        this.loadShiftLineDetail();
         if (this._branchListDropdownSubscription !== null) this._branchListDropdownSubscription.unsubscribe();
       },
       error => {
@@ -77,27 +81,20 @@ export class ChangeShiftCodeLineDetailComponent implements OnInit {
     );
   }
 
-  private async ShiftsListData() {
-    this._shiftListDropdownSubscription = (await this._changeShiftCodeDetailService.ShiftsList()).subscribe(
-      response => {
-        this._shiftListDropdown = response;
-        this.loadShiftLineDetail();
-        if (this._shiftListDropdownSubscription !== null) this._shiftListDropdownSubscription.unsubscribe();
-      },
-      error => {
-        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this._shiftListDropdownSubscription !== null) this._shiftListDropdownSubscription.unsubscribe();
-      }
-    );
-  }
 
   private loadShiftLineDetail() {
     this._changeShiftLine.Id = this.caseData.objChangeShiftLine.Id;
     this._changeShiftLine.CSId = this.caseData.objChangeShiftLine.CSId;
     this._changeShiftLine.EmployeeId = this.caseData.objChangeShiftLine.EmployeeId;
-    this._changeShiftLine.ShiftDate = new Date(this.caseData.objChangeShiftLine.ShiftDate);
-    this._changeShiftLine.Branch = this.caseData.objChangeShiftLine.Branch;
+    this._changeShiftLine.Employee = this.caseData.objChangeShiftLine.Employee;
     this._changeShiftLine.Remarks = this.caseData.objChangeShiftLine.Remarks;
+    this._changeShiftLine.ShiftDate = new Date(this.caseData.objChangeShiftLine.ShiftDate);
+
+    if (this._changeShiftLine.Id != 0) {
+      this._changeShiftLine.ShiftDate = new Date(this.caseData.objChangeShiftLine.ShiftDate);
+      this._changeShiftLine.Branch = this.caseData.objChangeShiftLine.Branch;
+    }
+
     console.log(this._changeShiftLine);
     setTimeout(() => {
       this.isComponentHidden = false;
@@ -109,7 +106,30 @@ export class ChangeShiftCodeLineDetailComponent implements OnInit {
   }
 
   public async Save() {
-    await this.dialogRef.close({ event: 'Save', objChangeShiftLine: this._changeShiftLine });
+    if (this._changeShiftLine.EmployeeId != 0) {
+      await this.dialogRef.close({ event: this.title, data: this._changeShiftLine });
+    } else {
+      this._snackBarTemplate.snackBarError(this._snackBar, "Choose employee!");
+    }
+  }
+
+  public EmployeeListDialog() {
+    const matDialogRef = this._matDialog.open(EmpoloyeeListDialogComponent, {
+      width: '900px',
+      height: '500',
+      data: {
+        objDialogTitle: "Employee List",
+      },
+      disableClose: true
+    });
+
+    matDialogRef.afterClosed().subscribe((data: any) => {
+      console.log(data);
+      if (data.event != "Close") {
+        this._changeShiftLine.EmployeeId = data.employee.Id;
+        this._changeShiftLine.Employee = data.employee.Value;
+      }
+    });
   }
 
 }

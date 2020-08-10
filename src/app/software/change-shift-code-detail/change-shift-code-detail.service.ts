@@ -28,7 +28,6 @@ export class ChangeShiftCodeDetailService {
   }
 
 
-
   // ChangeShiftCode
   public async ChangeShiftCodeDetail(id: number) {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/change/shift/detail/' + id, this.appSettings.defaultOptions);
@@ -52,7 +51,7 @@ export class ChangeShiftCodeDetailService {
   }
 
   public async AddChangeShiftCodeLine(objChangeShiftCodeLine: ChangeShiftLineModel) {
-    return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/change/shift/line/create/lines/', JSON.stringify(objChangeShiftCodeLine), this.appSettings.defaultOptions);
+    return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/change/shift/line/create/', JSON.stringify(objChangeShiftCodeLine), this.appSettings.defaultOptions);
   }
 
   public async UpdateTRLine(id: number, objChangeShiftCodeLine: ChangeShiftLineModel) {

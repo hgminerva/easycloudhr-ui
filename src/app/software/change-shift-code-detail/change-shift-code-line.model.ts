@@ -2,8 +2,9 @@ export class ChangeShiftLineModel {
     Id: number;
     CSId: number;
     EmployeeId: number;
+    Employee: string;
     ShiftDate: Date;
     ShiftId: number;
-    Branch: String;
-    Remarks: String;
+    Branch: string;
+    Remarks: string;
 }
