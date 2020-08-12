@@ -7,8 +7,11 @@ export class LeaveApplicationModel {
     Year: string;
     Remarks: string;
     PreparedByUserId: number;
+    PreparedByUser: string;
     CheckedByUserId: number;
+    CheckedByUser: string;
     ApprovedByUserId: number;
+    ApprovedByUser: string;
     CreatedByUserId: number;
     CreatedByUser: string;
     CreatedDateTime: Date;

@@ -4,7 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { LeaveApplicationDetailService } from '../leave-application-detail.service';
 import { LeaveApplicationLineModel } from '../leave-application-line.model';
-import { EmployeeListDialogComponent } from './employee-list-dialog/employee-list-dialog.component';
+import { EmployeeListPickDialogComponent } from './../../shared/employee-list-pick-dialog/employee-list-pick-dialog.component';
+
 
 @Component({
   selector: 'app-leave-application-line-detail',
@@ -70,11 +71,12 @@ export class LeaveApplicationLineDetailComponent implements OnInit {
   }
 
   public EmployeeListDialog() {
-    const matDialogRef = this._matDialog.open(EmployeeListDialogComponent, {
+    const matDialogRef = this._matDialog.open(EmployeeListPickDialogComponent, {
       width: '900px',
       height: '500',
       data: {
         objDialogTitle: "Employee List",
+        objPayrollGroup: this.caseData.objPayrollGroup
       },
       disableClose: true
     });

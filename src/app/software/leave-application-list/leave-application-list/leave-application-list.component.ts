@@ -200,12 +200,12 @@ export class LeaveApplicationListComponent implements OnInit {
   }
 
   public ComfirmDeleteLeaveApplication(): void {
-    let currentChangeShiftCode = this._listLeaveApplicationCollectionView.currentItem;
+    let currentLeaveApplication = this._listLeaveApplicationCollectionView.currentItem;
     const userRegistrationlDialogRef = this._matDialog.open(DeleteDialogBoxComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete Change Shift",
-        objComfirmationMessage: `Delete this ${currentChangeShiftCode.CSNumber}?`,
+        objComfirmationMessage: `Delete ${currentLeaveApplication.LANumber}?`,
       },
       disableClose: true
     });
