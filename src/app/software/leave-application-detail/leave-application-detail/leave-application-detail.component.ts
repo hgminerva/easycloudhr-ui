@@ -14,6 +14,8 @@ import { LeaveApplicationDetailService } from './../leave-application-detail.ser
 import { LeaveApplicationModel } from '../leave-application.model';
 import { LeaveApplicationLineModel } from '../leave-application-line.model';
 import { LeaveApplicationLineDetailComponent } from '../leave-application-line-detail/leave-application-line-detail.component';
+import { MatOption } from '@angular/material/core';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-leave-application-detail',
@@ -67,8 +69,11 @@ export class LeaveApplicationDetailComponent implements OnInit {
     Year: '',
     Remarks: '',
     PreparedByUserId: 0,
+    PreparedByUser: '',
     CheckedByUserId: 0,
+    CheckedByUser: '',
     ApprovedByUserId: 0,
+    ApprovedByUser: '',
     CreatedByUserId: 0,
     CreatedByUser: '',
     CreatedDateTime: new Date(),
@@ -163,7 +168,7 @@ export class LeaveApplicationDetailComponent implements OnInit {
           this._leaveApplicationLineModel.LAId = result["Id"];
         }
 
-        this.loadComponent(result["_isLocked"]);
+        this.loadComponent(result["IsLocked"]);
         this.GetLeaveApplicationLineListData();
         this._isDataLoaded = true;
         this._isComponentsHidden = false;
@@ -354,6 +359,7 @@ export class LeaveApplicationDetailComponent implements OnInit {
       width: '1300px',
       data: {
         objDialogTitle: eventTitle,
+        objPayrollGroup: this._leaveApplicationModel.PayrollGroup,
         objLeaveApplicationLine: objLeaveApplicationLine,
       },
       disableClose: true
@@ -409,4 +415,90 @@ export class LeaveApplicationDetailComponent implements OnInit {
 
   ngOnDestroy() {
   }
+
+  selectedCheckedByUser(event: MatSelectChange) {
+    const selectedData = {
+      text: (event.source.selected as MatOption).viewValue,
+      value: event.source.value
+    };
+
+    this._leaveApplicationModel.CheckedByUserId = event.source.value;
+    this._leaveApplicationModel.CheckedByUser = (event.source.selected as MatOption).viewValue;
+  }
+
+  selectedApprovedByUser(event: MatSelectChange) {
+    const selectedData = {
+      text: (event.source.selected as MatOption).viewValue,
+      value: event.source.value
+    };
+
+    this._leaveApplicationModel.ApprovedByUserId = event.source.value;
+    this._leaveApplicationModel.ApprovedByUser = (event.source.selected as MatOption).viewValue;
+  }
+
+  public btnCSVClick(): void {
+    var fileName = "";
+
+    fileName = "leave-application.csv";
+
+    var csvData = this.generateCSV();
+    var csvURL = window.URL.createObjectURL(csvData);
+    var tempLink = document.createElement('a');
+
+    tempLink.href = csvURL;
+    tempLink.setAttribute('download', fileName);
+    tempLink.click();
+  }
+
+  public generateCSV(): Blob {
+    var data = "";
+    var collection;
+    var fileName = "";
+
+    data = 'Leave Applicaiton' + '\r\n\n';
+    collection = this._listLeaveApplicationLineCollectionView;
+    fileName = "leave-application.csv";
+
+    if (data != "") {
+      var label = '"' + 'Leave Applicaiont ID' + '",'
+        + '"' + 'LANumber' + '",'
+        + '"' + 'LADate' + '",'
+        + '"' + 'PayrollGroup' + '",'
+        + '"' + 'Year' + '",'
+        + '"' + 'Remarks' + '",'
+        + '"' + 'PreparedByUser' + '",'
+        + '"' + 'CheckedByUser' + '",'
+        + '"' + 'ApprovedByUser' + '",';
+      for (var s in collection.items[0]) {
+        label += s + ',';
+      }
+      label = label.slice(0, -1);
+
+      data += label + '\r\n';
+
+      collection.moveToFirstPage();
+      for (var p = 0; p < collection.pageCount; p++) {
+        for (var i = 0; i < collection.items.length; i++) {
+          var row = '"' + this._leaveApplicationModel.Id + '",'
+            + '"' + this._leaveApplicationModel.LANumber + '",'
+            + '"' + this._leaveApplicationModel.LADate + '",'
+            + '"' + this._leaveApplicationModel.PayrollGroup + '",'
+            + '"' + this._leaveApplicationModel.Year + '",'
+            + '"' + this._leaveApplicationModel.Remarks + '",'
+            + '"' + this._leaveApplicationModel.PreparedByUser + '",'
+            + '"' + this._leaveApplicationModel.CheckedByUser + '",'
+            + '"' + this._leaveApplicationModel.ApprovedByUser + '",';
+
+          for (var s in collection.items[i]) {
+            row += '"' + collection.items[i][s] + '",';
+          }
+          row.slice(0, row.length - 1);
+          data += row + '\r\n';
+        }
+        collection.moveToNextPage();
+      }
+    }
+    return new Blob([data], { type: 'text/csv;charset=utf-8;' });
+  }
+
 }
