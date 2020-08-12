@@ -14,6 +14,8 @@ import { DTRLineModel } from '../dtr-line.model';
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { DtrDetialDtrLineDetailDialogComponent } from '../dtr-detial-dtr-line-detail-dialog/dtr-detial-dtr-line-detail-dialog.component';
 import { DtrDetailDtrLineAddDialogComponent } from '../dtr-detail-dtr-line-add-dialog/dtr-detail-dtr-line-add-dialog.component';
+import { MatSelectChange } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
 
 
 @Component({
@@ -96,8 +98,11 @@ export class DTRDetailComponent implements OnInit {
     CS: '',
     Remarks: '',
     PreparedByUserId: 0,
+    PreparedByUser: '',
     CheckedByUserId: 0,
+    CheckedByUser: '',
     ApprovedByUserId: 0,
+    ApprovedByUser: '',
     CreatedByUserId: 0,
     CreatedByUser: '',
     CreatedDateTime: new Date(),
@@ -508,4 +513,101 @@ export class DTRDetailComponent implements OnInit {
       );
     }
   }
+
+  selectedCheckedByUser(event: MatSelectChange) {
+    const selectedData = {
+      text: (event.source.selected as MatOption).viewValue,
+      value: event.source.value
+    };
+
+    this._dTRModel.CheckedByUserId = event.source.value;
+    this._dTRModel.CheckedByUser = (event.source.selected as MatOption).viewValue;
+  }
+
+  selectedApprovedByUser(event: MatSelectChange) {
+    const selectedData = {
+      text: (event.source.selected as MatOption).viewValue,
+      value: event.source.value
+    };
+
+    this._dTRModel.ApprovedByUserId = event.source.value;
+    this._dTRModel.ApprovedByUser = (event.source.selected as MatOption).viewValue;
+  }
+
+  public btnCSVClick(): void {
+    var fileName = "";
+
+    fileName = "dtr.csv";
+
+    var csvData = this.generateCSV();
+    var csvURL = window.URL.createObjectURL(csvData);
+    var tempLink = document.createElement('a');
+
+    tempLink.href = csvURL;
+    tempLink.setAttribute('download', fileName);
+    tempLink.click();
+  }
+
+  public generateCSV(): Blob {
+    var data = "";
+    var collection;
+    var fileName = "";
+
+    data = 'Daily Time Record' + '\r\n\n';
+    collection = this._listDTRLineCollectionView;
+    fileName = "dtr.csv";
+
+    if (data != "") {
+      var label = '"' + 'DTR ID' + '",'
+        + '"' + 'LANumber' + '",'
+        + '"' + 'LADate' + '",'
+        + '"' + 'PayrollGroup' + '",'
+        + '"' + 'Year' + '",'
+        + '"' + 'DateStart' + '",'
+        + '"' + 'Year' + '",'
+        + '"' + 'DateEnd' + '",'
+        + '"' + 'OT' + '",'
+        + '"' + 'LA' + '",'
+        + '"' + 'CS' + '",'
+        + '"' + 'Remarks' + '",'
+        + '"' + 'PreparedByUser' + '",'
+        + '"' + 'CheckedByUser' + '",'
+        + '"' + 'ApprovedByUser' + '",';
+      for (var s in collection.items[0]) {
+        label += s + ',';
+      }
+      label = label.slice(0, -1);
+
+      data += label + '\r\n';
+
+      collection.moveToFirstPage();
+      for (var p = 0; p < collection.pageCount; p++) {
+        for (var i = 0; i < collection.items.length; i++) {
+          var row = '"' + this._dTRModel.Id + '",'
+            + '"' + this._dTRModel.DTRNumber + '",'
+            + '"' + this._dTRModel.DTRDate + '",'
+            + '"' + this._dTRModel.PayrollGroup + '",'
+            + '"' + this._dTRModel.Year + '",'
+            + '"' + this._dTRModel.DateStart + '",'
+            + '"' + this._dTRModel.DateEnd + '",'
+            + '"' + this._dTRModel.OT + '",'
+            + '"' + this._dTRModel.LA + '",'
+            + '"' + this._dTRModel.CS + '",'
+            + '"' + this._dTRModel.Remarks + '",'
+            + '"' + this._dTRModel.PreparedByUser + '",'
+            + '"' + this._dTRModel.CheckedByUser + '",'
+            + '"' + this._dTRModel.ApprovedByUser + '",';
+
+          for (var s in collection.items[i]) {
+            row += '"' + collection.items[i][s] + '",';
+          }
+          row.slice(0, row.length - 1);
+          data += row + '\r\n';
+        }
+        collection.moveToNextPage();
+      }
+    }
+    return new Blob([data], { type: 'text/csv;charset=utf-8;' });
+  }
+
 }

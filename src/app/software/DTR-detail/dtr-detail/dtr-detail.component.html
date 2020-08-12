@@ -17,6 +17,11 @@
         <mat-icon>lock_open</mat-icon>
         Unlock
     </button>
+    <button mat-flat-button color="accent" id="btnAddEmployee" [disabled]="_btnUnlockDisabled" style="margin: 5px;"
+        (click)="btnCSVClick()">
+        <mat-icon>get_app</mat-icon>
+        CSV
+    </button>
     <button mat-flat-button style="margin-right: 5px;" routerLink="/software/DTR-list" color="warn">
         <mat-icon>close</mat-icon>
         Close
@@ -120,7 +125,8 @@
                     <div fxFlex="33" style="padding: 5px;">
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Checked By</mat-label>
-                            <mat-select [(ngModel)]="_dTRModel.CheckedByUserId">
+                            <mat-select [(ngModel)]="_dTRModel.CheckedByUserId"
+                                (selectionChange)="selectedCheckedByUser($event)">
                                 <mat-option *ngFor="let user of _userListDropdown" [disabled]="_isLocked"
                                     [value]="user.Id">
                                     {{user.Value}}
@@ -131,7 +137,8 @@
                     <div fxFlex="34" style="padding: 5px;">
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Approved By</mat-label>
-                            <mat-select [(ngModel)]="_dTRModel.ApprovedByUserId">
+                            <mat-select [(ngModel)]="_dTRModel.ApprovedByUserId"
+                                (selectionChange)="selectedApprovedByUser($event)">
                                 <mat-option *ngFor="let user of _userListDropdown" [disabled]="_isLocked"
                                     [value]="user.Id">
                                     {{user.Value}}
