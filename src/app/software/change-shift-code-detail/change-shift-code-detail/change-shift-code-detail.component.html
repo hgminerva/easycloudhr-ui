@@ -1,7 +1,8 @@
 <mat-toolbar>
     <img src="../../../../assets/menu-icons/change shift code.png" height="35" />
-    <span>&nbsp;&nbsp; Change Shift Code Detail</span>
+    <span>&nbsp;&nbsp; Change Shift Detail</span>
     <span class="spacer"></span>
+
     <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="_btnSaveDisabled"
         (click)="SaveChangeShiftCodeDetail()">
         <mat-icon>save</mat-icon>
@@ -17,6 +18,11 @@
         <mat-icon>lock_open</mat-icon>
         Unlock
     </button>
+    <button mat-flat-button color="accent" id="btnAddEmployee" [disabled]="_btnUnlockDisabled" style="margin: 5px;"
+        (click)="btnCSVClick()">
+        <mat-icon>get_app</mat-icon>
+        CSV
+    </button>
     <button mat-flat-button style="margin-right: 5px;" routerLink="/software/change-shift-code-list" color="warn">
         <mat-icon>close</mat-icon>
         Close
@@ -29,13 +35,17 @@
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="50" style="padding: 5px;">
                 <div fxLayout="row" fxLayout.xs="column">
-                    <div fxFlex="25" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
-                            <mat-label>Change Shift Code</mat-label>
-                            <input matInput placeholder="Full Name" [(ngModel)]="_changeShiftModel.CSNumber"
-                                [readonly]="_isLocked">
-                        </mat-form-field>
+                    <div fxFlex="33" style="padding: 5px;margin-top: 3px;">
+                        <h2 class="text_box"><b>{{_changeShiftModel.CSNumber}}</b> </h2>
                     </div>
+                    <div fxFlex="33" style="padding: 5px;margin-top: 3px;">
+                        <h2 class="text_box"><b>{{_changeShiftModel.PayrollGroup}}</b> </h2>
+                    </div>
+                    <div fxFlex="34" style="padding: 5px;margin-top: 3px;">
+                        <h2 class="text_box"><b>{{_changeShiftModel.Year}}</b> </h2>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="25" style="padding: 5px;">
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Date</mat-label>
@@ -48,29 +58,6 @@
                     </div>
                     <div fxFlex="25" style="padding: 5px;">
                         <mat-form-field appearance="outline" style="width: 100%;">
-                            <mat-label>Year</mat-label>
-                            <mat-select [(ngModel)]="_changeShiftModel.YearId">
-                                <mat-option *ngFor="let year of _yearListDropdown" disabled [value]="year.Id">
-                                    {{year.Value}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div fxFlex="25" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
-                            <mat-label>Payroll Group</mat-label>
-                            <mat-select [(ngModel)]="_changeShiftModel.PayrollGroup">
-                                <mat-option *ngFor="let payrollGroup of _payrollGroupListDropdown"
-                                    [disabled]="_isLocked" [value]="payrollGroup.Value">
-                                    {{payrollGroup.Value}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div fxLayout="row" fxLayout.xs="column">
-                    <div fxFlex="33" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Prepared By</mat-label>
                             <mat-select [(ngModel)]="_changeShiftModel.PreparedByUserId" disabled>
                                 <mat-option *ngFor="let user of _userListDropdown" [value]="user.Id">
@@ -79,10 +66,11 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div fxFlex="33" style="padding: 5px;">
+                    <div fxFlex="25" style="padding: 5px;">
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Checked By</mat-label>
-                            <mat-select [(ngModel)]="_changeShiftModel.CheckedByUserId">
+                            <mat-select [(ngModel)]="_changeShiftModel.CheckedByUserId"
+                                (selectionChange)="selectedCheckedByUser($event)">
                                 <mat-option *ngFor="let user of _userListDropdown" [disabled]="_isLocked"
                                     [value]="user.Id">
                                     {{user.Value}}
@@ -90,10 +78,11 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div fxFlex="34" style="padding: 5px;">
+                    <div fxFlex="25" style="padding: 5px;">
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Approved By</mat-label>
-                            <mat-select [(ngModel)]="_changeShiftModel.ApprovedByUserId">
+                            <mat-select [(ngModel)]="_changeShiftModel.ApprovedByUserId"
+                                (selectionChange)="selectedApprovedByUser($event)">
                                 <mat-option *ngFor="let user of _userListDropdown" [disabled]="_isLocked"
                                     [value]="user.Id">
                                     {{user.Value}}

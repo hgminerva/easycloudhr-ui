@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { ChangeShiftCodeDetailService } from '../change-shift-code-detail.service';
 import { ChangeShiftLineModel } from '../change-shift-code-line.model';
-import { EmpoloyeeListDialogComponent } from './empoloyee-list-dialog/empoloyee-list-dialog.component';
+import { EmployeeListPickDialogComponent } from './../../shared/employee-list-pick-dialog/employee-list-pick-dialog.component';
 
 @Component({
   selector: 'app-change-shift-code-line-detail',
@@ -114,11 +114,12 @@ export class ChangeShiftCodeLineDetailComponent implements OnInit {
   }
 
   public EmployeeListDialog() {
-    const matDialogRef = this._matDialog.open(EmpoloyeeListDialogComponent, {
+    const matDialogRef = this._matDialog.open(EmployeeListPickDialogComponent, {
       width: '900px',
       height: '500',
       data: {
         objDialogTitle: "Employee List",
+        objPayrollGroup: this.caseData.objPayrollGroup
       },
       disableClose: true
     });

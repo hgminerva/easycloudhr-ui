@@ -139,6 +139,7 @@ export class ChangeShiftCodeListComponent implements OnInit {
         if (this._changeShiftCodeListSubscription != null) this._changeShiftCodeListSubscription.unsubscribe();
       },
       error => {
+        this._isProgressBarHidden = false;
         if (error.status == "401") {
           location.reload();
         } else {
@@ -204,7 +205,7 @@ export class ChangeShiftCodeListComponent implements OnInit {
       width: '500px',
       data: {
         objDialogTitle: "Delete Change Shift",
-        objComfirmationMessage: `Delete this ${currentChangeShiftCode.CSNumber}?`,
+        objComfirmationMessage: `Delete ${currentChangeShiftCode.CSNumber}?`,
       },
       disableClose: true
     });

@@ -13,6 +13,8 @@ import { ChangeShiftModel } from '../change-shift-code.model';
 import { ChangeShiftLineModel } from '../change-shift-code-line.model';
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { ChangeShiftCodeLineDetailComponent } from './../change-shift-code-line-detail/change-shift-code-line-detail.component';
+import { MatSelectChange } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
 
 @Component({
   selector: 'app-change-shift-code-detail',
@@ -66,8 +68,11 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
     Year: '',
     Remarks: '',
     PreparedByUserId: 0,
+    PreparedByUser: '',
     CheckedByUserId: 0,
+    CheckedByUser: '',
     ApprovedByUserId: 0,
+    ApprovedByUser: '',
     CreatedByUserId: 0,
     CreatedByUser: '',
     CreatedDateTime: new Date(),
@@ -158,13 +163,13 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
     this._changeShiftCodeDetailSubscription = await (await this._changeShiftCodeDetailService.ChangeShiftCodeDetail(id)).subscribe(
       (response: any) => {
         let result = response;
+        console.log(result);
         if (result != null) {
           this._changeShiftModel = result;
-
           this._changeShiftModel.CSDate = new Date(result["CSDate"]);
           this._changeShiftLineModel.CSId = result["Id"];
         }
-        this.loadComponent(result["_isLocked"]);
+        this.loadComponent(result["IsLocked"]);
         this.GetChangeShiftLineListData();
         this._isDataLoaded = true;
         this._isProgressBarHidden = false;
@@ -357,6 +362,7 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
       width: '1300px',
       data: {
         objDialogTitle: eventTitle,
+        objPayrollGroup: this._changeShiftModel.PayrollGroup,
         objChangeShiftLine: objChangeShiftLine,
       },
       disableClose: true
@@ -423,6 +429,102 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
         }
       );
     }
+  }
+
+
+  selectedPreparedByUser(event: MatSelectChange) {
+    const selectedData = {
+      text: (event.source.selected as MatOption).viewValue,
+      value: event.source.value
+    };
+
+    this._changeShiftModel.PreparedByUserId = event.source.value;
+    this._changeShiftModel.PreparedByUser = (event.source.selected as MatOption).viewValue;
+  }
+
+  selectedCheckedByUser(event: MatSelectChange) {
+    const selectedData = {
+      text: (event.source.selected as MatOption).viewValue,
+      value: event.source.value
+    };
+
+    this._changeShiftModel.CheckedByUserId = event.source.value;
+    this._changeShiftModel.CheckedByUser = (event.source.selected as MatOption).viewValue;
+  }
+
+  selectedApprovedByUser(event: MatSelectChange) {
+    const selectedData = {
+      text: (event.source.selected as MatOption).viewValue,
+      value: event.source.value
+    };
+
+    this._changeShiftModel.ApprovedByUserId = event.source.value;
+    this._changeShiftModel.ApprovedByUser = (event.source.selected as MatOption).viewValue;
+  }
+  
+  public btnCSVClick(): void {
+    var fileName = "";
+
+    fileName = "change-shift.csv";
+
+    var csvData = this.generateCSV();
+    var csvURL = window.URL.createObjectURL(csvData);
+    var tempLink = document.createElement('a');
+
+    tempLink.href = csvURL;
+    tempLink.setAttribute('download', fileName);
+    tempLink.click();
+  }
+
+  public generateCSV(): Blob {
+    var data = "";
+    var collection;
+    var fileName = "";
+
+    data = 'Change Shift' + '\r\n\n';
+    collection = this._listChangeShiftLineCollectionView;
+    fileName = "change-shift.csv";
+
+    if (data != "") {
+      var label = '"' + 'Shift ID' + '",'
+        + '"' + 'CSNumber' + '",'
+        + '"' + 'CSDate' + '",'
+        + '"' + 'PayrollGroup' + '",'
+        + '"' + 'Year' + '",'
+        + '"' + 'Remarks' + '",'
+        + '"' + 'PreparedByUser' + '",'
+        + '"' + 'CheckedByUser' + '",'
+        + '"' + 'ApprovedByUser' + '",';
+      for (var s in collection.items[0]) {
+        label += s + ',';
+      }
+      label = label.slice(0, -1);
+
+      data += label + '\r\n';
+
+      collection.moveToFirstPage();
+      for (var p = 0; p < collection.pageCount; p++) {
+        for (var i = 0; i < collection.items.length; i++) {
+          var row = '"' + this._changeShiftModel.Id + '",'
+            + '"' + this._changeShiftModel.CSNumber + '",'
+            + '"' + this._changeShiftModel.CSDate + '",'
+            + '"' + this._changeShiftModel.PayrollGroup + '",'
+            + '"' + this._changeShiftModel.Year + '",'
+            + '"' + this._changeShiftModel.Remarks + '",'
+            + '"' + this._changeShiftModel.PreparedByUser + '",'
+            + '"' + this._changeShiftModel.CheckedByUser + '",'
+            + '"' + this._changeShiftModel.ApprovedByUser + '",';
+
+          for (var s in collection.items[i]) {
+            row += '"' + collection.items[i][s] + '",';
+          }
+          row.slice(0, row.length - 1);
+          data += row + '\r\n';
+        }
+        collection.moveToNextPage();
+      }
+    }
+    return new Blob([data], { type: 'text/csv;charset=utf-8;' });
   }
 
 }

@@ -1,6 +1,6 @@
 <mat-toolbar>
     <img src="../../../../assets/menu-icons/change shift code.png" height="35" />
-    <span>&nbsp;&nbsp; Change Shift Code List</span>
+    <span>&nbsp;&nbsp; Change Shift List</span>
     <span class="spacer"></span>
     <button mat-flat-button color="primary"
         style="float: right;background-color: #742774; color: cornsilk; margin: 5px;" [disabled]="_buttonDisabled"
@@ -55,18 +55,15 @@
                         </button>
                     </ng-template>
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Number'" [binding]="'CSNumber'" [isReadOnly]="true" [isReadOnly]="true"
-                    [width]="'2*'">
+                <wj-flex-grid-column [header]="'CS No.'" [binding]="'CSNumber'" [isReadOnly]="true" [isReadOnly]="true"
+                    [width]="100">
                 </wj-flex-grid-column>
                 <wj-flex-grid-column [header]="'Date'" [binding]="'CSDate'" [isReadOnly]="true" [isReadOnly]="true"
-                    [width]="'2*'">
+                    [width]="100">
                 </wj-flex-grid-column>
                 <wj-flex-grid-column [header]="'Year'" [binding]="'Year'" [isReadOnly]="true" [isReadOnly]="true"
-                    [width]="'2*'">
+                    [width]="100">
                 </wj-flex-grid-column>
-                <!-- <wj-flex-grid-column [header]="'Payroll Group'" [binding]="'PayrollGroup'" [isReadOnly]="true"
-                    [isReadOnly]="true" [width]="'2*'">
-                </wj-flex-grid-column> -->
                 <wj-flex-grid-column [header]="'Remarks'" [binding]="'Remarks'" [isReadOnly]="true" [isReadOnly]="true"
                     [width]="'2*'">
                 </wj-flex-grid-column>
