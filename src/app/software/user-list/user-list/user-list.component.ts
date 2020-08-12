@@ -28,7 +28,10 @@ export class UserListComponent implements OnInit {
 
   async ngOnInit() {
     await this.getUserListData();
+    await this.CreateCboShowNumberOfRows();
   }
+
+  
 
   public listUserObservableArray: ObservableArray = new ObservableArray();
   public listUserCollectionView: CollectionView = new CollectionView(this.listUserObservableArray);
@@ -39,6 +42,42 @@ export class UserListComponent implements OnInit {
 
   private userListSubscription: any;
   private registerUserSubscription: any;
+
+  public _createCboShowNumberOfRows: ObservableArray = new ObservableArray();
+
+  public CreateCboShowNumberOfRows(): void {
+    for (var i = 0; i <= 4; i++) {
+      var rows = 0;
+      var rowsString = "";
+      if (i == 0) {
+        rows = 15;
+        rowsString = "Show 15";
+      } else if (i == 1) {
+        rows = 50;
+        rowsString = "Show 50";
+      } else if (i == 2) {
+        rows = 100;
+        rowsString = "Show 100";
+      } else if (i == 3) {
+        rows = 150;
+        rowsString = "Show 150";
+      } else {
+        rows = 200;
+        rowsString = "Show 200";
+      }
+
+      this._createCboShowNumberOfRows.push({
+        rowNumber: rows,
+        rowString: rowsString
+      });
+    }
+  }
+
+  public CboShowNumberOfRowsOnSelectedIndexChanged(): void {
+    this.listUserCollectionView.pageSize = this.listPageIndex;
+    this.listUserCollectionView.refresh();
+    this.listUserCollectionView.refresh();
+  }
 
   private async getUserListData() {
     this.listUserObservableArray = new ObservableArray();
@@ -53,8 +92,6 @@ export class UserListComponent implements OnInit {
     this.userListSubscription = await (await this.userListService.UserList()).subscribe(
       (response: any) => {
         var results = response;
-        console.log("Response:", results);
-
         if (results["length"] > 0) {
           this.listUserObservableArray = results;
           this.listUserCollectionView = new CollectionView(this.listUserObservableArray);

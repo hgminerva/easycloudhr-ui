@@ -32,7 +32,7 @@ export class UserRegistrationDialogComponent implements OnInit {
   public dialogTitle = "Register User"
   public newUserSubscription: any;
 
-  public buttonDisable: boolean = false;
+  public buttonDisabled: boolean = false;
   public buttonCloseDisable: boolean = false;
 
   public userModel: UserModel = {
@@ -48,25 +48,30 @@ export class UserRegistrationDialogComponent implements OnInit {
     UserName: ['', Validators.required],
     Password: ['', [Validators.required, Validators.minLength(5)]],
     ConfirmPassword: [''],
-  }, { validator: PasswordValidator });
+  });
 
   ngOnInit(): void {
   }
 
   public async RegisterUser() {
     console.log(this.userModel)
-    this.buttonDisable = false;
+    this.buttonDisabled = false;
     this.buttonCloseDisable = true;
 
     this.newUserSubscription = await (await this.userListService.RegisterUser(this.userModel)).subscribe(
       response => {
-        this.buttonDisable = true;
+        this.buttonDisabled = true;
         this.snackBarTemplate.snackBarSuccess(this.snackBar, "Registered Successfully");
         this.userRegistrationDialogRef.close({ status: 200 });
       },
       error => {
-        this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
-        this.buttonDisable = true;
+        if (error.status == '400') {
+          this.snackBarTemplate.snackBarError(this.snackBar, "Confirm password do not match! Status Code: " + error.status);
+        }
+        else {
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + " Status Code: " + error.status);
+        }
+        this.buttonDisabled = true;
         this.buttonCloseDisable = false;
       }
     );
@@ -77,8 +82,15 @@ export class UserRegistrationDialogComponent implements OnInit {
   }
 
   ValidateForm() {
-    this.buttonDisable = this.registrationForm.valid;
-    console.log(this.registrationForm.valid)
+    if (this.userModel.Password == this.userModel.ConfirmPassword) {
+      if (this.registrationForm.valid) {
+        this.buttonDisabled = true;
+      } else {
+        this.buttonDisabled = false;
+      }
+    }
+    else {
+      this.buttonDisabled = false;
+    }
   }
-
 }
