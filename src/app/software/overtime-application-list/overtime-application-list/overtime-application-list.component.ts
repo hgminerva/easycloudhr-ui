@@ -204,7 +204,7 @@ export class OvertimeApplicationListComponent implements OnInit {
       width: '500px',
       data: {
         objDialogTitle: "Delete Change Shift",
-        objComfirmationMessage: `Delete this ${currentChangeShiftCode.CSNumber}?`,
+        objComfirmationMessage: `Delete ${currentChangeShiftCode.OTNumber}?`,
       },
       disableClose: true
     });
