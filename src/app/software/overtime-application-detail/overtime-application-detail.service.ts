@@ -38,6 +38,7 @@ export class OvertimeApplicationDetailService {
   }
 
   public async LockOvertimeApplication(id: number, objOvertimeApplication: OvertimeApplicationModel) {
+    console.log(id);
     return await this.httpClient.put(this.appSettings.defaultAPIURLHost + '/api/overtime/application/lock/' + id, JSON.stringify(objOvertimeApplication), this.appSettings.defaultOptions);
   }
 

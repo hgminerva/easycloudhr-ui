@@ -2,6 +2,7 @@
     <img src="../../../../assets/menu-icons/overtime application.png" height="35" />
     <span>&nbsp;&nbsp; Overtime Application Detail</span>
     <span class="spacer"></span>
+
     <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="_btnSaveDisabled"
         (click)="SaveOvertimeApplicationDetail()">
         <mat-icon>save</mat-icon>
@@ -17,6 +18,11 @@
         <mat-icon>lock_open</mat-icon>
         Unlock
     </button>
+    <button mat-flat-button color="accent" id="btnAddEmployee" [disabled]="_btnUnlockDisabled" style="margin: 5px;"
+        (click)="btnCSVClick()">
+        <mat-icon>get_app</mat-icon>
+        CSV
+    </button>
     <button mat-flat-button style="margin-right: 5px;" routerLink="/software/overtime-application-list" color="warn">
         <mat-icon>close</mat-icon>
         Close
@@ -27,13 +33,17 @@
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="50" style="padding: 5px;">
                 <div fxLayout="row" fxLayout.xs="column">
-                    <div fxFlex="25" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
-                            <mat-label>Change Shift Code</mat-label>
-                            <input matInput placeholder="Full Name" [(ngModel)]="_overtimeApplicationModel.OTNumber"
-                                [readonly]="_isLocked">
-                        </mat-form-field>
+                    <div fxFlex="33" style="padding: 5px;margin-top: 3px;">
+                        <h2 class="text_box"><b>{{_overtimeApplicationModel.OTNumber}}</b> </h2>
                     </div>
+                    <div fxFlex="33" style="padding: 5px;margin-top: 3px;">
+                        <h2 class="text_box"><b>{{_overtimeApplicationModel.PayrollGroup}}</b> </h2>
+                    </div>
+                    <div fxFlex="34" style="padding: 5px;margin-top: 3px;">
+                        <h2 class="text_box"><b>{{_overtimeApplicationModel.Year}}</b> </h2>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="25" style="padding: 5px;">
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Date</mat-label>
@@ -46,29 +56,6 @@
                     </div>
                     <div fxFlex="25" style="padding: 5px;">
                         <mat-form-field appearance="outline" style="width: 100%;">
-                            <mat-label>Year</mat-label>
-                            <mat-select [(ngModel)]="_overtimeApplicationModel.YearId">
-                                <mat-option *ngFor="let year of _yearListDropdown" disabled [value]="year.Id">
-                                    {{year.Value}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div fxFlex="25" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
-                            <mat-label>Payroll Group</mat-label>
-                            <mat-select [(ngModel)]="_overtimeApplicationModel.PayrollGroup">
-                                <mat-option *ngFor="let payrollGroup of _payrollGroupListDropdown" [disabled]="_isLocked"
-                                    [value]="payrollGroup.Value">
-                                    {{payrollGroup.Value}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div fxLayout="row" fxLayout.xs="column">
-                    <div fxFlex="33" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Prepared By</mat-label>
                             <mat-select [(ngModel)]="_overtimeApplicationModel.PreparedByUserId" disabled>
                                 <mat-option *ngFor="let user of _userListDropdown" [value]="user.Id">
@@ -77,10 +64,11 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div fxFlex="33" style="padding: 5px;">
+                    <div fxFlex="25" style="padding: 5px;">
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Checked By</mat-label>
-                            <mat-select [(ngModel)]="_overtimeApplicationModel.CheckedByUserId">
+                            <mat-select [(ngModel)]="_overtimeApplicationModel.CheckedByUserId"
+                                (selectionChange)="selectedCheckedByUser($event)">
                                 <mat-option *ngFor="let user of _userListDropdown" [disabled]="_isLocked"
                                     [value]="user.Id">
                                     {{user.Value}}
@@ -88,10 +76,11 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div fxFlex="34" style="padding: 5px;">
+                    <div fxFlex="25" style="padding: 5px;">
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Approved By</mat-label>
-                            <mat-select [(ngModel)]="_overtimeApplicationModel.ApprovedByUserId">
+                            <mat-select [(ngModel)]="_overtimeApplicationModel.ApprovedByUserId"
+                                (selectionChange)="selectedApprovedByUser($event)">
                                 <mat-option *ngFor="let user of _userListDropdown" [disabled]="_isLocked"
                                     [value]="user.Id">
                                     {{user.Value}}
@@ -106,8 +95,9 @@
                     <div fxFlex="100" style="padding: 5px;">
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Remarks</mat-label>
-                            <textarea matInput placeholder="AddrRemarksess" [(ngModel)]="_overtimeApplicationModel.Remarks"
-                                [readonly]="_isLocked" rows="5" style="min-height: 102px;"></textarea>
+                            <textarea matInput placeholder="AddrRemarksess"
+                                [(ngModel)]="_overtimeApplicationModel.Remarks" [readonly]="_isLocked" rows="5"
+                                style="min-height: 102px;"></textarea>
                         </mat-form-field>
                     </div>
                 </div>
@@ -144,13 +134,9 @@
                     <wj-flex-grid-column [header]="'Employee'" [binding]="'Employee'" [isReadOnly]="true"
                         [width]="'2*'">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Date'" [binding]="'LADate'" [isReadOnly]="true" [width]="100">
+                    <wj-flex-grid-column [header]="'Date'" [binding]="'OTDate'" [isReadOnly]="true" [width]="100">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Half Day'" [binding]="'IsHalfDay'" [isReadOnly]="true"
-                        [width]="100">
-                    </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'With Pay'" [binding]="'IsWithPay'" [isReadOnly]="true"
-                        [width]="100">
+                    <wj-flex-grid-column [header]="'OT Hours'" [binding]="'OTHours'" [isReadOnly]="true" [width]="100">
                     </wj-flex-grid-column>
                     <wj-flex-grid-column [header]="'Remarks'" [binding]="'Remarks'" [isReadOnly]="true" [width]="'3*'">
                     </wj-flex-grid-column>

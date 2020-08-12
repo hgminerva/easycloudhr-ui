@@ -13,6 +13,8 @@ import { OvertimeApplicationDetailService } from './../overtime-application-deta
 import { OvertimeApplicationModel } from '../overtime-application.model';
 import { OvertimeApplicationLineModel } from '../overtime-application-line.model';
 import { OvertimeApplicationLineDialogComponent } from '../overtime-application-line-dialog/overtime-application-line-dialog.component';
+import { MatSelectChange } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
 @Component({
   selector: 'app-overtime-application-detail',
   templateUrl: './overtime-application-detail.component.html',
@@ -65,8 +67,11 @@ export class OvertimeApplicationDetailComponent implements OnInit {
     Year: '',
     Remarks: '',
     PreparedByUserId: 0,
+    PreparedByUser: '',
     CheckedByUserId: 0,
+    CheckedByUser: '',
     ApprovedByUserId: 0,
+    ApprovedByUser: '',
     CreatedByUserId: 0,
     CreatedByUser: '',
     CreatedDateTime: new Date(),
@@ -82,7 +87,7 @@ export class OvertimeApplicationDetailComponent implements OnInit {
     EmployeeId: 0,
     Employee: '',
     OTDate: new Date(),
-    OTHours: '',
+    OTHours: '0',
     Remarks: ''
   }
 
@@ -156,11 +161,11 @@ export class OvertimeApplicationDetailComponent implements OnInit {
         console.log(result);
         if (result != null) {
           this._overtimeApplicationModel = result;
-          this._overtimeApplicationModel.OTDate = new Date(result["LADate"]);
+          this._overtimeApplicationModel.OTDate = new Date(result["OTDate"]);
           this._overtimeApplicationLineModel.OTId = result["Id"];
         }
 
-        this.loadComponent(result["_isLocked"]);
+        this.loadComponent(result["IsLocked"]);
         this.GetOvertimeApplicationLineListData();
         this._isDataLoaded = true;
         this._isComponentsHidden = false;
@@ -351,6 +356,7 @@ export class OvertimeApplicationDetailComponent implements OnInit {
       width: '1300px',
       data: {
         objDialogTitle: eventTitle,
+        objPayrollGroup: this._overtimeApplicationModel.PayrollGroup,
         objOvertimeApplicationLine: objOvertimeApplicationLine,
       },
       disableClose: true
@@ -405,6 +411,91 @@ export class OvertimeApplicationDetailComponent implements OnInit {
   }
 
   ngOnDestroy() {
+  }
+
+  selectedCheckedByUser(event: MatSelectChange) {
+    const selectedData = {
+      text: (event.source.selected as MatOption).viewValue,
+      value: event.source.value
+    };
+
+    this._overtimeApplicationModel.CheckedByUserId = event.source.value;
+    this._overtimeApplicationModel.CheckedByUser = (event.source.selected as MatOption).viewValue;
+  }
+
+  selectedApprovedByUser(event: MatSelectChange) {
+    const selectedData = {
+      text: (event.source.selected as MatOption).viewValue,
+      value: event.source.value
+    };
+
+    this._overtimeApplicationModel.ApprovedByUserId = event.source.value;
+    this._overtimeApplicationModel.ApprovedByUser = (event.source.selected as MatOption).viewValue;
+  }
+
+  public btnCSVClick(): void {
+    var fileName = "";
+
+    fileName = "overtime-application.csv";
+
+    var csvData = this.generateCSV();
+    var csvURL = window.URL.createObjectURL(csvData);
+    var tempLink = document.createElement('a');
+
+    tempLink.href = csvURL;
+    tempLink.setAttribute('download', fileName);
+    tempLink.click();
+  }
+
+  public generateCSV(): Blob {
+    var data = "";
+    var collection;
+    var fileName = "";
+
+    data = 'Overtime Applicaiton' + '\r\n\n';
+    collection = this._listOvertimeApplicationLineCollectionView;
+    fileName = "overtime-application.csv";
+
+    if (data != "") {
+      var label = '"' + 'Overtime Applicaiont ID' + '",'
+        + '"' + 'OTNumber' + '",'
+        + '"' + 'OTDate' + '",'
+        + '"' + 'PayrollGroup' + '",'
+        + '"' + 'Year' + '",'
+        + '"' + 'Remarks' + '",'
+        + '"' + 'PreparedByUser' + '",'
+        + '"' + 'CheckedByUser' + '",'
+        + '"' + 'ApprovedByUser' + '",';
+      for (var s in collection.items[0]) {
+        label += s + ',';
+      }
+      label = label.slice(0, -1);
+
+      data += label + '\r\n';
+
+      collection.moveToFirstPage();
+      for (var p = 0; p < collection.pageCount; p++) {
+        for (var i = 0; i < collection.items.length; i++) {
+          var row = '"' + this._overtimeApplicationModel.Id + '",'
+            + '"' + this._overtimeApplicationModel.OTNumber + '",'
+            + '"' + this._overtimeApplicationModel.OTDate + '",'
+            + '"' + this._overtimeApplicationModel.PayrollGroup + '",'
+            + '"' + this._overtimeApplicationModel.Year + '",'
+            + '"' + this._overtimeApplicationModel.Remarks + '",'
+            + '"' + this._overtimeApplicationModel.PreparedByUser + '",'
+            + '"' + this._overtimeApplicationModel.CheckedByUser + '",'
+            + '"' + this._overtimeApplicationModel.ApprovedByUser + '",';
+
+          for (var s in collection.items[i]) {
+            row += '"' + collection.items[i][s] + '",';
+          }
+          row.slice(0, row.length - 1);
+          data += row + '\r\n';
+        }
+        collection.moveToNextPage();
+      }
+    }
+    return new Blob([data], { type: 'text/csv;charset=utf-8;' });
   }
 
 }
