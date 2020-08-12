@@ -26,13 +26,13 @@
 <div class="software-container">
     <div *ngIf="isComponentsShown">
         <div fxLayout="row" fxLayout.xs="column">
-            <div fxFlex="33" style="padding: 5px;">
+            <div fxFlex="25" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>CompanyCode</mat-label>
                     <input matInput placeholder="Company Code" [(ngModel)]="companyModel.CompanyCode" readonly>
                 </mat-form-field>
             </div>
-            <div fxFlex="67" style="padding: 5px;">
+            <div fxFlex="75" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>Company</mat-label>
                     <input matInput placeholder="Company" [(ngModel)]="companyModel.Company" [readonly]="isLocked">
@@ -40,19 +40,25 @@
             </div>
         </div>
         <div fxLayout="row" fxLayout.xs="column">
-            <div fxFlex="33" style="padding: 5px;">
+            <div fxFlex="25" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>SSS No.</mat-label>
                     <input matInput placeholder="SSSNumber" [(ngModel)]="companyModel.SSSNumber" [readonly]="isLocked">
                 </mat-form-field>
             </div>
-            <div fxFlex="33" style="padding: 5px;">
+            <div fxFlex="25" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>PHIC No.</mat-label>
                     <input matInput placeholder="PHIC No." [(ngModel)]="companyModel.PHICNumber" [readonly]="isLocked">
                 </mat-form-field>
             </div>
-            <div fxFlex="34" style="padding: 5px;">
+            <div fxFlex="25" style="padding: 5px;">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>HDMF No.</mat-label>
+                    <input matInput placeholder="PHIC No." [(ngModel)]="companyModel.HDMFNumber" [readonly]="isLocked">
+                </mat-form-field>
+            </div>
+            <div fxFlex="25" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>Tax No.</mat-label>
                     <input matInput placeholder="Tax No." [(ngModel)]="companyModel.TaxNumber" [readonly]="isLocked">
