@@ -1,0 +1,60 @@
+<h3 mat-dialog-title>
+    {{ title }}
+</h3>
+<mat-divider></mat-divider>
+<div mat-dialog-content style="height: 70%;">
+    <div class="dialog-body" [hidden]="isComponentHidden">
+        <br>
+        <div fxLayout="row" fxLayout.xs="column">
+            <div fxFlex="33" style="padding: 5px;">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Date</mat-label>
+                    <input matInput [matDatepicker]="datePickerYearDate" [(ngModel)]="_yearDateModel.YearDate">
+                    <mat-datepicker-toggle matSuffix [for]="datePickerYearDate">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #datePickerYearDate color="primary"></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div fxFlex="33" style="padding: 5px;">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Branch</mat-label>
+                    <mat-select [(ngModel)]="_yearDateModel.Branch">
+                        <mat-option *ngFor="let branch of _branchListDropdown" [value]="branch.Value">
+                            {{branch.Value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="34" style="padding: 5px;">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Date Type</mat-label>
+                    <mat-select [(ngModel)]="_yearDateModel.DateType">
+                        <mat-option *ngFor="let dateType of _dateTypeListDropdown" [value]="dateType.Value">
+                            {{dateType.Value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayout.xs="column">
+            <div fxFlex="100" style="padding: 5px;">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Remarks</mat-label>
+                    <textarea matInput placeholder="Remarks" [(ngModel)]="_yearDateModel.Remarks" rows="5"
+                        style="min-height: 102px;"></textarea>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions align="right">
+    <button mat-flat-button color="primary" align-self="right" style="margin-right: 5px;" (click)="Save()">
+        <mat-icon>save</mat-icon>
+        Save
+    </button>
+    <button mat-flat-button mat-dialog-close style="margin: 5px;" color="warn" (click)="Close()">
+        <mat-icon>close</mat-icon>
+        Cancel
+    </button>
+</div>

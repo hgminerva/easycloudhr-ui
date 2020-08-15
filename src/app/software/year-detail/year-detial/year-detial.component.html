@@ -1,0 +1,185 @@
+<mat-toolbar>
+    <img src="../../../../assets/menu-icons/year.png" height="35" />
+    <span>&nbsp;&nbsp; Year Detail</span>
+    <span class="spacer"></span>
+    <button mat-raised-button style="margin: 5px;" color="primary" (click)="SaveYearDetail()"
+        [disabled]="_btnSaveDisabled">
+        <mat-icon>save</mat-icon>
+        Save
+    </button>
+    <button mat-raised-button style="margin: 5px;" color="primary" (click)="LockYearDetail()"
+        [disabled]="_btnLockIsabled">
+        <mat-icon>lock</mat-icon>
+        Lock
+    </button>
+    <button mat-raised-button style="margin: 5px;" color="primary" (click)="UnlockYearDetail()"
+        [disabled]="_btnUnlockDisabled">
+        <mat-icon>lock_open</mat-icon>
+
+        Unlock
+    </button>
+    <button mat-raised-button style="margin: 5px;" routerLink="/software/year-list" color="warn">
+        <mat-icon>close</mat-icon>
+        Close
+    </button>
+</mat-toolbar>
+<mat-progress-bar *ngIf="isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'" style="width: 100%;">
+</mat-progress-bar>
+<div class="software-container">
+    <div [hidden]="!_isComponentsShown">
+        <div fxLayout="row" fxLayout.xs="column">
+            <div fxFlex="20" style="padding: 5px;">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>YearCode</mat-label>
+                    <input matInput placeholder="Full Name" [(ngModel)]="_yearModel.YearCode" readonly>
+                </mat-form-field>
+            </div>
+            <div fxFlex="20" style="padding: 5px;">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Year</mat-label>
+                    <input matInput placeholder="Full Name" [(ngModel)]="_yearModel.Year" [readonly]="_isLocked">
+                </mat-form-field>
+            </div>
+            <div fxFlex="20" style="padding: 5px;">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>DateStart</mat-label>
+                    <input matInput [matDatepicker]="datePickerDateStart" [(ngModel)]="_yearModel.DateStart"
+                        [readonly]="_isLocked">
+                    <mat-datepicker-toggle matSuffix [for]="datePickerDateStart" [disabled]="_isLocked">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #datePickerDateStart color="primary"></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div fxFlex="20" style="padding: 5px;">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>DateEnd</mat-label>
+                    <input matInput [matDatepicker]="datePickerDateEnd" [(ngModel)]="_yearModel.DateEnd"
+                        [readonly]="_isLocked">
+                    <mat-datepicker-toggle matSuffix [for]="datePickerDateEnd" [disabled]="_isLocked">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #datePickerDateEnd color="primary"></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div fxFlex="20" style="padding: 5px;" style="padding: 23px; text-align: start; display: inline;">
+                <div style="width: 100%; border: gray 1px !important">
+                    <mat-checkbox color="primary" [disabled]="_isLocked" [(ngModel)]="_yearModel.IsClose">
+                        <span style="color: gray;">
+                            Close</span>
+                    </mat-checkbox>
+                </div>
+            </div>
+        </div>
+
+        <mat-tab-group #tabGroup (selectedTabChange)="activeTab()" style="max-height:100%;" class="detail-tab ">
+            <mat-tab label="Year Date">
+                <mat-progress-bar *ngIf="_isYearDateProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'">
+                </mat-progress-bar>
+
+                <wj-flex-grid #flexYearDate [itemsSource]="_listYearDateCollectionView" [selectionMode]="3"
+                    [frozenColumns]="2" [headersVisibility]="1">
+                    <wj-flex-grid-filter></wj-flex-grid-filter>
+                    <wj-flex-grid-column [isReadOnly]="true" [width]="80" *ngIf="!_isLocked">
+                        <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
+                            <button mat-raised-button color="primary"
+                                style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
+                                (click)="EditYearDate()" id="btnEditYearDate">
+                                <mat-icon>edit</mat-icon>
+                                Edit
+                            </button>
+                        </ng-template>
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [isReadOnly]="true" [width]="80" *ngIf="!_isLocked">
+                        <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
+                            <button mat-raised-button color="warn"
+                                style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
+                                (click)="ComfirmDeleteYearDate()">
+                                <mat-icon>delete</mat-icon>
+                                Delete
+                            </button>
+                        </ng-template>
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Date'" [binding]="'YearDate'" [isReadOnly]="true" [width]="100">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Branch'" [binding]="'Branch'" [isReadOnly]="true" [width]="'2*'">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Date Type'" [binding]="'DateType'" [isReadOnly]="true"
+                        [width]="'2*'">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Remarks'" [binding]="'Remarks'" [isReadOnly]="true" [width]="'2*'">
+                    </wj-flex-grid-column>
+                </wj-flex-grid>
+            </mat-tab>
+            <mat-tab disabled style="background-color: transparent; ">
+                <ng-template mat-tab-label>
+                    <button mat-raised-button color="primary" style="float: right; margin: 5px;" [disabled]="_isLocked"
+                        (click)="AddYearDateDialog()" [disabled]="_btnAddDTRLineDisabled">
+                        <mat-icon>add</mat-icon> ADD
+                    </button><br>
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+        <div fxLayout="row" fxLayout.xs="column" style="margin-bottom: 15px;">
+            <div fxFlex="20" style="padding: 2px;">
+                <div fxLayout="row" fxLayout.xs="column">
+                    <mat-button-toggle-group style="margin-top: 7px; width: 100%;">
+                        <mat-button-toggle (click)="_listYearDateCollectionView.moveToFirstPage()"
+                            style=" width: 100%;">
+                            <mat-icon style="margin-right: -15px">navigate_before</mat-icon>
+                            <mat-icon>navigate_before</mat-icon>
+                        </mat-button-toggle>
+                        <mat-button-toggle (click)="_listYearDateCollectionView.moveToPreviousPage()"
+                            style=" width: 100%;">
+                            <mat-icon>navigate_before</mat-icon>
+                        </mat-button-toggle>
+                        <mat-button-toggle style=" width: 100%;">{{ _listYearDateCollectionView.pageIndex + 1 }} /
+                            {{ _listYearDateCollectionView.pageCount }}</mat-button-toggle>
+                        <mat-button-toggle (click)="_listYearDateCollectionView.moveToNextPage()" style=" width: 100%;">
+                            <mat-icon>navigate_next</mat-icon>
+                        </mat-button-toggle>
+                        <mat-button-toggle (click)="_listYearDateCollectionView.moveToLastPage()" style=" width: 100%;">
+                            <mat-icon style="margin-right: -15px">navigate_next</mat-icon>
+                            <mat-icon>navigate_next</mat-icon>
+                        </mat-button-toggle>
+                    </mat-button-toggle-group>
+                </div>
+            </div>
+        </div>
+        <mat-divider></mat-divider>
+
+        <div fxLayout="row" fxLayout.xs="column" style="color: gray;">
+            <div fxFlex="50" style="padding: 5px;">
+                <div fxLayout="row" fxLayout.xs="column">
+                    <div fxFlex="20" style="padding: 5px;">
+                        <mat-label>Created By:</mat-label>
+                    </div>
+                    <div fxFlex="30" style="padding: 5px;">
+                        <mat-label>{{_yearModel.CreatedByUser}}</mat-label>
+                    </div>
+                    <div fxFlex="25" style="padding: 5px;">
+                        <mat-label>Created DateTime:</mat-label>
+                    </div>
+                    <div fxFlex="30" style="padding: 5px;">
+                        <mat-label>{{_yearModel.CreatedDateTime}}</mat-label>
+                    </div>
+                </div>
+            </div>
+            <div fxFlex="50" style="padding: 5px;">
+                <div fxLayout="row" fxLayout.xs="column">
+                    <div fxFlex="20" style="padding: 5px;">
+                        <mat-label>Updated By:</mat-label>
+                    </div>
+                    <div fxFlex="35" style="padding: 5px;">
+                        <mat-label>{{_yearModel.UpdatedByUser}}</mat-label>
+                    </div>
+                    <div fxFlex="25" style="padding: 5px;">
+                        <mat-label>Updated DateTime:</mat-label>
+                    </div>
+                    <div fxFlex="30" style="padding: 5px;">
+                        <mat-label>{{_yearModel.UpdatedDateTime}}</mat-label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
