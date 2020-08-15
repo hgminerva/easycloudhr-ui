@@ -139,10 +139,12 @@ export class DTRDetailComponent implements OnInit {
     LateHours: '0.00',
     UndertimeHours: '0.00',
     DailyPay: '0.00',
-    RestdayPay: '0.00',
+    PremiumPay: '0.00',
     HolidayPay: '0.00',
     OvertimePay: '0.00',
     NightDifferentialPay: '0.00',
+    COLA: '0.00',
+    AdditionalAllowance: '0.00',
     LateDeduction: '0.00',
     UndertimeDeduction: '0.00',
     AbsentDeduction: '0.00',
@@ -267,7 +269,7 @@ export class DTRDetailComponent implements OnInit {
           this._dTRModel.DateEnd = new Date(result["DateEnd"]);
           this._dTRLineModel.DTRId = result["Id"];
         }
-        this.loadComponent(result["_isLocked"]);
+        this.loadComponent(result["IsLocked"]);
         this.GetDTRLineListData();
         this._isDataLoaded = true;
         this._isProgressBarHidden = false;

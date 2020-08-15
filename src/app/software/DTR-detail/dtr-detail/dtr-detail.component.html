@@ -161,7 +161,7 @@
 
         </div>
 
-        <mat-tab-group #tabGroup (selectedTabChange)="activeTab()" style="max-height:100%;" class="dtr-detail-tab">
+        <mat-tab-group #tabGroup (selectedTabChange)="activeTab()" style="max-height:100%;" class="detail-tab">
             <mat-tab label="DTR Line">
                 <mat-progress-bar *ngIf="_isDTRLineProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'">
                 </mat-progress-bar>
@@ -240,14 +240,18 @@
                     </wj-flex-grid-column>
                     <wj-flex-grid-column [header]="'DP'" [binding]="'DailyPay'" [isReadOnly]="true" [width]="70">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'RP'" [binding]="'RestdayPay'" [isReadOnly]="true" [width]="70">
+                    <wj-flex-grid-column [header]="'PP'" [binding]="'PremiumPay'" [isReadOnly]="true" [width]="70">
                     </wj-flex-grid-column>
                     <wj-flex-grid-column [header]="'HP'" [binding]="'HolidayPay'" [isReadOnly]="true" [width]="70">
                     </wj-flex-grid-column>
                     <wj-flex-grid-column [header]="'OP'" [binding]="'OvertimePay'" [isReadOnly]="true" [width]="70">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'NDP'" [binding]="'NightDifferentialPay'" [isReadOnly]="true"
+                    <wj-flex-grid-column [header]="'COLA'" [binding]="'COLA'" [isReadOnly]="true"
                         [width]="70">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'AA'" [binding]="'AdditionalAllowance'" [isReadOnly]="true" [width]="70">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'LD'" [binding]="'LateDeduction'" [isReadOnly]="true" [width]="70">
                     </wj-flex-grid-column>
                     <wj-flex-grid-column [header]="'LD'" [binding]="'LateDeduction'" [isReadOnly]="true" [width]="70">
                     </wj-flex-grid-column>

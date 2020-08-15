@@ -61,10 +61,12 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
     LateHours: '',
     UndertimeHours: '',
     DailyPay: '',
-    RestdayPay: '',
+    PremiumPay: '',
     HolidayPay: '',
     OvertimePay: '',
     NightDifferentialPay: '',
+    COLA: '',
+    AdditionalAllowance: '',
     LateDeduction: '',
     UndertimeDeduction: '',
     AbsentDeduction: '',
@@ -240,11 +242,11 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
     }
   }
 
-  formatValueRestdayPay() {
-    if (this._dTRLineModel.RestdayPay == '') {
-      this._dTRLineModel.RestdayPay = this._decimalPipe.transform(0, "1.2-2");
+  formatValuePremiumPay() {
+    if (this._dTRLineModel.PremiumPay == '') {
+      this._dTRLineModel.PremiumPay = this._decimalPipe.transform(0, "1.2-2");
     } else {
-      this._dTRLineModel.RestdayPay = this._decimalPipe.transform(this._dTRLineModel.RestdayPay, "1.2-2");
+      this._dTRLineModel.PremiumPay = this._decimalPipe.transform(this._dTRLineModel.PremiumPay, "1.2-2");
     }
   }
 
@@ -269,6 +271,22 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
       this._dTRLineModel.NightDifferentialPay = this._decimalPipe.transform(0, "1.2-2");
     } else {
       this._dTRLineModel.NightDifferentialPay = this._decimalPipe.transform(this._dTRLineModel.NightDifferentialPay, "1.2-2");
+    }
+  }
+
+  formatValueCOLA() {
+    if (this._dTRLineModel.COLA == '') {
+      this._dTRLineModel.COLA = this._decimalPipe.transform(0, "1.2-2");
+    } else {
+      this._dTRLineModel.COLA = this._decimalPipe.transform(this._dTRLineModel.COLA, "1.2-2");
+    }
+  }
+
+  formatValueAdditionalAllowance() {
+    if (this._dTRLineModel.AdditionalAllowance == '') {
+      this._dTRLineModel.AdditionalAllowance = this._decimalPipe.transform(0, "1.2-2");
+    } else {
+      this._dTRLineModel.AdditionalAllowance = this._decimalPipe.transform(this._dTRLineModel.AdditionalAllowance, "1.2-2");
     }
   }
 
@@ -318,10 +336,12 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
     this._dTRLineModel.LateHours = this._decimalPipe.transform(this._dTRLineModel.LateHours, "1.2-2");
     this._dTRLineModel.UndertimeHours = this._decimalPipe.transform(this._dTRLineModel.UndertimeHours, "1.2-2");
     this._dTRLineModel.DailyPay = this._decimalPipe.transform(this._dTRLineModel.DailyPay, "1.2-2");
-    this._dTRLineModel.RestdayPay = this._decimalPipe.transform(this._dTRLineModel.RestdayPay, "1.2-2");
+    this._dTRLineModel.PremiumPay = this._decimalPipe.transform(this._dTRLineModel.PremiumPay, "1.2-2");
     this._dTRLineModel.HolidayPay = this._decimalPipe.transform(this._dTRLineModel.HolidayPay, "1.2-2");
     this._dTRLineModel.OvertimePay = this._decimalPipe.transform(this._dTRLineModel.OvertimePay, "1.2-2");
     this._dTRLineModel.NightDifferentialPay = this._decimalPipe.transform(this._dTRLineModel.NightDifferentialPay, "1.2-2");
+    this._dTRLineModel.COLA = this._decimalPipe.transform(this._dTRLineModel.COLA, "1.2-2");
+    this._dTRLineModel.AdditionalAllowance = this._decimalPipe.transform(this._dTRLineModel.AdditionalAllowance, "1.2-2");
     this._dTRLineModel.LateDeduction = this._decimalPipe.transform(this._dTRLineModel.LateDeduction, "1.2-2");
     this._dTRLineModel.UndertimeDeduction = this._decimalPipe.transform(this._dTRLineModel.UndertimeDeduction, "1.2-2");
     this._dTRLineModel.AbsentDeduction = this._decimalPipe.transform(this._dTRLineModel.AbsentDeduction, "1.2-2");

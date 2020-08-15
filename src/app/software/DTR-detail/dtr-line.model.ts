@@ -27,10 +27,12 @@ export class DTRLineModel {
     LateHours: string;
     UndertimeHours: string;
     DailyPay: string;
-    RestdayPay: string;
+    PremiumPay: string;
     HolidayPay: string;
     OvertimePay: string;
     NightDifferentialPay: string;
+    COLA: string;
+    AdditionalAllowance: string;
     LateDeduction: string;
     UndertimeDeduction: string;
     AbsentDeduction: string;
