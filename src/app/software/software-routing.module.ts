@@ -32,6 +32,8 @@ import { OvertimeApplicationDetailComponent } from './overtime-application-detai
 import { DTRListComponent } from './DTR-list/DTR-list/DTR-list.component';
 import { DTRDetailComponent } from './DTR-detail/DTR-detail/DTR-detail.component';
 import { SystemTalesListComponent } from './system-tables-list/system-tales-list/system-tales-list.component';
+import { YearListComponent } from './year-list/year-list/year-list.component';
+import { YearDetialComponent } from './year-detail/year-detial/year-detial.component';
 
 const routes: Routes = [
   {
@@ -46,6 +48,8 @@ const routes: Routes = [
       { path: 'mandatory-tables', canActivate: [SoftwareRoutingActivate], component: MandatoryTablesComponent },
       { path: 'shift-code-list', canActivate: [SoftwareRoutingActivate], component: ShiftCodeListComponent },
       { path: 'shift-code-detail/:id', canActivate: [SoftwareRoutingActivate], component: ShiftCodeDetailComponent },
+      { path: 'year-list', canActivate: [SoftwareRoutingActivate], component: YearListComponent },
+      { path: 'year-detail/:id', canActivate: [SoftwareRoutingActivate], component: YearDetialComponent },
       { path: 'day-type-list', canActivate: [SoftwareRoutingActivate], component: DayTypeListComponent },
       { path: 'day-type-detail/:id', canActivate: [SoftwareRoutingActivate], component: DayTypeDetailComponent },
       { path: 'other-income', canActivate: [SoftwareRoutingActivate], component: OtherIncomeComponent },

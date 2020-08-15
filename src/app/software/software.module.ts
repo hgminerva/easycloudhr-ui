@@ -62,6 +62,9 @@ import { ChangeShiftCodeLineDetailComponent } from './change-shift-code-detail/c
 import { LeaveApplicationLineDetailComponent } from './leave-application-detail/leave-application-line-detail/leave-application-line-detail.component';
 import { OvertimeApplicationLineDialogComponent } from './overtime-application-detail/overtime-application-line-dialog/overtime-application-line-dialog.component';
 import { EmployeeListPickDialogComponent } from './shared/employee-list-pick-dialog/employee-list-pick-dialog.component';
+import { YearListComponent } from './year-list/year-list/year-list.component';
+import { YearDetialComponent } from './year-detail/year-detial/year-detial.component';
+import { YearDateDialogComponent } from './year-detail/year-date-dialog/year-date-dialog.component';
 
 @NgModule({
   declarations: [
@@ -106,7 +109,10 @@ import { EmployeeListPickDialogComponent } from './shared/employee-list-pick-dia
     ChangeShiftCodeLineDetailComponent,
     LeaveApplicationLineDetailComponent,
     OvertimeApplicationLineDialogComponent,
-    EmployeeListPickDialogComponent
+    EmployeeListPickDialogComponent,
+    YearListComponent,
+    YearDetialComponent,
+    YearDateDialogComponent
   ],
   imports: [
     CommonModule,

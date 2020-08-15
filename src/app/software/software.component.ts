@@ -47,7 +47,7 @@ export class SoftwareComponent implements OnInit {
   public moduleOvertimeList: boolean = false;
   public moduleOvertimeDetail: boolean = false;
 
-  public moduleOthers: boolean = false;
+  public moduleOthers: boolean = true;
 
 
   @ViewChild("logoutPanelHeader") logoutPanelHeader: MatExpansionPanelHeader;

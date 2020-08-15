@@ -78,6 +78,14 @@
                             &nbsp;
                             Shift Codes
                         </a>
+                        <a mat-list-item routerLink="/software/year-list" *ngIf="moduleOthers">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/menu-icons/year.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Year
+                        </a>
                         <a mat-list-item routerLink="/software/day-type-list" *ngIf="moduleOthers">
                             &nbsp;
                             &nbsp;
@@ -143,7 +151,8 @@
                             &nbsp;
                             Change Shift
                         </a>
-                        <a mat-list-item routerLink="/software/leave-application-list" *ngIf="moduleLeaveApplicationList">
+                        <a mat-list-item routerLink="/software/leave-application-list"
+                            *ngIf="moduleLeaveApplicationList">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/leave application.png" height="30" />
