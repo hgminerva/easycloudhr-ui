@@ -32,7 +32,7 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
   }
 
   public _title = '';
-  public _isComponentsShown: boolean = true;
+  public _isComponentsHidden: boolean = true;
 
   public _dTRLineModel: DTRLineModel = {
     Id: 0,
@@ -74,11 +74,13 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
     Remarks: ''
   }
 
+  public _isProgressBarHidden = false;
+
   public _yesOrNoChoices: any = [{ Value: false, Display: "NO" }, { Value: true, Display: "YES" }];
 
   public _isDTRLineDataLoaded: boolean = true;
 
-  private _saveDTRLineSubscription: any;
+  private _computeDTRLineSubscription: any;
 
   public _employeeDropdownSubscription: any;
   public _employeeListDropdown: any = [];
@@ -150,7 +152,7 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
     if (time12h == '') {
       return '';
     }
-    
+
     const [time, modifier] = time12h.split(' ');
 
     let [hours, minutes] = time.split(':');
@@ -323,6 +325,7 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
   }
 
   public async loadDTRLineDetail() {
+    console.log("Case Data", this._caseData.objDTRLine);
     this._dTRLineModel = await this._caseData.objDTRLine;
     this._dTRLineModel.DTRId = await this._caseData.objDTRLine.DTRId;
     this._dTRLineModel.TimeIn1 = await this.convertTime(this._caseData.objDTRLine.TimeIn1);
@@ -330,25 +333,69 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
     this._dTRLineModel.TimeIn2 = await this.convertTime(this._caseData.objDTRLine.TimeIn2);
     this._dTRLineModel.TimeOut2 = await this.convertTime(this._caseData.objDTRLine.TimeOut2);
     this._dTRLineModel.DTRDate = this._caseData.objDTRLine.DTRDate;
-    this._dTRLineModel.NumberOfHoursWorked = this._decimalPipe.transform(this._dTRLineModel.NumberOfHoursWorked, "1.2-2");
-    this._dTRLineModel.OvertimeHours = this._decimalPipe.transform(this._dTRLineModel.OvertimeHours, "1.2-2");
-    this._dTRLineModel.NightDifferentialHours = this._decimalPipe.transform(this._dTRLineModel.NightDifferentialHours, "1.2-2");
-    this._dTRLineModel.LateHours = this._decimalPipe.transform(this._dTRLineModel.LateHours, "1.2-2");
-    this._dTRLineModel.UndertimeHours = this._decimalPipe.transform(this._dTRLineModel.UndertimeHours, "1.2-2");
-    this._dTRLineModel.DailyPay = this._decimalPipe.transform(this._dTRLineModel.DailyPay, "1.2-2");
-    this._dTRLineModel.PremiumPay = this._decimalPipe.transform(this._dTRLineModel.PremiumPay, "1.2-2");
-    this._dTRLineModel.HolidayPay = this._decimalPipe.transform(this._dTRLineModel.HolidayPay, "1.2-2");
+    this._dTRLineModel.NumberOfHoursWorked = this._decimalPipe.transform(this._caseData.objDTRLine.NumberOfHoursWorked, "1.2-2");
+    this._dTRLineModel.OvertimeHours = this._decimalPipe.transform(this._caseData.objDTRLine.OvertimeHours, "1.2-2");
+    this._dTRLineModel.NightDifferentialHours = this._decimalPipe.transform(this._caseData.objDTRLine.NightDifferentialHours, "1.2-2");
+    this._dTRLineModel.LateHours = this._decimalPipe.transform(this._caseData.objDTRLine.LateHours, "1.2-2");
+    this._dTRLineModel.UndertimeHours = this._decimalPipe.transform(this._caseData.objDTRLine.UndertimeHours, "1.2-2");
+    this._dTRLineModel.DailyPay = this._decimalPipe.transform(this._caseData.objDTRLine.DailyPay, "1.2-2");
+    this._dTRLineModel.PremiumPay = this._decimalPipe.transform(this._caseData.objDTRLine.PremiumPay, "1.2-2");
+    this._dTRLineModel.HolidayPay = this._decimalPipe.transform(this._caseData.objDTRLine.HolidayPay, "1.2-2");
     this._dTRLineModel.OvertimePay = this._decimalPipe.transform(this._dTRLineModel.OvertimePay, "1.2-2");
-    this._dTRLineModel.NightDifferentialPay = this._decimalPipe.transform(this._dTRLineModel.NightDifferentialPay, "1.2-2");
-    this._dTRLineModel.COLA = this._decimalPipe.transform(this._dTRLineModel.COLA, "1.2-2");
-    this._dTRLineModel.AdditionalAllowance = this._decimalPipe.transform(this._dTRLineModel.AdditionalAllowance, "1.2-2");
-    this._dTRLineModel.LateDeduction = this._decimalPipe.transform(this._dTRLineModel.LateDeduction, "1.2-2");
-    this._dTRLineModel.UndertimeDeduction = this._decimalPipe.transform(this._dTRLineModel.UndertimeDeduction, "1.2-2");
-    this._dTRLineModel.AbsentDeduction = this._decimalPipe.transform(this._dTRLineModel.AbsentDeduction, "1.2-2");
-    this._dTRLineModel.DailyNetPay = this._decimalPipe.transform(this._dTRLineModel.DailyNetPay, "1.2-2");
-    this._isComponentsShown = false;
+    this._dTRLineModel.NightDifferentialPay = this._decimalPipe.transform(this._caseData.objDTRLine.NightDifferentialPay, "1.2-2");
+    this._dTRLineModel.COLA = this._decimalPipe.transform(this._caseData.objDTRLine.COLA, "1.2-2");
+    this._dTRLineModel.AdditionalAllowance = this._decimalPipe.transform(this._caseData.objDTRLine.AdditionalAllowance, "1.2-2");
+    this._dTRLineModel.LateDeduction = this._decimalPipe.transform(this._caseData.objDTRLine.LateDeduction, "1.2-2");
+    this._dTRLineModel.UndertimeDeduction = this._decimalPipe.transform(this._caseData.objDTRLine.UndertimeDeduction, "1.2-2");
+    this._dTRLineModel.AbsentDeduction = this._decimalPipe.transform(this._caseData.objDTRLine.AbsentDeduction, "1.2-2");
+    this._dTRLineModel.DailyNetPay = this._decimalPipe.transform(this._caseData.objDTRLine.DailyNetPay, "1.2-2");
+    this._isComponentsHidden = false;
   }
 
+  public async ComputeDTRLine() {
+    this._isProgressBarHidden = true;
+    this._computeDTRLineSubscription = (await this._dtrDetialService.ComputeDTRLine(this._dTRLineModel.Id)).subscribe(
+      (response: any) => {
+        let result = response;
+        if (result != null) {
+          console.log("Compute Data", result);
+
+          this._dTRLineModel = result;
+          this._dTRLineModel.DTRId = result.DTRId;
+          this._dTRLineModel.TimeIn1 = this.convertTime(result.TimeIn1);
+          this._dTRLineModel.TimeOut1 = this.convertTime(result.TimeOut1);
+          this._dTRLineModel.TimeIn2 = this.convertTime(result.TimeIn2);
+          this._dTRLineModel.TimeOut2 = this.convertTime(result.TimeOut2);
+          this._dTRLineModel.DTRDate = result.DTRDate;
+          this._dTRLineModel.NumberOfHoursWorked = this._decimalPipe.transform(result.NumberOfHoursWorked, "1.2-2");
+          this._dTRLineModel.OvertimeHours = this._decimalPipe.transform(result.OvertimeHours, "1.2-2");
+          this._dTRLineModel.NightDifferentialHours = this._decimalPipe.transform(result.NightDifferentialHours, "1.2-2");
+          this._dTRLineModel.LateHours = this._decimalPipe.transform(result.LateHours, "1.2-2");
+          this._dTRLineModel.UndertimeHours = this._decimalPipe.transform(result.UndertimeHours, "1.2-2");
+          this._dTRLineModel.DailyPay = this._decimalPipe.transform(result.DailyPay, "1.2-2");
+          this._dTRLineModel.PremiumPay = this._decimalPipe.transform(result.PremiumPay, "1.2-2");
+          this._dTRLineModel.HolidayPay = this._decimalPipe.transform(result.HolidayPay, "1.2-2");
+          this._dTRLineModel.OvertimePay = this._decimalPipe.transform(result.OvertimePay, "1.2-2");
+          this._dTRLineModel.NightDifferentialPay = this._decimalPipe.transform(result.NightDifferentialPay, "1.2-2");
+          this._dTRLineModel.COLA = this._decimalPipe.transform(result.COLA, "1.2-2");
+          this._dTRLineModel.AdditionalAllowance = this._decimalPipe.transform(result.AdditionalAllowance, "1.2-2");
+          this._dTRLineModel.LateDeduction = this._decimalPipe.transform(result.LateDeduction, "1.2-2");
+          this._dTRLineModel.UndertimeDeduction = this._decimalPipe.transform(result.UndertimeDeduction, "1.2-2");
+          this._dTRLineModel.AbsentDeduction = this._decimalPipe.transform(result.AbsentDeduction, "1.2-2");
+          this._dTRLineModel.DailyNetPay = this._decimalPipe.transform(result.DailyNetPay, "1.2-2");
+        }
+        this._isComponentsHidden = false;
+        this._isProgressBarHidden = false;
+
+        if (this._computeDTRLineSubscription !== null) this._computeDTRLineSubscription.unsubscribe();
+      },
+      error => {
+        this._isComponentsHidden = false;
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        if (this._computeDTRLineSubscription !== null) this._computeDTRLineSubscription.unsubscribe();
+      }
+    );
+  }
 
   public Close(): void {
     this._matDialogRef.close({ event: "Close" });

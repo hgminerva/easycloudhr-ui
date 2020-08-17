@@ -70,6 +70,10 @@ export class DtrDetialService {
     return await this.httpClient.put(this.appSettings.defaultAPIURLHost + '/api/dtr/line/update/' + id, JSON.stringify(objDTRLine), this.appSettings.defaultOptions);
   }
 
+  public async ComputeDTRLine(id: number) {
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/dtr/line/compute/' + id, this.appSettings.defaultOptions);
+  }
+
   public async DeleteDTRLine(id: number) {
     return await this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/api/dtr/line/delete/' + id, this.appSettings.defaultOptions);
   }

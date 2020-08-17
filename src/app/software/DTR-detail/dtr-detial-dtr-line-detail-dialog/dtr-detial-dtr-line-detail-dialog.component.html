@@ -1,9 +1,11 @@
 <h3 mat-dialog-title>
     {{ _title }}
 </h3>
+            
+<mat-progress-bar *ngIf="_isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'"></mat-progress-bar>
 <mat-divider></mat-divider>
 <br>
-<div [hidden]="_isComponentsShown">
+<div [hidden]="_isComponentsHidden">
     <div fxLayout="row" fxLayout.xs="column">
         <div fxFlex="50" style="margin-left: 10px; color: #e56d0a;">
             <h2 class="text_box"><b>{{_dTRLineModel.Employee}}</b> </h2>
@@ -379,7 +381,7 @@
         <mat-icon>save</mat-icon>
         Save
     </button>
-    <button mat-flat-button color="primary" mat-dialog-close style="margin-right: 5px;" (click)="CloseOnSave()">
+    <button mat-flat-button color="primary" style="margin-right: 5px;" (click)="ComputeDTRLine()">
         <mat-icon>calculate</mat-icon>
         Compute
     </button>
