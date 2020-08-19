@@ -34,6 +34,7 @@ import { DTRDetailComponent } from './DTR-detail/DTR-detail/DTR-detail.component
 import { SystemTalesListComponent } from './system-tables-list/system-tales-list/system-tales-list.component';
 import { YearListComponent } from './year-list/year-list/year-list.component';
 import { YearDetialComponent } from './year-detail/year-detial/year-detial.component';
+import { LoanListComponent } from './loan-list/loan-list/loan-list.component';
 
 const routes: Routes = [
   {
@@ -68,6 +69,7 @@ const routes: Routes = [
       { path: 'DTR-list', canActivate: [SoftwareRoutingActivate], component: DTRListComponent },
       { path: 'DTR-detail/:id', canActivate: [SoftwareRoutingActivate], component: DTRDetailComponent },
       { path: 'system-tables-list', canActivate: [SoftwareRoutingActivate], component: SystemTalesListComponent },
+      { path: 'loan-list', canActivate: [SoftwareRoutingActivate], component: LoanListComponent },
 
     ]
   }

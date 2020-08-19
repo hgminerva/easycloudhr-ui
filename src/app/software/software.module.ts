@@ -65,6 +65,16 @@ import { EmployeeListPickDialogComponent } from './shared/employee-list-pick-dia
 import { YearListComponent } from './year-list/year-list/year-list.component';
 import { YearDetialComponent } from './year-detail/year-detial/year-detial.component';
 import { YearDateDialogComponent } from './year-detail/year-date-dialog/year-date-dialog.component';
+import { OtherIncodeDetailDialogComponent } from './other-income/other-incode-detail-dialog/other-incode-detail-dialog.component';
+import { OtherDeductionDetailDialogComponent } from './other-deductions/other-deduction-detail-dialog/other-deduction-detail-dialog.component';
+import { PayrollDetailComponent } from './payroll-detail/payroll-detail/payroll-detail.component';
+import { PayrollListComponent } from './payroll-list/payroll-list/payroll-list.component';
+import { PayrollOtherDeductionDetailComponent } from './payroll-other-deduction-detail/payroll-other-deduction-detail/payroll-other-deduction-detail.component';
+import { PayrollOtherDeductionListComponent } from './payroll-other-deduction-list/payroll-other-deduction-list/payroll-other-deduction-list.component';
+import { PayrollOtherIncomeDetailComponent } from './payroll-other-income-detail/payroll-other-income-detail/payroll-other-income-detail.component';
+import { PayrollOtherIncomeListComponent } from './payroll-other-income-list/payroll-other-income-list/payroll-other-income-list.component';
+import { LoanListComponent } from './loan-list/loan-list/loan-list.component';
+import { LoanDetailDialogComponent } from './loan-list/loan-detail-dialog/loan-detail-dialog.component';
 
 @NgModule({
   declarations: [
@@ -112,7 +122,17 @@ import { YearDateDialogComponent } from './year-detail/year-date-dialog/year-dat
     EmployeeListPickDialogComponent,
     YearListComponent,
     YearDetialComponent,
-    YearDateDialogComponent
+    YearDateDialogComponent,
+    OtherIncodeDetailDialogComponent,
+    OtherDeductionDetailDialogComponent,
+    LoanListComponent,
+    PayrollDetailComponent,
+    PayrollListComponent,
+    PayrollOtherDeductionDetailComponent,
+    PayrollOtherDeductionListComponent,
+    PayrollOtherIncomeDetailComponent,
+    PayrollOtherIncomeListComponent,
+    LoanDetailDialogComponent,
   ],
   imports: [
     CommonModule,
