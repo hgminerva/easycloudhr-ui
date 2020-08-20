@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit {
   public moduleOvertimeList: boolean = false;
   public moduleOvertimeDetail: boolean = false;
 
-  public moduleOthers: boolean = true;
+  public moduleOthers: boolean = false;
 
   ngOnInit(): void {
     if (this.softwareSecurityService.openModule("Dashboard") == true) {
