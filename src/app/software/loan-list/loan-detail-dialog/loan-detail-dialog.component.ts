@@ -29,10 +29,21 @@ export class LoanDetailDialogComponent implements OnInit {
 
   public title = '';
   public event = 'Close';
+  private inputTypeAmortiztion = 'text';
+  private inputTypeLoanAmount = 'text';
+  private inputTypePaidAmount = 'text';
+  private inputTypeBalanceAmount = 'text';
 
   ngOnInit(): void {
     this.title = this.caseData.objDialogTitle;
     this.GetDeductionListData();
+  }
+
+  ToNumberType() {
+    this.inputTypeAmortiztion = 'number';
+    this.inputTypeLoanAmount = 'number';
+    this.inputTypePaidAmount = 'number';
+    this.inputTypeBalanceAmount = 'number';
   }
 
   public _loanModel: LoanModel = {
@@ -62,7 +73,7 @@ export class LoanDetailDialogComponent implements OnInit {
   }
 
   public isLDDateDataLoaded: boolean = false;
-  public isLocked: boolean = false;
+  public _isLocked: boolean = false;
   private _LoanDetailSubscription: any;
 
   private _saveLoanDetailSubscription: any;
@@ -102,6 +113,9 @@ export class LoanDetailDialogComponent implements OnInit {
     this._userDropdownSubscription = await (await this._loanListService.UserList()).subscribe(
       response => {
         this._userListDropdown = response;
+        this._loanModel.PreparedByUserId = response[0].Id;
+        this._loanModel.CheckedByUserId = response[0].Id;
+        this._loanModel.ApprovedByUserId = response[0].Id;
         this.GetLoanDetail();
         if (this._userDropdownSubscription !== null) this._userDropdownSubscription.unsubscribe();
       },
@@ -132,6 +146,9 @@ export class LoanDetailDialogComponent implements OnInit {
           this._loanModel.BalanceAmount = this.decimalPipe.transform(result["BalanceAmount"], "1.2-2");
           this._loanModel.Remarks = result["Remarks"];
           this._loanModel.Status = result["Status"];
+          this._loanModel.PreparedByUserId = result["PreparedByUserId"];
+          this._loanModel.CheckedByUserId = result["CheckedByUserId"];
+          this._loanModel.ApprovedByUserId = result["ApprovedByUserId"];
           this._loanModel.CreatedByUserId = result["CreatedByUserId"];
           this._loanModel.CreatedByUser = result["CreatedByUser"];
           this._loanModel.CreatedDateTime = result["CreatedDateTime"];
@@ -229,7 +246,7 @@ export class LoanDetailDialogComponent implements OnInit {
       this.btnUnlockDisabled = !isDisable;
     }
 
-    this.isLocked = isDisable;
+    this._isLocked = isDisable;
     this.isProgressBarHidden = false;
   }
 
@@ -269,6 +286,8 @@ export class LoanDetailDialogComponent implements OnInit {
   }
 
   formatValueAmortization() {
+    this.inputTypeAmortiztion = 'text';
+
     if (this._loanModel.Amortization == '') {
       this._loanModel.Amortization = this.decimalPipe.transform(0, "1.2-2");
     } else {
@@ -276,7 +295,13 @@ export class LoanDetailDialogComponent implements OnInit {
     }
   }
 
+  AmortiztionToNumberType() {
+    this.inputTypeAmortiztion = 'number';
+  }
+
   formatValueLoanAmount() {
+    this.inputTypeLoanAmount = 'text';
+
     if (this._loanModel.LoanAmount == '') {
       this._loanModel.LoanAmount = this.decimalPipe.transform(0, "1.2-2");
     } else {
@@ -284,7 +309,13 @@ export class LoanDetailDialogComponent implements OnInit {
     }
   }
 
+  LoanAmountToNumberType() {
+    this.inputTypeLoanAmount = 'number';
+  }
+
   formatValuePaidAmount() {
+    this.inputTypePaidAmount = 'text';
+
     if (this._loanModel.PaidAmount == '') {
       this._loanModel.PaidAmount = this.decimalPipe.transform(0, "1.2-2");
     } else {
@@ -292,7 +323,13 @@ export class LoanDetailDialogComponent implements OnInit {
     }
   }
 
+  PaidAmountToNumberType() {
+    this.inputTypePaidAmount = 'number';
+  }
+
   formatValueBalanceAmount() {
+    this.inputTypeBalanceAmount = 'text';
+
     if (this._loanModel.BalanceAmount == '') {
       this._loanModel.BalanceAmount = this.decimalPipe.transform(0, "1.2-2");
     } else {
@@ -300,23 +337,28 @@ export class LoanDetailDialogComponent implements OnInit {
     }
   }
 
-  public EmployeeListDialog() {
-    const matDialogRef = this._matDialog.open(EmployeeListPickDialogComponent, {
-      width: '900px',
-      height: '500',
-      data: {
-        objDialogTitle: "Employee List",
-        objPayrollGroup: "ACTIVE"
-      },
-      disableClose: true
-    });
+  BalanceAmountToNumberType() {
+    this.inputTypeBalanceAmount = 'number';
+  }
 
-    matDialogRef.afterClosed().subscribe((data: any) => {
-      console.log(data);
-      if (data.event != "Close") {
-        this._loanModel.EmployeeId = data.employee.Id;
-        this._loanModel.Employee = data.employee.Value;
-      }
-    });
+  public EmployeeListDialog() {
+    if (this._isLocked == false) {
+      const matDialogRef = this._matDialog.open(EmployeeListPickDialogComponent, {
+        width: '900px',
+        height: '500',
+        data: {
+          objDialogTitle: "Employee List",
+          objPayrollGroup: "ACTIVE"
+        },
+        disableClose: true
+      });
+
+      matDialogRef.afterClosed().subscribe((data: any) => {
+        if (data.event === 'Pick') {
+          this._loanModel.EmployeeId = data.employee.Id;
+          this._loanModel.Employee = data.employee.Value;
+        }
+      });
+    }
   }
 }
