@@ -35,6 +35,8 @@ import { SystemTalesListComponent } from './system-tables-list/system-tales-list
 import { YearListComponent } from './year-list/year-list/year-list.component';
 import { YearDetialComponent } from './year-detail/year-detial/year-detial.component';
 import { LoanListComponent } from './loan-list/loan-list/loan-list.component';
+import { PayrollOtherIncomeListComponent } from './payroll-other-income-list/payroll-other-income-list/payroll-other-income-list.component';
+import { PayrollOtherIncomeDetailComponent } from './payroll-other-income-detail/payroll-other-income-detail/payroll-other-income-detail.component';
 
 const routes: Routes = [
   {
@@ -70,6 +72,8 @@ const routes: Routes = [
       { path: 'DTR-detail/:id', canActivate: [SoftwareRoutingActivate], component: DTRDetailComponent },
       { path: 'system-tables-list', canActivate: [SoftwareRoutingActivate], component: SystemTalesListComponent },
       { path: 'loan-list', canActivate: [SoftwareRoutingActivate], component: LoanListComponent },
+      { path: 'payroll-other-income', canActivate: [SoftwareRoutingActivate], component: PayrollOtherIncomeListComponent },
+      { path: 'payroll-other-detail', canActivate: [SoftwareRoutingActivate], component: PayrollOtherIncomeDetailComponent },
 
     ]
   }
