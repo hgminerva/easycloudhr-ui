@@ -9,6 +9,7 @@ import { DTRModel } from '../dtr-detial.model';
 import * as wjcGrid from '@grapecity/wijmo.grid';
 import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-dtr-detail-dtr-line-add-dialog',
@@ -23,6 +24,7 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
     private _snackBarTemplate: SnackBarTemplate,
     public _matDialogRef: MatDialogRef<DtrDetailDtrLineAddDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public _caseData: any,
+    private datePipe: DatePipe
   ) { }
 
   public _dTRLines: DTRLines = {
@@ -123,8 +125,8 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
   async ngOnInit() {
     this._title = await this._caseData.objDialogTitle;
     this._dTRModel = this._caseData.objData;
-    this._dTRLines.StartDate = this._caseData.objData.DateStart;
-    this._dTRLines.EndDate = this._caseData.objData.DateEnd;
+    this._dTRLines.StartDate = new Date(this.datePipe.transform(this._caseData.objData.DateStart, 'yyyy-MM-dd'));
+    this._dTRLines.EndDate = new Date(this.datePipe.transform(this._caseData.objData.DateEnd, 'yyyy-MM-dd'));
     this.Create_cboShowNumberOfRows();
     this.GetEmployeeData();
   }

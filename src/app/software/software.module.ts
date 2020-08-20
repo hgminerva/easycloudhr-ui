@@ -18,6 +18,8 @@ import * as wjGrid from '@grapecity/wijmo.angular2.grid';
 import { WjGridModule } from '@grapecity/wijmo.angular2.grid';
 import { WjGridFilterModule } from '@grapecity/wijmo.angular2.grid.filter';
 
+import { DatePipe } from '@angular/common';
+
 // Components
 import { SoftwareComponent } from './software.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -150,7 +152,8 @@ import { LoanDetailDialogComponent } from './loan-list/loan-detail-dialog/loan-d
     DeleteDialogBoxComponent,
     EmployeeListPickDialogComponent,
     SnackBarTemplate,
-    DecimalPipe
+    DecimalPipe,
+    DatePipe
   ]
 })
 export class SoftwareModule { }
