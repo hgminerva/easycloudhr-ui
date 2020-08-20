@@ -1,7 +1,7 @@
 <h3 mat-dialog-title>
     {{ _title }}
 </h3>
-            
+
 <mat-progress-bar *ngIf="_isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'"></mat-progress-bar>
 <mat-divider></mat-divider>
 <br>
@@ -70,23 +70,21 @@
         </div>
         <div fxFlex="16" style="padding: 5px;" style="padding: 23px; text-align: start; display: inline;">
             <div style="width: 100%;">
-                <mat-checkbox color="primary"  [(ngModel)]="_dTRLineModel.IsRestDay"><span
-                        style="color: gray;">
+                <mat-checkbox color="primary" [(ngModel)]="_dTRLineModel.IsRestDay" disabled><span style="color: gray;">
                         Rest Day</span>
                 </mat-checkbox>
             </div>
         </div>
         <div fxFlex="16" style="padding: 5px;" style="padding: 23px; text-align: start; display: inline;">
             <div style="width: 100%;">
-                <mat-checkbox color="primary"  [(ngModel)]="_dTRLineModel.IsOnLeave"><span
-                        style="color: gray;">
+                <mat-checkbox color="primary" [(ngModel)]="_dTRLineModel.IsOnLeave" disabled><span style="color: gray;">
                         On Leave</span>
                 </mat-checkbox>
             </div>
         </div>
         <div fxFlex="16" style="padding: 5px;" style="padding: 23px; text-align: start; display: inline;">
             <div style="width: 100%;">
-                <mat-checkbox color="primary"  [(ngModel)]="_dTRLineModel.IsOnOfficialBusiness">
+                <mat-checkbox color="primary" [(ngModel)]="_dTRLineModel.IsOnOfficialBusiness" disabled>
                     <span style="color: gray;">
                         On Official Business</span>
                 </mat-checkbox>
@@ -94,52 +92,12 @@
         </div>
         <div fxFlex="16" style="padding: 5px;" style="padding: 23px; text-align: start; display: inline;">
             <div style="width: 100%;">
-                <mat-checkbox color="primary"  [(ngModel)]="_dTRLineModel.IsAbsent">
+                <mat-checkbox color="primary" [(ngModel)]="_dTRLineModel.IsAbsent" disabled>
                     <span style="color: gray;">
                         Absent</span>
                 </mat-checkbox>
             </div>
         </div>
-        <!-- <div fxFlex="16" style="padding: 5px;">
-            <mat-form-field appearance="outline" style="width: 100%;">
-                <mat-label>Rest Day</mat-label>
-                <mat-select [(ngModel)]="_dTRLineModel.IsRestDay">
-                    <mat-option *ngFor="let choice of _yesOrNoChoices" [value]="choice.Value">
-                        {{choice.Display}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div> -->
-        <!-- <div fxFlex="16" style="padding: 5px;">
-            <mat-form-field appearance="outline" style="width: 100%;">
-                <mat-label>On Leave</mat-label>
-                <mat-select [(ngModel)]="_dTRLineModel.IsOnLeave">
-                    <mat-option *ngFor="let choice of _yesOrNoChoices" [value]="choice.Value">
-                        {{choice.Display}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div> -->
-        <!-- <div fxFlex="16" style="padding: 5px;">
-            <mat-form-field appearance="outline" style="width: 100%;">
-                <mat-label>On Official Business</mat-label>
-                <mat-select [(ngModel)]="_dTRLineModel.IsOnOfficialBusiness">
-                    <mat-option *ngFor="let choice of _yesOrNoChoices" [value]="choice.Value">
-                        {{choice.Display}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div> -->
-        <!-- <div fxFlex="16" style="padding: 5px;">
-            <mat-form-field appearance="outline" style="width: 100%;">
-                <mat-label>Absent</mat-label>
-                <mat-select [(ngModel)]="_dTRLineModel.IsAbsent">
-                    <mat-option *ngFor="let choice of _yesOrNoChoices" [value]="choice.Value">
-                        {{choice.Display}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div> -->
     </div>
 
     <div fxLayout="row" fxLayout.xs="column">
@@ -147,7 +105,7 @@
             <mat-form-field appearance="outline" style="width: 100%;">
                 <mat-label>Branch</mat-label>
                 <mat-select [(ngModel)]="_dTRLineModel.Branch">
-                    <mat-option *ngFor="let branch of _branchListDropdown" [value]="branch.Value">
+                    <mat-option *ngFor="let branch of _branchListDropdown" [value]="branch.Value" >
                         {{branch.Value}}
                     </mat-option>
                 </mat-select>
@@ -158,7 +116,7 @@
         </div>
         <div fxFlex="16" style="padding: 5px;" style="padding: 23px; text-align: start; display: inline;">
             <div style="width: 100%;">
-                <mat-checkbox color="primary"  [(ngModel)]="_dTRLineModel.IsOnLeaveHalfDay">
+                <mat-checkbox color="primary" [(ngModel)]="_dTRLineModel.IsOnLeaveHalfDay" disabled>
                     <span style="color: gray;">
                         On Leave Half Day</span>
                 </mat-checkbox>
@@ -166,8 +124,7 @@
         </div>
         <div fxFlex="16" style="padding: 5px;" style="padding: 23px; text-align: start; display: inline;">
             <div style="width: 100%;">
-                <mat-checkbox color="primary" 
-                    [(ngModel)]="_dTRLineModel.IsOnOfficialBusinessHalfDay">
+                <mat-checkbox color="primary" [(ngModel)]="_dTRLineModel.IsOnOfficialBusinessHalfDay" disabled>
                     <span style="color: gray;">
                         Official Business Half Day</span>
                 </mat-checkbox>
@@ -175,42 +132,13 @@
         </div>
         <div fxFlex="16" style="padding: 5px;" style="padding: 23px; text-align: start; display: inline;">
             <div style="width: 100%;">
-                <mat-checkbox color="primary"  [(ngModel)]="_dTRLineModel.IsAbsentHalfDay">
+                <mat-checkbox color="primary" [(ngModel)]="_dTRLineModel.IsAbsentHalfDay" disabled>
                     <span style="color: gray;">
                         Absent Half Day</span>
                 </mat-checkbox>
             </div>
         </div>
-        <!-- <div fxFlex="16" style="padding: 5px;">
-            <mat-form-field appearance="outline" style="width: 100%;">
-                <mat-label>On Leave Half Day</mat-label>
-                <mat-select [(ngModel)]="_dTRLineModel.IsOnLeaveHalfDay">
-                    <mat-option *ngFor="let choice of _yesOrNoChoices" [value]="choice.Value">
-                        {{choice.Display}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div> -->
-        <!-- <div fxFlex="16" style="padding: 5px;">
-            <mat-form-field appearance="outline" style="width: 100%;">
-                <mat-label>On Official Business Half Day</mat-label>
-                <mat-select [(ngModel)]="_dTRLineModel.IsOnOfficialBusinessHalfDay">
-                    <mat-option *ngFor="let choice of _yesOrNoChoices" [value]="choice.Value">
-                        {{choice.Display}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div> -->
-        <!-- <div fxFlex="16" style="padding: 5px;">
-            <mat-form-field appearance="outline" style="width: 100%;">
-                <mat-label> Absent HalfDay</mat-label>
-                <mat-select [(ngModel)]="_dTRLineModel.IsAbsentHalfDay">
-                    <mat-option *ngFor="let choice of _yesOrNoChoices" [value]="choice.Value">
-                        {{choice.Display}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div> -->
+
     </div>
     <!-- <span>Number Fields</span> -->
     <mat-tab-group #tabGroup style="max-height:100%;">

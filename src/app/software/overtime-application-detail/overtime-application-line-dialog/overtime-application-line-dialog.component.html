@@ -26,9 +26,9 @@
             <div fxFlex="34" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>OT Hours</mat-label>
-                    <input type="text" matInput placeholder="0.00" style="text-align:right;"
-                        [(ngModel)]="_overtimeApplicationLineModel.OTHours" (keypress)="restrictNumeric($event)"
-                        (change)="formatValueOTHours()">
+                    <input type="{{inputTypeOTHours}}" matInput placeholder="0.00" style="text-align:right;" autocomplete="off"
+                        [(ngModel)]="_overtimeApplicationLineModel.OTHours" (focus)="OTHoursToNumberType()"
+                        (focusout)="formatValueOTHours()">
                 </mat-form-field>
             </div>
         </div>

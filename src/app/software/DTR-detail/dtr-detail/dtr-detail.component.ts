@@ -16,6 +16,7 @@ import { DtrDetialDtrLineDetailDialogComponent } from '../dtr-detial-dtr-line-de
 import { DtrDetailDtrLineAddDialogComponent } from '../dtr-detail-dtr-line-add-dialog/dtr-detail-dtr-line-add-dialog.component';
 import { MatSelectChange } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class DTRDetailComponent implements OnInit {
     public _addDTRLinesatDialogRef: MatDialog,
     public _updateDTRLineDialogRef: MatDialog,
     public _deleteDTRLineDialogRef: MatDialog,
+    private datePipe: DatePipe
   ) { }
 
   async ngOnInit() {
@@ -283,10 +285,17 @@ export class DTRDetailComponent implements OnInit {
     );
   }
 
+  public DateFormatedSelectedDate() {
+    this._dTRModel.DTRDate = new Date(this.datePipe.transform(this._dTRModel.DTRDate, 'yyyy-MM-dd'));
+    this._dTRModel.DateStart = new Date(this.datePipe.transform(this._dTRModel.DateStart, 'yyyy-MM-dd'));
+    this._dTRModel.DateEnd = new Date(this.datePipe.transform(this._dTRModel.DateEnd, 'yyyy-MM-dd'));
+  }
+
   public async SaveDTRDetail() {
     this.DisableButtons();
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
+      this.DateFormatedSelectedDate();
       this._saveDTRDetailSubscription = (await this._dtrDetialService.SaveDTR(this._dTRModel.Id, this._dTRModel)).subscribe(
         response => {
           this.loadComponent(this._dTRModel.IsLocked);
@@ -308,6 +317,7 @@ export class DTRDetailComponent implements OnInit {
     this.DisableButtons();
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
+      this.DateFormatedSelectedDate();
       this._lockDTRDetailSubscription = await (await this._dtrDetialService.LockDTR(this._dTRModel.Id, this._dTRModel)).subscribe(
         response => {
           this.loadComponent(true);

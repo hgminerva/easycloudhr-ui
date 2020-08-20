@@ -5,6 +5,7 @@ import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { ChangeShiftCodeDetailService } from '../change-shift-code-detail.service';
 import { ChangeShiftLineModel } from '../change-shift-code-line.model';
 import { EmployeeListPickDialogComponent } from './../../shared/employee-list-pick-dialog/employee-list-pick-dialog.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-change-shift-code-line-detail',
@@ -20,8 +21,8 @@ export class ChangeShiftCodeLineDetailComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
     public _matDialog: MatDialog,
+    private datePipe: DatePipe
   ) { }
-
 
   ngOnInit(): void {
     this.title = this.caseData.objDialogTitle;
@@ -105,7 +106,12 @@ export class ChangeShiftCodeLineDetailComponent implements OnInit {
     this.dialogRef.close({ event: 'Close' });
   }
 
+  public DateFormatedSelectedDate() {
+    this._changeShiftLine.ShiftDate = new Date(this.datePipe.transform(this._changeShiftLine.ShiftDate, 'yyyy-MM-dd'));
+  }
+
   public async Save() {
+    this.DateFormatedSelectedDate();
     if (this._changeShiftLine.EmployeeId != 0) {
       await this.dialogRef.close({ event: this.title, data: this._changeShiftLine });
     } else {

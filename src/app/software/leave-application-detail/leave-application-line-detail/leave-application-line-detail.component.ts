@@ -5,6 +5,7 @@ import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { LeaveApplicationDetailService } from '../leave-application-detail.service';
 import { LeaveApplicationLineModel } from '../leave-application-line.model';
 import { EmployeeListPickDialogComponent } from './../../shared/employee-list-pick-dialog/employee-list-pick-dialog.component';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -21,6 +22,7 @@ export class LeaveApplicationLineDetailComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
     public _matDialog: MatDialog,
+    private datePipe: DatePipe
   ) { }
 
   ngOnInit(): void {
@@ -60,6 +62,10 @@ export class LeaveApplicationLineDetailComponent implements OnInit {
 
   public Close(): void {
     this.dialogRef.close({ event: 'Close' });
+  }
+
+  public DateFormatedSelectedDate() {
+    this._leaveApplicationLine.LADate = new Date(this.datePipe.transform(this._leaveApplicationLine.LADate, 'yyyy-MM-dd'));
   }
 
   public async Save() {

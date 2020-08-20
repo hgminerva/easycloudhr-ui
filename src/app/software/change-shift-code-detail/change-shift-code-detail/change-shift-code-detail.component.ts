@@ -370,11 +370,13 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
 
     matDialogRef.afterClosed().subscribe((result: any) => {
       if (result.event === "Add Shift Line") {
+
         this._isChangeShiftLineDataLoaded = true;
 
         this.AddSaveChangeShiftLine(result.data);
       }
       if (result.event === "Edit Shift Line Detail") {
+        
         this._isChangeShiftLineDataLoaded = true;
 
         this.UpdateChangeShiftLine(result.data.Id, result.data);

@@ -5,7 +5,7 @@ import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { OvertimeApplicationDetailService } from '../overtime-application-detail.service';
 import { OvertimeApplicationLineModel } from '../overtime-application-line.model';
 import { EmployeeListPickDialogComponent } from './../../shared/employee-list-pick-dialog/employee-list-pick-dialog.component';
-import { DecimalPipe } from '@angular/common';
+import { DecimalPipe, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-overtime-application-line-dialog',
@@ -21,9 +21,9 @@ export class OvertimeApplicationLineDialogComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
     public _matDialog: MatDialog,
-    private decimalPipe: DecimalPipe
+    private decimalPipe: DecimalPipe,
+    private datePipe: DatePipe
   ) { }
-
 
   ngOnInit(): void {
     this.title = this.caseData.objDialogTitle;
@@ -42,6 +42,7 @@ export class OvertimeApplicationLineDialogComponent implements OnInit {
 
   public title = '';
   public Employee = '';
+  public inputTypeOTHours = 'text';
 
   public isComponentHidden: boolean = true;
 
@@ -68,7 +69,12 @@ export class OvertimeApplicationLineDialogComponent implements OnInit {
     this.dialogRef.close({ event: 'Close' });
   }
 
+  public DateFormatedSelectedDate() {
+    this._overtimeApplicationLineModel.OTDate = new Date(this.datePipe.transform( this._overtimeApplicationLineModel.OTDate, 'yyyy-MM-dd'));
+  }
+
   public async Save() {
+    this.DateFormatedSelectedDate();
     if (this._overtimeApplicationLineModel.EmployeeId != 0) {
       await this.dialogRef.close({ event: this.title, data: this._overtimeApplicationLineModel });
     } else {
@@ -96,36 +102,20 @@ export class OvertimeApplicationLineDialogComponent implements OnInit {
     });
   }
 
-  restrictNumeric(e) {
-    let input;
-    if (e.key == '') {
-      return 0.00;
-    }
-    if (e.metaKey || e.ctrlKey) {
-      return true;
-    }
-    if (e.which === 32) {
-      return false;
-    }
-    if (e.which === 0) {
-      return true;
-    }
-    if (e.which < 33) {
-      return true;
-    }
-    if (e.which < 33) {
-      return true;
-    }
-    input = String.fromCharCode(e.which);
-    return !!/^[0-9.,]+$/.test(input);
-  }
 
   formatValueOTHours() {
+    this.inputTypeOTHours= 'text';
+
     if (this._overtimeApplicationLineModel.OTHours == '') {
       this._overtimeApplicationLineModel.OTHours = this.decimalPipe.transform(0, "1.2-2");
     } else {
       this._overtimeApplicationLineModel.OTHours = this.decimalPipe.transform(this._overtimeApplicationLineModel.OTHours, "1.2-2");
     }
   }
+
+  OTHoursToNumberType() {
+    this.inputTypeOTHours= 'number';
+  }
+
 
 }

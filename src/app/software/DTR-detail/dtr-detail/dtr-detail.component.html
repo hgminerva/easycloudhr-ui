@@ -49,8 +49,8 @@
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Date</mat-label>
                             <input matInput [matDatepicker]="datePickerDTRDate" [(ngModel)]="_dTRModel.DTRDate"
-                                [readonly]="_isLocked">
-                            <mat-datepicker-toggle matSuffix [for]="datePickerDTRDate" [disabled]="_isLocked">
+                                readonly>
+                            <mat-datepicker-toggle matSuffix [for]="datePickerDTRDate" disabled>
                             </mat-datepicker-toggle>
                             <mat-datepicker #datePickerDTRDate color="primary"></mat-datepicker>
                         </mat-form-field>
@@ -246,10 +246,10 @@
                     </wj-flex-grid-column>
                     <wj-flex-grid-column [header]="'OP'" [binding]="'OvertimePay'" [isReadOnly]="true" [width]="70">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'COLA'" [binding]="'COLA'" [isReadOnly]="true"
-                        [width]="70">
+                    <wj-flex-grid-column [header]="'COLA'" [binding]="'COLA'" [isReadOnly]="true" [width]="70">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'AA'" [binding]="'AdditionalAllowance'" [isReadOnly]="true" [width]="70">
+                    <wj-flex-grid-column [header]="'AA'" [binding]="'AdditionalAllowance'" [isReadOnly]="true"
+                        [width]="70">
                     </wj-flex-grid-column>
                     <wj-flex-grid-column [header]="'LD'" [binding]="'LateDeduction'" [isReadOnly]="true" [width]="70">
                     </wj-flex-grid-column>
