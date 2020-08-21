@@ -72,8 +72,8 @@ const routes: Routes = [
       { path: 'DTR-detail/:id', canActivate: [SoftwareRoutingActivate], component: DTRDetailComponent },
       { path: 'system-tables-list', canActivate: [SoftwareRoutingActivate], component: SystemTalesListComponent },
       { path: 'loan-list', canActivate: [SoftwareRoutingActivate], component: LoanListComponent },
-      { path: 'payroll-other-income', canActivate: [SoftwareRoutingActivate], component: PayrollOtherIncomeListComponent },
-      { path: 'payroll-other-detail', canActivate: [SoftwareRoutingActivate], component: PayrollOtherIncomeDetailComponent },
+      { path: 'payroll-other-income-list', canActivate: [SoftwareRoutingActivate], component: PayrollOtherIncomeListComponent },
+      { path: 'payroll-other-income-detail/:id', canActivate: [SoftwareRoutingActivate], component: PayrollOtherIncomeDetailComponent },
 
     ]
   }

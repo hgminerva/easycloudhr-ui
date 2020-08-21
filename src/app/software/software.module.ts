@@ -77,6 +77,7 @@ import { PayrollOtherIncomeDetailComponent } from './payroll-other-income-detail
 import { PayrollOtherIncomeListComponent } from './payroll-other-income-list/payroll-other-income-list/payroll-other-income-list.component';
 import { LoanListComponent } from './loan-list/loan-list/loan-list.component';
 import { LoanDetailDialogComponent } from './loan-list/loan-detail-dialog/loan-detail-dialog.component';
+import { PayrollOtherIncomeLineDialogComponent } from './payroll-other-income-detail/payroll-other-income-line-dialog/payroll-other-income-line-dialog.component';
 
 @NgModule({
   declarations: [
@@ -135,6 +136,7 @@ import { LoanDetailDialogComponent } from './loan-list/loan-detail-dialog/loan-d
     PayrollOtherIncomeDetailComponent,
     PayrollOtherIncomeListComponent,
     LoanDetailDialogComponent,
+    PayrollOtherIncomeLineDialogComponent,
   ],
   imports: [
     CommonModule,

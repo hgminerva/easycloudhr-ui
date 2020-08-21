@@ -27,7 +27,6 @@ export class ChangeShiftCodeDetailService {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/change/shift/user/list', this.appSettings.defaultOptions);
   }
 
-
   // ChangeShiftCode
   public async ChangeShiftCodeDetail(id: number) {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/change/shift/detail/' + id, this.appSettings.defaultOptions);

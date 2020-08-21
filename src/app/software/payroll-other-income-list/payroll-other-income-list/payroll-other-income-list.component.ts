@@ -161,7 +161,7 @@ export class PayrollOtherIncomeListComponent implements OnInit {
           this._isDataLoaded = true;
           this.GetPayrollOtherIncomeListData();
           this._snackBarTemplate.snackBarSuccess(this._snackBar, "Added Successfully");
-          this.router.navigate(['/software/change-shift-code-detail/' + response]);
+          this.router.navigate(['/software/payroll-other-income-detail/' + response]);
         },
         error => {
           this._buttonDisabled = false;
@@ -174,17 +174,17 @@ export class PayrollOtherIncomeListComponent implements OnInit {
   }
 
   public EditPayrollOtherIncome() {
-    let currentShiftCode = this._listPayrollOtherIncomeCollectionView.currentItem;
-    this.router.navigate(['/software/change-shift-code-detail/' + currentShiftCode.Id]);
+    let currentPayrollOtherIncome = this._listPayrollOtherIncomeCollectionView.currentItem;
+    this.router.navigate(['/software/payroll-other-income-detail/' + currentPayrollOtherIncome.Id]);
   }
 
   public async DeletePayrollOtherIncome() {
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
-      let currentShiftCode = this._listPayrollOtherIncomeCollectionView.currentItem;
+      let currentPayrollOtherIncome = this._listPayrollOtherIncomeCollectionView.currentItem;
       this._isProgressBarHidden = true;
 
-      this._deletePayrollOtherIncomeSubscription = await (await this._payrollOtherIncomeService.DeletePayrollOtherIncome(currentShiftCode.Id)).subscribe(
+      this._deletePayrollOtherIncomeSubscription = await (await this._payrollOtherIncomeService.DeletePayrollOtherIncome(currentPayrollOtherIncome.Id)).subscribe(
         response => {
           this._snackBarTemplate.snackBarSuccess(this._snackBar, "Delete Successfully");
           this.GetPayrollOtherIncomeListData();
@@ -206,7 +206,7 @@ export class PayrollOtherIncomeListComponent implements OnInit {
       width: '500px',
       data: {
         objDialogTitle: "Delete Change Shift",
-        objComfirmationMessage: `Delete ${currentPayrollOtherIncome.CSNumber}?`,
+        objComfirmationMessage: `Delete ${currentPayrollOtherIncome.PINumber}?`,
       },
       disableClose: true
     });
