@@ -15,6 +15,7 @@ import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-
 import { ChangeShiftCodeLineDetailComponent } from './../change-shift-code-line-detail/change-shift-code-line-detail.component';
 import { MatSelectChange } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-change-shift-code-detail',
@@ -29,6 +30,8 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
     public _matDialog: MatDialog,
+    private datePipe: DatePipe
+
   ) { }
 
   async ngOnInit() {
@@ -183,10 +186,15 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
     );
   }
 
+  public DateFormatedSelectedDate() {
+    this._changeShiftModel.CSDate = new Date(this.datePipe.transform(this._changeShiftModel.CSDate, 'yyyy-MM-dd'));
+  }
+
   public async SaveChangeShiftCodeDetail() {
     this.DisableButtons();
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
+      this.DateFormatedSelectedDate();
       this._saveChangeShiftCodeDetailSubscription = (await this._changeShiftCodeDetailService.SaveChangeShiftCode(this._changeShiftModel.Id, this._changeShiftModel)).subscribe(
         response => {
           this.loadComponent(this._changeShiftModel.IsLocked);
@@ -208,6 +216,7 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
     this.DisableButtons();
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
+      this.DateFormatedSelectedDate();
       this._lockchangeShiftCodeDetailSubscription = await (await this._changeShiftCodeDetailService.LockChangeShiftCode(this._changeShiftModel.Id, this._changeShiftModel)).subscribe(
         response => {
           this.loadComponent(true);
@@ -376,7 +385,7 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
         this.AddSaveChangeShiftLine(result.data);
       }
       if (result.event === "Edit Shift Line Detail") {
-        
+
         this._isChangeShiftLineDataLoaded = true;
 
         this.UpdateChangeShiftLine(result.data.Id, result.data);
@@ -463,7 +472,7 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
     this._changeShiftModel.ApprovedByUserId = event.source.value;
     this._changeShiftModel.ApprovedByUser = (event.source.selected as MatOption).viewValue;
   }
-  
+
   public btnCSVClick(): void {
     var fileName = "";
 

@@ -49,8 +49,8 @@
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Date</mat-label>
                             <input matInput [matDatepicker]="datePickerDTRDate" [(ngModel)]="_dTRModel.DTRDate"
-                                readonly>
-                            <mat-datepicker-toggle matSuffix [for]="datePickerDTRDate" disabled>
+                                [readonly]="_isLocked">
+                            <mat-datepicker-toggle matSuffix [for]="datePickerDTRDate" [disabled]="_isLocked">
                             </mat-datepicker-toggle>
                             <mat-datepicker #datePickerDTRDate color="primary"></mat-datepicker>
                         </mat-form-field>

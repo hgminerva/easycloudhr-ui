@@ -15,6 +15,7 @@ import { OvertimeApplicationLineModel } from '../overtime-application-line.model
 import { OvertimeApplicationLineDialogComponent } from '../overtime-application-line-dialog/overtime-application-line-dialog.component';
 import { MatSelectChange } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-overtime-application-detail',
   templateUrl: './overtime-application-detail.component.html',
@@ -28,6 +29,7 @@ export class OvertimeApplicationDetailComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
     public _matDialog: MatDialog,
+    private datePipe: DatePipe
   ) { }
 
   async ngOnInit() {
@@ -178,10 +180,15 @@ export class OvertimeApplicationDetailComponent implements OnInit {
     );
   }
 
+  public DateFormatedSelectedDate() {
+    this._overtimeApplicationModel.OTDate = new Date(this.datePipe.transform(this._overtimeApplicationModel.OTDate, 'yyyy-MM-dd'));
+  }
+
   public async SaveOvertimeApplicationDetail() {
     this.DisableButtons();
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
+      this.DateFormatedSelectedDate();
       this._saveOvertimeApplicationDetailSubscription = (await this._overtimeApplicationDetailService.SaveOvertimeApplication(this._overtimeApplicationModel.Id, this._overtimeApplicationModel)).subscribe(
         response => {
           this.loadComponent(this._overtimeApplicationModel.IsLocked);
@@ -203,6 +210,7 @@ export class OvertimeApplicationDetailComponent implements OnInit {
     this.DisableButtons();
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
+      this.DateFormatedSelectedDate();
       this._lockOvertimeApplicationDetailSubscription = await (await this._overtimeApplicationDetailService.LockOvertimeApplication(this._overtimeApplicationModel.Id, this._overtimeApplicationModel)).subscribe(
         response => {
           this.loadComponent(true);

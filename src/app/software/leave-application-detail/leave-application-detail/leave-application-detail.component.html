@@ -18,10 +18,10 @@
         Unlock
     </button>
     <button mat-flat-button color="accent" id="btnAddEmployee" [disabled]="_btnUnlockDisabled" style="margin: 5px;"
-    (click)="btnCSVClick()">
-    <mat-icon>get_app</mat-icon>
-    CSV
-</button>
+        (click)="btnCSVClick()">
+        <mat-icon>get_app</mat-icon>
+        CSV
+    </button>
     <button mat-flat-button style="margin-right: 5px;" routerLink="/software/leave-application-list" color="warn">
         <mat-icon>close</mat-icon>
         Close
@@ -47,8 +47,8 @@
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Date</mat-label>
                             <input matInput [matDatepicker]="datePickerLADate"
-                                [(ngModel)]="_leaveApplicationModel.LADate" readonly>
-                            <mat-datepicker-toggle matSuffix [for]="datePickerLADate" disabled>
+                                [(ngModel)]="_leaveApplicationModel.LADate" [readonly]="_isLocked">
+                            <mat-datepicker-toggle matSuffix [for]="datePickerLADate" [disabled]="_isLocked">
                             </mat-datepicker-toggle>
                             <mat-datepicker #datePickerLADate color="primary"></mat-datepicker>
                         </mat-form-field>

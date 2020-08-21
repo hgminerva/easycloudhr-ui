@@ -16,6 +16,7 @@ import { LeaveApplicationLineModel } from '../leave-application-line.model';
 import { LeaveApplicationLineDetailComponent } from '../leave-application-line-detail/leave-application-line-detail.component';
 import { MatOption } from '@angular/material/core';
 import { MatSelectChange } from '@angular/material/select';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-leave-application-detail',
@@ -30,6 +31,7 @@ export class LeaveApplicationDetailComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
     public _matDialog: MatDialog,
+    private datePipe: DatePipe
   ) { }
 
   async ngOnInit() {
@@ -180,6 +182,11 @@ export class LeaveApplicationDetailComponent implements OnInit {
       }
     );
   }
+
+  public DateFormatedSelectedDate() {
+    this._leaveApplicationModel.LADate = new Date(this.datePipe.transform(this._leaveApplicationModel.LADate, 'yyyy-MM-dd'));
+  }
+
 
   public async SaveLeaveApplicationDetail() {
     this.DisableButtons();
