@@ -6,5 +6,5 @@ export class PayrollOtherIncomeLineModel {
     OtherIncomeId: number;
     OtherIncome: string;
     Amount: string;
-    Remarks: string;
+    Particulars: string;
 }

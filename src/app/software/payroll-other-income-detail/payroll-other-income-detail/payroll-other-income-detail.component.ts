@@ -14,7 +14,7 @@ import { DatePipe } from '@angular/common';
 
 import { PayrollOtherIncomeModel } from './../payroll-other-income.model';
 import { PayrollOtherIncomeLineModel } from './../payroll-other-income-line.model';
-import { PayrollOtherIncomeService } from '../payroll-other-income.service';
+import { PayrollOtherIncomeDetailService } from './../payroll-other-income-detail.service';
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { PayrollOtherIncomeLineDialogComponent } from '../payroll-other-income-line-dialog/payroll-other-income-line-dialog.component';
 
@@ -26,7 +26,7 @@ import { PayrollOtherIncomeLineDialogComponent } from '../payroll-other-income-l
 export class PayrollOtherIncomeDetailComponent implements OnInit {
 
   constructor(
-    private _payrollOtherIncomeService: PayrollOtherIncomeService,
+    private _payrollOtherIncomeDetailService: PayrollOtherIncomeDetailService,
     private _activatedRoute: ActivatedRoute,
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
@@ -36,7 +36,7 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    await this.PayrollGroupListData();
+    await this.UserListData();
   }
 
   public _isProgressBarHidden: boolean = false;
@@ -93,8 +93,8 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
     Employee: '',
     OtherIncomeId: 0,
     OtherIncome: '',
-    Amount: '',
-    Remarks: ''
+    Amount: '0',
+    Particulars: ''
   }
 
   // Class properties
@@ -114,24 +114,23 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
 
   public _btnAddPayrollOtherIncomeLineDisabled: boolean = false;
 
-
-  private async PayrollGroupListData() {
-    this._payrollGroupDropdownSubscription = (await this._payrollOtherIncomeService.PayrollGroupList()).subscribe(
-      response => {
-        this._payrollGroupListDropdown = response;
-        this.UserListData();
-        if (this._payrollGroupDropdownSubscription !== null) this._payrollGroupDropdownSubscription.unsubscribe();
-      },
-      error => {
-        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this._payrollGroupDropdownSubscription !== null) this._payrollGroupDropdownSubscription.unsubscribe();
-      }
-    );
-  }
-
+  // private async PayrollGroupListData() {
+  //   this._payrollGroupDropdownSubscription = (await this._payrollOtherIncomeDetailService.PayrollGroupList()).subscribe(
+  //     response => {
+  //       this._payrollGroupListDropdown = response;
+  //       this._payrollOtherIncomeLineModel = this._payrollGroupListDropdown[0].Id;
+  //       this.UserListData();
+  //       if (this._payrollGroupDropdownSubscription !== null) this._payrollGroupDropdownSubscription.unsubscribe();
+  //     },
+  //     error => {
+  //       this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+  //       if (this._payrollGroupDropdownSubscription !== null) this._payrollGroupDropdownSubscription.unsubscribe();
+  //     }
+  //   );
+  // }
 
   private async UserListData() {
-    this._userDropdownSubscription = await (await this._payrollOtherIncomeService.UserList()).subscribe(
+    this._userDropdownSubscription = await (await this._payrollOtherIncomeDetailService.UserList()).subscribe(
       response => {
         this._userListDropdown = response;
         this.GetPayrollOtherIncomeDetail();
@@ -147,15 +146,13 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
   private async GetPayrollOtherIncomeDetail() {
     let id = 0;
     this._activatedRoute.params.subscribe(params => { id = params["id"]; });
-    console.log(id);
     this._isComponentsShown = true;
     this._isProgressBarHidden = true;
 
     this.DisableButtons();
-    this._changePayrollOtherIncomeDetailSubscription = await (await this._payrollOtherIncomeService.PayrollOtherIncomeDetail(id)).subscribe(
+    this._changePayrollOtherIncomeDetailSubscription = await (await this._payrollOtherIncomeDetailService.PayrollOtherIncomeDetail(id)).subscribe(
       (response: any) => {
         let result = response;
-        console.log(result);
         if (result != null) {
           this._payrollOtherIncomeModel = result;
           this._payrollOtherIncomeModel.PIDate = new Date(result["PIDate"]);
@@ -184,7 +181,7 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
       this.DateFormatSelectedDate();
-      this._savePayrollOtherIncomeDetailSubscription = (await this._payrollOtherIncomeService.SavePayrollOtherIncome(this._payrollOtherIncomeModel.Id, this._payrollOtherIncomeModel)).subscribe(
+      this._savePayrollOtherIncomeDetailSubscription = (await this._payrollOtherIncomeDetailService.SavePayrollOtherIncome(this._payrollOtherIncomeModel.Id, this._payrollOtherIncomeModel)).subscribe(
         response => {
           this.loadComponent(this._payrollOtherIncomeModel.IsLocked);
           this._isDataLoaded = true;
@@ -206,7 +203,7 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
       this.DateFormatSelectedDate();
-      this._lockPayrollOtherIncomeDetailSubscription = await (await this._payrollOtherIncomeService.LockPayrollOtherIncome(this._payrollOtherIncomeModel.Id, this._payrollOtherIncomeModel)).subscribe(
+      this._lockPayrollOtherIncomeDetailSubscription = await (await this._payrollOtherIncomeDetailService.LockPayrollOtherIncome(this._payrollOtherIncomeModel.Id, this._payrollOtherIncomeModel)).subscribe(
         response => {
           this.loadComponent(true);
           this._isDataLoaded = true;
@@ -227,7 +224,7 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
     this.DisableButtons();
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
-      this._unlockPayrollOtherIncomeDetailSubscription = await (await this._payrollOtherIncomeService.UnlockPayrollOtherIncome(this._payrollOtherIncomeModel.Id)).subscribe(
+      this._unlockPayrollOtherIncomeDetailSubscription = await (await this._payrollOtherIncomeDetailService.UnlockPayrollOtherIncome(this._payrollOtherIncomeModel.Id)).subscribe(
         response => {
           this.loadComponent(false);
           this._isDataLoaded = true;
@@ -281,7 +278,7 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
 
     this._isPayrollOtherIncomeLineProgressBarHidden = true;
 
-    this._PayrollOtherIncomeLineListSubscription = await (await this._payrollOtherIncomeService.PayrollOtherIncomeDetail(this._payrollOtherIncomeModel.Id)).subscribe(
+    this._PayrollOtherIncomeLineListSubscription = await (await this._payrollOtherIncomeDetailService.PayrollOtherIncomeLineList(this._payrollOtherIncomeModel.Id)).subscribe(
       (response: any) => {
         if (response["length"] > 0) {
           this._listPayrollOtherIncomeLineObservableArray = response;
@@ -305,7 +302,7 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
   }
 
   public AddPayrollOtherIncomeLine() {
-    this.DetailPayrollOtherIncomeLine(this._payrollOtherIncomeModel, "Add Payroll Other Income Line");
+    this.DetailPayrollOtherIncomeLine(this._payrollOtherIncomeLineModel, "Add Payroll Other Income Line");
   }
 
   public EditPayrollOtherIncomeLine() {
@@ -319,7 +316,7 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
 
     if (this._isPayrollOtherIncomeLineDataLoaded == true) {
       this._isPayrollOtherIncomeLineDataLoaded = false;
-      this._deletePayrollOtherIncomeLineSubscription = await (await this._payrollOtherIncomeService.DeletePayrollOtherIncomeLine(currentPayrollOtherIncomeLine.Id)).subscribe(
+      this._deletePayrollOtherIncomeLineSubscription = await (await this._payrollOtherIncomeDetailService.DeletePayrollOtherIncomeLine(currentPayrollOtherIncomeLine.Id)).subscribe(
         response => {
           this._snackBarTemplate.snackBarSuccess(this._snackBar, "Delete Successfully");
           this.GetPayrollOtherIncomeLineListData();
@@ -355,7 +352,7 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
   }
 
 
-  public DetailPayrollOtherIncomeLine(objPayrollOtherIncomeLine: PayrollOtherIncomeModel, eventTitle: string) {
+  public DetailPayrollOtherIncomeLine(objPayrollOtherIncomeLine: PayrollOtherIncomeLineModel, eventTitle: string) {
     const matDialogRef = this._matDialog.open(PayrollOtherIncomeLineDialogComponent, {
       width: '1300px',
       data: {
@@ -390,7 +387,7 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
 
     if (this._isPayrollOtherIncomeLineDataLoaded == true) {
       this._isPayrollOtherIncomeLineDataLoaded = false;
-      this._savePayrollOtherIncomeLineSubscription = await (await this._payrollOtherIncomeService.AddPayrollOtherIncomeLine(objPayrollOtherIncomeLine)).subscribe(
+      this._savePayrollOtherIncomeLineSubscription = await (await this._payrollOtherIncomeDetailService.AddPayrollOtherIncomeLine(objPayrollOtherIncomeLine)).subscribe(
         response => {
           this._isPayrollOtherIncomeLineDataLoaded = true;
           this._isPayrollOtherIncomeLineProgressBarHidden = false;
@@ -401,6 +398,7 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
         },
         error => {
           this._isPayrollOtherIncomeLineDataLoaded = true;
+          this._isPayrollOtherIncomeLineProgressBarHidden = false;
           this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
           if (this._savePayrollOtherIncomeLineSubscription != null) this._savePayrollOtherIncomeLineSubscription.unsubscribe();
         }
@@ -413,7 +411,7 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
 
     if (this._isPayrollOtherIncomeLineDataLoaded == true) {
       this._isPayrollOtherIncomeLineDataLoaded = false;
-      this._updatePayrollOtherIncomeLineSubscription = await (await this._payrollOtherIncomeService.UpdatePayrollOtherIncomeLine(id, objPayrollOtherIncomeLine)).subscribe(
+      this._updatePayrollOtherIncomeLineSubscription = await (await this._payrollOtherIncomeDetailService.UpdatePayrollOtherIncomeLine(id, objPayrollOtherIncomeLine)).subscribe(
         response => {
           this._isPayrollOtherIncomeLineDataLoaded = true;
           this._isPayrollOtherIncomeLineProgressBarHidden = false;
@@ -424,13 +422,13 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
         },
         error => {
           this._isPayrollOtherIncomeLineDataLoaded = true;
+          this._isPayrollOtherIncomeLineProgressBarHidden = false;
           this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
           if (this._updatePayrollOtherIncomeLineSubscription != null) this._updatePayrollOtherIncomeLineSubscription.unsubscribe();
         }
       );
     }
   }
-
 
   selectedPreparedByUser(event: MatSelectChange) {
     const selectedData = {

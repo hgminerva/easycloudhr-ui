@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import { AppSettings } from 'src/app/app-settings';
 import { HttpClient } from '@angular/common/http';
 
-import {PayrollOtherIncomeModel} from './payroll-other-income.model';
-import {PayrollOtherIncomeLineModel} from './payroll-other-income-line.model';
-
+import { PayrollOtherIncomeModel } from './payroll-other-income.model';
+import { PayrollOtherIncomeLineModel } from './payroll-other-income-line.model';
 @Injectable({
   providedIn: 'root'
 })
-export class PayrollOtherIncomeService {
+export class PayrollOtherIncomeDetailService {
 
   constructor(
     private appSettings: AppSettings,
@@ -19,6 +18,12 @@ export class PayrollOtherIncomeService {
   public async PayrollGroupList() {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/payroll/other/income/payroll/group/list', this.appSettings.defaultOptions);
   }
+
+  // PayrollOtherIncome DROPDOWN
+  public async OtherIncomeList() {
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/payroll/other/income/line/income/list', this.appSettings.defaultOptions);
+  }
+
 
   public async YearList() {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/payroll/other/income/year/list', this.appSettings.defaultOptions);
