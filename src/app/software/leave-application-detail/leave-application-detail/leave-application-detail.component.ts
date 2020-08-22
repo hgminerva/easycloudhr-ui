@@ -187,9 +187,9 @@ export class LeaveApplicationDetailComponent implements OnInit {
     this._leaveApplicationModel.LADate = new Date(this.datePipe.transform(this._leaveApplicationModel.LADate, 'yyyy-MM-dd'));
   }
 
-
   public async SaveLeaveApplicationDetail() {
     this.DisableButtons();
+    this.DateFormatedSelectedDate();
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
       this._saveLeaveApplicationDetailSubscription = (await this._leaveApplicationDetailService.SaveLeaveApplication(this._leaveApplicationModel.Id, this._leaveApplicationModel)).subscribe(
@@ -211,6 +211,7 @@ export class LeaveApplicationDetailComponent implements OnInit {
 
   public async LockLeaveApplicationDetail() {
     this.DisableButtons();
+    this.DateFormatedSelectedDate();
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
       this._lockcLeaveApplicationDetailSubscription = await (await this._leaveApplicationDetailService.LockLeaveApplication(this._leaveApplicationModel.Id, this._leaveApplicationModel)).subscribe(
