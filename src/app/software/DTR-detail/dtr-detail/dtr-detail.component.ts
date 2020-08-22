@@ -497,15 +497,14 @@ export class DTRDetailComponent implements OnInit {
     });
 
     matDialogRef.afterClosed().subscribe((result: any) => {
-      if (result.event !== "Close") {
-        this.UpdateDTRLine(result["data"].Id, result["data"]);
+      if (result.event !== 'Close') {
+        this.GetDTRLineListData();
       }
     });
   }
 
   ngOnDestroy() {
   }
-
 
   public async UpdateDTRLine(id: number, objDTRLine: DTRLineModel) {
     if (this._isDataLoaded == true) {

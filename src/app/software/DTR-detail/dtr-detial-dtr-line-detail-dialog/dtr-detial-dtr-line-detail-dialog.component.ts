@@ -32,7 +32,9 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
   }
 
   public _title = '';
+  public _event = 'Close';
   public _isComponentsHidden: boolean = true;
+  public _isDataLoaded: boolean = true;
 
   public _dTRLineModel: DTRLineModel = {
     Id: 0,
@@ -93,6 +95,8 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
 
   public _shiftsDropdownSubscription: any;
   public _shiftsListDropdown: any = [];
+
+  private _saveDTRLineSubscription: any;
 
   private async DateTypeListData() {
     this._dateTypeDropdownSubscription = await (await this._dtrDetialService.DateTypeList()).subscribe(
@@ -353,6 +357,7 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
   }
 
   public async ComputeDTRLine() {
+    this._event = 'Compute';
     this._isProgressBarHidden = true;
     this._computeDTRLineSubscription = (await this._dtrDetialService.ComputeDTRLine(this._dTRLineModel.Id)).subscribe(
       (response: any) => {
@@ -398,13 +403,36 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
   }
 
   public Close(): void {
-    this._matDialogRef.close({ event: "Close" });
+    this._matDialogRef.close({ event: this._event });
   }
 
-  public CloseOnSave(): void {
-    this._matDialogRef.close({ event: "Save", data: this._dTRLineModel });
-  }
+  // public CloseOnSave(): void {
+  //   this._matDialogRef.close({ event: "Save", data: this._dTRLineModel });
+  // }
 
   ngOnDestroy() {
   }
+
+  public async UpdateDTRLine() {
+    this._event = 'Update';
+    this._isProgressBarHidden = true;
+    if (this._isDataLoaded == true) {
+      this._isDataLoaded = false;
+      this._saveDTRLineSubscription = await (await this._dtrDetialService.UpdateTRLine(this._dTRLineModel.Id, this._dTRLineModel)).subscribe(
+        response => {
+          this._isDataLoaded = true;
+          this._isProgressBarHidden = false;
+          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Update Successfully");
+          if (this._saveDTRLineSubscription != null) this._saveDTRLineSubscription.unsubscribe();
+        },
+        error => {
+          this._isDataLoaded = true;
+          this._isProgressBarHidden = false;
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this._saveDTRLineSubscription != null) this._saveDTRLineSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
 }

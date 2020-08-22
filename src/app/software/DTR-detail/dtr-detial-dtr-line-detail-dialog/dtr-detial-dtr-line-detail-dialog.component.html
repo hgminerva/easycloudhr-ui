@@ -1,7 +1,6 @@
 <h3 mat-dialog-title>
     {{ _title }}
 </h3>
-
 <mat-progress-bar *ngIf="_isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'"></mat-progress-bar>
 <mat-divider></mat-divider>
 <br>
@@ -18,7 +17,7 @@
         <div fxFlex="70">
         </div>
         <div fxFlex="15" style="text-align:right; margin-right:10px">
-            <h2 class="text_box"><b>P {{_dTRLineModel.DailyPay}}</b> </h2>
+            <h2 class="text_box"><b>P {{_dTRLineModel.DailyNetPay}}</b> </h2>
         </div>
     </div>
     <div fxLayout="row" fxLayout.xs="column" style="margin-top: -5px;">
@@ -105,7 +104,7 @@
             <mat-form-field appearance="outline" style="width: 100%;">
                 <mat-label>Branch</mat-label>
                 <mat-select [(ngModel)]="_dTRLineModel.Branch">
-                    <mat-option *ngFor="let branch of _branchListDropdown" [value]="branch.Value" >
+                    <mat-option *ngFor="let branch of _branchListDropdown" [value]="branch.Value">
                         {{branch.Value}}
                     </mat-option>
                 </mat-select>
@@ -142,7 +141,48 @@
     </div>
     <!-- <span>Number Fields</span> -->
     <mat-tab-group #tabGroup style="max-height:100%;">
-        <mat-tab label="Hours">
+        <mat-tab label="Detail">
+            <br>
+            <div fxLayout="row" fxLayout.xs="column" style="height:12.45em;">
+                <div fxFlex="25" style="padding: 5px;">
+                    <p>No. Of Hours Worked:&nbsp;&nbsp; <span>{{_dTRLineModel.NumberOfHoursWorked}}</span></p>
+                    <p>Overtime Hours:&nbsp;&nbsp; <span>{{_dTRLineModel.OvertimeHours}}</span></p>
+                    <p>Night Differential Hours:&nbsp;&nbsp; <span>{{_dTRLineModel.NightDifferentialHours}}</span></p>
+                    <p>Late Hours:&nbsp;&nbsp; <span>{{_dTRLineModel.LateHours}}</span></p>
+                    <p>Undertime Hours:&nbsp;&nbsp; <span>{{_dTRLineModel.UndertimeHours}}</span></p>
+
+                </div>
+                <div fxFlex="25" style="padding: 5px;">
+                    <p>Daily Pay:&nbsp;&nbsp; <span>{{_dTRLineModel.UndertimeHours}}</span></p>
+                    <p>Premium Pay:&nbsp;&nbsp; <span>{{_dTRLineModel.PremiumPay}}</span></p>
+                    <p>Holiday Pay:&nbsp;&nbsp; <span>{{_dTRLineModel.HolidayPay}}</span></p>
+                    <p>Overtime Pay:&nbsp;&nbsp; <span>{{_dTRLineModel.OvertimePay}}</span></p>
+                    <p>Night Differential Pay:&nbsp;&nbsp; <span>{{_dTRLineModel.NightDifferentialPay}}</span></p>
+                </div>
+                <div fxFlex="25" style="padding: 5px;">
+                    <div fxLayout="row" fxLayout.xs="column">
+                        <div fxFlex="100">
+                            <p>COLA:&nbsp;&nbsp; <span>{{_dTRLineModel.COLA}}</span></p>
+                            <p>Additional Allowance:&nbsp;&nbsp; <span>{{_dTRLineModel.AdditionalAllowance}}</span></p>
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="column">
+                        <div fxFlex="15">
+                            <p>Less:</p>
+                        </div>
+                        <div fxFlex="85">
+                            <p>Late Deduction:&nbsp;&nbsp; <span>{{_dTRLineModel.LateDeduction}}</span></p>
+                            <p>Undertime Deduction:&nbsp;&nbsp; <span>{{_dTRLineModel.UndertimeDeduction}}</span></p>
+                            <p>Absent Deduction:&nbsp;&nbsp; <span>{{_dTRLineModel.AbsentDeduction}}</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div fxFlex="25" style="padding: 5px;">
+                    <h2><b>Daily Net Pay:</b>&nbsp;&nbsp; <b>{{_dTRLineModel.DailyNetPay}}</b></h2>
+                </div>
+            </div>
+        </mat-tab>
+        <!-- <mat-tab label="Hours">
             <br>
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="25" style="padding: 5px;">
@@ -288,7 +328,7 @@
                     </mat-form-field>
                 </div>
             </div>
-        </mat-tab>
+        </mat-tab> -->
         <mat-tab label="Remarks">
             <br>
             <div fxLayout="row" fxLayout.xs="column" style="height:12.45em;">
@@ -305,7 +345,7 @@
 </div>
 <mat-divider></mat-divider>
 <div mat-dialog-actions align="right">
-    <button mat-flat-button color="primary" mat-dialog-close style="margin-right: 5px;" (click)="CloseOnSave()">
+    <button mat-flat-button color="primary" style="margin-right: 5px;" (click)="UpdateDTRLine()">
         <mat-icon>save</mat-icon>
         Save
     </button>
