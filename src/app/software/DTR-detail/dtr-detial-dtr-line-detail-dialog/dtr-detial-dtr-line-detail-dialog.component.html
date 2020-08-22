@@ -145,36 +145,67 @@
             <br>
             <div fxLayout="row" fxLayout.xs="column" style="height:12.45em;">
                 <div fxFlex="25" style="padding: 5px;">
-                    <p>No. Of Hours Worked:&nbsp;&nbsp; <span>{{_dTRLineModel.NumberOfHoursWorked}}</span></p>
-                    <p>Overtime Hours:&nbsp;&nbsp; <span>{{_dTRLineModel.OvertimeHours}}</span></p>
-                    <p>Night Differential Hours:&nbsp;&nbsp; <span>{{_dTRLineModel.NightDifferentialHours}}</span></p>
-                    <p>Late Hours:&nbsp;&nbsp; <span>{{_dTRLineModel.LateHours}}</span></p>
-                    <p>Undertime Hours:&nbsp;&nbsp; <span>{{_dTRLineModel.UndertimeHours}}</span></p>
+                    <div fxFlex="70">
+                        <p>No. Of Hours Worked:</p>
+                        <p>Overtime Hours:</p>
+                        <p>Night Differential Hours:</p>
+                        <p>Late Hours:</p>
+                        <p>Undertime Hours:</p>
+                    </div>
+                    <div fxFlex="30">
+                        <p><span>{{_dTRLineModel.NumberOfHoursWorked}}</span></p>
+                        <p><span>{{_dTRLineModel.OvertimeHours}}</span></p>
+                        <p><span>{{_dTRLineModel.NightDifferentialHours}}</span>
+                        </p>
+                        <p><span>{{_dTRLineModel.LateHours}}</span></p>
+                        <p><span>{{_dTRLineModel.UndertimeHours}}</span></p>
+                    </div>
+                </div>
+                <div fxFlex="25" style="padding: 5px;">
+                    <div fxFlex="70">
+                        <p>Daily Pay:</p>
+                        <p>Premium Pay:</p>
+                        <p>Holiday Pay:</p>
+                        <p>Overtime Pay:</p>
+                        <p>Night Differential Pay:</p>
+                    </div>
+                    <div fxFlex="30">
+                        <p><span>{{_dTRLineModel.DailyPay}}</span></p>
+                        <p><span>{{_dTRLineModel.PremiumPay}}</span></p>
+                        <p><span>{{_dTRLineModel.HolidayPay}}</span></p>
+                        <p><span>{{_dTRLineModel.OvertimePay}}</span></p>
+                        <p><span>{{_dTRLineModel.NightDifferentialPay}}</span></p>
+                    </div>
 
                 </div>
                 <div fxFlex="25" style="padding: 5px;">
-                    <p>Daily Pay:&nbsp;&nbsp; <span>{{_dTRLineModel.UndertimeHours}}</span></p>
-                    <p>Premium Pay:&nbsp;&nbsp; <span>{{_dTRLineModel.PremiumPay}}</span></p>
-                    <p>Holiday Pay:&nbsp;&nbsp; <span>{{_dTRLineModel.HolidayPay}}</span></p>
-                    <p>Overtime Pay:&nbsp;&nbsp; <span>{{_dTRLineModel.OvertimePay}}</span></p>
-                    <p>Night Differential Pay:&nbsp;&nbsp; <span>{{_dTRLineModel.NightDifferentialPay}}</span></p>
-                </div>
-                <div fxFlex="25" style="padding: 5px;">
                     <div fxLayout="row" fxLayout.xs="column">
-                        <div fxFlex="100">
-                            <p>COLA:&nbsp;&nbsp; <span>{{_dTRLineModel.COLA}}</span></p>
-                            <p>Additional Allowance:&nbsp;&nbsp; <span>{{_dTRLineModel.AdditionalAllowance}}</span></p>
+                        <div fxFlex="70">
+                            <p>COLA:</p>
+                            <p>Additional Allowance:</p>
+                        </div>
+                        <div fxFlex="30">
+                            <p><span>{{_dTRLineModel.COLA}}</span></p>
+                            <p><span>{{_dTRLineModel.AdditionalAllowance}}</span></p>
                         </div>
                     </div>
                     <div fxLayout="row" fxLayout.xs="column">
                         <div fxFlex="15">
                             <p>Less:</p>
                         </div>
-                        <div fxFlex="85">
-                            <p>Late Deduction:&nbsp;&nbsp; <span>{{_dTRLineModel.LateDeduction}}</span></p>
-                            <p>Undertime Deduction:&nbsp;&nbsp; <span>{{_dTRLineModel.UndertimeDeduction}}</span></p>
-                            <p>Absent Deduction:&nbsp;&nbsp; <span>{{_dTRLineModel.AbsentDeduction}}</span></p>
+                        <div fxFlex="55">
+                            <p>Late Deduction:</p>
+                            <p>Undertime Deduction:
+                            </p>
+                            <p>Absent Deduction:</p>
                         </div>
+                        <div fxFlex="30">
+                            <p><span>{{_dTRLineModel.LateDeduction}}</span></p>
+                            <p><span>{{_dTRLineModel.UndertimeDeduction}}</span>
+                            </p>
+                            <p><span>{{_dTRLineModel.AbsentDeduction}}</span></p>
+                        </div>
+
                     </div>
                 </div>
                 <div fxFlex="25" style="padding: 5px;">
