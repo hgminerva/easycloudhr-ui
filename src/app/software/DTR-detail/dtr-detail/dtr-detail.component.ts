@@ -86,12 +86,12 @@ export class DTRDetailComponent implements OnInit {
   public _dTRModel: DTRModel = {
     Id: 0,
     DTRNumber: '',
-    DTRDate: new Date(),
+    DTRDate: '',
     PayrollGroup: '',
     YearId: 0,
     Year: '',
-    DateStart: new Date(),
-    DateEnd: new Date(),
+    DateStart: '',
+    DateEnd: '',
     OTId: 0,
     OT: '',
     LAId: 0,
@@ -107,19 +107,23 @@ export class DTRDetailComponent implements OnInit {
     ApprovedByUser: '',
     CreatedByUserId: 0,
     CreatedByUser: '',
-    CreatedDateTime: new Date(),
+    CreatedDateTime: '',
     UpdatedByUserId: 0,
     UpdatedByUser: '',
-    UpdatedDateTime: new Date(),
+    UpdatedDateTime: '',
     IsLocked: false
   };
+
+  public UIDTRDate = new Date();
+  public UIDateStart = new Date();
+  public UIDateEnd = new Date();
 
   public _dTRLineModel: DTRLineModel = {
     Id: 0,
     DTRId: 0,
     EmployeeId: 0,
     Employee: '',
-    DTRDate: new Date(),
+    DTRDate: '',
     DateType: '',
     IsRestDay: false,
     ShiftId: 0,
@@ -266,9 +270,9 @@ export class DTRDetailComponent implements OnInit {
         let result = response;
         if (result != null) {
           this._dTRModel = result;
-          this._dTRModel.DTRDate = new Date(result["DTRDate"]);
-          this._dTRModel.DateStart = new Date(result["DateStart"]);
-          this._dTRModel.DateEnd = new Date(result["DateEnd"]);
+          this.UIDTRDate = new Date(result["DTRDate"]);
+          this.UIDateStart = new Date(result["DateStart"]);
+          this.UIDateEnd = new Date(result["DateEnd"]);
           this._dTRLineModel.DTRId = result["Id"];
         }
         this.loadComponent(result["IsLocked"]);
@@ -285,17 +289,26 @@ export class DTRDetailComponent implements OnInit {
     );
   }
 
-  public DateFormatedSelectedDate() {
-    this._dTRModel.DTRDate = new Date(this.datePipe.transform(this._dTRModel.DTRDate, 'yyyy-MM-dd'));
-    this._dTRModel.DateStart = new Date(this.datePipe.transform(this._dTRModel.DateStart, 'yyyy-MM-dd'));
-    this._dTRModel.DateEnd = new Date(this.datePipe.transform(this._dTRModel.DateEnd, 'yyyy-MM-dd'));
+  public GetUIDATEDTRDate() {
+    this._dTRModel.DTRDate = this.datePipe.transform(this.UIDTRDate, 'yyyy-MM-dd');
+    console.log(this._dTRModel.DTRDate);
   }
+
+  public GetUIDATEDateStart() {
+    this._dTRModel.DateStart = this.datePipe.transform(this.UIDateStart, 'yyyy-MM-dd');
+    console.log(this._dTRModel.DateStart);
+  }
+
+  public GetUIDATEDateEnd() {
+    this._dTRModel.DateEnd = this.datePipe.transform(this.UIDateEnd, 'yyyy-MM-dd');
+    console.log(this._dTRModel.DateEnd);
+  }
+
 
   public async SaveDTRDetail() {
     this.DisableButtons();
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
-      this.DateFormatedSelectedDate();
       this._saveDTRDetailSubscription = (await this._dtrDetialService.SaveDTR(this._dTRModel.Id, this._dTRModel)).subscribe(
         response => {
           this.loadComponent(this._dTRModel.IsLocked);
@@ -317,7 +330,6 @@ export class DTRDetailComponent implements OnInit {
     this.DisableButtons();
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
-      this.DateFormatedSelectedDate();
       this._lockDTRDetailSubscription = await (await this._dtrDetialService.LockDTR(this._dTRModel.Id, this._dTRModel)).subscribe(
         response => {
           this.loadComponent(true);

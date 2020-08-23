@@ -48,8 +48,8 @@
                     <div fxFlex="33" style="padding: 5px;">
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Date</mat-label>
-                            <input matInput [matDatepicker]="datePickerDTRDate" [(ngModel)]="_dTRModel.DTRDate"
-                                [readonly]="_isLocked">
+                            <input matInput [matDatepicker]="datePickerDTRDate" [(ngModel)]="UIDTRDate"
+                                (dateInput)="GetUIDATEDTRDate()" [readonly]="_isLocked">
                             <mat-datepicker-toggle matSuffix [for]="datePickerDTRDate" [disabled]="_isLocked">
                             </mat-datepicker-toggle>
                             <mat-datepicker #datePickerDTRDate color="primary"></mat-datepicker>
@@ -59,8 +59,8 @@
                     <div fxFlex="33" style="padding: 5px;">
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>DateStart</mat-label>
-                            <input matInput [matDatepicker]="datePickerDateStart" [(ngModel)]="_dTRModel.DateStart"
-                                [readonly]="_isLocked">
+                            <input matInput [matDatepicker]="datePickerDateStart" [(ngModel)]="UIDateStart"
+                                (dateInput)="GetUIDATEDateStart()" [readonly]="_isLocked">
                             <mat-datepicker-toggle matSuffix [for]="datePickerDateStart" [disabled]="_isLocked">
                             </mat-datepicker-toggle>
                             <mat-datepicker #datePickerDateStart color="primary"></mat-datepicker>
@@ -69,8 +69,8 @@
                     <div fxFlex="34" style="padding: 5px;">
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Date End</mat-label>
-                            <input matInput [matDatepicker]="datePickerDateEnd" [(ngModel)]="_dTRModel.DateEnd"
-                                [readonly]="_isLocked">
+                            <input matInput [matDatepicker]="datePickerDateEnd" [(ngModel)]="UIDateEnd"
+                                (dateInput)="GetUIDATEDateStart()" [readonly]="_isLocked">
                             <mat-datepicker-toggle matSuffix [for]="datePickerDateEnd" [disabled]="_isLocked">
                             </mat-datepicker-toggle>
                             <mat-datepicker #datePickerDateEnd color="primary"></mat-datepicker>

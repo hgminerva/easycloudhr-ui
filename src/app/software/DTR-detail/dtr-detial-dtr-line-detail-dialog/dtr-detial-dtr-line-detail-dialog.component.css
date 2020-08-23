@@ -1,3 +1,8 @@
 .mat-dialog-actions {
     justify-content: flex-end;
 }
+
+.deduction {
+    color: red;
+    font-weight: 600;
+}

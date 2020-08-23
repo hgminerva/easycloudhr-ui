@@ -10,7 +10,7 @@
         <div fxFlex="20" style="padding: 5px;">
             <mat-form-field appearance="outline" style="width: 100%;">
                 <mat-label>DateStart</mat-label>
-                <input matInput [matDatepicker]="datePickerDateStart" [(ngModel)]="_dTRModel.DateStart" readonly>
+                <input matInput [matDatepicker]="datePickerDateStart" [(ngModel)]="UIDateStart" readonly>
                 <mat-datepicker-toggle matSuffix [for]="datePickerDateStart" disabled>
                 </mat-datepicker-toggle>
                 <mat-datepicker #datePickerDateStart color="primary"></mat-datepicker>
@@ -19,7 +19,7 @@
         <div fxFlex="20" style="padding: 5px;">
             <mat-form-field appearance="outline" style="width: 100%;">
                 <mat-label>Date End</mat-label>
-                <input matInput [matDatepicker]="datePickerDateEnd" [(ngModel)]="_dTRModel.DateEnd" readonly>
+                <input matInput [matDatepicker]="datePickerDateEnd" [(ngModel)]="UIDateEnd" readonly>
                 <mat-datepicker-toggle matSuffix [for]="datePickerDateEnd" disabled>
                 </mat-datepicker-toggle>
                 <mat-datepicker #datePickerDateEnd color="primary"></mat-datepicker>

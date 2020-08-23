@@ -5,7 +5,7 @@ export class DTRLineModel {
     DTRId: number;
     EmployeeId: number;
     Employee: string;
-    DTRDate: Date;
+    DTRDate: string;
     DateType: string;
     IsRestDay: boolean;
     ShiftId: number;
@@ -40,12 +40,12 @@ export class DTRLineModel {
     Remarks: string;
 }
 
-export class DTRLines{
+export class DTRLines {
     DailyTimeRecordModel: DTRModel;
     EmployeeList: any;
     UseEmployeeDefaultShift: boolean;
-    StartDate: Date;
-    EndDate: Date;
+    StartDate: string;
+    EndDate: string;
     TimeIn1: string;
     TimeOut1: string;
     TimeIn2: string;

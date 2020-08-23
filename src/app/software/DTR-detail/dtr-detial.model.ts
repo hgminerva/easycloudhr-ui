@@ -1,12 +1,12 @@
 export class DTRModel {
     Id: number;
     DTRNumber: string;
-    DTRDate: Date;
+    DTRDate: string;
     PayrollGroup: string;
     YearId: number;
     Year: string;
-    DateStart: Date;
-    DateEnd: Date;
+    DateStart: string;
+    DateEnd: string;
     OTId: number;
     OT: string;
     LAId: number;
@@ -22,9 +22,9 @@ export class DTRModel {
     ApprovedByUser: string;
     CreatedByUserId: number;
     CreatedByUser: string;
-    CreatedDateTime: Date;
+    CreatedDateTime: string;
     UpdatedByUserId: number;
     UpdatedByUser: string;
-    UpdatedDateTime: Date;
+    UpdatedDateTime: string;
     IsLocked: boolean;
 }

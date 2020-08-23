@@ -31,8 +31,8 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
     DailyTimeRecordModel: new DTRModel,
     EmployeeList: [],
     UseEmployeeDefaultShift: false,
-    StartDate: new Date(),
-    EndDate: new Date(),
+    StartDate: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
+    EndDate: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
     TimeIn1: '',
     TimeOut1: '',
     TimeIn2: '',
@@ -42,12 +42,12 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
   public _dTRModel: DTRModel = {
     Id: 0,
     DTRNumber: '',
-    DTRDate: new Date(),
+    DTRDate: '',
     PayrollGroup: '',
     YearId: 0,
     Year: '',
-    DateStart: new Date(),
-    DateEnd: new Date(),
+    DateStart: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
+    DateEnd: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
     OTId: 0,
     OT: '',
     LAId: 0,
@@ -63,10 +63,10 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
     ApprovedByUser: '',
     CreatedByUserId: 0,
     CreatedByUser: '',
-    CreatedDateTime: new Date(),
+    CreatedDateTime: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
     UpdatedByUserId: 0,
     UpdatedByUser: '',
-    UpdatedDateTime: new Date(),
+    UpdatedDateTime: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
     IsLocked: false
   };
 
@@ -75,7 +75,7 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
     DTRId: 0,
     EmployeeId: 0,
     Employee: '',
-    DTRDate: new Date(),
+    DTRDate: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
     DateType: '',
     IsRestDay: false,
     ShiftId: 0,
@@ -110,6 +110,9 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
     Remarks: ''
   }
 
+  public UIDateStart = new Date();
+  public UIDateEnd = new Date();
+
   public _title = '';
   public _isComponentsShown: boolean = false;
   public disableComponentOnInsert: boolean = false;
@@ -122,17 +125,33 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
   public _useDefaultShift: any = [{ Value: false, Display: "NO" }, { Value: true, Display: "YES" }];
   public _isEployeeDefaultShift: boolean = false;
 
+  // =============
+  // Employee List
+  // =============
+
+  public _listEmployeeObservableArray: ObservableArray = new ObservableArray();
+  public _listEmployeeCollectionView: CollectionView = new CollectionView(this._listEmployeeObservableArray);
+  @ViewChild('flexEmployees') flexEmployees: wjcGrid.FlexGrid;
+  public _isProgressBarHidden = false;
+  public _isDataLoaded: boolean = false;
+  public _isEmployeeListAuthorized: boolean = false;
+  public _listEmployeeCollectionViewSize: number = 0;
+  public _employees: any;
+
+  private _employeeListSubscription: any;
+
+  
+  public _cboShowNumberOfRows: ObservableArray = new ObservableArray();
+  public _listPageIndex: number = 15;
+
   async ngOnInit() {
     this._title = await this._caseData.objDialogTitle;
     this._dTRModel = this._caseData.objData;
-    this._dTRLines.StartDate = new Date(this.datePipe.transform(this._caseData.objData.DateStart, 'yyyy-MM-dd'));
-    this._dTRLines.EndDate = new Date(this.datePipe.transform(this._caseData.objData.DateEnd, 'yyyy-MM-dd'));
+    this.UIDateStart = new Date(this._caseData.objData.DateStart);
+    this.UIDateEnd = new Date(this._caseData.objData.DateEnd);
     this.Create_cboShowNumberOfRows();
     this.GetEmployeeData();
   }
-
-  public _cboShowNumberOfRows: ObservableArray = new ObservableArray();
-  public _listPageIndex: number = 15;
 
   public Create_cboShowNumberOfRows(): void {
     for (var i = 0; i <= 4; i++) {
@@ -168,20 +187,7 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
     this._listEmployeeCollectionView.refresh();
   }
 
-  // =============
-  // Employee List
-  // =============
-
-  public _listEmployeeObservableArray: ObservableArray = new ObservableArray();
-  public _listEmployeeCollectionView: CollectionView = new CollectionView(this._listEmployeeObservableArray);
-  @ViewChild('flexEmployees') flexEmployees: wjcGrid.FlexGrid;
-  public _isProgressBarHidden = false;
-  public _isDataLoaded: boolean = false;
-  public _isEmployeeListAuthorized: boolean = false;
-  public _listEmployeeCollectionViewSize: number = 0;
-  public _employees: any;
-
-  private _employeeListSubscription: any;
+  
 
   private async GetEmployeeData() {
     this._listEmployeeObservableArray = new ObservableArray();

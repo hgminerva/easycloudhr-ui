@@ -41,7 +41,7 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
     DTRId: 0,
     EmployeeId: 0,
     Employee: '',
-    DTRDate: new Date(),
+    DTRDate: '',
     DateType: '',
     IsRestDay: false,
     ShiftId: 0,
@@ -132,7 +132,8 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
     this._shiftsDropdownSubscription = await (await this._dtrDetialService.ShiftsList()).subscribe(
       response => {
         this._shiftsListDropdown = response;
-        this._dTRLineModel.ShiftId = response[0].Id;
+        console.log(this._shiftsListDropdown);
+        // this._dTRLineModel.ShiftId = response[0].Id;
         this.loadDTRLineDetail();
         if (this._shiftsDropdownSubscription !== null) this._shiftsDropdownSubscription.unsubscribe();
       },
@@ -175,163 +176,11 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
     return `${hrs}:${mins}`;
   }
 
-
-  restrictNumeric(e) {
-    let input;
-    if (e.key == '') {
-      return 0.00;
-    }
-    if (e.metaKey || e.ctrlKey) {
-      return true;
-    }
-    if (e.which === 32) {
-      return false;
-    }
-    if (e.which === 0) {
-      return true;
-    }
-    if (e.which < 33) {
-      return true;
-    }
-    if (e.which < 33) {
-      return true;
-    }
-    input = String.fromCharCode(e.which);
-    return !!/^[0-9.,]+$/.test(input);
-  }
-
-  formatValueNumberOfHoursWorked() {
-    if (this._dTRLineModel.NumberOfHoursWorked == '') {
-      this._dTRLineModel.NumberOfHoursWorked = this._decimalPipe.transform(0, "1.2-2");
-    } else {
-      this._dTRLineModel.NumberOfHoursWorked = this._decimalPipe.transform(this._dTRLineModel.NumberOfHoursWorked, "1.2-2");
-    }
-  }
-
-  formatValueOvertimeHours() {
-    if (this._dTRLineModel.OvertimeHours == '') {
-      this._dTRLineModel.OvertimeHours = this._decimalPipe.transform(0, "1.2-2");
-    } else {
-      this._dTRLineModel.OvertimeHours = this._decimalPipe.transform(this._dTRLineModel.OvertimeHours, "1.2-2");
-    }
-  }
-
-  formatValueNightDifferentialHours() {
-    if (this._dTRLineModel.NightDifferentialHours == '') {
-      this._dTRLineModel.NightDifferentialHours = this._decimalPipe.transform(0, "1.2-2");
-    } else {
-      this._dTRLineModel.NightDifferentialHours = this._decimalPipe.transform(this._dTRLineModel.NightDifferentialHours, "1.2-2");
-    }
-  }
-
-  formatValueLateHours() {
-    if (this._dTRLineModel.LateHours == '') {
-      this._dTRLineModel.LateHours = this._decimalPipe.transform(0, "1.2-2");
-    } else {
-      this._dTRLineModel.LateHours = this._decimalPipe.transform(this._dTRLineModel.LateHours, "1.2-2");
-    }
-  }
-
-  formatValueUndertimeHours() {
-    if (this._dTRLineModel.UndertimeHours == '') {
-      this._dTRLineModel.UndertimeHours = this._decimalPipe.transform(0, "1.2-2");
-    } else {
-      this._dTRLineModel.UndertimeHours = this._decimalPipe.transform(this._dTRLineModel.UndertimeHours, "1.2-2");
-    }
-  }
-
-  formatValueDailyPay() {
-    if (this._dTRLineModel.DailyPay == '') {
-      this._dTRLineModel.DailyPay = this._decimalPipe.transform(0, "1.2-2");
-    } else {
-      this._dTRLineModel.DailyPay = this._decimalPipe.transform(this._dTRLineModel.DailyPay, "1.2-2");
-    }
-  }
-
-  formatValuePremiumPay() {
-    if (this._dTRLineModel.PremiumPay == '') {
-      this._dTRLineModel.PremiumPay = this._decimalPipe.transform(0, "1.2-2");
-    } else {
-      this._dTRLineModel.PremiumPay = this._decimalPipe.transform(this._dTRLineModel.PremiumPay, "1.2-2");
-    }
-  }
-
-  formatValueHolidayPay() {
-    if (this._dTRLineModel.HolidayPay == '') {
-      this._dTRLineModel.HolidayPay = this._decimalPipe.transform(0, "1.2-2");
-    } else {
-      this._dTRLineModel.HolidayPay = this._decimalPipe.transform(this._dTRLineModel.HolidayPay, "1.2-2");
-    }
-  }
-
-  formatValueOvertimePay() {
-    if (this._dTRLineModel.OvertimePay == '') {
-      this._dTRLineModel.OvertimePay = this._decimalPipe.transform(0, "1.2-2");
-    } else {
-      this._dTRLineModel.OvertimePay = this._decimalPipe.transform(this._dTRLineModel.OvertimePay, "1.2-2");
-    }
-  }
-
-  formatValueNightDifferentialPay() {
-    if (this._dTRLineModel.NightDifferentialPay == '') {
-      this._dTRLineModel.NightDifferentialPay = this._decimalPipe.transform(0, "1.2-2");
-    } else {
-      this._dTRLineModel.NightDifferentialPay = this._decimalPipe.transform(this._dTRLineModel.NightDifferentialPay, "1.2-2");
-    }
-  }
-
-  formatValueCOLA() {
-    if (this._dTRLineModel.COLA == '') {
-      this._dTRLineModel.COLA = this._decimalPipe.transform(0, "1.2-2");
-    } else {
-      this._dTRLineModel.COLA = this._decimalPipe.transform(this._dTRLineModel.COLA, "1.2-2");
-    }
-  }
-
-  formatValueAdditionalAllowance() {
-    if (this._dTRLineModel.AdditionalAllowance == '') {
-      this._dTRLineModel.AdditionalAllowance = this._decimalPipe.transform(0, "1.2-2");
-    } else {
-      this._dTRLineModel.AdditionalAllowance = this._decimalPipe.transform(this._dTRLineModel.AdditionalAllowance, "1.2-2");
-    }
-  }
-
-  formatValueLateDeduction() {
-    if (this._dTRLineModel.LateDeduction == '') {
-      this._dTRLineModel.LateDeduction = this._decimalPipe.transform(0, "1.2-2");
-    } else {
-      this._dTRLineModel.LateDeduction = this._decimalPipe.transform(this._dTRLineModel.LateDeduction, "1.2-2");
-    }
-  }
-
-  formatValueUndertimeDeduction() {
-    if (this._dTRLineModel.UndertimeDeduction == '') {
-      this._dTRLineModel.UndertimeDeduction = this._decimalPipe.transform(0, "1.2-2");
-    } else {
-      this._dTRLineModel.UndertimeDeduction = this._decimalPipe.transform(this._dTRLineModel.UndertimeDeduction, "1.2-2");
-    }
-  }
-
-  formatValueAbsentDeduction() {
-    if (this._dTRLineModel.AbsentDeduction == '') {
-      this._dTRLineModel.AbsentDeduction = this._decimalPipe.transform(0, "1.2-2");
-    } else {
-      this._dTRLineModel.AbsentDeduction = this._decimalPipe.transform(this._dTRLineModel.AbsentDeduction, "1.2-2");
-    }
-  }
-
-  formatValueDailyNetPay() {
-    if (this._dTRLineModel.DailyNetPay == '') {
-      this._dTRLineModel.DailyNetPay = this._decimalPipe.transform(0, "1.2-2");
-    } else {
-      this._dTRLineModel.DailyNetPay = this._decimalPipe.transform(this._dTRLineModel.DailyNetPay, "1.2-2");
-    }
-  }
-
   public async loadDTRLineDetail() {
     console.log("Case Data", this._caseData.objDTRLine);
     this._dTRLineModel = await this._caseData.objDTRLine;
     this._dTRLineModel.DTRId = await this._caseData.objDTRLine.DTRId;
+    this._dTRLineModel.ShiftId = await this._caseData.objDTRLine.ShiftId;
     this._dTRLineModel.TimeIn1 = await this.convertTime(this._caseData.objDTRLine.TimeIn1);
     this._dTRLineModel.TimeOut1 = await this.convertTime(this._caseData.objDTRLine.TimeOut1);
     this._dTRLineModel.TimeIn2 = await this.convertTime(this._caseData.objDTRLine.TimeIn2);
