@@ -37,6 +37,8 @@ import { YearDetialComponent } from './year-detail/year-detial/year-detial.compo
 import { LoanListComponent } from './loan-list/loan-list/loan-list.component';
 import { PayrollOtherIncomeListComponent } from './payroll-other-income-list/payroll-other-income-list/payroll-other-income-list.component';
 import { PayrollOtherIncomeDetailComponent } from './payroll-other-income-detail/payroll-other-income-detail/payroll-other-income-detail.component';
+import { PayrollOtherDeductionListComponent } from './payroll-other-deduction-list/payroll-other-deduction-list/payroll-other-deduction-list.component';
+import { PayrollOtherDeductionDetailComponent } from './payroll-other-deduction-detail/payroll-other-deduction-detail/payroll-other-deduction-detail.component';
 
 const routes: Routes = [
   {
@@ -74,7 +76,8 @@ const routes: Routes = [
       { path: 'loan-list', canActivate: [SoftwareRoutingActivate], component: LoanListComponent },
       { path: 'payroll-other-income-list', canActivate: [SoftwareRoutingActivate], component: PayrollOtherIncomeListComponent },
       { path: 'payroll-other-income-detail/:id', canActivate: [SoftwareRoutingActivate], component: PayrollOtherIncomeDetailComponent },
-
+      { path: 'payroll-other-deduction-list', canActivate: [SoftwareRoutingActivate], component: PayrollOtherDeductionListComponent },
+      { path: 'payroll-other-deduction-detail/:id', canActivate: [SoftwareRoutingActivate], component: PayrollOtherDeductionDetailComponent },
     ]
   }
 ];

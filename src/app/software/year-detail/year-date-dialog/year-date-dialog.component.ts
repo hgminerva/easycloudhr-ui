@@ -32,9 +32,9 @@ export class YearDateDialogComponent implements OnInit {
   public _yearDateModel: YearDateModel = {
     Id: 0,
     YearId: 0,
-    YearDate: '',
+    YearDate: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
     Branch: '',
-    DateType: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
+    DateType: '',
     Remarks: ''
   }
 
@@ -98,7 +98,6 @@ export class YearDateDialogComponent implements OnInit {
       this.isComponentHidden = false;
     }, 100);
   }
-
 
   public GetUIDATEYearDate() {
     this._yearDateModel.YearDate = this.datePipe.transform(this.UIYearDate, 'yyyy-MM-dd');

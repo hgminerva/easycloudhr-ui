@@ -1,1 +1,116 @@
-<p>payroll-other-deduction-list works!</p>
+<mat-toolbar>
+    <img src="../../../../assets/menu-icons/other deductions.png" height="35" />
+    <span>&nbsp;&nbsp; Payroll Other Deduciton List</span>
+    <span class="spacer"></span>
+    <button mat-flat-button color="primary"
+        style="float: right;background-color: #742774; color: cornsilk; margin: 5px;" [disabled]="_buttonDisabled"
+        (click)="AddPayrollOtherDeduction()">
+        <mat-icon>add</mat-icon>
+        Add
+    </button>
+    <button mat-raised-button style="margin: 5px;" routerLink="/software" color="warn">
+        <mat-icon>close</mat-icon>
+        Close
+    </button>
+</mat-toolbar>
+<div class="software-container">
+    <div fxLayout="row" fxLayout.xs="column">
+
+        <div fxFlex="20" style="padding: 5px;">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Payroll Group</mat-label>
+                <mat-select [(ngModel)]="_filterPayrollGroup" (selectionChange)='PayrollGroupSelectionChange()'>
+                    <mat-option *ngFor="let payrollGroup of _payrollGroupListDropdown" [value]="payrollGroup.Value">
+                        {{payrollGroup.Value}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+    </div>
+    <div fxLayout="row" fxLayout.xs="column">
+        <div fxFlex="100" style="margin: 5px;">
+            <mat-progress-bar *ngIf="_isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'">
+            </mat-progress-bar>
+            <wj-flex-grid #flexPayrollOtherDeduction [itemsSource]="_listPayrollOtherDeductionCollectionView"
+                [selectionMode]="3" [frozenColumns]="2">
+                <wj-flex-grid-filter></wj-flex-grid-filter>
+                <wj-flex-grid-column [isReadOnly]="true" [width]="90">
+                    <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
+                        <button mat-raised-button color="primary"
+                            style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
+                            (click)="EditPayrollOtherDeduction()" id="btnEditPayrollOtherDeduction">
+                            <mat-icon>edit</mat-icon>
+                            Edit
+                        </button>
+                    </ng-template>
+                </wj-flex-grid-column>
+                <wj-flex-grid-column [isReadOnly]="true" [width]="90">
+                    <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
+                        <button mat-raised-button color="warn"
+                            style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
+                            (click)="ComfirmDeletePayrollOtherDeduction()">
+                            <mat-icon>delete</mat-icon>
+                            Delete
+                        </button>
+                    </ng-template>
+                </wj-flex-grid-column>
+                <wj-flex-grid-column [header]="'PD No.'" [binding]="'PDNumber'" [isReadOnly]="true" [isReadOnly]="true"
+                    [width]="100">
+                </wj-flex-grid-column>
+                <wj-flex-grid-column [header]="'Date'" [binding]="'PDDate'" [isReadOnly]="true" [isReadOnly]="true"
+                    [width]="100">
+                </wj-flex-grid-column>
+                <wj-flex-grid-column [header]="'Year'" [binding]="'Year'" [isReadOnly]="true" [isReadOnly]="true"
+                    [width]="100">
+                </wj-flex-grid-column>
+                <wj-flex-grid-column [header]="'Remarks'" [binding]="'Remarks'" [isReadOnly]="true" [isReadOnly]="true"
+                    [width]="'2*'">
+                </wj-flex-grid-column>
+                <wj-flex-grid-column [header]="'Prepared By'" [binding]="'PreparedByUser'" [isReadOnly]="true"
+                    [isReadOnly]="true" [width]="'2*'">
+                </wj-flex-grid-column>
+                <wj-flex-grid-column [header]="'L'" [binding]="'IsLocked'" [isReadOnly]="true" [isReadOnly]="true"
+                    [width]="40">
+                </wj-flex-grid-column>
+            </wj-flex-grid>
+
+        </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column">
+        <div fxFlex="20" style="padding: 2px;">
+            <div fxLayout="row" fxLayout.xs="column">
+                <mat-button-toggle-group style="margin-top: 7px;">
+                    <mat-button-toggle (click)="_listPayrollOtherDeductionCollectionView.moveToFirstPage()">
+                        <mat-icon style="margin-right: -15px">navigate_before</mat-icon>
+                        <mat-icon>navigate_before</mat-icon>
+                    </mat-button-toggle>
+                    <mat-button-toggle (click)="_listPayrollOtherDeductionCollectionView.moveToPreviousPage()">
+                        <mat-icon>navigate_before</mat-icon>
+                    </mat-button-toggle>
+                    <mat-button-toggle style="width: 100px;">{{ _listPayrollOtherDeductionCollectionView.pageIndex + 1 }}
+                        /
+                        {{ _listPayrollOtherDeductionCollectionView.pageCount }}</mat-button-toggle>
+                    <mat-button-toggle (click)="_listPayrollOtherDeductionCollectionView.moveToNextPage()">
+                        <mat-icon>navigate_next</mat-icon>
+                    </mat-button-toggle>
+                    <mat-button-toggle (click)="_listPayrollOtherDeductionCollectionView.moveToLastPage()">
+                        <mat-icon style="margin-right: -15px">navigate_next</mat-icon>
+                        <mat-icon>navigate_next</mat-icon>
+                    </mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+        </div>
+        <div fxFlex="15" style="padding: 5px;">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Row</mat-label>
+                <mat-select [(ngModel)]="_listPageIndex"
+                    (selectionChange)='CboShowNumberOfRowsOnSelectedIndexChanged()'>
+                    <mat-option *ngFor="let rowSize of _createCboShowNumberOfRows" [value]="rowSize.rowNumber">
+                        {{rowSize.rowString}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+</div>
