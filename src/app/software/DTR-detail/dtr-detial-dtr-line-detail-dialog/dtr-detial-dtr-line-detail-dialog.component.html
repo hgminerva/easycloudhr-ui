@@ -152,7 +152,7 @@
                         <p>Late Hours:</p>
                         <p>Undertime Hours:</p>
                     </div>
-                    <div fxFlex="30">
+                    <div fxFlex="30" class="regular-detail">
                         <p><span>{{_dTRLineModel.NumberOfHoursWorked}}</span></p>
                         <p><span>{{_dTRLineModel.OvertimeHours}}</span></p>
                         <p><span>{{_dTRLineModel.NightDifferentialHours}}</span>
@@ -169,7 +169,7 @@
                         <p>Overtime Pay:</p>
                         <p>Night Differential Pay:</p>
                     </div>
-                    <div fxFlex="30">
+                    <div fxFlex="30" class="regular-detail">
                         <p><span>{{_dTRLineModel.DailyPay}}</span></p>
                         <p><span>{{_dTRLineModel.PremiumPay}}</span></p>
                         <p><span>{{_dTRLineModel.HolidayPay}}</span></p>
@@ -184,7 +184,7 @@
                             <p>COLA:</p>
                             <p>Additional Allowance:</p>
                         </div>
-                        <div fxFlex="30">
+                        <div fxFlex="30" class="regular-detail">
                             <p><span>{{_dTRLineModel.COLA}}</span></p>
                             <p><span>{{_dTRLineModel.AdditionalAllowance}}</span></p>
                         </div>
@@ -208,8 +208,8 @@
 
                     </div>
                 </div>
-                <div fxFlex="25" style="padding: 5px;">
-                    <h2><b>Daily Net Pay:</b>&nbsp;&nbsp; <b>{{_dTRLineModel.DailyNetPay}}</b></h2>
+                <div fxFlex="25" style="padding: 5px;" class="regular-detail">
+                    <h2><b>Daily Net Pay:</b>&nbsp;&nbsp; P&nbsp;<b>{{_dTRLineModel.DailyNetPay}}</b></h2>
                 </div>
             </div>
         </mat-tab>
