@@ -24,46 +24,43 @@ import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-
 })
 export class PayrollOtherDeductionDetailComponent implements OnInit {
 
-  constructor(){}
-  async ngOnInit() {}
+  constructor(
+    private _payrollOtherDeductionDetailService: PayrollOtherDeductionDetailService,
+    private _activatedRoute: ActivatedRoute,
+    private _snackBar: MatSnackBar,
+    private _snackBarTemplate: SnackBarTemplate,
+    public _matDialog: MatDialog,
+    private datePipe: DatePipe
 
-  // constructor(
-  //   private _payrollOtherDeductionDetailService: PayrollOtherDeductionDetailService,
-  //   private _activatedRoute: ActivatedRoute,
-  //   private _snackBar: MatSnackBar,
-  //   private _snackBarTemplate: SnackBarTemplate,
-  //   public _matDialog: MatDialog,
-  //   private datePipe: DatePipe
+  ) { }
 
-  // ) { }
+  async ngOnInit() {
+    // await this.UserListData();
+  }
 
-  // async ngOnInit() {
-  //   await this.UserListData();
-  // }
+  public _isProgressBarHidden: boolean = false;
+  public _isComponentsShown: boolean = true;
 
-  // public _isProgressBarHidden: boolean = false;
-  // public _isComponentsShown: boolean = true;
+  public _btnSaveDisabled: boolean = true;
+  public _btnLockisabled: boolean = true;
+  public _btnUnlockDisabled: boolean = true;
 
-  // public _btnSaveDisabled: boolean = true;
-  // public _btnLockisabled: boolean = true;
-  // public _btnUnlockDisabled: boolean = true;
+  public _isDataLoaded: boolean = false;
+  public _isLocked: boolean = false;
 
-  // public _isDataLoaded: boolean = false;
-  // public _isLocked: boolean = false;
+  public _payrollGroupDropdownSubscription: any;
+  public _payrollGroupListDropdown: any = [];
 
-  // public _payrollGroupDropdownSubscription: any;
-  // public _payrollGroupListDropdown: any = [];
+  public _yearDropdownSubscription: any;
+  public _yearListDropdown: any = [];
 
-  // public _yearDropdownSubscription: any;
-  // public _yearListDropdown: any = [];
+  public _userDropdownSubscription: any;
+  public _userListDropdown: any = [];
 
-  // public _userDropdownSubscription: any;
-  // public _userListDropdown: any = [];
-
-  // public _changePayrollOtherIncomeDetailSubscription: any;
-  // public _savePayrollOtherIncomeDetailSubscription: any;
-  // public _lockPayrollOtherIncomeDetailSubscription: any;
-  // public _unlockPayrollOtherIncomeDetailSubscription: any;
+  public _changePayrollOtherDeductionDetailSubscription: any;
+  public _savePayrollOtherDeductionDetailSubscription: any;
+  public _lockPayrollOtherDeductionDetailSubscription: any;
+  public _unlockPayrollOtherDeductionDetailSubscription: any;
 
   // public _payrollOtherIncomeModel: PayrollOtherIncomeModel = {
   //   Id: 0,
@@ -152,7 +149,7 @@ export class PayrollOtherDeductionDetailComponent implements OnInit {
   //   this._isProgressBarHidden = true;
 
   //   this.DisableButtons();
-  //   this._changePayrollOtherIncomeDetailSubscription = await (await this._payrollOtherDeductionDetailService.PayrollOtherIncomeDetail(id)).subscribe(
+  //   this._changePayrollOtherDeductionDetailSubscription = await (await this._payrollOtherDeductionDetailService.PayrollOtherIncomeDetail(id)).subscribe(
   //     (response: any) => {
   //       let result = response;
   //       if (result != null) {
@@ -165,11 +162,11 @@ export class PayrollOtherDeductionDetailComponent implements OnInit {
   //       this._isDataLoaded = true;
   //       this._isProgressBarHidden = false;
   //       this._isComponentsShown = false;
-  //       if (this._changePayrollOtherIncomeDetailSubscription !== null) this._changePayrollOtherIncomeDetailSubscription.unsubscribe();
+  //       if (this._changePayrollOtherDeductionDetailSubscription !== null) this._changePayrollOtherDeductionDetailSubscription.unsubscribe();
   //     },
   //     error => {
   //       this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-  //       if (this._changePayrollOtherIncomeDetailSubscription !== null) this._changePayrollOtherIncomeDetailSubscription.unsubscribe();
+  //       if (this._changePayrollOtherDeductionDetailSubscription !== null) this._changePayrollOtherDeductionDetailSubscription.unsubscribe();
   //     }
   //   );
   // }
@@ -183,18 +180,18 @@ export class PayrollOtherDeductionDetailComponent implements OnInit {
   //   if (this._isDataLoaded == true) {
   //     this._isDataLoaded = false;
   //     this.DateFormatSelectedDate();
-  //     this._savePayrollOtherIncomeDetailSubscription = (await this._payrollOtherDeductionDetailService.SavePayrollOtherIncome(this._payrollOtherIncomeModel.Id, this._payrollOtherIncomeModel)).subscribe(
+  //     this._savePayrollOtherDeductionDetailSubscription = (await this._payrollOtherDeductionDetailService.SavePayrollOtherIncome(this._payrollOtherIncomeModel.Id, this._payrollOtherIncomeModel)).subscribe(
   //       response => {
   //         this.loadComponent(this._payrollOtherIncomeModel.IsLocked);
   //         this._isDataLoaded = true;
   //         this._snackBarTemplate.snackBarSuccess(this._snackBar, "Save Successfully.");
-  //         if (this._savePayrollOtherIncomeDetailSubscription !== null) this._savePayrollOtherIncomeDetailSubscription.unsubscribe();
+  //         if (this._savePayrollOtherDeductionDetailSubscription !== null) this._savePayrollOtherDeductionDetailSubscription.unsubscribe();
   //       },
   //       error => {
   //         this.loadComponent(this._payrollOtherIncomeModel.IsLocked);
   //         this._isDataLoaded = true;
   //         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-  //         if (this._savePayrollOtherIncomeDetailSubscription !== null) this._savePayrollOtherIncomeDetailSubscription.unsubscribe();
+  //         if (this._savePayrollOtherDeductionDetailSubscription !== null) this._savePayrollOtherDeductionDetailSubscription.unsubscribe();
   //       }
   //     );
   //   }
@@ -205,18 +202,18 @@ export class PayrollOtherDeductionDetailComponent implements OnInit {
   //   if (this._isDataLoaded == true) {
   //     this._isDataLoaded = false;
   //     this.DateFormatSelectedDate();
-  //     this._lockPayrollOtherIncomeDetailSubscription = await (await this._payrollOtherDeductionDetailService.LockPayrollOtherIncome(this._payrollOtherIncomeModel.Id, this._payrollOtherIncomeModel)).subscribe(
+  //     this._lockPayrollOtherDeductionDetailSubscription = await (await this._payrollOtherDeductionDetailService.LockPayrollOtherIncome(this._payrollOtherIncomeModel.Id, this._payrollOtherIncomeModel)).subscribe(
   //       response => {
   //         this.loadComponent(true);
   //         this._isDataLoaded = true;
   //         this._snackBarTemplate.snackBarSuccess(this._snackBar, "Lock Successfully.");
-  //         if (this._lockPayrollOtherIncomeDetailSubscription !== null) this._lockPayrollOtherIncomeDetailSubscription.unsubscribe();
+  //         if (this._lockPayrollOtherDeductionDetailSubscription !== null) this._lockPayrollOtherDeductionDetailSubscription.unsubscribe();
   //       },
   //       error => {
   //         this.loadComponent(false);
   //         this._isDataLoaded = true;
   //         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-  //         if (this._lockPayrollOtherIncomeDetailSubscription !== null) this._lockPayrollOtherIncomeDetailSubscription.unsubscribe();
+  //         if (this._lockPayrollOtherDeductionDetailSubscription !== null) this._lockPayrollOtherDeductionDetailSubscription.unsubscribe();
   //       }
   //     );
   //   }
@@ -226,18 +223,18 @@ export class PayrollOtherDeductionDetailComponent implements OnInit {
   //   this.DisableButtons();
   //   if (this._isDataLoaded == true) {
   //     this._isDataLoaded = false;
-  //     this._unlockPayrollOtherIncomeDetailSubscription = await (await this._payrollOtherDeductionDetailService.UnlockPayrollOtherIncome(this._payrollOtherIncomeModel.Id)).subscribe(
+  //     this._unlockPayrollOtherDeductionDetailSubscription = await (await this._payrollOtherDeductionDetailService.UnlockPayrollOtherIncome(this._payrollOtherIncomeModel.Id)).subscribe(
   //       response => {
   //         this.loadComponent(false);
   //         this._isDataLoaded = true;
   //         this._snackBarTemplate.snackBarSuccess(this._snackBar, "Unlock Successfully.");
-  //         if (this._unlockPayrollOtherIncomeDetailSubscription !== null) this._unlockPayrollOtherIncomeDetailSubscription.unsubscribe();
+  //         if (this._unlockPayrollOtherDeductionDetailSubscription !== null) this._unlockPayrollOtherDeductionDetailSubscription.unsubscribe();
   //       },
   //       error => {
   //         this.loadComponent(true);
   //         this._isDataLoaded = true;
   //         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-  //         if (this._unlockPayrollOtherIncomeDetailSubscription !== null) this._unlockPayrollOtherIncomeDetailSubscription.unsubscribe();
+  //         if (this._unlockPayrollOtherDeductionDetailSubscription !== null) this._unlockPayrollOtherDeductionDetailSubscription.unsubscribe();
   //       }
   //     );
   //   }
