@@ -27,7 +27,7 @@ export class OvertimeApplicationLineDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.title = this.caseData.objDialogTitle;
-    this.loadShiftLineDetail();
+    this.loadOvertimeApplicationLineDetail();
   }
 
   public _overtimeApplicationLineModel: OvertimeApplicationLineModel = {
@@ -35,7 +35,7 @@ export class OvertimeApplicationLineDialogComponent implements OnInit {
     OTId: 0,
     EmployeeId: 0,
     Employee: '',
-    OTDate: new Date(),
+    OTDate: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
     OTHours: '',
     Remarks: ''
   }
@@ -43,20 +43,21 @@ export class OvertimeApplicationLineDialogComponent implements OnInit {
   public title = '';
   public Employee = '';
   public inputTypeOTHours = 'text';
+  public UIOTDate = new Date();
 
   public isComponentHidden: boolean = true;
 
-  private loadShiftLineDetail() {
+  private loadOvertimeApplicationLineDetail() {
     this._overtimeApplicationLineModel.Id = this.caseData.objOvertimeApplicationLine.Id;
     this._overtimeApplicationLineModel.OTId = this.caseData.objOvertimeApplicationLine.OTId;
     this._overtimeApplicationLineModel.EmployeeId = this.caseData.objOvertimeApplicationLine.EmployeeId;
     this._overtimeApplicationLineModel.Employee = this.caseData.objOvertimeApplicationLine.Employee;
     this._overtimeApplicationLineModel.Remarks = this.caseData.objOvertimeApplicationLine.Remarks;
-    this._overtimeApplicationLineModel.OTHours =  this.decimalPipe.transform(this.caseData.objOvertimeApplicationLine.OTHours, "1.2-2");
-    this._overtimeApplicationLineModel.OTDate = new Date(this.caseData.objOvertimeApplicationLine.OTDate);
+    this._overtimeApplicationLineModel.OTHours = this.decimalPipe.transform(this.caseData.objOvertimeApplicationLine.OTHours, "1.2-2");
+    this._overtimeApplicationLineModel.OTDate = this.caseData.objOvertimeApplicationLine.OTDate;
 
     if (this._overtimeApplicationLineModel.Id != 0) {
-      this._overtimeApplicationLineModel.OTDate = new Date(this.caseData.objOvertimeApplicationLine.OTDate);
+      this.UIOTDate = new Date(this.caseData.objOvertimeApplicationLine.OTDate);
     }
 
     console.log(this._overtimeApplicationLineModel);
@@ -69,12 +70,13 @@ export class OvertimeApplicationLineDialogComponent implements OnInit {
     this.dialogRef.close({ event: 'Close' });
   }
 
-  public DateFormatedSelectedDate() {
-    this._overtimeApplicationLineModel.OTDate = new Date(this.datePipe.transform( this._overtimeApplicationLineModel.OTDate, 'yyyy-MM-dd'));
+  public GetUIDATEOTDate() {
+    this._overtimeApplicationLineModel.OTDate = this.datePipe.transform(this.UIOTDate, 'yyyy-MM-dd');
+    console.log(this._overtimeApplicationLineModel.OTDate);
   }
 
+
   public async Save() {
-    this.DateFormatedSelectedDate();
     if (this._overtimeApplicationLineModel.EmployeeId != 0) {
       await this.dialogRef.close({ event: this.title, data: this._overtimeApplicationLineModel });
     } else {
@@ -104,7 +106,7 @@ export class OvertimeApplicationLineDialogComponent implements OnInit {
 
 
   formatValueOTHours() {
-    this.inputTypeOTHours= 'text';
+    this.inputTypeOTHours = 'text';
 
     if (this._overtimeApplicationLineModel.OTHours == '') {
       this._overtimeApplicationLineModel.OTHours = this.decimalPipe.transform(0, "1.2-2");
@@ -114,7 +116,7 @@ export class OvertimeApplicationLineDialogComponent implements OnInit {
   }
 
   OTHoursToNumberType() {
-    this.inputTypeOTHours= 'number';
+    this.inputTypeOTHours = 'number';
   }
 
 

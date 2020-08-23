@@ -1,7 +1,7 @@
 export class OvertimeApplicationModel {
     Id: number;
     OTNumber: string;
-    OTDate: Date;
+    OTDate: string;
     PayrollGroup: string;
     YearId: number;
     Year: string;

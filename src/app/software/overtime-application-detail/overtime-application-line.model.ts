@@ -3,7 +3,7 @@ export class OvertimeApplicationLineModel {
     OTId: number;
     EmployeeId: number;
     Employee: string;
-    OTDate: Date;
+    OTDate: string;
     OTHours: string;
     Remarks: string;
 }

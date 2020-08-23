@@ -63,7 +63,7 @@ export class OvertimeApplicationDetailComponent implements OnInit {
   public _overtimeApplicationModel: OvertimeApplicationModel = {
     Id: 0,
     OTNumber: '',
-    OTDate: new Date(),
+    OTDate: '',
     PayrollGroup: '',
     YearId: 0,
     Year: '',
@@ -83,12 +83,14 @@ export class OvertimeApplicationDetailComponent implements OnInit {
     IsLocked: false
   };
 
+  public UIOTDate = new Date();
+
   public _overtimeApplicationLineModel: OvertimeApplicationLineModel = {
     Id: 0,
     OTId: 0,
     EmployeeId: 0,
     Employee: '',
-    OTDate: new Date(),
+    OTDate: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
     OTHours: '0',
     Remarks: ''
   }
@@ -163,7 +165,7 @@ export class OvertimeApplicationDetailComponent implements OnInit {
         console.log(result);
         if (result != null) {
           this._overtimeApplicationModel = result;
-          this._overtimeApplicationModel.OTDate = new Date(result["OTDate"]);
+          this.UIOTDate = new Date(result["OTDate"]);
           this._overtimeApplicationLineModel.OTId = result["Id"];
         }
 
@@ -180,15 +182,16 @@ export class OvertimeApplicationDetailComponent implements OnInit {
     );
   }
 
-  public DateFormatedSelectedDate() {
-    this._overtimeApplicationModel.OTDate = new Date(this.datePipe.transform(this._overtimeApplicationModel.OTDate, 'yyyy-MM-dd'));
+  public GetUIDATEOTDate() {
+    this._overtimeApplicationModel.OTDate = this.datePipe.transform(this.UIOTDate, 'yyyy-MM-dd');
+    console.log(this._overtimeApplicationModel.OTDate);
   }
 
   public async SaveOvertimeApplicationDetail() {
     this.DisableButtons();
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
-      this.DateFormatedSelectedDate();
+      console.log(this._overtimeApplicationModel);;
       this._saveOvertimeApplicationDetailSubscription = (await this._overtimeApplicationDetailService.SaveOvertimeApplication(this._overtimeApplicationModel.Id, this._overtimeApplicationModel)).subscribe(
         response => {
           this.loadComponent(this._overtimeApplicationModel.IsLocked);
@@ -210,7 +213,6 @@ export class OvertimeApplicationDetailComponent implements OnInit {
     this.DisableButtons();
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
-      this.DateFormatedSelectedDate();
       this._lockOvertimeApplicationDetailSubscription = await (await this._overtimeApplicationDetailService.LockOvertimeApplication(this._overtimeApplicationModel.Id, this._overtimeApplicationModel)).subscribe(
         response => {
           this.loadComponent(true);
