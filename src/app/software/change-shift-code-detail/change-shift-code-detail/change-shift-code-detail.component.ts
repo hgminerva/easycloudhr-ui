@@ -66,7 +66,7 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
   public _changeShiftModel: ChangeShiftModel = {
     Id: 0,
     CSNumber: '',
-    CSDate: new Date(),
+    CSDate: '',
     PayrollGroup: '',
     YearId: 0,
     Year: '',
@@ -86,12 +86,14 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
     IsLocked: false
   };
 
+  public UICSDate = new Date();
+
   public _changeShiftLineModel: ChangeShiftLineModel = {
     Id: 0,
     CSId: 0,
     EmployeeId: 0,
     Employee: '',
-    ShiftDate: new Date(),
+    ShiftDate: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
     ShiftId: 0,
     Branch: '',
     Remarks: ''
@@ -170,7 +172,7 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
         console.log(result);
         if (result != null) {
           this._changeShiftModel = result;
-          this._changeShiftModel.CSDate = new Date(result["CSDate"]);
+          this.UICSDate = new Date(result["CSDate"]);
           this._changeShiftLineModel.CSId = result["Id"];
         }
         this.loadComponent(result["IsLocked"]);
@@ -187,15 +189,15 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
     );
   }
 
-  public DateFormatedSelectedDate() {
-    this._changeShiftModel.CSDate = new Date(this.datePipe.transform(this._changeShiftModel.CSDate, 'yyyy-MM-dd'));
+  public GetUIDATECSDate() {
+    this._changeShiftModel.CSDate = this.datePipe.transform(this.UICSDate, 'yyyy-MM-dd');
+    console.log(this._changeShiftModel.CSDate);
   }
 
   public async SaveChangeShiftCodeDetail() {
     this.DisableButtons();
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
-      this.DateFormatedSelectedDate();
       this._saveChangeShiftCodeDetailSubscription = (await this._changeShiftCodeDetailService.SaveChangeShiftCode(this._changeShiftModel.Id, this._changeShiftModel)).subscribe(
         response => {
           this.loadComponent(this._changeShiftModel.IsLocked);
@@ -217,7 +219,6 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
     this.DisableButtons();
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
-      this.DateFormatedSelectedDate();
       this._lockchangeShiftCodeDetailSubscription = await (await this._changeShiftCodeDetailService.LockChangeShiftCode(this._changeShiftModel.Id, this._changeShiftModel)).subscribe(
         response => {
           this.loadComponent(true);

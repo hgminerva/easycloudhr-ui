@@ -16,7 +16,8 @@
             <div fxFlex="25" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>Date</mat-label>
-                    <input matInput [matDatepicker]="datePickerShiftDate" [(ngModel)]="_changeShiftLine.ShiftDate">
+                    <input matInput [matDatepicker]="datePickerShiftDate" [(ngModel)]="UIShiftDate"
+                        (dateInput)="GetUIDATEShiftDate()">
                     <mat-datepicker-toggle matSuffix [for]="datePickerShiftDate">
                     </mat-datepicker-toggle>
                     <mat-datepicker #datePickerShiftDate color="primary"></mat-datepicker>

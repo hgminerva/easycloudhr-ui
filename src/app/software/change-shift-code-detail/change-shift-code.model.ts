@@ -1,7 +1,7 @@
 export class ChangeShiftModel {
     Id: number;
     CSNumber: string;
-    CSDate: Date;
+    CSDate: string;
     PayrollGroup: string;
     YearId: number;
     Year: string;

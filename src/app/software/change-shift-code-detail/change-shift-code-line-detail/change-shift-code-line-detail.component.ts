@@ -34,11 +34,13 @@ export class ChangeShiftCodeLineDetailComponent implements OnInit {
     CSId: 0,
     EmployeeId: 0,
     Employee: '',
-    ShiftDate: new Date(),
+    ShiftDate: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
     ShiftId: 0,
     Branch: '',
     Remarks: ''
   }
+
+  public UIShiftDate = new Date();
 
   public title = '';
   public Employee = '';
@@ -89,10 +91,10 @@ export class ChangeShiftCodeLineDetailComponent implements OnInit {
     this._changeShiftLine.EmployeeId = this.caseData.objChangeShiftLine.EmployeeId;
     this._changeShiftLine.Employee = this.caseData.objChangeShiftLine.Employee;
     this._changeShiftLine.Remarks = this.caseData.objChangeShiftLine.Remarks;
-    this._changeShiftLine.ShiftDate = new Date(this.caseData.objChangeShiftLine.ShiftDate);
+    this._changeShiftLine.ShiftDate = this.caseData.objChangeShiftLine.ShiftDate;
 
     if (this._changeShiftLine.Id != 0) {
-      this._changeShiftLine.ShiftDate = new Date(this.caseData.objChangeShiftLine.ShiftDate);
+      this.UIShiftDate = new Date(this.caseData.objChangeShiftLine.ShiftDate);
       this._changeShiftLine.Branch = this.caseData.objChangeShiftLine.Branch;
     }
 
@@ -106,12 +108,12 @@ export class ChangeShiftCodeLineDetailComponent implements OnInit {
     this.dialogRef.close({ event: 'Close' });
   }
 
-  public DateFormatedSelectedDate() {
-    this._changeShiftLine.ShiftDate = new Date(this.datePipe.transform(this._changeShiftLine.ShiftDate, 'yyyy-MM-dd'));
+  public GetUIDATEShiftDate() {
+    this._changeShiftLine.ShiftDate = this.datePipe.transform(this.UIShiftDate, 'yyyy-MM-dd');
+    console.log(this._changeShiftLine.ShiftDate);
   }
 
   public async Save() {
-    this.DateFormatedSelectedDate();
     if (this._changeShiftLine.EmployeeId != 0) {
       await this.dialogRef.close({ event: this.title, data: this._changeShiftLine });
     } else {

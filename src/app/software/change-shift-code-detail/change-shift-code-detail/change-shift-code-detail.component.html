@@ -49,8 +49,8 @@
                     <div fxFlex="25" style="padding: 5px;">
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Date</mat-label>
-                            <input matInput [matDatepicker]="datePickerCSDate" [(ngModel)]="_changeShiftModel.CSDate"
-                                [disabled]="_isLocked">
+                            <input matInput [matDatepicker]="datePickerCSDate" [(ngModel)]="UICSDate"
+                                (dateInput)="GetUIDATECSDate()" [disabled]="_isLocked">
                             <mat-datepicker-toggle matSuffix [for]="datePickerCSDate" [disabled]="_isLocked">
                             </mat-datepicker-toggle>
                             <mat-datepicker #datePickerCSDate color="primary"></mat-datepicker>

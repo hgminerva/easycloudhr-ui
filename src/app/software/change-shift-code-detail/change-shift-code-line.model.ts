@@ -3,7 +3,7 @@ export class ChangeShiftLineModel {
     CSId: number;
     EmployeeId: number;
     Employee: string;
-    ShiftDate: Date;
+    ShiftDate: string;
     ShiftId: number;
     Branch: string;
     Remarks: string;
