@@ -9,7 +9,7 @@
             <div fxFlex="33" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>Date</mat-label>
-                    <input matInput [matDatepicker]="datePickerYearDate" [(ngModel)]="_yearDateModel.YearDate">
+                    <input matInput [matDatepicker]="datePickerYearDate" [(ngModel)]="UIYearDate" (dateInput)="GetUIDATEYearDate()">
                     <mat-datepicker-toggle matSuffix [for]="datePickerYearDate">
                     </mat-datepicker-toggle>
                     <mat-datepicker #datePickerYearDate color="primary"></mat-datepicker>

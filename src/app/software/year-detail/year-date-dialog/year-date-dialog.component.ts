@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { YearDetialService } from '../year-detial.service';
 import { YearDateModel } from '../year-date.model';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-year-date-dialog',
@@ -19,6 +20,7 @@ export class YearDateDialogComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
     public _matDialog: MatDialog,
+    private datePipe: DatePipe
   ) { }
 
 
@@ -30,11 +32,13 @@ export class YearDateDialogComponent implements OnInit {
   public _yearDateModel: YearDateModel = {
     Id: 0,
     YearId: 0,
-    YearDate: new Date(),
+    YearDate: '',
     Branch: '',
-    DateType: '',
+    DateType: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
     Remarks: ''
   }
+
+  public UIYearDate = new Date();
 
   public title = '';
 
@@ -81,17 +85,24 @@ export class YearDateDialogComponent implements OnInit {
   private loadShiftLineDetail() {
     this._yearDateModel.Id = this.caseData.objYearDate.Id;
     this._yearDateModel.YearId = this.caseData.objYearDate.YearId;
-    this._yearDateModel.YearDate = new Date(this.caseData.objYearDate.YearDate);
+    this._yearDateModel.YearDate = this.caseData.objYearDate.YearDate;
     this._yearDateModel.Remarks = this.caseData.objYearDate.Remarks;
 
     if (this._yearDateModel.Id != 0) {
       this._yearDateModel.Branch = this.caseData.objYearDate.Branch;
       this._yearDateModel.DateType = this.caseData.objYearDate.DateType;
+      this.UIYearDate = new Date(this.caseData.objYearDate.YearDate)
     }
 
     setTimeout(() => {
       this.isComponentHidden = false;
     }, 100);
+  }
+
+
+  public GetUIDATEYearDate() {
+    this._yearDateModel.YearDate = this.datePipe.transform(this.UIYearDate, 'yyyy-MM-dd');
+    console.log(this._yearDateModel.YearDate);
   }
 
   public Close(): void {

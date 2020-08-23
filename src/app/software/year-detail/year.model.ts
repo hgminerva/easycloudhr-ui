@@ -2,8 +2,8 @@ export class YearModel {
     Id: number;
     YearCode: string;
     Year: string;
-    DateStart: Date;
-    DateEnd: Date;
+    DateStart: string;
+    DateEnd: string;
     IsClose: boolean;
     CreatedByUserId: number;
     CreatedByUser: string;

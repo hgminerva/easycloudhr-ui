@@ -8,11 +8,12 @@ import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 
-import {YearModel} from './../year.model';
-import {YearDateModel} from './../year-date.model';
-import {YearDetialService} from './../year-detial.service';
+import { YearModel } from './../year.model';
+import { YearDateModel } from './../year-date.model';
+import { YearDetialService } from './../year-detial.service';
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { YearDateDialogComponent } from '../year-date-dialog/year-date-dialog.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-year-detial',
@@ -27,6 +28,7 @@ export class YearDetialComponent implements OnInit {
     private _snackBarTemplate: SnackBarTemplate,
     public YearDateDetailDialog: MatDialog,
     public deleteYearDateDetailDialog: MatDialog,
+    private datePipe: DatePipe
   ) { }
 
   public title = '';
@@ -34,22 +36,6 @@ export class YearDetialComponent implements OnInit {
 
   ngOnInit(): void {
     this.GetYearDetail();
-  }
-
-  public _yearModel: YearModel = {
-    Id: 0,
-    YearCode: '',
-    Year: '',
-    DateStart: new Date(),
-    DateEnd: new Date(),
-    IsClose: false,
-    CreatedByUserId: 0,
-    CreatedByUser: '',
-    CreatedDateTime: new Date(),
-    UpdatedByUserId: 0,
-    UpdatedByUser: '',
-    UpdatedDateTime: new Date(),
-    IsLocked: false
   }
 
   public isDataLoaded: boolean = false;
@@ -83,12 +69,31 @@ export class YearDetialComponent implements OnInit {
   // DOM declaration
   @ViewChild('flexYearDate') flexYearDate: wjcGrid.FlexGrid;
 
+  public _yearModel: YearModel = {
+    Id: 0,
+    YearCode: '',
+    Year: '',
+    DateStart: '',
+    DateEnd: '',
+    IsClose: false,
+    CreatedByUserId: 0,
+    CreatedByUser: '',
+    CreatedDateTime: new Date(),
+    UpdatedByUserId: 0,
+    UpdatedByUser: '',
+    UpdatedDateTime: new Date(),
+    IsLocked: false
+  }
+
+  public UIDateStart = new Date();
+  public UIDateEnd = new Date();
+
   public _yearDateModel: YearDateModel = {
     Id: 0,
     YearId: 0,
-    YearDate: new Date(),
+    YearDate: '',
     Branch: '',
-    DateType: '',
+    DateType:  this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
     Remarks: 'NA',
   }
 
@@ -104,9 +109,10 @@ export class YearDetialComponent implements OnInit {
           this._yearModel = result;
           this._yearDateModel.YearId = result["Id"];
           this._yearModel.IsLocked = result["IsLocked"];
-          this._yearModel.DateStart = new Date(result["DateStart"]);
-          this._yearModel.DateEnd = new Date(result["DateEnd"]);
+          this.UIDateStart = new Date(result["DateStart"]);
+          this.UIDateEnd = new Date(result["DateEnd"]);
         }
+
         this.GetYearDateListData();
 
         this.loadComponent(result["IsLocked"]);
@@ -119,6 +125,16 @@ export class YearDetialComponent implements OnInit {
         if (this._yearDetailSubscription !== null) this._yearDetailSubscription.unsubscribe();
       }
     );
+  }
+
+  public GetUIDATEDateStart() {
+    this._yearModel.DateStart = this.datePipe.transform(this.UIDateStart, 'yyyy-MM-dd');
+    console.log(this._yearModel.DateStart);
+  }
+
+  public GetUIDATEDateEnd() {
+    this._yearModel.DateEnd = this.datePipe.transform(this.UIDateEnd, 'yyyy-MM-dd');
+    console.log(this._yearModel.DateEnd);
   }
 
   public async SaveYearDetail() {

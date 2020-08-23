@@ -212,6 +212,7 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
           this._listEmployeeCollectionView.trackChanges = true;
           this._listEmployeeCollectionView.refresh();
           this.flexEmployees.refresh();
+          // this._listEmployeeCollectionView.moveCurrentToPosition(-1);
         }
         this._isDataLoaded = true;
         this._isProgressBarHidden = false;
@@ -292,7 +293,7 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
   public Save(): void {
     this._dTRLines.EmployeeList = this.flexEmployees.selectedItems;
     this._dTRLines.DailyTimeRecordModel = this._dTRModel;
-    // console.log(this.flexEmployees.selectedItems);
+    console.log(this.flexEmployees.selectedItems);
     this.SaveDTRLine();
   }
 

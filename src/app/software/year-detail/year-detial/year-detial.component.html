@@ -43,7 +43,7 @@
             <div fxFlex="20" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>DateStart</mat-label>
-                    <input matInput [matDatepicker]="datePickerDateStart" [(ngModel)]="_yearModel.DateStart"
+                    <input matInput [matDatepicker]="datePickerDateStart" [(ngModel)]="UIDateStart" (dateInput)="GetUIDATEDateStart()"
                         [readonly]="_isLocked">
                     <mat-datepicker-toggle matSuffix [for]="datePickerDateStart" [disabled]="_isLocked">
                     </mat-datepicker-toggle>
@@ -53,7 +53,7 @@
             <div fxFlex="20" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>DateEnd</mat-label>
-                    <input matInput [matDatepicker]="datePickerDateEnd" [(ngModel)]="_yearModel.DateEnd"
+                    <input matInput [matDatepicker]="datePickerDateEnd" [(ngModel)]="UIDateEnd"  (dateInput)="GetUIDATEDateEnd()"
                         [readonly]="_isLocked">
                     <mat-datepicker-toggle matSuffix [for]="datePickerDateEnd" [disabled]="_isLocked">
                     </mat-datepicker-toggle>

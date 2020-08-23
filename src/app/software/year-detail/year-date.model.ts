@@ -1,7 +1,7 @@
 export class YearDateModel {
     Id: number;
     YearId: number;
-    YearDate: Date;
+    YearDate: string;
     Branch: string;
     DateType: string;
     Remarks: string;
