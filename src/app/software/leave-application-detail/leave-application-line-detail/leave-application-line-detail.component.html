@@ -16,7 +16,8 @@
             <div fxFlex="30" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>Date</mat-label>
-                    <input matInput [matDatepicker]="datePickerLADate" [(ngModel)]="_leaveApplicationLine.LADate">
+                    <input matInput [matDatepicker]="datePickerLADate" [(ngModel)]="UILADate"
+                        (dateInput)="GetUIDATELADate()">
                     <mat-datepicker-toggle matSuffix [for]="datePickerLADate">
                     </mat-datepicker-toggle>
                     <mat-datepicker #datePickerLADate color="primary"></mat-datepicker>
@@ -52,8 +53,7 @@
 </div>
 <mat-divider></mat-divider>
 <div mat-dialog-actions align="right">
-    <button mat-flat-button color="primary" align-self="right" style="margin-right: 5px;"
-        (click)="Save()">
+    <button mat-flat-button color="primary" align-self="right" style="margin-right: 5px;" (click)="Save()">
         <mat-icon>save</mat-icon>
         Save
     </button>

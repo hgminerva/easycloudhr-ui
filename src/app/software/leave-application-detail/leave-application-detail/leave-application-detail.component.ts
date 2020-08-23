@@ -65,7 +65,7 @@ export class LeaveApplicationDetailComponent implements OnInit {
   public _leaveApplicationModel: LeaveApplicationModel = {
     Id: 0,
     LANumber: '',
-    LADate: new Date(),
+    LADate: '',
     PayrollGroup: '',
     YearId: 0,
     Year: '',
@@ -85,16 +85,19 @@ export class LeaveApplicationDetailComponent implements OnInit {
     IsLocked: false
   };
 
+  public UILADate = new Date();
+
   public _leaveApplicationLineModel: LeaveApplicationLineModel = {
     Id: 0,
     LAId: 0,
     EmployeeId: 0,
     Employee: '',
-    LADate: new Date(),
+    LADate: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
     IsHalfDay: false,
     IsWithPay: false,
     Remarks: ''
   }
+
 
   // Class properties
   public _listLeaveApplicationLineObservableArray: ObservableArray = new ObservableArray();
@@ -166,7 +169,7 @@ export class LeaveApplicationDetailComponent implements OnInit {
         console.log(result);
         if (result != null) {
           this._leaveApplicationModel = result;
-          this._leaveApplicationModel.LADate = new Date(result["LADate"]);
+          this.UILADate = new Date(result["LADate"]);
           this._leaveApplicationLineModel.LAId = result["Id"];
         }
 
@@ -183,13 +186,13 @@ export class LeaveApplicationDetailComponent implements OnInit {
     );
   }
 
-  public DateFormatedSelectedDate() {
-    this._leaveApplicationModel.LADate = new Date(this.datePipe.transform(this._leaveApplicationModel.LADate, 'yyyy-MM-dd'));
+  public GetUIDATELADate() {
+    this._leaveApplicationModel.LADate = this.datePipe.transform(this.UILADate, 'yyyy-MM-dd');
+    console.log(this._leaveApplicationModel.LADate);
   }
 
   public async SaveLeaveApplicationDetail() {
     this.DisableButtons();
-    this.DateFormatedSelectedDate();
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
       this._saveLeaveApplicationDetailSubscription = (await this._leaveApplicationDetailService.SaveLeaveApplication(this._leaveApplicationModel.Id, this._leaveApplicationModel)).subscribe(
@@ -211,7 +214,6 @@ export class LeaveApplicationDetailComponent implements OnInit {
 
   public async LockLeaveApplicationDetail() {
     this.DisableButtons();
-    this.DateFormatedSelectedDate();
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
       this._lockcLeaveApplicationDetailSubscription = await (await this._leaveApplicationDetailService.LockLeaveApplication(this._leaveApplicationModel.Id, this._leaveApplicationModel)).subscribe(

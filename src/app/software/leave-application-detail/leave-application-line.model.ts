@@ -3,7 +3,7 @@ export class LeaveApplicationLineModel {
     LAId: number;
     EmployeeId: number;
     Employee: string;
-    LADate: Date;
+    LADate: string;
     IsHalfDay: boolean;
     IsWithPay: boolean;
     Remarks: string;

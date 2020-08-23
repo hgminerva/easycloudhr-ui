@@ -47,8 +47,8 @@
                     <div fxFlex="25" style="padding: 5px;">
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Date</mat-label>
-                            <input matInput [matDatepicker]="datePickerOTDate"
-                                [(ngModel)]="_overtimeApplicationModel.OTDate" [readonly]="_isLocked">
+                            <input matInput [matDatepicker]="datePickerOTDate" [(ngModel)]="UIOTDate" (dateInput)="GetUIDATEOTDate()"
+                                [readonly]="_isLocked">
                             <mat-datepicker-toggle matSuffix [for]="datePickerOTDate" [disabled]="_isLocked">
                             </mat-datepicker-toggle>
                             <mat-datepicker #datePickerOTDate color="primary"></mat-datepicker>

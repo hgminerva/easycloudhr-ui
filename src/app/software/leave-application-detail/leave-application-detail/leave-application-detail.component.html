@@ -46,8 +46,8 @@
                     <div fxFlex="25" style="padding: 5px;">
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Date</mat-label>
-                            <input matInput [matDatepicker]="datePickerLADate"
-                                [(ngModel)]="_leaveApplicationModel.LADate" [readonly]="_isLocked">
+                            <input matInput [matDatepicker]="datePickerLADate" [(ngModel)]="UILADate"
+                                (dateInput)="GetUIDATELADate()" [readonly]="_isLocked">
                             <mat-datepicker-toggle matSuffix [for]="datePickerLADate" [disabled]="_isLocked">
                             </mat-datepicker-toggle>
                             <mat-datepicker #datePickerLADate color="primary"></mat-datepicker>

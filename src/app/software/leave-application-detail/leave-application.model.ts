@@ -1,7 +1,7 @@
 export class LeaveApplicationModel {
     Id: number;
     LANumber: string;
-    LADate: Date;
+    LADate: string;
     PayrollGroup: string;
     YearId: number;
     Year: string;

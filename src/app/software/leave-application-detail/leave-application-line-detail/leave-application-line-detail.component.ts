@@ -35,25 +35,20 @@ export class LeaveApplicationLineDetailComponent implements OnInit {
     LAId: 0,
     EmployeeId: 0,
     Employee: '',
-    LADate: new Date(),
+    LADate: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
     IsHalfDay: false,
     IsWithPay: false,
     Remarks: ''
   }
 
+  public UILADate = new Date();
   public title = '';
-
   public isComponentHidden: boolean = false;
 
   private loadLeaveApplicationLineDetail() {
-    this._leaveApplicationLine.Id = this.caseData.objLeaveApplicationLine.Id;
-    this._leaveApplicationLine.LAId = this.caseData.objLeaveApplicationLine.LAId;
-    this._leaveApplicationLine.EmployeeId = this.caseData.objLeaveApplicationLine.EmployeeId;
-    this._leaveApplicationLine.Employee = this.caseData.objLeaveApplicationLine.Employee;
-    this._leaveApplicationLine.LADate = new Date(this.caseData.objLeaveApplicationLine.LADate);
-    this._leaveApplicationLine.IsHalfDay = this.caseData.objLeaveApplicationLine.IsHalfDay;
-    this._leaveApplicationLine.IsWithPay = this.caseData.objLeaveApplicationLine.IsWithPay;
-    this._leaveApplicationLine.Remarks = this.caseData.objLeaveApplicationLine.Remarks;
+    this._leaveApplicationLine = this.caseData.objLeaveApplicationLine;
+    this.UILADate = new Date(this.caseData.objLeaveApplicationLine.LADate);;
+
     console.log(this._leaveApplicationLine);
     setTimeout(() => {
       this.isComponentHidden = false;
@@ -64,8 +59,9 @@ export class LeaveApplicationLineDetailComponent implements OnInit {
     this.dialogRef.close({ event: 'Close' });
   }
 
-  public DateFormatedSelectedDate() {
-    this._leaveApplicationLine.LADate = new Date(this.datePipe.transform(this._leaveApplicationLine.LADate, 'yyyy-MM-dd'));
+  public GetUIDATELADate() {
+    this._leaveApplicationLine.LADate = this.datePipe.transform(this.UILADate, 'yyyy-MM-dd');
+    console.log(this._leaveApplicationLine.LADate);
   }
 
   public async Save() {
