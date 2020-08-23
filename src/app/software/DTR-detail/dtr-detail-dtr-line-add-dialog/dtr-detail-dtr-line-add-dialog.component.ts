@@ -31,8 +31,8 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
     DailyTimeRecordModel: new DTRModel,
     EmployeeList: [],
     UseEmployeeDefaultShift: false,
-    StartDate: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
-    EndDate: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
+    StartDate: '',
+    EndDate: '',
     TimeIn1: '',
     TimeOut1: '',
     TimeIn2: '',
@@ -46,8 +46,8 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
     PayrollGroup: '',
     YearId: 0,
     Year: '',
-    DateStart: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
-    DateEnd: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
+    DateStart: '',
+    DateEnd: '',
     OTId: 0,
     OT: '',
     LAId: 0,
@@ -131,12 +131,8 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
     this._dTRLines.StartDate = this.datePipe.transform(this._caseData.objData.DateStart, 'yyyy-MM-dd');
     this._dTRLines.EndDate = this.datePipe.transform(this._caseData.objData.DateEnd, 'yyyy-MM-dd');
 
-    console.log(this._dTRModel);
-    console.log("Case", this._caseData.objData);
-    console.log("DTRLINE", this._dTRLines);
-
-    this.UIDateStart = new Date(this._caseData.objData.DateStart);
-    this.UIDateEnd = new Date(this._caseData.objData.DateEnd);
+    this.UIDateStart = await this._caseData.objDateStart;
+    this.UIDateEnd = await this._caseData.objDateEnd;
 
     this.Create_cboShowNumberOfRows();
     this.GetEmployeeData();

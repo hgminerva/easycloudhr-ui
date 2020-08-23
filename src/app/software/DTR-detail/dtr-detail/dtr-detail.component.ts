@@ -485,6 +485,8 @@ export class DTRDetailComponent implements OnInit {
       data: {
         objDialogTitle: "Add DTR Lines",
         objData: this._dTRModel,
+        objDateStart: this.UIDateStart,
+        objDateEnd: this.UIDateEnd,
       },
       disableClose: true
     });
