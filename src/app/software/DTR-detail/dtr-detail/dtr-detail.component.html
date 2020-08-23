@@ -70,7 +70,7 @@
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Date End</mat-label>
                             <input matInput [matDatepicker]="datePickerDateEnd" [(ngModel)]="UIDateEnd"
-                                (dateInput)="GetUIDATEDateStart()" [readonly]="_isLocked">
+                                (dateInput)="GetUIDATEDateEnd()" [readonly]="_isLocked">
                             <mat-datepicker-toggle matSuffix [for]="datePickerDateEnd" [disabled]="_isLocked">
                             </mat-datepicker-toggle>
                             <mat-datepicker #datePickerDateEnd color="primary"></mat-datepicker>
