@@ -216,6 +216,7 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
 
           this._dTRLineModel = result;
           this._dTRLineModel.DTRId = result.DTRId;
+          this._dTRLineModel.ShiftId = result.ShiftId;
           this._dTRLineModel.TimeIn1 = this.convertTime(result.TimeIn1);
           this._dTRLineModel.TimeOut1 = this.convertTime(result.TimeOut1);
           this._dTRLineModel.TimeIn2 = this.convertTime(result.TimeIn2);
@@ -251,7 +252,34 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
     );
   }
 
+  public DefaultValues() {
+    this._dTRLineModel.DTRId = 0;
+    this._dTRLineModel.ShiftId = 0;
+    this._dTRLineModel.TimeIn1 = '';
+    this._dTRLineModel.TimeOut1 = '';
+    this._dTRLineModel.TimeIn2 = '';
+    this._dTRLineModel.TimeOut2 = '';
+    this._dTRLineModel.DTRDate = '';
+    this._dTRLineModel.NumberOfHoursWorked = '';
+    this._dTRLineModel.OvertimeHours = '';
+    this._dTRLineModel.NightDifferentialHours = '';
+    this._dTRLineModel.LateHours = '';
+    this._dTRLineModel.UndertimeHours = '';
+    this._dTRLineModel.DailyPay = '';
+    this._dTRLineModel.PremiumPay = '';
+    this._dTRLineModel.HolidayPay = '';
+    this._dTRLineModel.OvertimePay = '';
+    this._dTRLineModel.NightDifferentialPay = '';
+    this._dTRLineModel.COLA = '';
+    this._dTRLineModel.AdditionalAllowance = '';
+    this._dTRLineModel.LateDeduction = '';
+    this._dTRLineModel.UndertimeDeduction = '';
+    this._dTRLineModel.AbsentDeduction = '';
+    this._dTRLineModel.DailyNetPay = '';
+  }
+
   public Close(): void {
+    // this.DefaultValues();
     this._matDialogRef.close({ event: this._event });
   }
 

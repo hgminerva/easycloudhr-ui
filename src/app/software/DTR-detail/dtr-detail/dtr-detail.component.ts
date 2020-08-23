@@ -434,7 +434,51 @@ export class DTRDetailComponent implements OnInit {
 
   public EditDTRLine() {
     let currentDTRLine = this._listDTRLineCollectionView.currentItem;
-    this.DetailDTRLine(currentDTRLine, "Edit DTR Line Detail");
+
+    let _dTRLineModel: DTRLineModel = {
+      Id: currentDTRLine.Id,
+      DTRId: currentDTRLine.DTRId,
+      EmployeeId: currentDTRLine.EmployeeId,
+      Employee: currentDTRLine.Employee,
+      DTRDate: currentDTRLine.DTRDate,
+      DateType: currentDTRLine.DateType,
+      IsRestDay: currentDTRLine.IsRestDay,
+      ShiftId: currentDTRLine.ShiftId,
+      Shift: currentDTRLine.Shift,
+      Branch: currentDTRLine.Branch,
+      TimeIn1: currentDTRLine.TimeIn1,
+      TimeOut1: currentDTRLine.TimeOut1,
+      TimeIn2: currentDTRLine.TimeIn2,
+      TimeOut2: currentDTRLine.TimeOut2,
+      IsOnLeave: currentDTRLine.IsOnLeave,
+      IsOnLeaveHalfDay: currentDTRLine.IsOnLeaveHalfDay,
+      IsOnOfficialBusiness: currentDTRLine.IsOnOfficialBusiness,
+      IsOnOfficialBusinessHalfDay: currentDTRLine.IsOnOfficialBusinessHalfDay,
+      IsAbsent: currentDTRLine.IsAbsent,
+      IsAbsentHalfDay: currentDTRLine.IsAbsentHalfDay,
+      NumberOfHoursWorked: this.RemoveComma(currentDTRLine.NumberOfHoursWorked),
+      OvertimeHours: this.RemoveComma(currentDTRLine.OvertimeHours),
+      NightDifferentialHours: this.RemoveComma(currentDTRLine.NightDifferentialHours),
+      LateHours: this.RemoveComma(currentDTRLine.LateHours),
+      UndertimeHours: this.RemoveComma(currentDTRLine.UndertimeHours),
+      DailyPay: this.RemoveComma(currentDTRLine.DailyPay),
+      PremiumPay: this.RemoveComma(currentDTRLine.PremiumPay),
+      HolidayPay: this.RemoveComma(currentDTRLine.HolidayPay),
+      OvertimePay: this.RemoveComma(currentDTRLine.OvertimePay),
+      NightDifferentialPay: this.RemoveComma(currentDTRLine.NightDifferentialPay),
+      COLA: this.RemoveComma(currentDTRLine.COLA),
+      AdditionalAllowance: this.RemoveComma(currentDTRLine.AdditionalAllowance),
+      LateDeduction: this.RemoveComma(currentDTRLine.LateDeduction),
+      UndertimeDeduction: this.RemoveComma(currentDTRLine.UndertimeDeduction),
+      AbsentDeduction: this.RemoveComma(currentDTRLine.AbsentDeduction),
+      DailyNetPay: this.RemoveComma(currentDTRLine.DailyNetPay),
+      Remarks: currentDTRLine.Remarks
+    }
+    this.DetailDTRLine(_dTRLineModel, "Edit DTR Line Detail");
+  }
+
+  public RemoveComma(value: string): string {
+    return value.toString().replace(',', '');
   }
 
   public async DeleteDTRLine() {
