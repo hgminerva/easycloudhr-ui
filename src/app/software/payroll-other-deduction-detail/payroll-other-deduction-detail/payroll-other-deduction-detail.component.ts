@@ -14,8 +14,9 @@ import { DatePipe } from '@angular/common';
 
 import { PayrollOtherDeductionModel } from './../payroll-other-deduction.model';
 import { PayrollOtherDeductionLineModel } from './../payroll-other-deduction-line.model';
-import {PayrollOtherDeductionDetailService} from './../payroll-other-deduction-detail.service'
+import { PayrollOtherDeductionDetailService } from './../payroll-other-deduction-detail.service'
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
+import { PayrollOtherDeductionLineDialogComponent } from '../payroll-other-deduction-line-dialog/payroll-other-deduction-line-dialog.component';
 
 @Component({
   selector: 'app-payroll-other-deduction-detail',
@@ -35,7 +36,7 @@ export class PayrollOtherDeductionDetailComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    // await this.UserListData();
+    await this.UserListData();
   }
 
   public _isProgressBarHidden: boolean = false;
@@ -62,467 +63,469 @@ export class PayrollOtherDeductionDetailComponent implements OnInit {
   public _lockPayrollOtherDeductionDetailSubscription: any;
   public _unlockPayrollOtherDeductionDetailSubscription: any;
 
-  // public _payrollOtherIncomeModel: PayrollOtherIncomeModel = {
-  //   Id: 0,
-  //   PINumber: '',
-  //   PIDate: new Date(),
-  //   PayrollGroup: '',
-  //   YearId: 0,
-  //   Year: '',
-  //   Remarks: '',
-  //   PreparedByUserId: 0,
-  //   PreparedByUser: '',
-  //   CheckedByUserId: 0,
-  //   CheckedByUser: '',
-  //   ApprovedByUserId: 0,
-  //   ApprovedByUser: '',
-  //   CreatedByUserId: 0,
-  //   CreatedByUser: '',
-  //   CreatedDateTime: new Date(),
-  //   UpdatedByUserId: 0,
-  //   UpdatedByUser: '',
-  //   UpdatedDateTime: new Date(),
-  //   IsLocked: false
-  // };
+  public _payrollOtherDeductionModel: PayrollOtherDeductionModel = {
+    Id: 0,
+    PDNumber: '',
+    PDDate: '',
+    PayrollGroup: '',
+    YearId: 0,
+    Year: '',
+    Remarks: '',
+    PreparedByUserId: 0,
+    PreparedByUser: '',
+    CheckedByUserId: 0,
+    CheckedByUser: '',
+    ApprovedByUserId: 0,
+    ApprovedByUser: '',
+    CreatedByUserId: 0,
+    CreatedByUser: '',
+    CreatedDateTime: new Date(),
+    UpdatedByUserId: 0,
+    UpdatedByUser: '',
+    UpdatedDateTime: new Date(),
+    IsLocked: false
+  };
 
-  // public _payrollOtherIncomeLineModel: PayrollOtherIncomeLineModel = {
-  //   Id: 0,
-  //   PIId: 0,
-  //   EmployeeId: 0,
-  //   Employee: '',
-  //   OtherIncomeId: 0,
-  //   OtherIncome: '',
-  //   Amount: '0',
-  //   Particulars: ''
-  // }
+  public UIDPDDate = new Date();
 
-  // // Class properties
-  // public _listPayrollOtherIncomeLineObservableArray: ObservableArray = new ObservableArray();
-  // public _listPayrollOtherIncomeLineCollectionView: CollectionView = new CollectionView(this._listPayrollOtherIncomeLineObservableArray);
-  // public _listPageIndex: number = 15;
+  public _payrollOtherDeductionLineModel: PayrollOtherDeductionLineModel = {
+    Id: 0,
+    PDId: 0,
+    EmployeeId: 0,
+    Employee: '',
+    OtherDeductionId: 0,
+    OtherDeduction: '',
+    LNId: 0,
+    Loan: '',
+    Amount: '0',
+    Particulars: 'NA'
+  }
 
-  // @ViewChild('flexPayrollOtherIncomeLine') flexPayrollOtherIncomeLine: wjcGrid.FlexGrid;
+  // Class properties
+  public _listPayrollOtherDeductionLineObservableArray: ObservableArray = new ObservableArray();
+  public _listPayrollOtherDeductionLineCollectionView: CollectionView = new CollectionView(this._listPayrollOtherDeductionLineObservableArray);
+  public _listPageIndex: number = 15;
 
-  // public _isPayrollOtherIncomeLineProgressBarHidden = false;
-  // public _isPayrollOtherIncomeLineDataLoaded: boolean = false;
+  @ViewChild('flexPayrollOtherDeductionLine') flexPayrollOtherDeductionLine: wjcGrid.FlexGrid;
 
-  // private _PayrollOtherIncomeLineListSubscription: any;
-  // private _savePayrollOtherIncomeLineSubscription: any;
-  // private _updatePayrollOtherIncomeLineSubscription: any;
-  // private _deletePayrollOtherIncomeLineSubscription: any;
+  public _isPayrollOtherDeductionLineProgressBarHidden = false;
+  public _isPayrollOtherDeductionLineDataLoaded: boolean = false;
 
-  // public _btnAddPayrollOtherIncomeLineDisabled: boolean = false;
+  private _PayrollOtherDeductionLineListSubscription: any;
+  private _savePayrollOtherDeductionLineSubscription: any;
+  private _updatePayrollOtherDeductionLineSubscription: any;
+  private _deletePayrollOtherDeductionLineSubscription: any;
 
-  // // private async PayrollGroupListData() {
-  // //   this._payrollGroupDropdownSubscription = (await this._payrollOtherDeductionDetailService.PayrollGroupList()).subscribe(
-  // //     response => {
-  // //       this._payrollGroupListDropdown = response;
-  // //       this._payrollOtherIncomeLineModel = this._payrollGroupListDropdown[0].Id;
-  // //       this.UserListData();
-  // //       if (this._payrollGroupDropdownSubscription !== null) this._payrollGroupDropdownSubscription.unsubscribe();
-  // //     },
-  // //     error => {
-  // //       this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-  // //       if (this._payrollGroupDropdownSubscription !== null) this._payrollGroupDropdownSubscription.unsubscribe();
-  // //     }
-  // //   );
-  // // }
+  public _btnAddPayrollOtherDeductionLineDisabled: boolean = false;
 
-  // private async UserListData() {
-  //   this._userDropdownSubscription = await (await this._payrollOtherDeductionDetailService.UserList()).subscribe(
-  //     response => {
-  //       this._userListDropdown = response;
-  //       this.GetPayrollOtherIncomeDetail();
-  //       if (this._userDropdownSubscription !== null) this._userDropdownSubscription.unsubscribe();
-  //     },
-  //     error => {
-  //       this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-  //       if (this._userDropdownSubscription !== null) this._userDropdownSubscription.unsubscribe();
-  //     }
-  //   );
-  // }
+  private async PayrollGroupListData() {
+    this._payrollGroupDropdownSubscription = (await this._payrollOtherDeductionDetailService.PayrollGroupList()).subscribe(
+      response => {
+        this._payrollGroupListDropdown = response;
+        this._payrollOtherDeductionLineModel = this._payrollGroupListDropdown[0].Id;
+        this.UserListData();
+        if (this._payrollGroupDropdownSubscription !== null) this._payrollGroupDropdownSubscription.unsubscribe();
+      },
+      error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        if (this._payrollGroupDropdownSubscription !== null) this._payrollGroupDropdownSubscription.unsubscribe();
+      }
+    );
+  }
 
-  // private async GetPayrollOtherIncomeDetail() {
-  //   let id = 0;
-  //   this._activatedRoute.params.subscribe(params => { id = params["id"]; });
-  //   this._isComponentsShown = true;
-  //   this._isProgressBarHidden = true;
+  private async UserListData() {
+    this._userDropdownSubscription = await (await this._payrollOtherDeductionDetailService.UserList()).subscribe(
+      response => {
+        this._userListDropdown = response;
+        this.GetPayrollOtherDeductionDetail();
+        if (this._userDropdownSubscription !== null) this._userDropdownSubscription.unsubscribe();
+      },
+      error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        if (this._userDropdownSubscription !== null) this._userDropdownSubscription.unsubscribe();
+      }
+    );
+  }
 
-  //   this.DisableButtons();
-  //   this._changePayrollOtherDeductionDetailSubscription = await (await this._payrollOtherDeductionDetailService.PayrollOtherIncomeDetail(id)).subscribe(
-  //     (response: any) => {
-  //       let result = response;
-  //       if (result != null) {
-  //         this._payrollOtherIncomeModel = result;
-  //         this._payrollOtherIncomeModel.PIDate = new Date(result["PIDate"]);
-  //         this._payrollOtherIncomeLineModel.PIId = result["Id"];
-  //       }
-  //       this.loadComponent(result["IsLocked"]);
-  //       this.GetPayrollOtherIncomeLineListData();
-  //       this._isDataLoaded = true;
-  //       this._isProgressBarHidden = false;
-  //       this._isComponentsShown = false;
-  //       if (this._changePayrollOtherDeductionDetailSubscription !== null) this._changePayrollOtherDeductionDetailSubscription.unsubscribe();
-  //     },
-  //     error => {
-  //       this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-  //       if (this._changePayrollOtherDeductionDetailSubscription !== null) this._changePayrollOtherDeductionDetailSubscription.unsubscribe();
-  //     }
-  //   );
-  // }
+  private async GetPayrollOtherDeductionDetail() {
+    let id = 0;
+    this._activatedRoute.params.subscribe(params => { id = params["id"]; });
+    this._isComponentsShown = true;
+    this._isProgressBarHidden = true;
 
-  // public DateFormatSelectedDate() {
-  //   this._payrollOtherIncomeModel.PIDate = new Date(this.datePipe.transform(this._payrollOtherIncomeModel.PIDate, 'yyyy-MM-dd'));
-  // }
+    this.DisableButtons();
+    this._changePayrollOtherDeductionDetailSubscription = await (await this._payrollOtherDeductionDetailService.PayrollOtherDeductionDetail(id)).subscribe(
+      (response: any) => {
+        let result = response;
+        if (result != null) {
+          this._payrollOtherDeductionModel = result;
+          this.UIDPDDate = new Date(result["PDDate"]);
+          this._payrollOtherDeductionLineModel.PDId = result["Id"];
+        }
+        this.loadComponent(result["IsLocked"]);
+        this.GetPayrollOtherDeductionLineListData();
+        this._isDataLoaded = true;
+        this._isProgressBarHidden = false;
+        this._isComponentsShown = false;
+        if (this._changePayrollOtherDeductionDetailSubscription !== null) this._changePayrollOtherDeductionDetailSubscription.unsubscribe();
+      },
+      error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        if (this._changePayrollOtherDeductionDetailSubscription !== null) this._changePayrollOtherDeductionDetailSubscription.unsubscribe();
+      }
+    );
+  }
 
-  // public async SavePayrollOtherIncomeDetail() {
-  //   this.DisableButtons();
-  //   if (this._isDataLoaded == true) {
-  //     this._isDataLoaded = false;
-  //     this.DateFormatSelectedDate();
-  //     this._savePayrollOtherDeductionDetailSubscription = (await this._payrollOtherDeductionDetailService.SavePayrollOtherIncome(this._payrollOtherIncomeModel.Id, this._payrollOtherIncomeModel)).subscribe(
-  //       response => {
-  //         this.loadComponent(this._payrollOtherIncomeModel.IsLocked);
-  //         this._isDataLoaded = true;
-  //         this._snackBarTemplate.snackBarSuccess(this._snackBar, "Save Successfully.");
-  //         if (this._savePayrollOtherDeductionDetailSubscription !== null) this._savePayrollOtherDeductionDetailSubscription.unsubscribe();
-  //       },
-  //       error => {
-  //         this.loadComponent(this._payrollOtherIncomeModel.IsLocked);
-  //         this._isDataLoaded = true;
-  //         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-  //         if (this._savePayrollOtherDeductionDetailSubscription !== null) this._savePayrollOtherDeductionDetailSubscription.unsubscribe();
-  //       }
-  //     );
-  //   }
-  // }
+  public GetUIDATEPDDate() {
+    this._payrollOtherDeductionModel.PDDate = this.datePipe.transform(this.UIDPDDate, 'yyyy-MM-dd');
+  }
 
-  // public async LockPayrollOtherIncomeDetail() {
-  //   this.DisableButtons();
-  //   if (this._isDataLoaded == true) {
-  //     this._isDataLoaded = false;
-  //     this.DateFormatSelectedDate();
-  //     this._lockPayrollOtherDeductionDetailSubscription = await (await this._payrollOtherDeductionDetailService.LockPayrollOtherIncome(this._payrollOtherIncomeModel.Id, this._payrollOtherIncomeModel)).subscribe(
-  //       response => {
-  //         this.loadComponent(true);
-  //         this._isDataLoaded = true;
-  //         this._snackBarTemplate.snackBarSuccess(this._snackBar, "Lock Successfully.");
-  //         if (this._lockPayrollOtherDeductionDetailSubscription !== null) this._lockPayrollOtherDeductionDetailSubscription.unsubscribe();
-  //       },
-  //       error => {
-  //         this.loadComponent(false);
-  //         this._isDataLoaded = true;
-  //         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-  //         if (this._lockPayrollOtherDeductionDetailSubscription !== null) this._lockPayrollOtherDeductionDetailSubscription.unsubscribe();
-  //       }
-  //     );
-  //   }
-  // }
+  public async SavePayrollOtherDeductionDetail() {
+    this.DisableButtons();
+    if (this._isDataLoaded == true) {
+      this._isDataLoaded = false;
+      this._savePayrollOtherDeductionDetailSubscription = (await this._payrollOtherDeductionDetailService.SavePayrollOtherDeduction(this._payrollOtherDeductionModel.Id, this._payrollOtherDeductionModel)).subscribe(
+        response => {
+          this.loadComponent(this._payrollOtherDeductionModel.IsLocked);
+          this._isDataLoaded = true;
+          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Save Successfully.");
+          if (this._savePayrollOtherDeductionDetailSubscription !== null) this._savePayrollOtherDeductionDetailSubscription.unsubscribe();
+        },
+        error => {
+          this.loadComponent(this._payrollOtherDeductionModel.IsLocked);
+          this._isDataLoaded = true;
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+          if (this._savePayrollOtherDeductionDetailSubscription !== null) this._savePayrollOtherDeductionDetailSubscription.unsubscribe();
+        }
+      );
+    }
+  }
 
-  // public async UnlockPayrollOtherIncomeDetail() {
-  //   this.DisableButtons();
-  //   if (this._isDataLoaded == true) {
-  //     this._isDataLoaded = false;
-  //     this._unlockPayrollOtherDeductionDetailSubscription = await (await this._payrollOtherDeductionDetailService.UnlockPayrollOtherIncome(this._payrollOtherIncomeModel.Id)).subscribe(
-  //       response => {
-  //         this.loadComponent(false);
-  //         this._isDataLoaded = true;
-  //         this._snackBarTemplate.snackBarSuccess(this._snackBar, "Unlock Successfully.");
-  //         if (this._unlockPayrollOtherDeductionDetailSubscription !== null) this._unlockPayrollOtherDeductionDetailSubscription.unsubscribe();
-  //       },
-  //       error => {
-  //         this.loadComponent(true);
-  //         this._isDataLoaded = true;
-  //         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-  //         if (this._unlockPayrollOtherDeductionDetailSubscription !== null) this._unlockPayrollOtherDeductionDetailSubscription.unsubscribe();
-  //       }
-  //     );
-  //   }
-  // }
+  public async LockPayrollOtherDeductionDetail() {
+    this.DisableButtons();
+    if (this._isDataLoaded == true) {
+      this._isDataLoaded = false;
+      this._lockPayrollOtherDeductionDetailSubscription = await (await this._payrollOtherDeductionDetailService.LockPayrollOtherDeduction(this._payrollOtherDeductionModel.Id, this._payrollOtherDeductionModel)).subscribe(
+        response => {
+          this.loadComponent(true);
+          this._isDataLoaded = true;
+          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Lock Successfully.");
+          if (this._lockPayrollOtherDeductionDetailSubscription !== null) this._lockPayrollOtherDeductionDetailSubscription.unsubscribe();
+        },
+        error => {
+          this.loadComponent(false);
+          this._isDataLoaded = true;
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+          if (this._lockPayrollOtherDeductionDetailSubscription !== null) this._lockPayrollOtherDeductionDetailSubscription.unsubscribe();
+        }
+      );
+    }
+  }
 
-  // private loadComponent(isDisable) {
-  //   if (isDisable == true) {
-  //     this._btnAddPayrollOtherIncomeLineDisabled = isDisable;
-  //     this._btnSaveDisabled = isDisable;
-  //     this._btnLockisabled = isDisable;
-  //     this._btnUnlockDisabled = !isDisable;
-  //   } else {
-  //     this._btnAddPayrollOtherIncomeLineDisabled = isDisable;
-  //     this._btnSaveDisabled = isDisable;
-  //     this._btnLockisabled = isDisable;
-  //     this._btnUnlockDisabled = !isDisable;
-  //   }
+  public async UnlockPayrollOtherDeductionDetail() {
+    this.DisableButtons();
+    if (this._isDataLoaded == true) {
+      this._isDataLoaded = false;
+      this._unlockPayrollOtherDeductionDetailSubscription = await (await this._payrollOtherDeductionDetailService.UnlockPayrollOtherDeduction(this._payrollOtherDeductionModel.Id)).subscribe(
+        response => {
+          this.loadComponent(false);
+          this._isDataLoaded = true;
+          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Unlock Successfully.");
+          if (this._unlockPayrollOtherDeductionDetailSubscription !== null) this._unlockPayrollOtherDeductionDetailSubscription.unsubscribe();
+        },
+        error => {
+          this.loadComponent(true);
+          this._isDataLoaded = true;
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+          if (this._unlockPayrollOtherDeductionDetailSubscription !== null) this._unlockPayrollOtherDeductionDetailSubscription.unsubscribe();
+        }
+      );
+    }
+  }
 
-  //   this._isLocked = isDisable;
-  //   this._isProgressBarHidden = false;
-  // }
+  private loadComponent(isDisable) {
+    if (isDisable == true) {
+      this._btnAddPayrollOtherDeductionLineDisabled = isDisable;
+      this._btnSaveDisabled = isDisable;
+      this._btnLockisabled = isDisable;
+      this._btnUnlockDisabled = !isDisable;
+    } else {
+      this._btnAddPayrollOtherDeductionLineDisabled = isDisable;
+      this._btnSaveDisabled = isDisable;
+      this._btnLockisabled = isDisable;
+      this._btnUnlockDisabled = !isDisable;
+    }
 
-  // private DisableButtons() {
-  //   this._btnSaveDisabled = true;
-  //   this._btnLockisabled = true;
-  //   this._btnUnlockDisabled = true;
-  //   this._isProgressBarHidden = true;
-  // }
+    this._isLocked = isDisable;
+    this._isProgressBarHidden = false;
+  }
 
-  // activeTab() { }
+  private DisableButtons() {
+    this._btnSaveDisabled = true;
+    this._btnLockisabled = true;
+    this._btnUnlockDisabled = true;
+    this._isProgressBarHidden = true;
+  }
 
-  // private async GetPayrollOtherIncomeLineListData() {
+  activeTab() { }
 
-  //   this._listPayrollOtherIncomeLineObservableArray = new ObservableArray();
-  //   this._listPayrollOtherIncomeLineCollectionView = new CollectionView(this._listPayrollOtherIncomeLineObservableArray);
-  //   this._listPayrollOtherIncomeLineCollectionView.pageSize = 15;
-  //   this._listPayrollOtherIncomeLineCollectionView.trackChanges = true;
-  //   await this._listPayrollOtherIncomeLineCollectionView.refresh();
-  //   await this.flexPayrollOtherIncomeLine.refresh();
+  private async GetPayrollOtherDeductionLineListData() {
 
-  //   this._isPayrollOtherIncomeLineProgressBarHidden = true;
+    this._listPayrollOtherDeductionLineObservableArray = new ObservableArray();
+    this._listPayrollOtherDeductionLineCollectionView = new CollectionView(this._listPayrollOtherDeductionLineObservableArray);
+    this._listPayrollOtherDeductionLineCollectionView.pageSize = 15;
+    this._listPayrollOtherDeductionLineCollectionView.trackChanges = true;
+    await this._listPayrollOtherDeductionLineCollectionView.refresh();
+    await this.flexPayrollOtherDeductionLine.refresh();
 
-  //   this._PayrollOtherIncomeLineListSubscription = await (await this._payrollOtherDeductionDetailService.PayrollOtherIncomeLineList(this._payrollOtherIncomeModel.Id)).subscribe(
-  //     (response: any) => {
-  //       if (response["length"] > 0) {
-  //         this._listPayrollOtherIncomeLineObservableArray = response;
-  //         this._listPayrollOtherIncomeLineCollectionView = new CollectionView(this._listPayrollOtherIncomeLineObservableArray);
-  //         this._listPayrollOtherIncomeLineCollectionView.pageSize = 15;
-  //         this._listPayrollOtherIncomeLineCollectionView.trackChanges = true;
-  //         this._listPayrollOtherIncomeLineCollectionView.refresh();
-  //         this.flexPayrollOtherIncomeLine.refresh();
-  //       }
+    this._isPayrollOtherDeductionLineProgressBarHidden = true;
 
-  //       this._isPayrollOtherIncomeLineDataLoaded = true;
-  //       this._isPayrollOtherIncomeLineProgressBarHidden = false;
-  //       if (this._PayrollOtherIncomeLineListSubscription !== null) this._PayrollOtherIncomeLineListSubscription.unsubscribe();
-  //     },
-  //     error => {
-  //       this._isPayrollOtherIncomeLineProgressBarHidden = false;
-  //       this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-  //       if (this._PayrollOtherIncomeLineListSubscription !== null) this._PayrollOtherIncomeLineListSubscription.unsubscribe();
-  //     }
-  //   );
-  // }
+    this._PayrollOtherDeductionLineListSubscription = await (await this._payrollOtherDeductionDetailService.PayrollOtherDeductionLineList(this._payrollOtherDeductionModel.Id)).subscribe(
+      (response: any) => {
+        if (response["length"] > 0) {
+          this._listPayrollOtherDeductionLineObservableArray = response;
+          this._listPayrollOtherDeductionLineCollectionView = new CollectionView(this._listPayrollOtherDeductionLineObservableArray);
+          this._listPayrollOtherDeductionLineCollectionView.pageSize = 15;
+          this._listPayrollOtherDeductionLineCollectionView.trackChanges = true;
+          this._listPayrollOtherDeductionLineCollectionView.refresh();
+          this.flexPayrollOtherDeductionLine.refresh();
+        }
 
-  // public AddPayrollOtherIncomeLine() {
-  //   this.DetailPayrollOtherIncomeLine(this._payrollOtherIncomeLineModel, "Add Payroll Other Income Line");
-  // }
+        this._isPayrollOtherDeductionLineDataLoaded = true;
+        this._isPayrollOtherDeductionLineProgressBarHidden = false;
+        if (this._PayrollOtherDeductionLineListSubscription !== null) this._PayrollOtherDeductionLineListSubscription.unsubscribe();
+      },
+      error => {
+        this._isPayrollOtherDeductionLineProgressBarHidden = false;
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        if (this._PayrollOtherDeductionLineListSubscription !== null) this._PayrollOtherDeductionLineListSubscription.unsubscribe();
+      }
+    );
+  }
 
-  // public EditPayrollOtherIncomeLine() {
-  //   let currentPayrollOtherIncomeLine = this._listPayrollOtherIncomeLineCollectionView.currentItem;
-  //   this.DetailPayrollOtherIncomeLine(currentPayrollOtherIncomeLine, "Edit Payroll Other Income Line Detail");
-  // }
+  public AddPayrollOtherDeductionLine() {
+    this.DetailPayrollOtherDeductionLine(this._payrollOtherDeductionLineModel, "Add Payroll Other Income Line");
+  }
 
-  // public async DeletePayrollOtherIncomeLine() {
-  //   let currentPayrollOtherIncomeLine = this._listPayrollOtherIncomeLineCollectionView.currentItem;
-  //   this._isPayrollOtherIncomeLineProgressBarHidden = true;
+  public EditPayrollOtherDeductionLine() {
+    let currentPayrollOtherDeductionLine = this._listPayrollOtherDeductionLineCollectionView.currentItem;
+    this.DetailPayrollOtherDeductionLine(currentPayrollOtherDeductionLine, "Edit Payroll Other Income Line Detail");
+  }
 
-  //   if (this._isPayrollOtherIncomeLineDataLoaded == true) {
-  //     this._isPayrollOtherIncomeLineDataLoaded = false;
-  //     this._deletePayrollOtherIncomeLineSubscription = await (await this._payrollOtherDeductionDetailService.DeletePayrollOtherIncomeLine(currentPayrollOtherIncomeLine.Id)).subscribe(
-  //       response => {
-  //         this._snackBarTemplate.snackBarSuccess(this._snackBar, "Delete Successfully");
-  //         this.GetPayrollOtherIncomeLineListData();
-  //         this._isPayrollOtherIncomeLineProgressBarHidden = false;
-  //         this._isPayrollOtherIncomeLineDataLoaded = true;
-  //       },
-  //       error => {
-  //         this._isPayrollOtherIncomeLineDataLoaded = true;
-  //         this._isPayrollOtherIncomeLineProgressBarHidden = false;
-  //         this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + error.status);
-  //         if (this._deletePayrollOtherIncomeLineSubscription != null) this._deletePayrollOtherIncomeLineSubscription.unsubscribe();
-  //       }
-  //     );
-  //   }
-  // }
+  public async DeletePayrollOtherDeductionLine() {
+    let currentPayrollOtherDeductionLine = this._listPayrollOtherDeductionLineCollectionView.currentItem;
+    this._isPayrollOtherDeductionLineProgressBarHidden = true;
 
-  // public ComfirmDeletePayrollOtherIncomeLine(): void {
-  //   let currentPayrollOtherIncomeLine = this._listPayrollOtherIncomeLineCollectionView.currentItem;
-  //   const matDialogRef = this._matDialog.open(DeleteDialogBoxComponent, {
-  //     width: '500px',
-  //     data: {
-  //       objDialogTitle: "",
-  //       objComfirmationMessage: ` Delete ${currentPayrollOtherIncomeLine.Employee}?`,
-  //     },
-  //     disableClose: true
-  //   });
+    if (this._isPayrollOtherDeductionLineDataLoaded == true) {
+      this._isPayrollOtherDeductionLineDataLoaded = false;
+      this._deletePayrollOtherDeductionLineSubscription = await (await this._payrollOtherDeductionDetailService.DeletePayrollOtherDeductionLine(currentPayrollOtherDeductionLine.Id)).subscribe(
+        response => {
+          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Delete Successfully");
+          this.GetPayrollOtherDeductionLineListData();
+          this._isPayrollOtherDeductionLineProgressBarHidden = false;
+          this._isPayrollOtherDeductionLineDataLoaded = true;
+        },
+        error => {
+          this._isPayrollOtherDeductionLineDataLoaded = true;
+          this._isPayrollOtherDeductionLineProgressBarHidden = false;
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + error.status);
+          if (this._deletePayrollOtherDeductionLineSubscription != null) this._deletePayrollOtherDeductionLineSubscription.unsubscribe();
+        }
+      );
+    }
+  }
 
-  //   matDialogRef.afterClosed().subscribe(result => {
-  //     if (result.message == "Yes") {
-  //       this.DeletePayrollOtherIncomeLine();
-  //     }
-  //   });
-  // }
+  public ComfirmDeletePayrollOtherDeductionLine(): void {
+    let currentPayrollOtherDeductionLine = this._listPayrollOtherDeductionLineCollectionView.currentItem;
+    const matDialogRef = this._matDialog.open(DeleteDialogBoxComponent, {
+      width: '500px',
+      data: {
+        objDialogTitle: "",
+        objComfirmationMessage: ` Delete ${currentPayrollOtherDeductionLine.Employee}?`,
+      },
+      disableClose: true
+    });
+
+    matDialogRef.afterClosed().subscribe(result => {
+      if (result.message == "Yes") {
+        this.DeletePayrollOtherDeductionLine();
+      }
+    });
+  }
 
 
-  // public DetailPayrollOtherIncomeLine(objPayrollOtherIncomeLine: PayrollOtherIncomeLineModel, eventTitle: string) {
-  //   const matDialogRef = this._matDialog.open(PayrollOtherIncomeLineDialogComponent, {
-  //     width: '1300px',
-  //     data: {
-  //       objDialogTitle: eventTitle,
-  //       objPayrollGroup: this._payrollOtherIncomeModel.PayrollGroup,
-  //       objPayrollOtherIncomeLine: objPayrollOtherIncomeLine,
-  //     },
-  //     disableClose: true
-  //   });
+  public DetailPayrollOtherDeductionLine(objPayrollOtherDeductionLine: PayrollOtherDeductionLineModel, eventTitle: string) {
+    const matDialogRef = this._matDialog.open(PayrollOtherDeductionLineDialogComponent, {
+      width: '1300px',
+      data: {
+        objDialogTitle: eventTitle,
+        objPayrollGroup: this._payrollOtherDeductionModel.PayrollGroup,
+        objPayrollOtherDeductionLine: objPayrollOtherDeductionLine,
+      },
+      disableClose: true
+    });
 
-  //   matDialogRef.afterClosed().subscribe((result: any) => {
-  //     if (result.event === "Add Payroll Other Income Line") {
+    matDialogRef.afterClosed().subscribe((result: any) => {
+      if (result.event === "Add Payroll Other Income Line") {
 
-  //       this._isPayrollOtherIncomeLineDataLoaded = true;
+        this._isPayrollOtherDeductionLineDataLoaded = true;
 
-  //       this.AddSavePayrollOtherIncomeLine(result.data);
-  //     }
-  //     if (result.event === "Edit Payroll Other Income Line Detail") {
+        this.AddSavePayrollOtherDeductionLine(result.data);
+      }
+      if (result.event === "Edit Payroll Other Income Line Detail") {
 
-  //       this._isPayrollOtherIncomeLineDataLoaded = true;
+        this._isPayrollOtherDeductionLineDataLoaded = true;
 
-  //       this.UpdatePayrollOtherIncomeLine(result.data.Id, result.data);
-  //     }
-  //   });
-  // }
+        this.UpdatePayrollOtherDeductionLine(result.data.Id, result.data);
+      }
+    });
+  }
 
-  // ngOnDestroy() {
-  // }
+  ngOnDestroy() {
+  }
 
-  // public async AddSavePayrollOtherIncomeLine(objPayrollOtherIncomeLine: PayrollOtherIncomeLineModel) {
-  //   this._isPayrollOtherIncomeLineProgressBarHidden = true;
+  public async AddSavePayrollOtherDeductionLine(objPayrollOtherDeductionLine: PayrollOtherDeductionLineModel) {
+    this._isPayrollOtherDeductionLineProgressBarHidden = true;
 
-  //   if (this._isPayrollOtherIncomeLineDataLoaded == true) {
-  //     this._isPayrollOtherIncomeLineDataLoaded = false;
-  //     this._savePayrollOtherIncomeLineSubscription = await (await this._payrollOtherDeductionDetailService.AddPayrollOtherIncomeLine(objPayrollOtherIncomeLine)).subscribe(
-  //       response => {
-  //         this._isPayrollOtherIncomeLineDataLoaded = true;
-  //         this._isPayrollOtherIncomeLineProgressBarHidden = false;
+    if (this._isPayrollOtherDeductionLineDataLoaded == true) {
+      this._isPayrollOtherDeductionLineDataLoaded = false;
+      this._savePayrollOtherDeductionLineSubscription = await (await this._payrollOtherDeductionDetailService.AddPayrollOtherDeductionLine(this._payrollOtherDeductionModel.Id, objPayrollOtherDeductionLine)).subscribe(
+        response => {
+          this._isPayrollOtherDeductionLineDataLoaded = true;
+          this._isPayrollOtherDeductionLineProgressBarHidden = false;
 
-  //         this._snackBarTemplate.snackBarSuccess(this._snackBar, "Save Successfully");
-  //         this.GetPayrollOtherIncomeLineListData();
-  //         if (this._savePayrollOtherIncomeLineSubscription != null) this._savePayrollOtherIncomeLineSubscription.unsubscribe();
-  //       },
-  //       error => {
-  //         this._isPayrollOtherIncomeLineDataLoaded = true;
-  //         this._isPayrollOtherIncomeLineProgressBarHidden = false;
-  //         this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
-  //         if (this._savePayrollOtherIncomeLineSubscription != null) this._savePayrollOtherIncomeLineSubscription.unsubscribe();
-  //       }
-  //     );
-  //   }
-  // }
+          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Save Successfully");
+          this.GetPayrollOtherDeductionLineListData();
+          if (this._savePayrollOtherDeductionLineSubscription != null) this._savePayrollOtherDeductionLineSubscription.unsubscribe();
+        },
+        error => {
+          this._isPayrollOtherDeductionLineDataLoaded = true;
+          this._isPayrollOtherDeductionLineProgressBarHidden = false;
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this._savePayrollOtherDeductionLineSubscription != null) this._savePayrollOtherDeductionLineSubscription.unsubscribe();
+        }
+      );
+    }
+  }
 
-  // public async UpdatePayrollOtherIncomeLine(id: number, objPayrollOtherIncomeLine: PayrollOtherIncomeLineModel) {
-  //   this._isPayrollOtherIncomeLineProgressBarHidden = true;
+  public async UpdatePayrollOtherDeductionLine(id: number, objPayrollOtherDeductionLine: PayrollOtherDeductionLineModel) {
+    this._isPayrollOtherDeductionLineProgressBarHidden = true;
 
-  //   if (this._isPayrollOtherIncomeLineDataLoaded == true) {
-  //     this._isPayrollOtherIncomeLineDataLoaded = false;
-  //     this._updatePayrollOtherIncomeLineSubscription = await (await this._payrollOtherDeductionDetailService.UpdatePayrollOtherIncomeLine(id, objPayrollOtherIncomeLine)).subscribe(
-  //       response => {
-  //         this._isPayrollOtherIncomeLineDataLoaded = true;
-  //         this._isPayrollOtherIncomeLineProgressBarHidden = false;
+    if (this._isPayrollOtherDeductionLineDataLoaded == true) {
+      this._isPayrollOtherDeductionLineDataLoaded = false;
+      this._updatePayrollOtherDeductionLineSubscription = await (await this._payrollOtherDeductionDetailService.UpdatePayrollOtherDeductionLine(id, objPayrollOtherDeductionLine)).subscribe(
+        response => {
+          this._isPayrollOtherDeductionLineDataLoaded = true;
+          this._isPayrollOtherDeductionLineProgressBarHidden = false;
 
-  //         this._snackBarTemplate.snackBarSuccess(this._snackBar, "Update Successfully");
-  //         this.GetPayrollOtherIncomeLineListData();
-  //         if (this._updatePayrollOtherIncomeLineSubscription != null) this._updatePayrollOtherIncomeLineSubscription.unsubscribe();
-  //       },
-  //       error => {
-  //         this._isPayrollOtherIncomeLineDataLoaded = true;
-  //         this._isPayrollOtherIncomeLineProgressBarHidden = false;
-  //         this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
-  //         if (this._updatePayrollOtherIncomeLineSubscription != null) this._updatePayrollOtherIncomeLineSubscription.unsubscribe();
-  //       }
-  //     );
-  //   }
-  // }
+          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Update Successfully");
+          this.GetPayrollOtherDeductionLineListData();
+          if (this._updatePayrollOtherDeductionLineSubscription != null) this._updatePayrollOtherDeductionLineSubscription.unsubscribe();
+        },
+        error => {
+          this._isPayrollOtherDeductionLineDataLoaded = true;
+          this._isPayrollOtherDeductionLineProgressBarHidden = false;
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this._updatePayrollOtherDeductionLineSubscription != null) this._updatePayrollOtherDeductionLineSubscription.unsubscribe();
+        }
+      );
+    }
+  }
 
-  // selectedPreparedByUser(event: MatSelectChange) {
-  //   const selectedData = {
-  //     text: (event.source.selected as MatOption).viewValue,
-  //     value: event.source.value
-  //   };
+  selectedPreparedByUser(event: MatSelectChange) {
+    const selectedData = {
+      text: (event.source.selected as MatOption).viewValue,
+      value: event.source.value
+    };
 
-  //   this._payrollOtherIncomeModel.PreparedByUserId = event.source.value;
-  //   this._payrollOtherIncomeModel.PreparedByUser = (event.source.selected as MatOption).viewValue;
-  // }
+    this._payrollOtherDeductionModel.PreparedByUserId = event.source.value;
+    this._payrollOtherDeductionModel.PreparedByUser = (event.source.selected as MatOption).viewValue;
+  }
 
-  // selectedCheckedByUser(event: MatSelectChange) {
-  //   const selectedData = {
-  //     text: (event.source.selected as MatOption).viewValue,
-  //     value: event.source.value
-  //   };
+  selectedCheckedByUser(event: MatSelectChange) {
+    const selectedData = {
+      text: (event.source.selected as MatOption).viewValue,
+      value: event.source.value
+    };
 
-  //   this._payrollOtherIncomeModel.CheckedByUserId = event.source.value;
-  //   this._payrollOtherIncomeModel.CheckedByUser = (event.source.selected as MatOption).viewValue;
-  // }
+    this._payrollOtherDeductionModel.CheckedByUserId = event.source.value;
+    this._payrollOtherDeductionModel.CheckedByUser = (event.source.selected as MatOption).viewValue;
+  }
 
-  // selectedApprovedByUser(event: MatSelectChange) {
-  //   const selectedData = {
-  //     text: (event.source.selected as MatOption).viewValue,
-  //     value: event.source.value
-  //   };
+  selectedApprovedByUser(event: MatSelectChange) {
+    const selectedData = {
+      text: (event.source.selected as MatOption).viewValue,
+      value: event.source.value
+    };
 
-  //   this._payrollOtherIncomeModel.ApprovedByUserId = event.source.value;
-  //   this._payrollOtherIncomeModel.ApprovedByUser = (event.source.selected as MatOption).viewValue;
-  // }
+    this._payrollOtherDeductionModel.ApprovedByUserId = event.source.value;
+    this._payrollOtherDeductionModel.ApprovedByUser = (event.source.selected as MatOption).viewValue;
+  }
 
-  // public btnCSVClick(): void {
-  //   var fileName = "";
+  public btnCSVClick(): void {
+    var fileName = "";
 
-  //   fileName = "payroll-other-income.csv";
+    fileName = "payroll-other-income.csv";
 
-  //   var csvData = this.generateCSV();
-  //   var csvURL = window.URL.createObjectURL(csvData);
-  //   var tempLink = document.createElement('a');
+    var csvData = this.generateCSV();
+    var csvURL = window.URL.createObjectURL(csvData);
+    var tempLink = document.createElement('a');
 
-  //   tempLink.href = csvURL;
-  //   tempLink.setAttribute('download', fileName);
-  //   tempLink.click();
-  // }
+    tempLink.href = csvURL;
+    tempLink.setAttribute('download', fileName);
+    tempLink.click();
+  }
 
-  // public generateCSV(): Blob {
-  //   var data = "";
-  //   var collection;
-  //   var fileName = "";
+  public generateCSV(): Blob {
+    var data = "";
+    var collection;
+    var fileName = "";
 
-  //   data = 'Change Payroll Other Income' + '\r\n\n';
-  //   collection = this._listPayrollOtherIncomeLineCollectionView;
-  //   fileName = "payroll-other-income.csv";
+    data = 'Change Payroll Other Income' + '\r\n\n';
+    collection = this._listPayrollOtherDeductionLineCollectionView;
+    fileName = "payroll-other-income.csv";
 
-  //   if (data != "") {
-  //     var label = '"' + 'ID' + '",'
-  //       + '"' + 'PINumber' + '",'
-  //       + '"' + 'PIDate' + '",'
-  //       + '"' + 'PayrollGroup' + '",'
-  //       + '"' + 'Year' + '",'
-  //       + '"' + 'Remarks' + '",'
-  //       + '"' + 'PreparedByUser' + '",'
-  //       + '"' + 'CheckedByUser' + '",'
-  //       + '"' + 'ApprovedByUser' + '",';
-  //     for (var s in collection.items[0]) {
-  //       label += s + ',';
-  //     }
-  //     label = label.slice(0, -1);
+    if (data != "") {
+      var label = '"' + 'ID' + '",'
+        + '"' + 'PDNumber' + '",'
+        + '"' + 'PDDate' + '",'
+        + '"' + 'PayrollGroup' + '",'
+        + '"' + 'Year' + '",'
+        + '"' + 'Remarks' + '",'
+        + '"' + 'PreparedByUser' + '",'
+        + '"' + 'CheckedByUser' + '",'
+        + '"' + 'ApprovedByUser' + '",';
+      for (var s in collection.items[0]) {
+        label += s + ',';
+      }
+      label = label.slice(0, -1);
 
-  //     data += label + '\r\n';
+      data += label + '\r\n';
 
-  //     collection.moveToFirstPage();
-  //     for (var p = 0; p < collection.pageCount; p++) {
-  //       for (var i = 0; i < collection.items.length; i++) {
-  //         var row = '"' + this._payrollOtherIncomeModel.Id + '",'
-  //           + '"' + this._payrollOtherIncomeModel.PINumber + '",'
-  //           + '"' + this._payrollOtherIncomeModel.PIDate + '",'
-  //           + '"' + this._payrollOtherIncomeModel.PayrollGroup + '",'
-  //           + '"' + this._payrollOtherIncomeModel.Year + '",'
-  //           + '"' + this._payrollOtherIncomeModel.Remarks + '",'
-  //           + '"' + this._payrollOtherIncomeModel.PreparedByUser + '",'
-  //           + '"' + this._payrollOtherIncomeModel.CheckedByUser + '",'
-  //           + '"' + this._payrollOtherIncomeModel.ApprovedByUser + '",';
+      collection.moveToFirstPage();
+      for (var p = 0; p < collection.pageCount; p++) {
+        for (var i = 0; i < collection.items.length; i++) {
+          var row = '"' + this._payrollOtherDeductionModel.Id + '",'
+            + '"' + this._payrollOtherDeductionModel.PDNumber + '",'
+            + '"' + this._payrollOtherDeductionModel.PDDate + '",'
+            + '"' + this._payrollOtherDeductionModel.PayrollGroup + '",'
+            + '"' + this._payrollOtherDeductionModel.Year + '",'
+            + '"' + this._payrollOtherDeductionModel.Remarks + '",'
+            + '"' + this._payrollOtherDeductionModel.PreparedByUser + '",'
+            + '"' + this._payrollOtherDeductionModel.CheckedByUser + '",'
+            + '"' + this._payrollOtherDeductionModel.ApprovedByUser + '",';
 
-  //         for (var s in collection.items[i]) {
-  //           row += '"' + collection.items[i][s] + '",';
-  //         }
-  //         row.slice(0, row.length - 1);
-  //         data += row + '\r\n';
-  //       }
-  //       collection.moveToNextPage();
-  //     }
-  //   }
-  //   return new Blob([data], { type: 'text/csv;charset=utf-8;' });
-  // }
+          for (var s in collection.items[i]) {
+            row += '"' + collection.items[i][s] + '",';
+          }
+          row.slice(0, row.length - 1);
+          data += row + '\r\n';
+        }
+        collection.moveToNextPage();
+      }
+    }
+    return new Blob([data], { type: 'text/csv;charset=utf-8;' });
+  }
 
 
 }

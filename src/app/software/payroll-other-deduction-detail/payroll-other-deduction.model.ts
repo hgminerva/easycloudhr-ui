@@ -1,7 +1,7 @@
 export class PayrollOtherDeductionModel {
     Id: number;
-    PINumber: string;
-    PIDate: Date;
+    PDNumber: string;
+    PDDate: string;
     PayrollGroup: string;
     YearId: number;
     Year: string;

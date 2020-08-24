@@ -20,8 +20,13 @@ export class PayrollOtherDeductionDetailService {
   }
 
   // PayrollOtherDeduction DROPDOWN
-  public async OtherIncomeList() {
-    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/payroll/other/deduction/line/income/list', this.appSettings.defaultOptions);
+  public async OtherDeductionList() {
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/payroll/other/deduction/line/deduction/list', this.appSettings.defaultOptions);
+  }
+
+  // PayrollOtherDeduction DROPDOWN
+  public async LoanList() {
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/payroll/other/deduction/line/loan/list', this.appSettings.defaultOptions);
   }
 
 
@@ -55,8 +60,8 @@ export class PayrollOtherDeductionDetailService {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/payroll/other/deduction/line/list/' + PayrollOtherDeductionId, this.appSettings.defaultOptions);
   }
 
-  public async AddPayrollOtherDeductionLine(objPayrollOtherDeductionLine: PayrollOtherDeductionLineModel) {
-    return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/payroll/other/deduction/line/create/', JSON.stringify(objPayrollOtherDeductionLine), this.appSettings.defaultOptions);
+  public async AddPayrollOtherDeductionLine(PDID: number, objPayrollOtherDeductionLine: PayrollOtherDeductionLineModel) {
+    return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/payroll/other/deduction/line/create/' + PDID, JSON.stringify(objPayrollOtherDeductionLine), this.appSettings.defaultOptions);
   }
 
   public async UpdatePayrollOtherDeductionLine(id: number, objPayrollOtherDeductionLine: PayrollOtherDeductionLineModel) {
