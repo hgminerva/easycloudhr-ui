@@ -1,0 +1,30 @@
+export class PayrollLineModel {
+    Id: number;
+    PAYId: number;
+    EmployeeId: number;
+    Employee: string;
+    PayrollRate: string;
+    TotalDailyPay: string;
+    TotalPremiumPay: string;
+    TotalHolidayPay: string;
+    TotalOvertimePay: string;
+    TotalNightDifferentialPay: string;
+    TotalCOLA: string;
+    TotalAdditionalAllowance: string;
+    TotalLateDeduction: string;
+    TotalUndertimeDeduction: string;
+    Income: string;
+    TotalOtherIncomeNotTaxable: string;
+    TotalOtherIncomeTaxable: string;
+    GrossIncome: string;
+    SSSContribution: string;
+    PHICContribution: string;
+    HDMFContribution: string;
+    IncomeTaxAmount: string;
+    TotalOtherDeduction: string;
+    NetIncome: string;
+    SSSEmployerContribution: string;
+    SSSEC: string;
+    PHICEmployerContribution: string;
+    HDMFEmployerContribution: string;
+}

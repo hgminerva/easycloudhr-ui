@@ -1,0 +1,31 @@
+export class PayrollModel {
+    Id: number;
+    PAYNumber: string;
+    PAYDate: string;
+    PayrollGroup: string;
+    YearId: number;
+    Year: string;
+    QuarterNumber: string;
+    MonthNumber: string;
+    WeekNumber: string;
+    DTRId: number;
+    DTR: string;
+    PDId: number;
+    PD: string;
+    PIId: number;
+    PI: string;
+    Remarks: string;
+    PreparedByUserId: number;
+    PreparedByUser: string;
+    CheckedByUserId: number;
+    CheckedByUser: string;
+    ApprovedByUserId: number;
+    ApprovedByUser: string;
+    CreatedByUserId: number;
+    CreatedByUser: string;
+    CreatedDateTime: string;
+    UpdatedByUserId: number;
+    UpdatedByUser: string;
+    UpdatedDateTime: string;
+    IsLocked: boolean;
+}

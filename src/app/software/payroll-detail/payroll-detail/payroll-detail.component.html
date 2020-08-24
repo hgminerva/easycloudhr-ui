@@ -1,1 +1,339 @@
-<p>payroll-detail works!</p>
+<mat-toolbar>
+    <img src="../../../../assets/menu-icons/payroll.png" height="35" />
+    <span>&nbsp;&nbsp; Payroll Detail</span>
+    <span class="spacer"></span>
+    <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="_btnSaveDisabled"
+        (click)="SavePayrollDetail()">
+        <mat-icon>save</mat-icon>
+        Save
+    </button>
+    <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="_btnLockisabled"
+        (click)="LockPayrollDetail()">
+        <mat-icon>lock</mat-icon>
+        Lock
+    </button>
+    <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="_btnUnlockDisabled"
+        (click)="UnlockPayrollDetail()">
+        <mat-icon>lock_open</mat-icon>
+        Unlock
+    </button>
+    <button mat-flat-button color="accent" id="btnAddCSV" [disabled]="_btnUnlockDisabled" style="margin: 5px;"
+        (click)="btnCSVClick()">
+        <mat-icon>get_app</mat-icon>
+        CSV
+    </button>
+    <button mat-flat-button style="margin-right: 5px;" routerLink="/software/payroll-list" color="warn">
+        <mat-icon>close</mat-icon>
+        Close
+    </button>
+</mat-toolbar>
+<mat-progress-bar *ngIf="_isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'" style="width: 100%;">
+</mat-progress-bar>
+<div class="software-container">
+    <div [hidden]="_isComponentsShown">
+        <div fxLayout="row" fxLayout.xs="column">
+            <div fxFlex="50" style="padding: 5px;">
+                <div fxLayout="row" fxLayout.xs="column">
+                    <div fxFlex="33" style="padding: 5px;margin-top: 3px;">
+                        <h2 class="text_box"><b>{{_payrollModel.PAYNumber}}</b> </h2>
+                    </div>
+                    <div fxFlex="33" style="padding: 5px;margin-top: 3px;">
+                        <h2 class="text_box"><b>{{_payrollModel.PayrollGroup}}</b> </h2>
+                    </div>
+                    <div fxFlex="34" style="padding: 5px;margin-top: 3px;">
+                        <h2 class="text_box"><b>{{_payrollModel.Year}}</b> </h2>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column">
+                    <div fxFlex="25" style="padding: 5px;">
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Date</mat-label>
+                            <input matInput [matDatepicker]="datePickerPayrollDate" [(ngModel)]="UIPAYDate"
+                                (dateInput)="GetUIDATEPAYDate()" [readonly]="_isLocked">
+                            <mat-datepicker-toggle matSuffix [for]="datePickerPayrollDate" [disabled]="_isLocked">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #datePickerPayrollDate color="primary"></mat-datepicker>
+                        </mat-form-field>
+
+                    </div>
+                    <div fxFlex="25" style="padding: 5px;">
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Quarter No.</mat-label>
+                            <input matInput [(ngModel)]="_payrollModel.QuarterNumber" [readonly]="_isLocked">
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="25" style="padding: 5px;">
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Month No.</mat-label>
+                            <input matInput [(ngModel)]="_payrollModel.MonthNumber" [readonly]="_isLocked">
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="25" style="padding: 5px;">
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Week No.</mat-label>
+                            <input matInput [(ngModel)]="_payrollModel.WeekNumber" [readonly]="_isLocked">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column">
+                    <div fxFlex="33" style="padding: 5px;">
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>DTR</mat-label>
+                            <mat-select [(ngModel)]="_payrollModel.DTRId">
+                                <mat-option *ngFor="let dTR of _dTRListDropdown" [disabled]="_isLocked"
+                                    [value]="dTR.Id">
+                                    {{dTR.Value}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="33" style="padding: 5px;">
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Payroll Other Income</mat-label>
+                            <mat-select [(ngModel)]="_payrollModel.PIId">
+                                <mat-option *ngFor="let payrollOtherIncome of _payrollOtherIncomeListDropdown"
+                                    [disabled]="_isLocked" [value]="payrollOtherIncome.Id">
+                                    {{payrollOtherIncome.Value}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="34" style="padding: 5px;">
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Payroll Other Deduction</mat-label>
+                            <mat-select [(ngModel)]="_payrollModel.PDId">
+                                <mat-option *ngFor="let payrollOtherDeduction of _payrollOtherDeductionListDropdown"
+                                    [disabled]="_isLocked" [value]="payrollOtherDeduction.Id">
+                                    {{payrollOtherDeduction.Value}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div fxFlex="50" style="padding: 5px;">
+                <div fxLayout="row" fxLayout.xs="column">
+                    <div fxFlex="33" style="padding: 5px;">
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Prepared By</mat-label>
+                            <mat-select [(ngModel)]="_payrollModel.PreparedByUserId" disabled>
+                                <mat-option *ngFor="let user of _userListDropdown" [value]="user.Id">
+                                    {{user.Value}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="33" style="padding: 5px;">
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Checked By</mat-label>
+                            <mat-select [(ngModel)]="_payrollModel.CheckedByUserId"
+                                (selectionChange)="selectedCheckedByUser($event)">
+                                <mat-option *ngFor="let user of _userListDropdown" [disabled]="_isLocked"
+                                    [value]="user.Id">
+                                    {{user.Value}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="34" style="padding: 5px;">
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Approved By</mat-label>
+                            <mat-select [(ngModel)]="_payrollModel.ApprovedByUserId"
+                                (selectionChange)="selectedApprovedByUser($event)">
+                                <mat-option *ngFor="let user of _userListDropdown" [disabled]="_isLocked"
+                                    [value]="user.Id">
+                                    {{user.Value}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div fxLayout="row" fxLayout.xs="column">
+                    <div fxFlex="100" style="padding: 5px;">
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Remarks</mat-label>
+                            <textarea matInput placeholder="AddrRemarksess" [(ngModel)]="_payrollModel.Remarks"
+                                [readonly]="_isLocked" rows="5" style="min-height: 102px;"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <mat-tab-group #tabGroup (selectedTabChange)="activeTab()" style="max-height:100%;" class="detail-tab">
+            <mat-tab label="Payroll Line">
+                <mat-progress-bar *ngIf="_isPayrollLineProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'">
+                </mat-progress-bar>
+
+                <wj-flex-grid #flexPayrollLine [itemsSource]="_listPayrollLineCollectionView" [selectionMode]="3"
+                    [frozenColumns]="2" [headersVisibility]="1">
+                    <wj-flex-grid-filter></wj-flex-grid-filter>
+                    <wj-flex-grid-column [isReadOnly]="true" [width]="150" *ngIf="!_isLocked">
+                        <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
+                            <button mat-raised-button color="primary"
+                                style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
+                                (click)="EditPayrollLine()" id="btnEditPayrollLine">
+                                <mat-icon>edit</mat-icon>
+                                Edit
+                            </button>
+                        </ng-template>
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [isReadOnly]="true" [width]="150" *ngIf="!_isLocked">
+                        <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
+                            <button mat-raised-button color="warn"
+                                style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
+                                (click)="ComfirmDeletePayrollLine()">
+                                <mat-icon>delete</mat-icon>
+                                Delete
+                            </button>
+                        </ng-template>
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Employee'" [binding]="'Employee'" [isReadOnly]="true" [width]="200">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Payroll Rate'" [binding]="'PayrollRate'" [isReadOnly]="true"
+                        [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Total Daily Pay'" [binding]="'TotalDailyPay'" [isReadOnly]="true"
+                        [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Total Premium Pay'" [binding]="'TotalPremiumPay'"
+                        [isReadOnly]="true" [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Total Holiday Pay'" [binding]="'TotalHolidayPay'"
+                        [isReadOnly]="true" [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Total Overtime Pay'" [binding]="'TotalOvertimePay'"
+                        [isReadOnly]="true" [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Total Night Differential Pay'"
+                        [binding]="'TotalNightDifferentialPay'" [isReadOnly]="true" [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Total Additional Allowance'" [binding]="'TotalAdditionalAllowance'"
+                        [isReadOnly]="true" [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Total Undertime Deduction'" [binding]="'TotalUndertimeDeduction'"
+                        [isReadOnly]="true" [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Income'" [binding]="'Income'" [isReadOnly]="true" [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Total OtherIncome Not Taxable'"
+                        [binding]="'TotalOtherIncomeNotTaxable'" [isReadOnly]="true" [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Gross Income'" [binding]="'GrossIncome'" [isReadOnly]="true"
+                        [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'SSSC ontribution'" [binding]="'SSSContribution'" [isReadOnly]="true"
+                        [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'PHIC Contribution'" [binding]="'PHICContribution'"
+                        [isReadOnly]="true" [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'HDMF Contribution'" [binding]="'HDMFContribution'"
+                        [isReadOnly]="true" [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Income TaxAmount'" [binding]="'IncomeTaxAmount'" [isReadOnly]="true"
+                        [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Total Other Deduction'" [binding]="'TotalOtherDeduction'"
+                        [isReadOnly]="true" [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Net Income'" [binding]="'NetIncome'" [isReadOnly]="true"
+                        [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'SSS Employer Contribution'" [binding]="'SSSEmployerContribution'"
+                        [isReadOnly]="true" [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'SSS EC'" [binding]="'SSSEC'" [isReadOnly]="true" [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'PHIC Employer Contribution'" [binding]="'PHICEmployerContribution'"
+                        [isReadOnly]="true" [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'HDMF EmployerC ontribution'" [binding]="'HDMFEmployerContribution'"
+                        [isReadOnly]="true" [width]="150">
+                    </wj-flex-grid-column>
+                </wj-flex-grid>
+            </mat-tab>
+            <mat-tab disabled style="background-color: transparent; ">
+                <ng-template mat-tab-label>
+                    <button mat-raised-button color="primary" style="float: right; margin: 5px;"
+                        (click)="AddPayrollLineDialog()" [disabled]="_btnAddPayrollLineDisabled">
+                        <mat-icon>add</mat-icon> ADD
+                    </button><br>
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+
+        <div fxLayout="row" fxLayout.xs="column" style="margin-bottom: 15px;">
+            <div fxFlex="20" style="padding: 2px;">
+                <div fxLayout="row" fxLayout.xs="column">
+                    <mat-button-toggle-group style="margin-top: 7px; width: 100%;">
+                        <mat-button-toggle (click)="_listPayrollLineCollectionView.moveToFirstPage()"
+                            style=" width: 100%;">
+                            <mat-icon style="margin-right: -15px">navigate_before</mat-icon>
+                            <mat-icon>navigate_before</mat-icon>
+                        </mat-button-toggle>
+                        <mat-button-toggle (click)="_listPayrollLineCollectionView.moveToPreviousPage()"
+                            style=" width: 100%;">
+                            <mat-icon>navigate_before</mat-icon>
+                        </mat-button-toggle>
+                        <mat-button-toggle style=" width: 100%;">{{ _listPayrollLineCollectionView.pageIndex + 1 }} /
+                            {{ _listPayrollLineCollectionView.pageCount }}</mat-button-toggle>
+                        <mat-button-toggle (click)="_listPayrollLineCollectionView.moveToNextPage()"
+                            style=" width: 100%;">
+                            <mat-icon>navigate_next</mat-icon>
+                        </mat-button-toggle>
+                        <mat-button-toggle (click)="_listPayrollLineCollectionView.moveToLastPage()"
+                            style=" width: 100%;">
+                            <mat-icon style="margin-right: -15px">navigate_next</mat-icon>
+                            <mat-icon>navigate_next</mat-icon>
+                        </mat-button-toggle>
+                    </mat-button-toggle-group>
+                </div>
+            </div>
+            <div fxFlex="15" style="padding: 5px;">
+
+            </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div fxLayout="row" fxLayout.xs="column" style="color: gray;" style="margin-top: 5px;">
+
+            <div fxFlex="60" style="padding: 5px;">
+                <div fxLayout="row" fxLayout.xs="column">
+                    <div fxFlex="13" style="padding: 5px;">
+                        <mat-label>Created By:</mat-label>
+                    </div>
+                    <div fxFlex="37" style="padding: 5px;">
+                        <mat-label>{{_payrollModel.CreatedByUser}}</mat-label>
+                    </div>
+                    <div fxFlex="20" style="padding: 5px;">
+                        <mat-label>Created DateTime:</mat-label>
+                    </div>
+                    <div fxFlex="60" style="padding: 5px;">
+                        <mat-label>{{_payrollModel.CreatedDateTime}}</mat-label>
+                    </div>
+                </div>
+            </div>
+            <div fxFlex="60" style="padding: 5px;">
+                <div fxLayout="row" fxLayout.xs="column">
+                    <div fxFlex="13" style="padding: 5px;">
+                        <mat-label>Updated By:</mat-label>
+                    </div>
+                    <div fxFlex="37" style="padding: 5px;">
+                        <mat-label>{{_payrollModel.UpdatedByUser}}</mat-label>
+                    </div>
+                    <div fxFlex="20" style="padding: 5px;">
+                        <mat-label>Updated DateTime:</mat-label>
+                    </div>
+                    <div fxFlex="60" style="padding: 5px;">
+                        <mat-label>{{_payrollModel.UpdatedDateTime}}</mat-label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
