@@ -31,5 +31,4 @@ export class DTRListService {
     return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/dtr/payroll/group/list',
       this.appSettings.defaultOptions);
   }
-
 }

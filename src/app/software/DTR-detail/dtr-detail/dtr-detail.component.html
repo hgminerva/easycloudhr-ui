@@ -101,7 +101,7 @@
                     <div fxFlex="34" style="padding: 5px;">
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Change Shift</mat-label>
-                            <mat-select [(ngModel)]="_dTRModel.YearId">
+                            <mat-select [(ngModel)]="_dTRModel.CSId">
                                 <mat-option *ngFor="let cS of _cSListDropdown" [disabled]="_isLocked" [value]="cS.Id">
                                     {{cS.Value}}
                                 </mat-option>

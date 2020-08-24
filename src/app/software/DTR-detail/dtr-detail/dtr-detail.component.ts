@@ -7,6 +7,9 @@ import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSelectChange } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
+import { DatePipe } from '@angular/common';
 
 import { DtrDetialService } from './../dtr-detial.service';
 import { DTRModel } from '../dtr-detial.model';
@@ -14,10 +17,6 @@ import { DTRLineModel } from '../dtr-line.model';
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { DtrDetialDtrLineDetailDialogComponent } from '../dtr-detial-dtr-line-detail-dialog/dtr-detial-dtr-line-detail-dialog.component';
 import { DtrDetailDtrLineAddDialogComponent } from '../dtr-detail-dtr-line-add-dialog/dtr-detail-dtr-line-add-dialog.component';
-import { MatSelectChange } from '@angular/material/select';
-import { MatOption } from '@angular/material/core';
-import { DatePipe } from '@angular/common';
-
 
 @Component({
   selector: 'app-dtr-detail',
