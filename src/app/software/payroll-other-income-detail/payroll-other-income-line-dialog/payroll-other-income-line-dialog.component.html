@@ -26,7 +26,7 @@
             </div>
             <div fxFlex="34" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
-                    <mat-label>OT Hours</mat-label>
+                    <mat-label>Amount</mat-label>
                     <input type="{{inputTypeAmount}}" matInput placeholder="0.00" style="text-align:right;"
                         autocomplete="off" [(ngModel)]="_payrollOtherIncomeLineModel.Amount"
                         (focus)="AmountToNumberType()" (focusout)="formatValueAmount()">
@@ -38,8 +38,8 @@
             <div fxFlex="100" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>Particulars</mat-label>
-                    <textarea matInput placeholder="Particulars" [(ngModel)]="_payrollOtherIncomeLineModel.Particulars" rows="5"
-                        style="min-height: 102px;"></textarea>
+                    <textarea matInput placeholder="Particulars" [(ngModel)]="_payrollOtherIncomeLineModel.Particulars"
+                        rows="5" style="min-height: 102px;"></textarea>
                 </mat-form-field>
             </div>
         </div>
