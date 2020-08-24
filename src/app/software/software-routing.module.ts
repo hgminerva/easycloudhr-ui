@@ -39,6 +39,8 @@ import { PayrollOtherIncomeListComponent } from './payroll-other-income-list/pay
 import { PayrollOtherIncomeDetailComponent } from './payroll-other-income-detail/payroll-other-income-detail/payroll-other-income-detail.component';
 import { PayrollOtherDeductionListComponent } from './payroll-other-deduction-list/payroll-other-deduction-list/payroll-other-deduction-list.component';
 import { PayrollOtherDeductionDetailComponent } from './payroll-other-deduction-detail/payroll-other-deduction-detail/payroll-other-deduction-detail.component';
+import { PayrollListComponent } from './payroll-list/payroll-list/payroll-list.component';
+import { PayrollDetailComponent } from './payroll-detail/payroll-detail/payroll-detail.component';
 
 const routes: Routes = [
   {
@@ -74,6 +76,8 @@ const routes: Routes = [
       { path: 'DTR-detail/:id', canActivate: [SoftwareRoutingActivate], component: DTRDetailComponent },
       { path: 'system-tables-list', canActivate: [SoftwareRoutingActivate], component: SystemTalesListComponent },
       { path: 'loan-list', canActivate: [SoftwareRoutingActivate], component: LoanListComponent },
+      { path: 'payroll-list', canActivate: [SoftwareRoutingActivate], component: PayrollListComponent },
+      { path: 'payroll-detail/:id', canActivate: [SoftwareRoutingActivate], component: PayrollDetailComponent },
       { path: 'payroll-other-income-list', canActivate: [SoftwareRoutingActivate], component: PayrollOtherIncomeListComponent },
       { path: 'payroll-other-income-detail/:id', canActivate: [SoftwareRoutingActivate], component: PayrollOtherIncomeDetailComponent },
       { path: 'payroll-other-deduction-list', canActivate: [SoftwareRoutingActivate], component: PayrollOtherDeductionListComponent },
