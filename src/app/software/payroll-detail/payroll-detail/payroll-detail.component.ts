@@ -234,12 +234,10 @@ export class PayrollDetailComponent implements OnInit {
       }
     );
     this._payrollModel = this.payrollDetail;
-    console.log(this._payrollModel);
   }
 
   public GetUIDATEPAYDate() {
     this._payrollModel.PAYDate = this.datePipe.transform(this.UIPAYDate, 'yyyy-MM-dd');
-    console.log(this._payrollModel.PAYDate);
   }
 
   public async SavePayrollDetail() {
@@ -377,35 +375,36 @@ export class PayrollDetailComponent implements OnInit {
       PAYId: currentPayrollLine.PAYId,
       EmployeeId: currentPayrollLine.EmployeeId,
       Employee: currentPayrollLine.Employee,
-      PayrollRate: this.RemoveComma(currentPayrollLine.NumberOfHoursWorked),
-      TotalDailyPay: this.RemoveComma(currentPayrollLine.NumberOfHoursWorked),
-      TotalPremiumPay: this.RemoveComma(currentPayrollLine.NumberOfHoursWorked),
-      TotalHolidayPay: this.RemoveComma(currentPayrollLine.NumberOfHoursWorked),
-      TotalOvertimePay: this.RemoveComma(currentPayrollLine.NumberOfHoursWorked),
-      TotalNightDifferentialPay: this.RemoveComma(currentPayrollLine.NumberOfHoursWorked),
-      TotalCOLA: this.RemoveComma(currentPayrollLine.NumberOfHoursWorked),
-      TotalAdditionalAllowance: this.RemoveComma(currentPayrollLine.NumberOfHoursWorked),
-      TotalLateDeduction: this.RemoveComma(currentPayrollLine.NumberOfHoursWorked),
-      TotalUndertimeDeduction: this.RemoveComma(currentPayrollLine.NumberOfHoursWorked),
-      Income: this.RemoveComma(currentPayrollLine.NumberOfHoursWorked),
-      TotalOtherIncomeNotTaxable: this.RemoveComma(currentPayrollLine.NumberOfHoursWorked),
-      TotalOtherIncomeTaxable: this.RemoveComma(currentPayrollLine.NumberOfHoursWorked),
-      GrossIncome: this.RemoveComma(currentPayrollLine.NumberOfHoursWorked),
-      SSSContribution: this.RemoveComma(currentPayrollLine.NumberOfHoursWorked),
-      PHICContribution: this.RemoveComma(currentPayrollLine.NumberOfHoursWorked),
-      HDMFContribution: this.RemoveComma(currentPayrollLine.NumberOfHoursWorked),
-      IncomeTaxAmount: this.RemoveComma(currentPayrollLine.NumberOfHoursWorked),
-      TotalOtherDeduction: this.RemoveComma(currentPayrollLine.NumberOfHoursWorked),
-      NetIncome: this.RemoveComma(currentPayrollLine.NumberOfHoursWorked),
-      SSSEmployerContribution: this.RemoveComma(currentPayrollLine.NumberOfHoursWorked),
-      SSSEC: this.RemoveComma(currentPayrollLine.NumberOfHoursWorked),
-      PHICEmployerContribution: this.RemoveComma(currentPayrollLine.NumberOfHoursWorked),
-      HDMFEmployerContribution: this.RemoveComma(currentPayrollLine.NumberOfHoursWorked)
+      PayrollRate: this.RemoveComma(currentPayrollLine.PayrollRate),
+      TotalDailyPay: this.RemoveComma(currentPayrollLine.TotalDailyPay),
+      TotalPremiumPay: this.RemoveComma(currentPayrollLine.TotalPremiumPay),
+      TotalHolidayPay: this.RemoveComma(currentPayrollLine.TotalHolidayPay),
+      TotalOvertimePay: this.RemoveComma(currentPayrollLine.TotalOvertimePay),
+      TotalNightDifferentialPay: this.RemoveComma(currentPayrollLine.TotalNightDifferentialPay),
+      TotalCOLA: this.RemoveComma(currentPayrollLine.TotalCOLA),
+      TotalAdditionalAllowance: this.RemoveComma(currentPayrollLine.TotalAdditionalAllowance),
+      TotalLateDeduction: this.RemoveComma(currentPayrollLine.TotalLateDeduction),
+      TotalUndertimeDeduction: this.RemoveComma(currentPayrollLine.TotalUndertimeDeduction),
+      Income: this.RemoveComma(currentPayrollLine.Income),
+      TotalOtherIncomeNotTaxable: this.RemoveComma(currentPayrollLine.TotalOtherIncomeNotTaxable),
+      TotalOtherIncomeTaxable: this.RemoveComma(currentPayrollLine.TotalOtherIncomeTaxable),
+      GrossIncome: this.RemoveComma(currentPayrollLine.GrossIncome),
+      SSSContribution: this.RemoveComma(currentPayrollLine.SSSContribution),
+      PHICContribution: this.RemoveComma(currentPayrollLine.PHICContribution),
+      HDMFContribution: this.RemoveComma(currentPayrollLine.HDMFContribution),
+      IncomeTaxAmount: this.RemoveComma(currentPayrollLine.IncomeTaxAmount),
+      TotalOtherDeduction: this.RemoveComma(currentPayrollLine.TotalOtherDeduction),
+      NetIncome: this.RemoveComma(currentPayrollLine.NetIncome),
+      SSSEmployerContribution: this.RemoveComma(currentPayrollLine.SSSEmployerContribution),
+      SSSEC: this.RemoveComma(currentPayrollLine.SSSEC),
+      PHICEmployerContribution: this.RemoveComma(currentPayrollLine.PHICEmployerContribution),
+      HDMFEmployerContribution: this.RemoveComma(currentPayrollLine.HDMFEmployerContribution)
     }
-    this.DetailPayrollLine(_payrollLineModel, "Edit Payroll Line Detail");
+    this.DetailPayrollLine(currentPayrollLine, "Edit Payroll Line Detail");
   }
 
   public RemoveComma(value: string): string {
+    // console.log(value);
     return value.toString().replace(',', '');
   }
 
@@ -458,6 +457,7 @@ export class PayrollDetailComponent implements OnInit {
       data: {
         objDialogTitle: eventTitle,
         objPayrollLine: objPayrollLine,
+        objPayrollGroup: this._payrollModel.PayrollGroup
       },
       disableClose: true
     });

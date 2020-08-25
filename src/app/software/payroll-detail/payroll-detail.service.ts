@@ -56,24 +56,24 @@ export class PayrollDetailService {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/trn/payroll/line/list/' + payrollId, this.appSettings.defaultOptions);
   }
 
-  public async ADPayrollLine(objPayrollLines: PayrollLineModel) {
-    return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/trn/payroll/line/create/lines/', JSON.stringify(objPayrollLines), this.appSettings.defaultOptions);
+  // Payroll
+  public async PayrollLineDetail(id: number) {
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/trn/payroll/line/detail/' + id, this.appSettings.defaultOptions);
+  }
+
+  public async AddPayrollLine(payId: number, objPayrollLines: PayrollLineModel) {
+    return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/trn/payroll/line/create/' + payId, JSON.stringify(objPayrollLines), this.appSettings.defaultOptions);
   }
 
   public async UpdatePayrollLine(id: number, objPayrollLine: PayrollLineModel) {
     return await this.httpClient.put(this.appSettings.defaultAPIURLHost + '/api/trn/payroll/line/update/' + id, JSON.stringify(objPayrollLine), this.appSettings.defaultOptions);
   }
 
-  public async ComputePayrollLine(id: number) {
-    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/trn/payroll/line/compute/' + id, this.appSettings.defaultOptions);
+  public async CreatePayrollLine(id: number) {
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/trn/payroll/line/create/' + id, this.appSettings.defaultOptions);
   }
 
   public async DeletePayrollLine(id: number) {
     return await this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/api/trn/payroll/line/delete/' + id, this.appSettings.defaultOptions);
-  }
-
-  // Payroll LINE DROPDOWN
-  public async EmployeeList(payrollGroup: string) {
-    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/trn/payroll/line/employee/filteredBy/' + payrollGroup, this.appSettings.defaultOptions);
   }
 }
