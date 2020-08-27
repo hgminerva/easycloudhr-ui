@@ -27,7 +27,6 @@ import { CompanyListComponent } from './company-list/company-list/company-list.c
 import { CompanyDetailComponent } from './company-detail/company-detail/company-detail.component';
 import { EmployeeListComponent } from './employee-list/employee-list/employee-list.component';
 import { EmployeeDetailComponent } from './employee-detail/employee-detail/employee-detail.component';
-import { MandatoryTablesComponent } from './mandatory-tables/mandatory-tables/mandatory-tables.component';
 import { ShiftCodeListComponent } from './shift-code-list/shift-code-list/shift-code-list.component';
 import { ShiftCodeDetailComponent } from './shift-code-detail/shift-code-detail/shift-code-detail.component';
 import { DayTypeListComponent } from './day-type-list/day-type-list/day-type-list.component';
@@ -80,6 +79,11 @@ import { LoanDetailDialogComponent } from './loan-list/loan-detail-dialog/loan-d
 import { PayrollOtherIncomeLineDialogComponent } from './payroll-other-income-detail/payroll-other-income-line-dialog/payroll-other-income-line-dialog.component';
 import { PayrollOtherDeductionLineDialogComponent } from './payroll-other-deduction-detail/payroll-other-deduction-line-dialog/payroll-other-deduction-line-dialog.component';
 import { PayrollLineDetailDialogComponent } from './payroll-detail/payroll-line-detail-dialog/payroll-line-detail-dialog.component';
+import { MandatoryTablesListComponent } from './mandatory-tables-list/mandatory-tables-list/mandatory-tables-list.component';
+import { MandatoryTablesDetailMandatoryBirDetailComponent } from './mandatory-tables-detail/mandatory-tables-detail-mandatory-bir-detail/mandatory-tables-detail-mandatory-bir-detail.component';
+import { MandatoryTablesDetailMandatoryHdmfDetailComponent } from './mandatory-tables-detail/mandatory-tables-detail-mandatory-hdmf-detail/mandatory-tables-detail-mandatory-hdmf-detail.component';
+import { MandatoryTablesDetailMandatoryPhicDetailComponent } from './mandatory-tables-detail/mandatory-tables-detail-mandatory-phic-detail/mandatory-tables-detail-mandatory-phic-detail.component';
+import { MandatoryTablesDetailMandatorySssDetailComponent } from './mandatory-tables-detail/mandatory-tables-detail-mandatory-sss-detail/mandatory-tables-detail-mandatory-sss-detail.component';
 
 @NgModule({
   declarations: [
@@ -89,7 +93,6 @@ import { PayrollLineDetailDialogComponent } from './payroll-detail/payroll-line-
     CompanyDetailComponent,
     EmployeeListComponent,
     EmployeeDetailComponent,
-    MandatoryTablesComponent,
     ShiftCodeListComponent,
     ShiftCodeDetailComponent,
     DayTypeListComponent,
@@ -141,6 +144,11 @@ import { PayrollLineDetailDialogComponent } from './payroll-detail/payroll-line-
     PayrollOtherIncomeLineDialogComponent,
     PayrollOtherDeductionLineDialogComponent,
     PayrollLineDetailDialogComponent,
+    MandatoryTablesListComponent,
+    MandatoryTablesDetailMandatoryBirDetailComponent,
+    MandatoryTablesDetailMandatoryHdmfDetailComponent,
+    MandatoryTablesDetailMandatoryPhicDetailComponent,
+    MandatoryTablesDetailMandatorySssDetailComponent,
   ],
   imports: [
     CommonModule,
