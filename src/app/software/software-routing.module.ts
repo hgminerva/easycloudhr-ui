@@ -12,7 +12,7 @@ import { CompanyListComponent } from './company-list/company-list/company-list.c
 import { CompanyDetailComponent } from './company-detail/company-detail/company-detail.component';
 import { EmployeeListComponent } from './employee-list/employee-list/employee-list.component';
 import { EmployeeDetailComponent } from './employee-detail/employee-detail/employee-detail.component';
-import { MandatoryTablesComponent } from './mandatory-tables/mandatory-tables/mandatory-tables.component';
+import { MandatoryTablesListComponent } from './mandatory-tables-list/mandatory-tables-list/mandatory-tables-list.component';
 import { ShiftCodeListComponent } from './shift-code-list/shift-code-list/shift-code-list.component';
 import { ShiftCodeDetailComponent } from './shift-code-detail/shift-code-detail/shift-code-detail.component';
 import { DayTypeListComponent } from './day-type-list/day-type-list/day-type-list.component';
@@ -52,7 +52,7 @@ const routes: Routes = [
       { path: 'company-detail/:id', canActivate: [SoftwareRoutingActivate], component: CompanyDetailComponent },
       { path: 'employee-list', canActivate: [SoftwareRoutingActivate], component: EmployeeListComponent },
       { path: 'employee-detail/:id', canActivate: [SoftwareRoutingActivate], component: EmployeeDetailComponent },
-      { path: 'mandatory-tables', canActivate: [SoftwareRoutingActivate], component: MandatoryTablesComponent },
+      { path: 'mandatory-tables', canActivate: [SoftwareRoutingActivate], component: MandatoryTablesListComponent },
       { path: 'shift-code-list', canActivate: [SoftwareRoutingActivate], component: ShiftCodeListComponent },
       { path: 'shift-code-detail/:id', canActivate: [SoftwareRoutingActivate], component: ShiftCodeDetailComponent },
       { path: 'year-list', canActivate: [SoftwareRoutingActivate], component: YearListComponent },
