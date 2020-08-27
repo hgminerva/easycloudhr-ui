@@ -32,7 +32,6 @@ export class SystemTalesListComponent implements OnInit {
     this.GetTaxExemptionListData();
   }
 
-
   // =============
   // Code Tables
   // =============
@@ -365,7 +364,8 @@ export class SystemTalesListComponent implements OnInit {
   }
 
   @ViewChild('tabGroup') tabGroup;
-  public async AddUserTable() {
+  
+  public async BtnAddCodeTables() {
     if (this.tabGroup.selectedIndex == 0) {
       this.AddCodeTable();
     }

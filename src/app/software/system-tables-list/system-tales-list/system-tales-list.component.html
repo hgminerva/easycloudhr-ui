@@ -2,7 +2,7 @@
     <img src="../../../../assets/menu-icons/system tables.png" height="35" />
     <span>&nbsp;&nbsp; System Tables</span>
     <span class="spacer"></span>
-    <button mat-flat-button color="primary" style="margin: 5px;" [disabled]="buttonDisabled" (click)="AddUserTable()">
+    <button mat-flat-button color="primary" style="margin: 5px;" [disabled]="buttonDisabled" (click)="BtnAddCodeTables()">
         <mat-icon>add</mat-icon>
         ADD
     </button>
@@ -22,7 +22,7 @@
                             <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                                 <button mat-raised-button color="primary"
                                     style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
-                                    (click)="EditCodeTable()" id="btnEditTaxExempt">
+                                    (click)="EditCodeTable()" id="btnEditCodeTable">
                                     <mat-icon>edit</mat-icon>
                                     Edit
                                 </button>
@@ -32,7 +32,7 @@
                             <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                                 <button mat-raised-button color="warn"
                                     style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
-                                    (click)="ComfirmDeleteCodeTable()">
+                                    (click)="ComfirmDeleteCodeTable()" id="btnDeleteCodeTable">
                                     <mat-icon>delete</mat-icon>
                                     Delete
                                 </button>
