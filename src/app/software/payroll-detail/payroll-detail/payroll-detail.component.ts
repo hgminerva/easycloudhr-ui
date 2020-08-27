@@ -139,6 +139,7 @@ export class PayrollDetailComponent implements OnInit {
 
   private _payrollLineListSubscription: any;
   private _savePayrollLineSubscription: any;
+  private _downlloadDTRPayrollLineSubscription: any;
   private _deletePayrollLineSubscription: any;
 
   public _btnAddPayrollLineDisabled: boolean = false;
@@ -401,6 +402,28 @@ export class PayrollDetailComponent implements OnInit {
       HDMFEmployerContribution: this.RemoveComma(currentPayrollLine.HDMFEmployerContribution)
     }
     this.DetailPayrollLine(currentPayrollLine, "Edit Payroll Line Detail");
+  }
+
+  public async DownloadDTR() {
+    if (this._isDataLoaded == true) {
+      this._isPayrollLineProgressBarHidden = true;
+      this._isDataLoaded = false;
+      this._downlloadDTRPayrollLineSubscription = await (await this._payrollDetailService.DownloadDTRPayrollLines(this._payrollLineModel.PAYId)).subscribe(
+        response => {
+          this.GetPayrollLineListData();
+          this._isDataLoaded = true;
+          this._isPayrollLineProgressBarHidden = false;
+          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Download Successfully");
+          if (this._downlloadDTRPayrollLineSubscription != null) this._downlloadDTRPayrollLineSubscription.unsubscribe();
+        },
+        error => {
+          this._isDataLoaded = true;
+          this._isPayrollLineProgressBarHidden = false;
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this._downlloadDTRPayrollLineSubscription != null) this._downlloadDTRPayrollLineSubscription.unsubscribe();
+        }
+      );
+    }
   }
 
   public RemoveComma(value: string): string {

@@ -16,7 +16,7 @@ import { EmployeeListPickDialogComponent } from '../../shared/employee-list-pick
 export class PayrollLineDetailDialogComponent implements OnInit {
 
   constructor(
-    public _PayrollDetialService: PayrollDetailService,
+    public _payrollDetailService: PayrollDetailService,
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
     public _matDialogRef: MatDialogRef<PayrollLineDetailDialogComponent>,
@@ -178,7 +178,7 @@ export class PayrollLineDetailDialogComponent implements OnInit {
   public async ComputePayrollLine() {
     this._event = 'Compute';
     this._isProgressBarHidden = true;
-    this._computePayrollLineSubscription = (await this._PayrollDetialService.AddPayrollLine(this._payrollLineModel.PAYId, this._payrollLineModel)).subscribe(
+    this._computePayrollLineSubscription = (await this._payrollDetailService.AddPayrollLine(this._payrollLineModel.PAYId, this._payrollLineModel)).subscribe(
       (response: any) => {
         let result = response;
         // console.log(result);
@@ -219,7 +219,7 @@ export class PayrollLineDetailDialogComponent implements OnInit {
   }
 
   private async GetPayrollDetailDetail(id) {
-    this._payrollLineDetailSubscription = await (await this._PayrollDetialService.PayrollLineDetail(id)).subscribe(
+    this._payrollLineDetailSubscription = await (await this._payrollDetailService.PayrollLineDetail(id)).subscribe(
       (response: any) => {
         let result = response;
         if (result != null) {
@@ -277,12 +277,42 @@ export class PayrollLineDetailDialogComponent implements OnInit {
   ngOnDestroy() {
   }
 
+  public SavePayrollLine(){
+    if(this._payrollLineModel.Id == 0){
+      this.AddPayrollLine();
+    } else {
+      this.UpdatePayrollLine();
+    }
+  }
+
+  public async AddPayrollLine() {
+    this._event = 'Update';
+    this._isProgressBarHidden = true;
+    if (this._isDataLoaded == true) {
+      this._isDataLoaded = false;
+      this._savePayrollLineSubscription = await (await this._payrollDetailService.AddPayrollLine(this._payrollLineModel.PAYId, this._payrollLineModel)).subscribe(
+        response => {
+          this._isDataLoaded = true;
+          this._isProgressBarHidden = false;
+          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Added Successfully");
+          if (this._savePayrollLineSubscription != null) this._savePayrollLineSubscription.unsubscribe();
+        },
+        error => {
+          this._isDataLoaded = true;
+          this._isProgressBarHidden = false;
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this._savePayrollLineSubscription != null) this._savePayrollLineSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
   public async UpdatePayrollLine() {
     this._event = 'Update';
     this._isProgressBarHidden = true;
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
-      this._savePayrollLineSubscription = await (await this._PayrollDetialService.UpdatePayrollLine(this._payrollLineModel.Id, this._payrollLineModel)).subscribe(
+      this._savePayrollLineSubscription = await (await this._payrollDetailService.UpdatePayrollLine(this._payrollLineModel.Id, this._payrollLineModel)).subscribe(
         response => {
           this._isDataLoaded = true;
           this._isProgressBarHidden = false;
