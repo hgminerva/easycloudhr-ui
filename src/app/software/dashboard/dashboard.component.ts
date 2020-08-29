@@ -33,6 +33,21 @@ export class DashboardComponent implements OnInit {
   public moduleOvertimeList: boolean = false;
   public moduleOvertimeDetail: boolean = false;
 
+  public moduleOtherIncomeList: boolean = false;
+  public moduleOtherDeductionList: boolean = false;
+  public moduleLoanList: boolean = false;
+  public moduleMandatory: boolean = false;
+
+  public modulePayroll: boolean = false;
+  public modulePayrollList: boolean = false;
+  public modulePayrollDetail: boolean = false;
+  public modulePayrollOtherDeductionList: boolean = false;
+  public modulePayrollOtherDeductionDetail: boolean = false;
+  public modulePayrollOtherIncomeList: boolean = false;
+  public modulePayrollOtherIncomeDetail: boolean = false;
+  public moduleMandatoryListList: boolean = false;
+  public moduleMandatoryDetail: boolean = false;
+
   public moduleOthers: boolean = false;
 
   ngOnInit(): void {
@@ -98,6 +113,26 @@ export class DashboardComponent implements OnInit {
 
     if (this.softwareSecurityService.openModule("Overtime Detail") == true) {
       this.moduleOvertimeDetail = true;
+    }
+
+    if (this.softwareSecurityService.openModule("Other Income") == true) {
+      this.moduleOtherIncomeList = true;
+    }
+
+    if (this.softwareSecurityService.openModule("Other Deduction") == true) {
+      this.moduleOtherDeductionList = true;
+    }
+
+    if (this.softwareSecurityService.openModule("Mandatory") == true) {
+      this.moduleMandatory = true;
+    }
+
+    if (this.softwareSecurityService.openModule("Loan List") == true) {
+      this.moduleLoanList = true;
+    }
+
+    if (this.softwareSecurityService.openModule("Payroll List") == true) {
+      this.modulePayrollList = true;
     }
 
     if (this.softwareSecurityService.openModule("Others") == true) {

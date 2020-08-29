@@ -62,7 +62,7 @@
                             &nbsp;
                             Employee
                         </a>
-                        <a mat-list-item routerLink="/software/mandatory-tables" *ngIf="moduleOthers">
+                        <a mat-list-item routerLink="/software/mandatory-tables" *ngIf="moduleMandatory">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/mandatory tables.png" height="30" />
@@ -94,7 +94,7 @@
                             &nbsp;
                             Day Type
                         </a>
-                        <a mat-list-item routerLink="/software/other-income" *ngIf="moduleOthers">
+                        <a mat-list-item routerLink="/software/other-income" *ngIf="moduleOtherIncomeList">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/other income.png" height="30" />
@@ -102,7 +102,7 @@
                             &nbsp;
                             Other Income
                         </a>
-                        <a mat-list-item routerLink="/software/other-deductions" *ngIf="moduleOthers">
+                        <a mat-list-item routerLink="/software/other-deductions" *ngIf="moduleOtherDeductionDetail">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/other deductions.png" height="30" />
@@ -180,7 +180,7 @@
                 </mat-expansion-panel>
 
                 <mat-expansion-panel class="mat-elevation-z0" style="border-bottom: 1px solid #e0e0e0;"
-                    *ngIf="moduleOthers">
+                    *ngIf="modulePayroll">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
                             <mat-icon>money</mat-icon>
@@ -193,7 +193,7 @@
                     </mat-expansion-panel-header>
 
                     <mat-nav-list style="margin-left: -25px; margin-right: -25px;">
-                        <a mat-list-item routerLink="/software/loan-list">
+                        <a mat-list-item routerLink="/software/loan-list" *ngIf="moduleLoanList">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/loan.png" height="30" />
@@ -201,7 +201,8 @@
                             &nbsp;
                             Loans
                         </a>
-                        <a mat-list-item routerLink="/software/payroll-other-income-list">
+                        <a mat-list-item routerLink="/software/payroll-other-income-list"
+                            *ngIf="modulePayrollOtherIncomeList">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/other income.png" height="30" />
@@ -209,7 +210,8 @@
                             &nbsp;
                             Other Income
                         </a>
-                        <a mat-list-item routerLink="/software/payroll-other-deduction-list">
+                        <a mat-list-item routerLink="/software/payroll-other-deduction-list"
+                            *ngIf="modulePayrollOtherDeductionList">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/other deductions.png" height="30" />
@@ -217,7 +219,7 @@
                             &nbsp;
                             Other Deductions
                         </a>
-                        <a mat-list-item routerLink=".">
+                        <a mat-list-item routerLink="." *ngIf="moduleOthers">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/last tax.png" height="30" />
@@ -225,7 +227,7 @@
                             &nbsp;
                             Last Tax
                         </a>
-                        <a mat-list-item routerLink="/software/payroll-list">
+                        <a mat-list-item routerLink="/software/payroll-list" *ngIf="modulePayrollList">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/payroll.png" height="30" />

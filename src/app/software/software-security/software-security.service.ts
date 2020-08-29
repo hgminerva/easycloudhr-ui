@@ -14,6 +14,8 @@ export class SoftwareSecurityService {
         let userRights = JSON.parse(localStorage.getItem("userRights"));
         for (var i = 0; i <= userRights.length - 1; i++) {
           if (userRights[i].Module === module) {
+            console.log(userRights[i].Module, ' ', module);
+
             openFlag = true;
           }
         }

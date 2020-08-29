@@ -70,6 +70,7 @@ export class LoginService {
               CanPrint: results[i].CanPrint
             });
           }
+          console.log(userRights);
           localStorage.setItem('userRights', JSON.stringify(userRights));
         }
       }
