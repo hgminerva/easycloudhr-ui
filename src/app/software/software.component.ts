@@ -65,7 +65,7 @@ export class SoftwareComponent implements OnInit {
 
   public moduleMandatory: boolean = false;
 
-  public moduleOthers: boolean = false;
+  public moduleOthers: boolean = true;
 
 
   @ViewChild("logoutPanelHeader") logoutPanelHeader: MatExpansionPanelHeader;

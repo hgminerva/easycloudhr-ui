@@ -84,6 +84,7 @@ import { MandatoryTablesDetailMandatoryBirDetailComponent } from './mandatory-ta
 import { MandatoryTablesDetailMandatoryHdmfDetailComponent } from './mandatory-tables-detail/mandatory-tables-detail-mandatory-hdmf-detail/mandatory-tables-detail-mandatory-hdmf-detail.component';
 import { MandatoryTablesDetailMandatoryPhicDetailComponent } from './mandatory-tables-detail/mandatory-tables-detail-mandatory-phic-detail/mandatory-tables-detail-mandatory-phic-detail.component';
 import { MandatoryTablesDetailMandatorySssDetailComponent } from './mandatory-tables-detail/mandatory-tables-detail-mandatory-sss-detail/mandatory-tables-detail-mandatory-sss-detail.component';
+import { PortalEmployeeComponent } from './portal-employee/portal-employee/portal-employee.component';
 
 @NgModule({
   declarations: [
@@ -149,6 +150,7 @@ import { MandatoryTablesDetailMandatorySssDetailComponent } from './mandatory-ta
     MandatoryTablesDetailMandatoryHdmfDetailComponent,
     MandatoryTablesDetailMandatoryPhicDetailComponent,
     MandatoryTablesDetailMandatorySssDetailComponent,
+    PortalEmployeeComponent,
   ],
   imports: [
     CommonModule,

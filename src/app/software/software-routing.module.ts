@@ -41,6 +41,7 @@ import { PayrollOtherDeductionListComponent } from './payroll-other-deduction-li
 import { PayrollOtherDeductionDetailComponent } from './payroll-other-deduction-detail/payroll-other-deduction-detail/payroll-other-deduction-detail.component';
 import { PayrollListComponent } from './payroll-list/payroll-list/payroll-list.component';
 import { PayrollDetailComponent } from './payroll-detail/payroll-detail/payroll-detail.component';
+import { PortalEmployeeComponent } from './portal-employee/portal-employee/portal-employee.component';
 
 const routes: Routes = [
   {
@@ -82,6 +83,7 @@ const routes: Routes = [
       { path: 'payroll-other-income-detail/:id', canActivate: [SoftwareRoutingActivate], component: PayrollOtherIncomeDetailComponent },
       { path: 'payroll-other-deduction-list', canActivate: [SoftwareRoutingActivate], component: PayrollOtherDeductionListComponent },
       { path: 'payroll-other-deduction-detail/:id', canActivate: [SoftwareRoutingActivate], component: PayrollOtherDeductionDetailComponent },
+      { path: 'portal-employee', canActivate: [SoftwareRoutingActivate], component: PortalEmployeeComponent },
     ]
   }
 ];
