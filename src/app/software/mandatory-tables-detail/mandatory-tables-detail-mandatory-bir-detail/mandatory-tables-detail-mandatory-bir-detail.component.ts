@@ -26,15 +26,15 @@ export class MandatoryTablesDetailMandatoryBirDetailComponent implements OnInit 
   async ngOnInit() {
     this.title = this.caseData.objDialogTitle;
     this._mandatoryBIR.Id = this.caseData.objData.Id;
-    this._mandatoryBIR.AmountStart = this._decimalPipe.transform(this._mandatoryBIR.AmountStart, "1.2-2");
-    this._mandatoryBIR.AmountEnd = this._decimalPipe.transform(this._mandatoryBIR.AmountEnd, "1.2-2");
-    this._mandatoryBIR.EmployeeTaxPercentage = this._decimalPipe.transform(this._mandatoryBIR.EmployeeTaxPercentage, "1.2-2");
-    this._mandatoryBIR.EmployeeAdditionalAmount = this._decimalPipe.transform(this._mandatoryBIR.EmployeeAdditionalAmount, "1.2-2");
+    this._mandatoryBIR.AmountStart = this._decimalPipe.transform(this.caseData.objData.AmountStart, "1.2-2");
+    this._mandatoryBIR.AmountEnd = this._decimalPipe.transform(this.caseData.objData.AmountEnd, "1.2-2");
+    this._mandatoryBIR.EmployeeTaxPercentage = this._decimalPipe.transform(this.caseData.objData.EmployeeTaxPercentage, "1.2-2");
+    this._mandatoryBIR.EmployeeAdditionalAmount = this._decimalPipe.transform(this.caseData.objData.EmployeeAdditionalAmount, "1.2-2");
     console.log(this._mandatoryBIR);
   }
 
   public Close(): void {
-    this.dialogRef.close({ event: 'Close' });
+    // this.dialogRef.close({ event: 'Close' });
   }
 
   public Save(): void {
@@ -43,6 +43,16 @@ export class MandatoryTablesDetailMandatoryBirDetailComponent implements OnInit 
     } else {
       this.dialogRef.close({ event: 'Edit', objData: this._mandatoryBIR });
     }
+  }
+
+  public RemoveComma(value: string): string {
+    return value.toString().replace(/,/g, '');
+  }
+
+
+  AmountStartToNumberType() {
+    this._mandatoryBIR.AmountStart = this.RemoveComma(this._mandatoryBIR.AmountStart);
+    this.inputTypeAmountStart = 'number';
   }
 
   AmountStartFormatValue() {
@@ -55,8 +65,9 @@ export class MandatoryTablesDetailMandatoryBirDetailComponent implements OnInit 
     }
   }
 
-  AmountStartToNumberType() {
-    this.inputTypeAmountStart = 'number';
+  AmountEndToNumberType() {
+    this._mandatoryBIR.AmountEnd = this.RemoveComma(this._mandatoryBIR.AmountEnd);
+    this.inputTypeAmountEnd = 'number';
   }
 
   AmountEndFormatValue() {
@@ -69,8 +80,10 @@ export class MandatoryTablesDetailMandatoryBirDetailComponent implements OnInit 
     }
   }
 
-  AmountEndToNumberType() {
-    this.inputTypeAmountEnd = 'number';
+
+  EmployeeTaxPercentageToNumberType() {
+    this._mandatoryBIR.EmployeeTaxPercentage = this.RemoveComma(this._mandatoryBIR.EmployeeTaxPercentage);
+    this.inputTypeEmployeeTaxPercentage = 'number';
   }
 
   EmployeeTaxPercentageFormatValue() {
@@ -83,12 +96,13 @@ export class MandatoryTablesDetailMandatoryBirDetailComponent implements OnInit 
     }
   }
 
-  EmployeeTaxPercentageToNumberType() {
-    this.inputTypeEmployeeTaxPercentage = 'number';
+  EmployeeAdditionalAmountToNumberType() {
+    this._mandatoryBIR.EmployeeAdditionalAmount = this.RemoveComma(this._mandatoryBIR.EmployeeAdditionalAmount);
+    this.inputTypeEmployeeAdditionalAmount = 'number';
   }
 
   EmployeeAdditionalAmountFormatValue() {
-    this.inputTypeEmployeeAdditionalAmount= 'text';
+    this.inputTypeEmployeeAdditionalAmount = 'text';
 
     if (this._mandatoryBIR.EmployeeAdditionalAmount == '') {
       this._mandatoryBIR.EmployeeAdditionalAmount = this._decimalPipe.transform(0, "1.2-2");
@@ -97,7 +111,5 @@ export class MandatoryTablesDetailMandatoryBirDetailComponent implements OnInit 
     }
   }
 
-  EmployeeAdditionalAmountToNumberType() {
-    this.inputTypeEmployeeAdditionalAmount = 'number';
-  }
+
 }
