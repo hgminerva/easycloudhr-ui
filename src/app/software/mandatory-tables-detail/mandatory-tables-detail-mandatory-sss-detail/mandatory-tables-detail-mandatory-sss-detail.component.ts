@@ -22,6 +22,7 @@ export class MandatoryTablesDetailMandatorySssDetailComponent implements OnInit 
   public inputTypeAmountEnd = 'text';
   public inputTypeEmployeeContributionValue = 'text';
   public inputTypeEmployerContributionValue = 'text';
+  public inputTypeEmployerECValue = 'text';
 
   async ngOnInit() {
     this.title = this.caseData.objDialogTitle;
@@ -30,7 +31,8 @@ export class MandatoryTablesDetailMandatorySssDetailComponent implements OnInit 
     this._mandatorySSS.AmountEnd = this._decimalPipe.transform(this.caseData.objData.AmountEnd, "1.2-2");
     this._mandatorySSS.EmployeeContributionValue = this._decimalPipe.transform(this.caseData.objData.EmployeeContributionValue, "1.2-2");
     this._mandatorySSS.EmployerContributionValue = this._decimalPipe.transform(this.caseData.objData.EmployerContributionValue, "1.2-2");
-    this._mandatorySSS.Remarks = this._mandatorySSS.Remarks
+    this._mandatorySSS.EmployerECValue = this._decimalPipe.transform(this.caseData.objData.EmployerECValue, "1.2-2");
+    this._mandatorySSS.Remarks = this.caseData.objData.Remarks;
     console.log(this._mandatorySSS);
   }
 
@@ -39,11 +41,16 @@ export class MandatoryTablesDetailMandatorySssDetailComponent implements OnInit 
   }
 
   public Save(): void {
-    if (this.title == 'Add Mandatory BIR') {
+    if (this.title == 'Add Mandatory SSS') {
       this.dialogRef.close({ event: 'Add', objData: this._mandatorySSS });
     } else {
       this.dialogRef.close({ event: 'Edit', objData: this._mandatorySSS });
     }
+  }
+
+  public RemoveComma(value: string): string {
+    // console.log(value);
+    return value.toString().replace(/,/g, '');
   }
 
   AmountStartFormatValue() {
@@ -57,6 +64,7 @@ export class MandatoryTablesDetailMandatorySssDetailComponent implements OnInit 
   }
 
   AmountStartToNumberType() {
+    this._mandatorySSS.AmountStart = this.RemoveComma(this._mandatorySSS.AmountStart);
     this.inputTypeAmountStart = 'number';
   }
 
@@ -71,6 +79,8 @@ export class MandatoryTablesDetailMandatorySssDetailComponent implements OnInit 
   }
 
   AmountEndToNumberType() {
+    this._mandatorySSS.AmountEnd = this.RemoveComma(this._mandatorySSS.AmountEnd);
+
     this.inputTypeAmountEnd = 'number';
   }
 
@@ -85,6 +95,8 @@ export class MandatoryTablesDetailMandatorySssDetailComponent implements OnInit 
   }
 
   EmployeeContributionValueToNumberType() {
+    this._mandatorySSS.EmployeeContributionValue = this.RemoveComma(this._mandatorySSS.EmployeeContributionValue);
+
     this.inputTypeEmployeeContributionValue = 'number';
   }
 
@@ -99,7 +111,24 @@ export class MandatoryTablesDetailMandatorySssDetailComponent implements OnInit 
   }
 
   EmployerContributionValueToNumberType() {
+    this._mandatorySSS.EmployerContributionValue = this.RemoveComma(this._mandatorySSS.EmployerContributionValue);
+
     this.inputTypeEmployerContributionValue = 'number';
   }
- 
+
+  EmployerECValueFormatValue() {
+    this.inputTypeEmployerECValue = 'text';
+
+    if (this._mandatorySSS.EmployerECValue == '') {
+      this._mandatorySSS.EmployerECValue = this._decimalPipe.transform(0, "1.2-2");
+    } else {
+      this._mandatorySSS.EmployerECValue = this._decimalPipe.transform(this._mandatorySSS.EmployerECValue, "1.2-2");
+    }
+  }
+
+  EmployerECValueToNumberType() {
+    this._mandatorySSS.EmployerECValue = this.RemoveComma(this._mandatorySSS.EmployerECValue);
+    this.inputTypeEmployerECValue = 'number';
+  }
+
 }

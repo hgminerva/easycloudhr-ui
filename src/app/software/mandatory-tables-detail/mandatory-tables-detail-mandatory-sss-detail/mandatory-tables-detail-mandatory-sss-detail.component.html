@@ -8,33 +8,45 @@
             <div fxFlex="50" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>Amount Start</mat-label>
-                    <input matInput placeholder="0.00" [(ngModel)]="_mandatorySSS.AmountStart"
-                        (focusout)="AmountStartFormatValue()" (focus)="AmountStartToNumberType()">
+                    <input type="{{inputTypeAmountStart}}" style="text-align:right;" matInput placeholder="0.00"
+                        [(ngModel)]="_mandatorySSS.AmountStart" autocomplete="off" (focusout)="AmountStartFormatValue()"
+                        (focus)="AmountStartToNumberType()">
                 </mat-form-field>
             </div>
             <div fxFlex="50" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
-                    <mat-label>AmountEnd</mat-label>
-                    <input matInput placeholder="0.00" [(ngModel)]="_mandatorySSS.AmountEnd"
-                        (focusout)="AmountEndFormatValue()" (focus)="AmountEndToNumberType()">
+                    <mat-label>Amount End</mat-label>
+                    <input type="{{inputTypeAmountEnd}}" style="text-align:right;" matInput placeholder="0.00"
+                        [(ngModel)]="_mandatorySSS.AmountEnd" autocomplete="off" (focusout)="AmountEndFormatValue()"
+                        (focus)="AmountEndToNumberType()">
                 </mat-form-field>
             </div>
         </div>
         <div fxLayout="row" fxLayout.xs="column">
-            <div fxFlex="50" style="padding: 5px;">
+            <div fxFlex="33" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>Employee Contribution Value</mat-label>
-                    <input matInput placeholder="0.00" [(ngModel)]="_mandatorySSS.EmployeeContributionValue"
+                    <input type="{{inputTypeEmployeeContributionValue}}" style="text-align:right;" matInput
+                        placeholder="0.00" [(ngModel)]="_mandatorySSS.EmployeeContributionValue" autocomplete="off"
                         (focusout)="EmployeeContributionValueFormatValue()"
                         (focus)="EmployeeContributionValueToNumberType()">
                 </mat-form-field>
             </div>
-            <div fxFlex="50" style="padding: 5px;">
+            <div fxFlex="33" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>Employee Contribution Value</mat-label>
-                    <input matInput placeholder="0.00" [(ngModel)]="_mandatorySSS.EmployerContributionValue"
+                    <input type="{{inputTypeEmployerContributionValue}}" style="text-align:right;" matInput
+                        placeholder="0.00" [(ngModel)]="_mandatorySSS.EmployerContributionValue" autocomplete="off"
                         (focusout)="EmployerContributionValueFormatValue()"
                         (focus)="EmployerContributionValueToNumberType()">
+                </mat-form-field>
+            </div>
+            <div fxFlex="34" style="padding: 5px;">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Employer EC Value</mat-label>
+                    <input type="{{inputTypeEmployerECValue}}" style="text-align:right;" matInput placeholder="0.00"
+                        [(ngModel)]="_mandatorySSS.EmployerECValue" autocomplete="off"
+                        (focusout)="EmployerECValueFormatValue()" (focus)="EmployerECValueToNumberType()">
                 </mat-form-field>
             </div>
         </div>
@@ -42,7 +54,7 @@
             <div fxFlex="100" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>Remarks</mat-label>
-                    <textarea matInput placeholder="0.00" [(ngModel)]="_mandatorySSS.Remarks"></textarea>
+                    <textarea matInput placeholder="Remarks" [(ngModel)]="_mandatorySSS.Remarks" rows="6"></textarea>
                 </mat-form-field>
             </div>
         </div>
