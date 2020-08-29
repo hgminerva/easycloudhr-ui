@@ -17,8 +17,6 @@ export class PayrollOtherIncomeService {
   }
 
   public async AddPayrollOtherIncome(payrollGroup: string) {
-    console.log(payrollGroup);
-
     return this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/payroll/other/income/create/' + payrollGroup, "", this.appSettings.defaultOptions);
   }
 

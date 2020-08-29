@@ -7,7 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
-import {PayrollOtherIncomeService} from './../payroll-other-income.service';
+import { PayrollOtherIncomeService } from './../payroll-other-income.service';
 
 @Component({
   selector: 'app-payroll-other-income-list',
@@ -124,8 +124,6 @@ export class PayrollOtherIncomeListComponent implements OnInit {
     this._payrollOtherIncomeListSubscription = await (await this._payrollOtherIncomeService.PayrollOtherIncomeList(this._filterPayrollGroup)).subscribe(
       (response: any) => {
         var results = response;
-        console.log("Response:", results);
-
         if (results["length"] > 0) {
           this._listPayrollOtherIncomeCollectionView = results;
           this._listPayrollOtherIncomeCollectionView = new CollectionView(this._listPayrollOtherIncomeCollectionView);

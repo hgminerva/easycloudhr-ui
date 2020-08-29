@@ -450,6 +450,7 @@ export class MandatoryTablesListComponent implements OnInit {
   }
 
   public BtnAddMandatoryPHIC() {
+    
     let objMandatoryPHIC: MandatoryPHIC = {
       Id: 0,
       AmountStart: '0.00',
@@ -465,7 +466,6 @@ export class MandatoryTablesListComponent implements OnInit {
   public EditMandatoryPHIC() {
 
     let currentMandatoryPHIC = this._listMandatoryPHICCollectionView.currentItem;
-    console.log(currentMandatoryPHIC);
 
     let objMandatoryPHIC: MandatoryPHIC = {
       Id: currentMandatoryPHIC.Id,
@@ -808,7 +808,6 @@ export class MandatoryTablesListComponent implements OnInit {
   }
 
   public RemoveComma(value: string): string {
-    // console.log(value);
     return value.toString().replace(/,/g, '');
   }
 

@@ -7,7 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
-import {PayrollOtherDeductionListService} from './../payroll-other-deduction-list.service';
+import { PayrollOtherDeductionListService } from './../payroll-other-deduction-list.service';
 
 @Component({
   selector: 'app-payroll-other-deduction-list',
@@ -124,8 +124,6 @@ export class PayrollOtherDeductionListComponent implements OnInit {
     this._payrollOtherDeductionListSubscription = (await this._payrollOtherDeductionListService.PayrollOtherDeductionList(this._filterPayrollGroup)).subscribe(
       (response: any) => {
         var results = response;
-        console.log("Response:", results);
-
         if (results["length"] > 0) {
           this._listPayrollOtherDeductionCollectionView = results;
           this._listPayrollOtherDeductionCollectionView = new CollectionView(this._listPayrollOtherDeductionCollectionView);
@@ -221,5 +219,5 @@ export class PayrollOtherDeductionListComponent implements OnInit {
   ngOnDestroy() {
     if (this._payrollOtherDeductionListSubscription != null) this._payrollOtherDeductionListSubscription.unsubscribe();
   }
- 
+
 }

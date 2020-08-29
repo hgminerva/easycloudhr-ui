@@ -30,7 +30,6 @@ export class MandatoryTablesDetailMandatoryBirDetailComponent implements OnInit 
     this._mandatoryBIR.AmountEnd = this._decimalPipe.transform(this.caseData.objData.AmountEnd, "1.2-2");
     this._mandatoryBIR.EmployeeTaxPercentage = this._decimalPipe.transform(this.caseData.objData.EmployeeTaxPercentage, "1.2-2");
     this._mandatoryBIR.EmployeeAdditionalAmount = this._decimalPipe.transform(this.caseData.objData.EmployeeAdditionalAmount, "1.2-2");
-    console.log(this._mandatoryBIR);
   }
 
   public Close(): void {
