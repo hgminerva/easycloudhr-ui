@@ -1,10 +1,10 @@
-export class MandatorySSS {
+export class MandatoryHDMF {
     Id: number;
-    AmountStart: number;
-    AmountEnd: number;
-    EmployeeContributionPercentage: number;
-    EmployerContributionPercentage: number;
-    EmployeeContributionValue: number;
-    EmployerContributionValue: number;
-    Remarks: number;
+    AmountStart: string;
+    AmountEnd: string;
+    EmployeeContributionPercentage: string;
+    EmployerContributionPercentage: string;
+    EmployeeContributionValue: string;
+    EmployerContributionValue: string;
+    Remarks: string;
 }

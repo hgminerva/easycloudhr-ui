@@ -1,8 +1,8 @@
 export class MandatoryPHIC {
     Id: number;
-    AmountStart: number;
-    AmountEnd: number;
-    EmployeeContributionValue: number;
-    EmployerContributionValue: number;
+    AmountStart: string;
+    AmountEnd: string;
+    EmployeeContributionValue: string;
+    EmployerContributionValue: string;
     Remarks: string;
 }

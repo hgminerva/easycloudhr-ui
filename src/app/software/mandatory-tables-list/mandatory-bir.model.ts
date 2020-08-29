@@ -1,9 +1,7 @@
 export class MandatoryBIR {
     Id: number;
-    AmountStart: number;
-    AmountEnd: number;
-    EmployeeContributionValue: number;
-    EmployerContributionValue: number;
-    EmployerECValue: number;
-    Remarks: number;
+    AmountStart: string;
+    AmountEnd: string;
+    EmployeeTaxPercentage: string;
+    EmployeeAdditionalAmount: string;
 }
