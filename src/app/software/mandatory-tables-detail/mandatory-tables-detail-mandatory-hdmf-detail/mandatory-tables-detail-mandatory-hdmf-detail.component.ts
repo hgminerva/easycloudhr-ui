@@ -28,13 +28,13 @@ export class MandatoryTablesDetailMandatoryHdmfDetailComponent implements OnInit
   async ngOnInit() {
     this.title = this.caseData.objDialogTitle;
     this._mandatoryHDMF.Id = this.caseData.objData.Id;
-    this._mandatoryHDMF.AmountStart = this._decimalPipe.transform(this._mandatoryHDMF.AmountStart, "1.2-2");
-    this._mandatoryHDMF.AmountEnd = this._decimalPipe.transform(this._mandatoryHDMF.AmountEnd, "1.2-2");
-    this._mandatoryHDMF.EmployeeContributionPercentage = this._decimalPipe.transform(this._mandatoryHDMF.EmployeeContributionPercentage, "1.2-2");
-    this._mandatoryHDMF.EmployerContributionPercentage = this._decimalPipe.transform(this._mandatoryHDMF.EmployerContributionPercentage, "1.2-2");
-    this._mandatoryHDMF.EmployeeContributionValue = this._decimalPipe.transform(this._mandatoryHDMF.EmployeeContributionValue, "1.2-2");
-    this._mandatoryHDMF.EmployerContributionValue = this._decimalPipe.transform(this._mandatoryHDMF.EmployerContributionValue, "1.2-2");
-    this._mandatoryHDMF.Remarks = this._decimalPipe.transform(this._mandatoryHDMF.Remarks, "1.2-2");
+    this._mandatoryHDMF.AmountStart = this._decimalPipe.transform(this.caseData.objData.AmountStart, "1.2-2");
+    this._mandatoryHDMF.AmountEnd = this._decimalPipe.transform(this.caseData.objData.AmountEnd, "1.2-2");
+    this._mandatoryHDMF.EmployeeContributionPercentage = this._decimalPipe.transform(this.caseData.objData.EmployeeContributionPercentage, "1.2-2");
+    this._mandatoryHDMF.EmployerContributionPercentage = this._decimalPipe.transform(this.caseData.objData.EmployerContributionPercentage, "1.2-2");
+    this._mandatoryHDMF.EmployeeContributionValue = this._decimalPipe.transform(this.caseData.objData.EmployeeContributionValue, "1.2-2");
+    this._mandatoryHDMF.EmployerContributionValue = this._decimalPipe.transform(this.caseData.objData.EmployerContributionValue, "1.2-2");
+    this._mandatoryHDMF.Remarks = this.caseData.objData.Remarks;
     console.log(this._mandatoryHDMF);
   }
 
@@ -43,11 +43,20 @@ export class MandatoryTablesDetailMandatoryHdmfDetailComponent implements OnInit
   }
 
   public Save(): void {
-    if (this.title == 'Add Mandatory BIR') {
+    if (this.title == 'Add Mandatory HDMF') {
       this.dialogRef.close({ event: 'Add', objData: this._mandatoryHDMF });
     } else {
       this.dialogRef.close({ event: 'Edit', objData: this._mandatoryHDMF });
     }
+  }
+
+  public RemoveComma(value: string): string {
+    return value.toString().replace(/,/g, '');
+  }
+
+  AmountStartToNumberType() {
+    this._mandatoryHDMF.AmountStart = this.RemoveComma(this._mandatoryHDMF.AmountStart);
+    this.inputTypeAmountStart = 'number';
   }
 
   AmountStartFormatValue() {
@@ -60,8 +69,9 @@ export class MandatoryTablesDetailMandatoryHdmfDetailComponent implements OnInit
     }
   }
 
-  AmountStartToNumberType() {
-    this.inputTypeAmountStart = 'number';
+  AmountEndToNumberType() {
+    this._mandatoryHDMF.AmountEnd = this.RemoveComma(this._mandatoryHDMF.AmountEnd);
+    this.inputTypeAmountEnd = 'number';
   }
 
   AmountEndFormatValue() {
@@ -74,8 +84,9 @@ export class MandatoryTablesDetailMandatoryHdmfDetailComponent implements OnInit
     }
   }
 
-  AmountEndToNumberType() {
-    this.inputTypeAmountEnd = 'number';
+  EmployeeContributionPercentageToNumberType() {
+    this._mandatoryHDMF.EmployeeContributionPercentage = this.RemoveComma(this._mandatoryHDMF.EmployeeContributionPercentage);
+    this.inputTypeEmployeeContributionPercentage = 'number';
   }
 
   EmployeeContributionPercentageFormatValue() {
@@ -88,12 +99,13 @@ export class MandatoryTablesDetailMandatoryHdmfDetailComponent implements OnInit
     }
   }
 
-  EmployeeContributionPercentageToNumberType() {
-    this.inputTypeEmployeeContributionPercentage = 'number';
+  EmployerContributionPercentageToNumberType() {
+    this._mandatoryHDMF.EmployerContributionPercentage = this.RemoveComma(this._mandatoryHDMF.EmployerContributionPercentage);
+    this.inputTypeEmployerContributionPercentage = 'number';
   }
 
   EmployerContributionPercentageFormatValue() {
-    this.inputTypeEmployerContributionPercentage= 'text';
+    this.inputTypeEmployerContributionPercentage = 'text';
 
     if (this._mandatoryHDMF.EmployerContributionPercentage == '') {
       this._mandatoryHDMF.EmployerContributionPercentage = this._decimalPipe.transform(0, "1.2-2");
@@ -102,12 +114,14 @@ export class MandatoryTablesDetailMandatoryHdmfDetailComponent implements OnInit
     }
   }
 
-  EmployerContributionPercentageToNumberType() {
-    this.inputTypeEmployerContributionPercentage = 'number';
+  EmployeeContributionValueToNumberType() {
+    this._mandatoryHDMF.EmployeeContributionValue = this.RemoveComma(this._mandatoryHDMF.EmployeeContributionValue);
+    this.inputTypeEmployeeContributionValue = 'number';
   }
 
+
   EmployeeContributionValueFormatValue() {
-    this.inputTypeEmployerContributionPercentage= 'text';
+    this.inputTypeEmployerContributionPercentage = 'text';
 
     if (this._mandatoryHDMF.EmployeeContributionValue == '') {
       this._mandatoryHDMF.EmployeeContributionValue = this._decimalPipe.transform(0, "1.2-2");
@@ -116,12 +130,13 @@ export class MandatoryTablesDetailMandatoryHdmfDetailComponent implements OnInit
     }
   }
 
-  EmployeeContributionValueToNumberType() {
-    this.inputTypeEmployeeContributionValue = 'number';
+  EmployerContributionValueToNumberType() {
+    this._mandatoryHDMF.EmployerContributionValue = this.RemoveComma(this._mandatoryHDMF.EmployerContributionValue);
+    this.inputTypeEmployerContributionValue = 'number';
   }
 
   EmployerContributionValueFormatValue() {
-    this.inputTypeEmployerContributionPercentage= 'text';
+    this.inputTypeEmployerContributionPercentage = 'text';
 
     if (this._mandatoryHDMF.EmployerContributionValue == '') {
       this._mandatoryHDMF.EmployerContributionValue = this._decimalPipe.transform(0, "1.2-2");
@@ -130,7 +145,5 @@ export class MandatoryTablesDetailMandatoryHdmfDetailComponent implements OnInit
     }
   }
 
-  EmployerContributionValueToNumberType() {
-    this.inputTypeEmployerContributionValue = 'number';
-  }
+
 }
