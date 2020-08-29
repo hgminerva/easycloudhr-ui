@@ -27,7 +27,6 @@ export class PayrollLineDetailDialogComponent implements OnInit {
 
   async ngOnInit() {
     this._title = await this._caseData.objDialogTitle;
-    console.log(this._caseData.objPayrollLine);
     this.loadPayrollLineDetail();
   }
 
@@ -123,7 +122,6 @@ export class PayrollLineDetailDialogComponent implements OnInit {
   }
 
   public async loadPayrollLineDetail() {
-    // console.log("Case Data", this._caseData.objPayrollLine);
     this._payrollLineModel.Id = this._caseData.objPayrollLine.Id;
     this._payrollLineModel.PAYId = this._caseData.objPayrollLine.PAYId;
     this._payrollLineModel.EmployeeId = this._caseData.objPayrollLine.EmployeeId;
@@ -153,7 +151,6 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     this._payrollLineModel.PHICEmployerContribution = this._decimalPipe.transform(this._caseData.objPayrollLine.PHICEmployerContribution, "1.2-2");
     this._payrollLineModel.HDMFEmployerContribution = this._decimalPipe.transform(this._caseData.objPayrollLine.HDMFEmployerContribution, "1.2-2");
     this._isComponentsHidden = false;
-    console.log(this._payrollLineModel);
   }
 
   public EmployeeListDialog() {
@@ -181,7 +178,6 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     this._computePayrollLineSubscription = (await this._payrollDetailService.AddPayrollLine(this._payrollLineModel.PAYId, this._payrollLineModel)).subscribe(
       (response: any) => {
         let result = response;
-        // console.log(result);
         this._payrollLineModel.EmployeeId = result.EmployeeId;
         this._payrollLineModel.Employee = result.Employee;
         this._payrollLineModel.PayrollRate = this._decimalPipe.transform(result.PayrollRate, "1.2-2");

@@ -427,7 +427,6 @@ export class PayrollDetailComponent implements OnInit {
   }
 
   public RemoveComma(value: string): string {
-    // console.log(value);
     return value.toString().replace(',', '');
   }
 

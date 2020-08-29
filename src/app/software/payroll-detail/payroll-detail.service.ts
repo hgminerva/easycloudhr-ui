@@ -66,7 +66,6 @@ export class PayrollDetailService {
   }
 
   public async DownloadDTRPayrollLines(payId: number) {
-    console.log("DOWNLOAD DTR")
     return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/trn/payroll/line/download/dtr/create/' + payId, "", this.appSettings.defaultOptions);
   }
 

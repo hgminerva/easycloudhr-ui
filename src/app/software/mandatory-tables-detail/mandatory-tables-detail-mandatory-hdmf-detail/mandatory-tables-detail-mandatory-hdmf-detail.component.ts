@@ -35,7 +35,6 @@ export class MandatoryTablesDetailMandatoryHdmfDetailComponent implements OnInit
     this._mandatoryHDMF.EmployeeContributionValue = this._decimalPipe.transform(this.caseData.objData.EmployeeContributionValue, "1.2-2");
     this._mandatoryHDMF.EmployerContributionValue = this._decimalPipe.transform(this.caseData.objData.EmployerContributionValue, "1.2-2");
     this._mandatoryHDMF.Remarks = this.caseData.objData.Remarks;
-    console.log(this._mandatoryHDMF);
   }
 
   public Close(): void {

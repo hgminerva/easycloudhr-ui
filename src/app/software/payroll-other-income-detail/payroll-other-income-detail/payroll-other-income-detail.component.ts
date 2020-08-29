@@ -114,21 +114,6 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
 
   public _btnAddPayrollOtherIncomeLineDisabled: boolean = false;
 
-  // private async PayrollGroupListData() {
-  //   this._payrollGroupDropdownSubscription = (await this._payrollOtherIncomeDetailService.PayrollGroupList()).subscribe(
-  //     response => {
-  //       this._payrollGroupListDropdown = response;
-  //       this._payrollOtherIncomeLineModel = this._payrollGroupListDropdown[0].Id;
-  //       this.UserListData();
-  //       if (this._payrollGroupDropdownSubscription !== null) this._payrollGroupDropdownSubscription.unsubscribe();
-  //     },
-  //     error => {
-  //       this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-  //       if (this._payrollGroupDropdownSubscription !== null) this._payrollGroupDropdownSubscription.unsubscribe();
-  //     }
-  //   );
-  // }
-
   private async UserListData() {
     this._userDropdownSubscription = await (await this._payrollOtherIncomeDetailService.UserList()).subscribe(
       response => {

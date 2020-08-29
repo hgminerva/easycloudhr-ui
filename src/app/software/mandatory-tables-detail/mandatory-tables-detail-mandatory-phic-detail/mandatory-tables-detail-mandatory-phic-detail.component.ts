@@ -32,10 +32,6 @@ export class MandatoryTablesDetailMandatoryPhicDetailComponent implements OnInit
     this._mandatoryPHIC.EmployeeContributionValue = this._decimalPipe.transform(this.caseData.objData.EmployeeContributionValue, "1.2-2");
     this._mandatoryPHIC.EmployerContributionValue = this._decimalPipe.transform(this.caseData.objData.EmployerContributionValue, "1.2-2");
     this._mandatoryPHIC.Remarks = this.caseData.objData.Remarks;
-
-    console.log('Edit PHIC ', this.caseData.objData);
-
-    console.log(this._mandatoryPHIC);
   }
 
   public Close(): void {

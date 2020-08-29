@@ -33,7 +33,6 @@ export class MandatoryTablesDetailMandatorySssDetailComponent implements OnInit 
     this._mandatorySSS.EmployerContributionValue = this._decimalPipe.transform(this.caseData.objData.EmployerContributionValue, "1.2-2");
     this._mandatorySSS.EmployerECValue = this._decimalPipe.transform(this.caseData.objData.EmployerECValue, "1.2-2");
     this._mandatorySSS.Remarks = this.caseData.objData.Remarks;
-    console.log(this._mandatorySSS);
   }
 
   public Close(): void {
@@ -49,7 +48,6 @@ export class MandatoryTablesDetailMandatorySssDetailComponent implements OnInit 
   }
 
   public RemoveComma(value: string): string {
-    // console.log(value);
     return value.toString().replace(/,/g, '');
   }
 
