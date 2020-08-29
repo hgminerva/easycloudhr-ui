@@ -8,15 +8,17 @@
             <div fxFlex="50" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>Amount Start</mat-label>
-                    <input matInput placeholder="0.00" [(ngModel)]="_mandatoryPHIC.AmountStart"
-                        (focusout)="AmountStartFormatValue()" (focus)="AmountStartToNumberType()">
+                    <input type="{{inputTypeAmountStart}}" style="text-align:right;" matInput placeholder="0.00"
+                        [(ngModel)]="_mandatoryPHIC.AmountStart" autocomplete="off" (focus)="AmountStartToNumberType()"
+                        (focusout)="AmountStartFormatValue()">
                 </mat-form-field>
             </div>
             <div fxFlex="50" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
-                    <mat-label>AmountEnd</mat-label>
-                    <input matInput placeholder="0.00" [(ngModel)]="_mandatoryPHIC.AmountEnd"
-                        (focusout)="AmountEndFormatValue()" (focus)="AmountEndToNumberType()">
+                    <mat-label>Amount End</mat-label>
+                    <input type="{{inputTypeAmountEnd}}" style="text-align:right;" matInput placeholder="0.00"
+                        [(ngModel)]="_mandatoryPHIC.AmountEnd" autocomplete="off" (focusout)="AmountEndFormatValue()"
+                        (focus)="AmountEndToNumberType()">
                 </mat-form-field>
             </div>
         </div>
@@ -24,7 +26,8 @@
             <div fxFlex="50" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>Employee Contribution Value</mat-label>
-                    <input matInput placeholder="0.00" [(ngModel)]="_mandatoryPHIC.EmployeeContributionValue"
+                    <input type="{{inputTypeEmployeeContributionValue}}" style="text-align:right;" matInput
+                        placeholder="0.00" [(ngModel)]="_mandatoryPHIC.EmployeeContributionValue" autocomplete="off"
                         (focusout)="EmployeeContributionValueFormatValue()"
                         (focus)="EmployeeContributionValueToNumberType()">
                 </mat-form-field>
@@ -32,17 +35,19 @@
             <div fxFlex="50" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>Employee Contribution Value</mat-label>
-                    <input matInput placeholder="0.00" [(ngModel)]="_mandatoryPHIC.EmployerContributionValue"
+                    <input type="{{inputTypeEmployerContributionValue}}" style="text-align:right;" matInput
+                        placeholder="0.00" [(ngModel)]="_mandatoryPHIC.EmployerContributionValue" autocomplete="off"
                         (focusout)="EmployerContributionValueFormatValue()"
                         (focus)="EmployerContributionValueToNumberType()">
                 </mat-form-field>
             </div>
+
         </div>
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="100" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>Remarks</mat-label>
-                    <textarea matInput placeholder="0.00" [(ngModel)]="_mandatoryPHIC.Remarks"></textarea>
+                    <textarea matInput placeholder="Remarks" [(ngModel)]="_mandatoryPHIC.Remarks" rows="6"></textarea>
                 </mat-form-field>
             </div>
         </div>
