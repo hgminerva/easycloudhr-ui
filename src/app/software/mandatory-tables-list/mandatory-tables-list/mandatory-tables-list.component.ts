@@ -13,6 +13,11 @@ import { MandatoryTablesDetailMandatoryHdmfDetailComponent } from '../../mandato
 import { MandatoryTablesDetailMandatoryPhicDetailComponent } from '../../mandatory-tables-detail/mandatory-tables-detail-mandatory-phic-detail/mandatory-tables-detail-mandatory-phic-detail.component';
 import { MandatoryTablesDetailMandatorySssDetailComponent } from '../../mandatory-tables-detail/mandatory-tables-detail-mandatory-sss-detail/mandatory-tables-detail-mandatory-sss-detail.component';
 
+import { MandatoryBIR } from '../mandatory-bir.model';
+import { MandatoryHDMF } from '../mandatory-hdmf.model';
+import { MandatoryPHIC } from '../mandatory-phic.model';
+import { MandatorySSS } from '../mandatory-sss.model';
+
 @Component({
   selector: 'app-mandatory-tables-list',
   templateUrl: './mandatory-tables-list.component.html',
@@ -31,6 +36,9 @@ export class MandatoryTablesListComponent implements OnInit {
 
   ngOnInit() {
     this.GetMandatoryBIRListData();
+    this.GetMandatoryPHICListData();
+    this.GetMandatoryHDMFListData();
+    this.GetMandatorySSSListData();
   }
 
   public buttonDisabled: boolean = false;
@@ -83,7 +91,14 @@ export class MandatoryTablesListComponent implements OnInit {
   }
 
   public BtnAddMandatoryBIR() {
-    let objMandatoryBIR: any = { Id: 0, Code: 'NA', Value: 'NA', Category: 'NA' };
+
+    let objMandatoryBIR: MandatoryBIR = {
+      Id: 0,
+      AmountStart: '0.00',
+      AmountEnd: '0.00',
+      EmployeeTaxPercentage: '0.00',
+      EmployeeAdditionalAmount: '0.00',
+    }
     this.DetailMandatoryBIR(objMandatoryBIR, "Add Mandatory BIR");
   }
 
@@ -92,11 +107,11 @@ export class MandatoryTablesListComponent implements OnInit {
     this.DetailMandatoryBIR(currentMandatoryBIR, "Edit Mandatory BIR");
   }
 
-  public async AddMandatoryBIR(objTableCode: any) {
+  public async AddMandatoryBIR(objMandatoryBIR: MandatoryBIR) {
     this.buttonDisabled = true;
     if (this.isMandatoryBIRDataLoaded == true) {
       this.isMandatoryBIRDataLoaded = false;
-      this._addMandatoryBIRSubscription = (await this._mandatoryTablesService.AddMandatoryBIR(objTableCode)).subscribe(
+      this._addMandatoryBIRSubscription = (await this._mandatoryTablesService.AddMandatoryBIR(objMandatoryBIR)).subscribe(
         response => {
           this.buttonDisabled = false;
           this.isMandatoryBIRDataLoaded = true;
@@ -114,16 +129,16 @@ export class MandatoryTablesListComponent implements OnInit {
     }
   }
 
-  public async SaveMandatoryBIR(objTableCode: any) {
+  public async SaveMandatoryBIR(objMandatoryBIR: MandatoryBIR) {
     this.buttonDisabled = true;
     if (this.isMandatoryBIRDataLoaded == true) {
       this.isMandatoryBIRDataLoaded = false;
-      this._addMandatoryBIRSubscription = (await this._mandatoryTablesService.SaveMandatoryBIR(objTableCode)).subscribe(
+      this._addMandatoryBIRSubscription = (await this._mandatoryTablesService.SaveMandatoryBIR(objMandatoryBIR)).subscribe(
         response => {
           this.buttonDisabled = false;
           this.isMandatoryBIRDataLoaded = true;
           this.GetMandatoryBIRListData();
-          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Added Successfully");
+          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Save Successfully");
         },
         error => {
           this.buttonDisabled = false;
@@ -162,8 +177,8 @@ export class MandatoryTablesListComponent implements OnInit {
     const matDialogRef = this.matDialog.open(DeleteDialogBoxComponent, {
       width: '500px',
       data: {
-        objDialogTitle: "Delete Tables Code",
-        objComfirmationMessage: `Delete ${currentMandatoryBIR.Code}?`,
+        objDialogTitle: "",
+        objComfirmationMessage: `Delete BIR?`,
       },
       disableClose: true
     });
@@ -175,7 +190,7 @@ export class MandatoryTablesListComponent implements OnInit {
     });
   }
 
-  public DetailMandatoryBIR(data: any[], eventTitle: string): void {
+  public DetailMandatoryBIR(data: MandatoryBIR, eventTitle: string): void {
     const matDialogRef = this.matDialog.open(MandatoryTablesDetailMandatoryBirDetailComponent, {
       width: '800px',
       data: {
@@ -186,11 +201,20 @@ export class MandatoryTablesListComponent implements OnInit {
     });
 
     matDialogRef.afterClosed().subscribe(data => {
+
+      let objMandatoryBIR: MandatoryBIR = {
+        Id: data.objData.Id,
+        AmountStart: data.objData.AmountStart,
+        AmountEnd: data.objData.AmountEnd,
+        EmployeeTaxPercentage: data.objData.EmployeeTaxPercentage,
+        EmployeeAdditionalAmount: data.objData.EmployeeAdditionalAmount,
+      }
+
       if (data.event === "Add") {
-        this.AddMandatoryBIR(data.objData);
+        this.AddMandatoryBIR(objMandatoryBIR);
       }
       if (data.event === "Edit") {
-        this.SaveMandatoryBIR(data.objData);
+        this.SaveMandatoryBIR(objMandatoryBIR);
       }
     });
   }
@@ -209,7 +233,7 @@ export class MandatoryTablesListComponent implements OnInit {
   private _addMandatoryHDMFSubscription: any;
   private _deleteMandatoryHDMFSubscription: any;
 
-  private async GetMandatoryHDMFsListData() {
+  private async GetMandatoryHDMFListData() {
     this._listMandatoryHDMFObservableArray = new ObservableArray();
     this._listMandatoryHDMFCollectionView = new CollectionView(this._listMandatoryHDMFObservableArray);
     this._listMandatoryHDMFCollectionView.pageSize = 15;
@@ -243,24 +267,35 @@ export class MandatoryTablesListComponent implements OnInit {
   }
 
   public BtnAddMandatoryHDMF() {
-    let objMandatoryHDMF: any = { Id: 0, Code: 'NA', Value: 'NA', Category: 'NA' };
-    this.DetailMandatoryHDMF(objMandatoryHDMF, "Add Table Code");
+
+    let objMandatoryHDMF: any = {
+      Id: 0,
+      AmountStart: '0.00',
+      AmountEnd: '0.00',
+      EmployeeContributionPercentage: '0.00',
+      EmployerContributionPercentage: '0.00',
+      EmployeeContributionValue: '0.00',
+      EmployerContributionValue: '0.00',
+      Remarks: 'NA'
+    };
+
+    this.DetailMandatoryHDMF(objMandatoryHDMF, "Add Mandatory HDMF");
   }
 
   public EditMandatoryHDMF() {
     let currentMandatoryHDMFs = this._listMandatoryHDMFCollectionView.currentItem;
-    this.DetailMandatoryHDMF(currentMandatoryHDMFs, "Edit Table Code");
+    this.DetailMandatoryHDMF(currentMandatoryHDMFs, "Edit Mandatory HDMF");
   }
 
-  public async AddMandatoryHDMF(objTableCode: any) {
+  public async AddMandatoryHDMF(objMandatoryHDMF: MandatoryHDMF) {
     this.buttonDisabled = true;
     if (this.isMandatoryHDMFDataLoaded == true) {
       this.isMandatoryHDMFDataLoaded = false;
-      this._addMandatoryHDMFSubscription = (await this._mandatoryTablesService.AddMandatoryHDMF(objTableCode)).subscribe(
+      this._addMandatoryHDMFSubscription = (await this._mandatoryTablesService.AddMandatoryHDMF(objMandatoryHDMF)).subscribe(
         response => {
           this.buttonDisabled = false;
           this.isMandatoryHDMFDataLoaded = true;
-          this.GetMandatoryHDMFsListData();
+          this.GetMandatoryHDMFListData();
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Added Successfully");
           if (this._addMandatoryHDMFSubscription != null) this._addMandatoryHDMFSubscription.unsubscribe();
         },
@@ -274,16 +309,16 @@ export class MandatoryTablesListComponent implements OnInit {
     }
   }
 
-  public async SaveMandatoryHDMF(objTableCode: any) {
+  public async SaveMandatoryHDMF(objMandatoryHDMF: MandatoryHDMF) {
     this.buttonDisabled = true;
     if (this.isMandatoryHDMFDataLoaded == true) {
       this.isMandatoryHDMFDataLoaded = false;
-      this._addMandatoryHDMFSubscription = (await this._mandatoryTablesService.SaveMandatoryHDMF(objTableCode)).subscribe(
+      this._addMandatoryHDMFSubscription = (await this._mandatoryTablesService.SaveMandatoryHDMF(objMandatoryHDMF)).subscribe(
         response => {
           this.buttonDisabled = false;
           this.isMandatoryHDMFDataLoaded = true;
-          this.GetMandatoryHDMFsListData();
-          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Added Successfully");
+          this.GetMandatoryHDMFListData();
+          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Save Successfully");
         },
         error => {
           this.buttonDisabled = false;
@@ -304,7 +339,7 @@ export class MandatoryTablesListComponent implements OnInit {
       this._deleteMandatoryHDMFSubscription = (await this._mandatoryTablesService.DeleteMandatoryHDMF(currentMandatoryHDMFs.Id)).subscribe(
         response => {
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Delete Successfully");
-          this.GetMandatoryHDMFsListData();
+          this.GetMandatoryHDMFListData();
           this.isMandatoryHDMFProgressBarHidden = false;
           this.isMandatoryHDMFDataLoaded = true;
         },
@@ -322,8 +357,8 @@ export class MandatoryTablesListComponent implements OnInit {
     const matDialogRef = this.matDialog.open(DeleteDialogBoxComponent, {
       width: '500px',
       data: {
-        objDialogTitle: "Delete Tables Code",
-        objComfirmationMessage: `Delete ${currentMandatoryHDMF.Code}?`,
+        objDialogTitle: "",
+        objComfirmationMessage: `Delete HDMF?`,
       },
       disableClose: true
     });
@@ -346,11 +381,23 @@ export class MandatoryTablesListComponent implements OnInit {
     });
 
     matDialogRef.afterClosed().subscribe(data => {
+
+      let objMandatoryHDMF: MandatoryHDMF = {
+        Id: data.objData.Id,
+        AmountStart: data.objData.AmountStart,
+        AmountEnd: data.objData.AmountEnd,
+        EmployeeContributionPercentage: data.objData.EmployeeContributionPercentage,
+        EmployerContributionPercentage: data.objData.EmployerContributionPercentage,
+        EmployeeContributionValue: data.objData.EmployeeContributionValue,
+        EmployerContributionValue: data.objData.EmployerContributionValue,
+        Remarks: data.objData.Remarks
+      }
+
       if (data.event === "Add") {
-        this.AddMandatoryHDMF(data.objData);
+        this.AddMandatoryHDMF(objMandatoryHDMF);
       }
       if (data.event === "Edit") {
-        this.SaveMandatoryHDMF(data.objData);
+        this.SaveMandatoryHDMF(objMandatoryHDMF);
       }
     });
   }
@@ -403,20 +450,40 @@ export class MandatoryTablesListComponent implements OnInit {
   }
 
   public BtnAddMandatoryPHIC() {
-    let objMandatoryPHIC: any = { Id: 0, Code: 'NA', Value: 'NA', Category: 'NA' };
-    this.DetailMandatoryPHIC(objMandatoryPHIC, "Add Table Code");
+    let objMandatoryPHIC: MandatoryPHIC = {
+      Id: 0,
+      AmountStart: '0.00',
+      AmountEnd: '0.00',
+      EmployeeContributionValue: '0.00',
+      EmployerContributionValue: '0.00',
+      Remarks: 'NA'
+    }
+
+    this.DetailMandatoryPHIC(objMandatoryPHIC, "Add Mandatory PHIC");
   }
 
   public EditMandatoryPHIC() {
+
     let currentMandatoryPHIC = this._listMandatoryPHICCollectionView.currentItem;
-    this.DetailMandatoryPHIC(currentMandatoryPHIC, "Edit Table Code");
+    console.log(currentMandatoryPHIC);
+
+    let objMandatoryPHIC: MandatoryPHIC = {
+      Id: currentMandatoryPHIC.Id,
+      AmountStart: this.RemoveComma(currentMandatoryPHIC.AmountStart),
+      AmountEnd: this.RemoveComma(currentMandatoryPHIC.AmountEnd),
+      EmployeeContributionValue: this.RemoveComma(currentMandatoryPHIC.EmployeeContributionValue),
+      EmployerContributionValue: this.RemoveComma(currentMandatoryPHIC.EmployerContributionValue),
+      Remarks: currentMandatoryPHIC.Remarks
+    }
+
+    this.DetailMandatoryPHIC(objMandatoryPHIC, "Edit Mandatory PHIC");
   }
 
-  public async AddMandatoryPHIC(objTableCode: any) {
+  public async AddMandatoryPHIC(objMandatoryPHIC: MandatoryPHIC) {
     this.buttonDisabled = true;
     if (this._isMandatoryPHICDataLoaded == true) {
       this._isMandatoryPHICDataLoaded = false;
-      this._addMandatoryPHICSubscription = (await this._mandatoryTablesService.AddMandatoryPHIC(objTableCode)).subscribe(
+      this._addMandatoryPHICSubscription = (await this._mandatoryTablesService.AddMandatoryPHIC(objMandatoryPHIC)).subscribe(
         response => {
           this.buttonDisabled = false;
           this._isMandatoryPHICDataLoaded = true;
@@ -434,16 +501,16 @@ export class MandatoryTablesListComponent implements OnInit {
     }
   }
 
-  public async SaveMandatoryPHIC(objTableCode: any) {
+  public async SaveMandatoryPHIC(objMandatoryPHIC: MandatoryPHIC) {
     this.buttonDisabled = true;
     if (this._isMandatoryPHICDataLoaded == true) {
       this._isMandatoryPHICDataLoaded = false;
-      this._addMandatoryPHICSubscription = (await this._mandatoryTablesService.SaveMandatoryPHIC(objTableCode)).subscribe(
+      this._addMandatoryPHICSubscription = (await this._mandatoryTablesService.SaveMandatoryPHIC(objMandatoryPHIC)).subscribe(
         response => {
           this.buttonDisabled = false;
           this._isMandatoryPHICDataLoaded = true;
           this.GetMandatoryPHICListData();
-          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Added Successfully");
+          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Save Successfully");
         },
         error => {
           this.buttonDisabled = false;
@@ -482,8 +549,8 @@ export class MandatoryTablesListComponent implements OnInit {
     const matDialogRef = this.matDialog.open(DeleteDialogBoxComponent, {
       width: '500px',
       data: {
-        objDialogTitle: "Delete Tables Code",
-        objComfirmationMessage: `Delete ${currentMandatoryPHIC.Code}?`,
+        objDialogTitle: "",
+        objComfirmationMessage: `Delete PHIC?`,
       },
       disableClose: true
     });
@@ -495,7 +562,8 @@ export class MandatoryTablesListComponent implements OnInit {
     });
   }
 
-  public DetailMandatoryPHIC(data: any[], eventTitle: string): void {
+  public DetailMandatoryPHIC(data: MandatoryPHIC, eventTitle: string): void {
+
     const matDialogRef = this.matDialog.open(MandatoryTablesDetailMandatoryPhicDetailComponent, {
       width: '800px',
       data: {
@@ -506,16 +574,26 @@ export class MandatoryTablesListComponent implements OnInit {
     });
 
     matDialogRef.afterClosed().subscribe(data => {
+
+      let objMandatoryPHIC: MandatoryPHIC = {
+        Id: data.objData.Id,
+        AmountStart: data.objData.AmountStart,
+        AmountEnd: data.objData.AmountEnd,
+        EmployeeContributionValue: data.objData.EmployeeContributionValue,
+        EmployerContributionValue: data.objData.EmployerContributionValue,
+        Remarks: data.objData.Remarks
+      }
+
       if (data.event === "Add") {
-        this.AddMandatoryPHIC(data.objData);
+        this.AddMandatoryPHIC(objMandatoryPHIC);
       }
       if (data.event === "Edit") {
-        this.SaveMandatoryPHIC(data.objData);
+        this.SaveMandatoryPHIC(objMandatoryPHIC);
       }
     });
   }
 
-   // =======
+  // =======
   // Code SSS
   // ========
   public _listMandatorySSSObservableArray: ObservableArray = new ObservableArray();
@@ -563,20 +641,41 @@ export class MandatoryTablesListComponent implements OnInit {
   }
 
   public BtnAddMandatorySSS() {
-    let objMandatorySSS: any = { Id: 0, Code: 'NA', Value: 'NA', Category: 'NA' };
-    this.DetailMandatorySSS(objMandatorySSS, "Add Table Code");
+
+    let objMandatorySSS: MandatorySSS = {
+      Id: 0,
+      AmountStart: '0.00',
+      AmountEnd: '0.00',
+      EmployeeContributionValue: '0.00',
+      EmployerContributionValue: '0.00',
+      EmployerECValue: '0.00',
+      Remarks: 'NA'
+    };
+
+    this.DetailMandatorySSS(objMandatorySSS, "Add Mandatory SSS");
   }
 
   public EditMandatorySSS() {
     let currentMandatorySSS = this._listMandatorySSSCollectionView.currentItem;
-    this.DetailMandatorySSS(currentMandatorySSS, "Edit Table Code");
+
+    let objMandatorySSS: MandatorySSS = {
+      Id: currentMandatorySSS.Id,
+      AmountStart: currentMandatorySSS.AmountStart,
+      AmountEnd: currentMandatorySSS.AmountEnd,
+      EmployeeContributionValue: currentMandatorySSS.EmployeeContributionValue,
+      EmployerContributionValue: currentMandatorySSS.EmployerContributionValue,
+      EmployerECValue: currentMandatorySSS.EmployerECValue,
+      Remarks: 'NA'
+    };
+
+    this.DetailMandatorySSS(objMandatorySSS, "Edit Mandatory SSS");
   }
 
-  public async AddMandatorySSS(objTableCode: any) {
+  public async AddMandatorySSS(objMandatorySSS: MandatorySSS) {
     this.buttonDisabled = true;
     if (this._isMandatorySSSDataLoaded == true) {
       this._isMandatorySSSDataLoaded = false;
-      this._addMandatorySSSSubscription = (await this._mandatoryTablesService.AddMandatorySSS(objTableCode)).subscribe(
+      this._addMandatorySSSSubscription = (await this._mandatoryTablesService.AddMandatorySSS(objMandatorySSS)).subscribe(
         response => {
           this.buttonDisabled = false;
           this._isMandatorySSSDataLoaded = true;
@@ -594,16 +693,16 @@ export class MandatoryTablesListComponent implements OnInit {
     }
   }
 
-  public async SaveMandatorySSS(objTableCode: any) {
+  public async SaveMandatorySSS(objMandatorySSS: MandatorySSS) {
     this.buttonDisabled = true;
     if (this._isMandatorySSSDataLoaded == true) {
       this._isMandatorySSSDataLoaded = false;
-      this._addMandatorySSSSubscription = (await this._mandatoryTablesService.SaveMandatorySSS(objTableCode)).subscribe(
+      this._addMandatorySSSSubscription = (await this._mandatoryTablesService.SaveMandatorySSS(objMandatorySSS)).subscribe(
         response => {
           this.buttonDisabled = false;
           this._isMandatorySSSDataLoaded = true;
           this.GetMandatorySSSListData();
-          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Added Successfully");
+          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Save Successfully");
         },
         error => {
           this.buttonDisabled = false;
@@ -642,8 +741,8 @@ export class MandatoryTablesListComponent implements OnInit {
     const matDialogRef = this.matDialog.open(DeleteDialogBoxComponent, {
       width: '500px',
       data: {
-        objDialogTitle: "Delete Tables Code",
-        objComfirmationMessage: `Delete ${currentMandatorySSS.Code}?`,
+        objDialogTitle: "",
+        objComfirmationMessage: `Delete SSS?`,
       },
       disableClose: true
     });
@@ -657,7 +756,7 @@ export class MandatoryTablesListComponent implements OnInit {
 
   activeTab() { }
 
-  public DetailMandatorySSS(data: any[], eventTitle: string): void {
+  public DetailMandatorySSS(data: MandatorySSS, eventTitle: string): void {
     const matDialogRef = this.matDialog.open(MandatoryTablesDetailMandatorySssDetailComponent, {
       width: '800px',
       data: {
@@ -668,17 +767,28 @@ export class MandatoryTablesListComponent implements OnInit {
     });
 
     matDialogRef.afterClosed().subscribe(data => {
-      if (data.event === "Add") {
-        this.AddMandatorySSS(data.objData);
+
+      let objMandatorySSS: MandatorySSS = {
+        Id: data.objData.Id,
+        AmountStart: data.objData.AmountStart,
+        AmountEnd: data.objData.AmountEnd,
+        EmployeeContributionValue: data.objData.EmployeeContributionValue,
+        EmployerContributionValue: data.objData.EmployerContributionValue,
+        EmployerECValue: data.objData.EmployerECValue,
+        Remarks: data.objData.Remarks
       }
-      if (data.event === "Edit") {
-        this.SaveMandatorySSS(data.objData);
+
+      if (data.event === 'Add') {
+        this.AddMandatorySSS(objMandatorySSS);
+      }
+      if (data.event === 'Edit') {
+        this.SaveMandatorySSS(objMandatorySSS);
       }
     });
   }
 
   @ViewChild('tabGroup') tabGroup;
-  
+
   public async AddMandatoryTable() {
     if (this.tabGroup.selectedIndex == 0) {
       this.BtnAddMandatoryBIR();
@@ -696,4 +806,10 @@ export class MandatoryTablesListComponent implements OnInit {
       this.BtnAddMandatorySSS();
     }
   }
+
+  public RemoveComma(value: string): string {
+    // console.log(value);
+    return value.toString().replace(/,/g, '');
+  }
+
 }
