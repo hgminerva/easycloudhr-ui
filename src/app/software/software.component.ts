@@ -47,6 +47,9 @@ export class SoftwareComponent implements OnInit {
   public moduleOvertimeList: boolean = false;
   public moduleOvertimeDetail: boolean = false;
 
+  public moduleYearList: boolean = false;
+  public moduleYearDetail: boolean = false;
+
   public moduleOtherIncomeList: boolean = false;
   public moduleOtherDeductionList: boolean = false;
 
@@ -190,7 +193,13 @@ export class SoftwareComponent implements OnInit {
       this.moduleLoanList = true;
     }
 
-    console.log('Loan', this.softwareSecurityService.openModule("Loan List"));
+    if (this.softwareSecurityService.openModule("Year List") == true) {
+      this.moduleYearList = true;
+    }
+
+    if (this.softwareSecurityService.openModule("Year Detail") == true) {
+      this.moduleYearDetail = true;
+    }
 
     if (this.softwareSecurityService.openModule("Others") == true) {
       this.moduleOthers = true;
