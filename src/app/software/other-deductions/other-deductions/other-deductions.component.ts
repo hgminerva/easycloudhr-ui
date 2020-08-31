@@ -135,7 +135,7 @@ export class OtherDeductionsComponent implements OnInit {
            this._btnAddDisabled = false;
            this._isDataLoaded = true;
            this.GetOtherDeductionListData();
-           this.DetailOtherDeduction(response, "OtherDeduction Detail")
+           this.DetailOtherDeduction(response, "Other Deduction Detail")
            this._snackBarTemplate.snackBarSuccess(this._snackBar, "Added Successfully");
          },
          error => {
@@ -150,7 +150,7 @@ export class OtherDeductionsComponent implements OnInit {
  
    public EditOtherDeduction() {
      let currentOtherDeduction = this._listOtherDeductionCollectionView.currentItem;
-     this.DetailOtherDeduction(currentOtherDeduction.Id, "Edit Other Income Detail");
+     this.DetailOtherDeduction(currentOtherDeduction.Id, "Edit Other Deduction Detail");
    }
  
    public async DeleteOtherDeduction() {
