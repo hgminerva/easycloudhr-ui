@@ -23,8 +23,18 @@ export class LoanListService {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/loan/user/list', this.appSettings.defaultOptions);
   }
 
+
+  public async LoanStatusList() {
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/loan/status/list', this.appSettings.defaultOptions);
+  }
+
   public async OtherDeductionList() {
     return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/loan/other/deduction/dropdown/list',
+      this.appSettings.defaultOptions);
+  }
+
+  public async PayrollOtherDeductionLineFilteredByLoanList(loanId: number) {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/loan/payroll/deduction/line/list/' + loanId,
       this.appSettings.defaultOptions);
   }
 
