@@ -54,7 +54,6 @@ export class PayrollOtherIncomeLineDialogComponent implements OnInit {
       response => {
         this._otherIncomeListDropdown = response;
         this._payrollOtherIncomeLineModel.OtherIncomeId = this._otherIncomeListDropdown[0].Id;
-        this.loadShiftLineDetail();
         if (this._otherIncomeDropdownSubscription !== null) this._otherIncomeDropdownSubscription.unsubscribe();
       },
       error => {
@@ -62,24 +61,22 @@ export class PayrollOtherIncomeLineDialogComponent implements OnInit {
         if (this._otherIncomeDropdownSubscription !== null) this._otherIncomeDropdownSubscription.unsubscribe();
       }
     );
+    this.loadShiftLineDetail();
   }
 
   private loadShiftLineDetail() {
-    setTimeout(() => {
-      this._payrollOtherIncomeLineModel.Id = this.caseData.objPayrollOtherIncomeLine.Id;
-      this._payrollOtherIncomeLineModel.PIId = this.caseData.objPayrollOtherIncomeLine.PIId;
-      this._payrollOtherIncomeLineModel.EmployeeId = this.caseData.objPayrollOtherIncomeLine.EmployeeId;
-      this._payrollOtherIncomeLineModel.Employee = this.caseData.objPayrollOtherIncomeLine.Employee;
-      this._payrollOtherIncomeLineModel.OtherIncome = this.caseData.objPayrollOtherIncomeLine.OtherIncome;
-      this._payrollOtherIncomeLineModel.Amount = this.decimalPipe.transform(this.caseData.objPayrollOtherIncomeLine.Amount, "1.2-2");
-      this._payrollOtherIncomeLineModel.Particulars = this.caseData.objPayrollOtherIncomeLine.Particulars;
+    this._payrollOtherIncomeLineModel.Id = this.caseData.objPayrollOtherIncomeLine.Id;
+    this._payrollOtherIncomeLineModel.PIId = this.caseData.objPayrollOtherIncomeLine.PIId;
+    this._payrollOtherIncomeLineModel.EmployeeId = this.caseData.objPayrollOtherIncomeLine.EmployeeId;
+    this._payrollOtherIncomeLineModel.Employee = this.caseData.objPayrollOtherIncomeLine.Employee;
+    this._payrollOtherIncomeLineModel.OtherIncome = this.caseData.objPayrollOtherIncomeLine.OtherIncome;
+    this._payrollOtherIncomeLineModel.Amount = this.decimalPipe.transform(this.caseData.objPayrollOtherIncomeLine.Amount, "1.2-2");
+    this._payrollOtherIncomeLineModel.Particulars = this.caseData.objPayrollOtherIncomeLine.Particulars;
 
-      if (this._payrollOtherIncomeLineModel.Id != 0) {
-        this._payrollOtherIncomeLineModel.OtherIncomeId = this.caseData.objPayrollOtherIncomeLine.OtherIncomeId;
-      }
-
-      this.isComponentHidden = false;
-    }, 100);
+    if (this._payrollOtherIncomeLineModel.Id != 0) {
+      this._payrollOtherIncomeLineModel.OtherIncomeId = this.caseData.objPayrollOtherIncomeLine.OtherIncomeId;
+    }
+    this.isComponentHidden = false;
   }
 
   public Close(): void {
@@ -113,6 +110,10 @@ export class PayrollOtherIncomeLineDialogComponent implements OnInit {
     });
   }
 
+  public RemoveComma(value: string): string {
+    return value.toString().replace(/,/g, '');
+  }
+
   formatValueAmount() {
     this.inputTypeAmount = 'text';
 
@@ -124,6 +125,7 @@ export class PayrollOtherIncomeLineDialogComponent implements OnInit {
   }
 
   AmountToNumberType() {
+    this._payrollOtherIncomeLineModel.Amount = this.RemoveComma(this._payrollOtherIncomeLineModel.Amount);
     this.inputTypeAmount = 'number';
   }
 

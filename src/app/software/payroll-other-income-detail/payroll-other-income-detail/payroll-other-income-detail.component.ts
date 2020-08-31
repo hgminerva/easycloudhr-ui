@@ -10,7 +10,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 
 import { MatSelectChange } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 
 import { PayrollOtherIncomeModel } from './../payroll-other-income.model';
 import { PayrollOtherIncomeLineModel } from './../payroll-other-income-line.model';
@@ -31,7 +31,8 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
     public _matDialog: MatDialog,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private decimalPipe: DecimalPipe,
 
   ) { }
 
@@ -62,6 +63,8 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
   public _savePayrollOtherIncomeDetailSubscription: any;
   public _lockPayrollOtherIncomeDetailSubscription: any;
   public _unlockPayrollOtherIncomeDetailSubscription: any;
+
+  public totalIncomeAmount: string = '0.00';
 
   public _payrollOtherIncomeModel: PayrollOtherIncomeModel = {
     Id: 0,
@@ -94,7 +97,7 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
     OtherIncomeId: 0,
     OtherIncome: '',
     Amount: '0',
-    Particulars: ''
+    Particulars: 'NA'
   }
 
   // Class properties
@@ -265,7 +268,9 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
 
     this._PayrollOtherIncomeLineListSubscription = await (await this._payrollOtherIncomeDetailService.PayrollOtherIncomeLineList(this._payrollOtherIncomeModel.Id)).subscribe(
       (response: any) => {
+
         if (response["length"] > 0) {
+          this.totalIncomeAmount = this.decimalPipe.transform(this.Sum(response), "1.2-2");
           this._listPayrollOtherIncomeLineObservableArray = response;
           this._listPayrollOtherIncomeLineCollectionView = new CollectionView(this._listPayrollOtherIncomeLineObservableArray);
           this._listPayrollOtherIncomeLineCollectionView.pageSize = 15;
@@ -284,6 +289,14 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
         if (this._PayrollOtherIncomeLineListSubscription !== null) this._PayrollOtherIncomeLineListSubscription.unsubscribe();
       }
     );
+  }
+
+  private Sum(data: any[]) {
+    var total = 0
+    data.forEach(element => {
+      total += element.Amount;
+    });
+    return total;
   }
 
   public AddPayrollOtherIncomeLine() {
