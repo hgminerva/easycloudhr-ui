@@ -10,7 +10,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 
 import { MatSelectChange } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 
 import { PayrollOtherDeductionModel } from './../payroll-other-deduction.model';
 import { PayrollOtherDeductionLineModel } from './../payroll-other-deduction-line.model';
@@ -31,7 +31,8 @@ export class PayrollOtherDeductionDetailComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
     public _matDialog: MatDialog,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private decimalPipe: DecimalPipe,
 
   ) { }
 
@@ -62,6 +63,8 @@ export class PayrollOtherDeductionDetailComponent implements OnInit {
   public _savePayrollOtherDeductionDetailSubscription: any;
   public _lockPayrollOtherDeductionDetailSubscription: any;
   public _unlockPayrollOtherDeductionDetailSubscription: any;
+
+  public totalDeductionAmount: string = '0.00';
 
   public _payrollOtherDeductionModel: PayrollOtherDeductionModel = {
     Id: 0,
@@ -277,12 +280,15 @@ export class PayrollOtherDeductionDetailComponent implements OnInit {
     this._listPayrollOtherDeductionLineCollectionView.trackChanges = true;
     await this._listPayrollOtherDeductionLineCollectionView.refresh();
     await this.flexPayrollOtherDeductionLine.refresh();
+    this.totalDeductionAmount = '0.00';
 
     this._isPayrollOtherDeductionLineProgressBarHidden = true;
 
     this._PayrollOtherDeductionLineListSubscription = await (await this._payrollOtherDeductionDetailService.PayrollOtherDeductionLineList(this._payrollOtherDeductionModel.Id)).subscribe(
       (response: any) => {
         if (response["length"] > 0) {
+          this.totalDeductionAmount = this.decimalPipe.transform(this.Sum(response), "1.2-2");
+          console.log(this.totalDeductionAmount);
           this._listPayrollOtherDeductionLineObservableArray = response;
           this._listPayrollOtherDeductionLineCollectionView = new CollectionView(this._listPayrollOtherDeductionLineObservableArray);
           this._listPayrollOtherDeductionLineCollectionView.pageSize = 15;
@@ -303,13 +309,21 @@ export class PayrollOtherDeductionDetailComponent implements OnInit {
     );
   }
 
+  private Sum(data: any[]) {
+    var total = 0
+    data.forEach(element => {
+      total += element.Amount;
+    });
+    return total;
+  }
+
   public AddPayrollOtherDeductionLine() {
-    this.DetailPayrollOtherDeductionLine(this._payrollOtherDeductionLineModel, "Add Payroll Other Income Line");
+    this.DetailPayrollOtherDeductionLine(this._payrollOtherDeductionLineModel, "Add Payroll Other Deduction Line");
   }
 
   public EditPayrollOtherDeductionLine() {
     let currentPayrollOtherDeductionLine = this._listPayrollOtherDeductionLineCollectionView.currentItem;
-    this.DetailPayrollOtherDeductionLine(currentPayrollOtherDeductionLine, "Edit Payroll Other Income Line Detail");
+    this.DetailPayrollOtherDeductionLine(currentPayrollOtherDeductionLine, "Edit Payroll Other Deduction Line Detail");
   }
 
   public async DeletePayrollOtherDeductionLine() {
@@ -366,13 +380,13 @@ export class PayrollOtherDeductionDetailComponent implements OnInit {
     });
 
     matDialogRef.afterClosed().subscribe((result: any) => {
-      if (result.event === "Add Payroll Other Income Line") {
+      if (result.event === "Add Payroll Other Deduction Line") {
 
         this._isPayrollOtherDeductionLineDataLoaded = true;
 
         this.AddSavePayrollOtherDeductionLine(result.data);
       }
-      if (result.event === "Edit Payroll Other Income Line Detail") {
+      if (result.event === "Edit Payroll Other Deduction Line Detail") {
 
         this._isPayrollOtherDeductionLineDataLoaded = true;
 

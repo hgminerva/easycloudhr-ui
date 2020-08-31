@@ -3,7 +3,7 @@
 </h3>
 <mat-divider></mat-divider>
 <div mat-dialog-content style="height: 70%;">
-    <div class="dialog-body" [hidden]="isComponentHidden">
+    <div class="dialog-body" [hidden]="isComponentHidden" >
         <br>
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="33" style="padding: 5px;">
@@ -13,10 +13,9 @@
                     <mat-icon matSuffix (click)="EmployeeListDialog()">keyboard_arrow_down</mat-icon>
                 </mat-form-field>
             </div>
-
             <div fxFlex="33" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
-                    <mat-label>Other Income</mat-label>
+                    <mat-label>Other Deduction</mat-label>
                     <mat-select [(ngModel)]="_payrollOtherDeductionLineModel.OtherDeductionId">
                         <mat-option *ngFor="let otherDeduction of _payrollOtherDeductionListDropdown"
                             [value]="otherDeduction.Id">
@@ -25,10 +24,9 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-
             <div fxFlex="33" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
-                    <mat-label>Other Income</mat-label>
+                    <mat-label>Loan</mat-label>
                     <mat-select [(ngModel)]="_payrollOtherDeductionLineModel.LNId">
                         <mat-option *ngFor="let loan of _loanListDropdown" [value]="loan.Id">
                             {{loan.Value}}
@@ -36,16 +34,14 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-
             <div fxFlex="34" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
-                    <mat-label>OT Hours</mat-label>
+                    <mat-label>Amount</mat-label>
                     <input type="{{inputTypeAmount}}" matInput placeholder="0.00" style="text-align:right;"
                         autocomplete="off" [(ngModel)]="_payrollOtherDeductionLineModel.Amount"
                         (focus)="AmountToNumberType()" (focusout)="formatValueAmount()">
                 </mat-form-field>
             </div>
-
         </div>
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="100" style="padding: 5px;">
