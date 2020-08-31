@@ -30,8 +30,8 @@ export class DashboardComponent implements OnInit {
   public moduleLeaveApplicationList: boolean = false;
   public moduleLeaveApplicationDetail: boolean = false;
 
-  public moduleOvertimeList: boolean = false;
-  public moduleOvertimeDetail: boolean = false;
+  public moduleOvertimeApplicationList: boolean = false;
+  public moduleOvertimeApplicationDetail: boolean = false;
 
   public moduleOtherIncomeList: boolean = false;
   public moduleOtherDeductionList: boolean = false;
@@ -48,7 +48,7 @@ export class DashboardComponent implements OnInit {
   public moduleMandatoryListList: boolean = false;
   public moduleMandatoryDetail: boolean = false;
 
-  public moduleOthers: boolean = false;
+  public moduleOthers: boolean = true;
 
   ngOnInit(): void {
     if (this.softwareSecurityService.openModule("Dashboard") == true) {
@@ -108,11 +108,11 @@ export class DashboardComponent implements OnInit {
     }
 
     if (this.softwareSecurityService.openModule("Overtime List") == true) {
-      this.moduleOvertimeList = true;
+      this.moduleOvertimeApplicationList = true;
     }
 
     if (this.softwareSecurityService.openModule("Overtime Detail") == true) {
-      this.moduleOvertimeDetail = true;
+      this.moduleOvertimeApplicationDetail = true;
     }
 
     if (this.softwareSecurityService.openModule("Other Income") == true) {
