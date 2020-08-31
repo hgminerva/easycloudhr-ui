@@ -68,7 +68,7 @@
         </div>
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="100" style="margin: 5px;">
-                <mat-tab-group #tabGroup (selectedTabChange)="activeTab()" style="max-height:500px; width: 100%;"
+                <mat-tab-group #tabGroup (selectedTabChange)="activeTab()" style="max-height:100%; width: 100%;"
                     class="detail-tab">
                     <mat-tab label="User Rights">
                         <br>
@@ -194,7 +194,6 @@
                                 <mat-icon>navigate_next</mat-icon>
                             </mat-button-toggle>
                         </mat-button-toggle-group>
-
                     </mat-tab>
                     <mat-tab disabled style="background-color: transparent; ">
                         <ng-template mat-tab-label>
@@ -207,7 +206,7 @@
                 </mat-tab-group>
             </div>
         </div>
-        <mat-divider></mat-divider>
+        <mat-divider style="margin: 5px;"></mat-divider>
         <div fxLayout="row" fxLayout.xs="column" style="color: gray;">
             <div fxFlex="50" style="padding: 5px;">
                 <div fxLayout="row" fxLayout.xs="column">
