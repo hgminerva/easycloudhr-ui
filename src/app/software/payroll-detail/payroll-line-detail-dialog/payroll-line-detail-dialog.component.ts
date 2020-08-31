@@ -273,8 +273,8 @@ export class PayrollLineDetailDialogComponent implements OnInit {
   ngOnDestroy() {
   }
 
-  public SavePayrollLine(){
-    if(this._payrollLineModel.Id == 0){
+  public SavePayrollLine() {
+    if (this._payrollLineModel.Id == 0) {
       this.AddPayrollLine();
     } else {
       this.UpdatePayrollLine();
@@ -350,7 +350,11 @@ export class PayrollLineDetailDialogComponent implements OnInit {
   public inputTypePHICEmployerContribution = 'text';
   public inputTypeHDMFEmployerContribution = 'text';
 
-  PayrollRateFormatValue() {
+  public RemoveComma(value: string): string {
+    return value.toString().replace(/,/g, '');
+  }
+
+  PayrollRateFormatValueFocusOut() {
     this.inputTypePayrollRate = 'text';
 
     if (this._payrollLineModel.PayrollRate == '') {
@@ -360,12 +364,15 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     }
   }
 
-  PayrollRateToNumberType() {
+  PayrollRateToNumberTypeFocus() {
+    this._payrollLineModel.PayrollRate = this.RemoveComma(this._payrollLineModel.PayrollRate);
     this.inputTypePayrollRate = 'number';
   }
 
-  TotalDailyPayFormatValue() {
-    this.inputTypePayrollRate = 'text';
+
+
+  TotalDailyPayFormatValueFocusOut() {
+    this.inputTypeTotalDailyPay = 'text';
 
     if (this._payrollLineModel.TotalDailyPay == '') {
       this._payrollLineModel.TotalDailyPay = this._decimalPipe.transform(0, "1.2-2");
@@ -374,12 +381,14 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     }
   }
 
-  TotalDailyPayToNumberType() {
+  TotalDailyPayToNumberTypeFocus() {
+    this._payrollLineModel.TotalDailyPay = this.RemoveComma(this._payrollLineModel.TotalDailyPay);
+
     this.inputTypeTotalDailyPay = 'number';
   }
 
-  TotalPremiumPayFormatValue() {
-    this.inputTypePayrollRate = 'text';
+  TotalPremiumPayFormatValueFocusOut() {
+    this.inputTypeTotalPremiumPay = 'text';
 
     if (this._payrollLineModel.TotalPremiumPay == '') {
       this._payrollLineModel.TotalPremiumPay = this._decimalPipe.transform(0, "1.2-2");
@@ -388,11 +397,12 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     }
   }
 
-  TotalPremiumPayToNumberType() {
+  TotalPremiumPayToNumberTypeFocus() {
+    this._payrollLineModel.TotalPremiumPay = this.RemoveComma(this._payrollLineModel.TotalPremiumPay);
     this.inputTypeTotalPremiumPay = 'number';
   }
 
-  TotalHolidayPayFormatValue() {
+  TotalHolidayPayFormatValueFocusOut() {
     this.inputTypeTotalHolidayPay = 'text';
 
     if (this._payrollLineModel.TotalHolidayPay == '') {
@@ -402,11 +412,12 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     }
   }
 
-  TotalHolidayPayToNumberType() {
+  TotalHolidayPayToNumberTypeFocus() {
+    this._payrollLineModel.TotalHolidayPay = this.RemoveComma(this._payrollLineModel.TotalHolidayPay);
     this.inputTypeTotalHolidayPay = 'number';
   }
 
-  TotalOvertimePayFormatValue() {
+  TotalOvertimePayFormatValueFocusOut() {
     this.inputTypeTotalOvertimePay = 'text';
 
     if (this._payrollLineModel.TotalOvertimePay == '') {
@@ -416,11 +427,12 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     }
   }
 
-  TotalOvertimePayToNumberType() {
+  TotalOvertimePayToNumberTypeFocus() {
+    this._payrollLineModel.TotalOvertimePay = this.RemoveComma(this._payrollLineModel.TotalOvertimePay);
     this.inputTypeTotalOvertimePay = 'number';
   }
 
-  TotalNightDifferentialPayFormatValue() {
+  TotalNightDifferentialPayFormatValueFocusOut() {
     this.inputTypeTotalNightDifferentialPay = 'text';
 
     if (this._payrollLineModel.TotalNightDifferentialPay == '') {
@@ -430,11 +442,12 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     }
   }
 
-  TotalNightDifferentialPayToNumberType() {
+  TotalNightDifferentialPayToNumberTypeFocus() {
+    this._payrollLineModel.TotalNightDifferentialPay = this.RemoveComma(this._payrollLineModel.TotalNightDifferentialPay);
     this.inputTypeTotalNightDifferentialPay = 'number';
   }
 
-  TotalCOLAFormatValue() {
+  TotalCOLAFormatValueFocusOut() {
     this.inputTypeTotalCOLA = 'text';
 
     if (this._payrollLineModel.TotalCOLA == '') {
@@ -444,11 +457,12 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     }
   }
 
-  TotalCOLAToNumberType() {
+  TotalCOLAToNumberTypeFocus() {
+    this._payrollLineModel.TotalCOLA = this.RemoveComma(this._payrollLineModel.TotalCOLA);
     this.inputTypeTotalCOLA = 'number';
   }
 
-  TotalAdditionalAllowanceFormatValue() {
+  TotalAdditionalAllowanceFormatValueFocusOut() {
     this.inputTypeTotalAdditionalAllowance = 'text';
 
     if (this._payrollLineModel.TotalAdditionalAllowance == '') {
@@ -458,11 +472,12 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     }
   }
 
-  TotalAdditionalAllowanceToNumberType() {
+  TotalAdditionalAllowanceToNumberTypeFocus() {
+    this._payrollLineModel.TotalAdditionalAllowance = this.RemoveComma(this._payrollLineModel.TotalAdditionalAllowance);
     this.inputTypeTotalAdditionalAllowance = 'number';
   }
 
-  TotalLateDeductionFormatValue() {
+  TotalLateDeductionFormatValueFocusOut() {
     this.inputTypeTotalLateDeduction = 'text';
 
     if (this._payrollLineModel.TotalLateDeduction == '') {
@@ -472,11 +487,12 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     }
   }
 
-  TotalLateDeductionToNumberType() {
+  TotalLateDeductionToNumberTypeFocus() {
+    this._payrollLineModel.TotalLateDeduction = this.RemoveComma(this._payrollLineModel.TotalLateDeduction);
     this.inputTypeTotalLateDeduction = 'number';
   }
 
-  TotalUndertimeDeductionFormatValue() {
+  TotalUndertimeDeductionFormatValueFocusOut() {
     this.inputTypeTotalUndertimeDeduction = 'text';
 
     if (this._payrollLineModel.TotalUndertimeDeduction == '') {
@@ -486,11 +502,12 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     }
   }
 
-  TotalUndertimeDeductionToNumberType() {
+  TotalUndertimeDeductionToNumberTypeFocus() {
+    this._payrollLineModel.TotalUndertimeDeduction = this.RemoveComma(this._payrollLineModel.TotalUndertimeDeduction);
     this.inputTypeTotalUndertimeDeduction = 'number';
   }
 
-  IncomeFormatValue() {
+  IncomeFormatValueFocusOut() {
     this.inputTypeIncome = 'text';
 
     if (this._payrollLineModel.Income == '') {
@@ -500,11 +517,12 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     }
   }
 
-  IncomeToNumberType() {
+  IncomeToNumberTypeFocus() {
+    this._payrollLineModel.Income = this.RemoveComma(this._payrollLineModel.Income);
     this.inputTypeIncome = 'number';
   }
 
-  TotalOtherIncomeNotTaxableFormatValue() {
+  TotalOtherIncomeNotTaxableFormatValueFocusOut() {
     this.inputTypeTotalOtherIncomeNotTaxable = 'text';
 
     if (this._payrollLineModel.TotalOtherIncomeNotTaxable == '') {
@@ -514,12 +532,13 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     }
   }
 
-  TotalOtherIncomeNotTaxableToNumberType() {
+  TotalOtherIncomeNotTaxableToNumberTypeFocus() {
+    this._payrollLineModel.TotalOtherIncomeNotTaxable = this.RemoveComma(this._payrollLineModel.TotalOtherIncomeNotTaxable);
     this.inputTypeTotalOtherIncomeNotTaxable = 'number';
   }
 
-  TotalOtherIncomeTaxableFormatValue() {
-    this.inputTypeTotalOtherIncomeNotTaxable = 'text';
+  TotalOtherIncomeTaxableFormatValueFocusOut() {
+    this.inputTypeTotalOtherIncomeTaxable = 'text';
 
     if (this._payrollLineModel.TotalOtherIncomeTaxable == '') {
       this._payrollLineModel.TotalOtherIncomeTaxable = this._decimalPipe.transform(0, "1.2-2");
@@ -528,12 +547,13 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     }
   }
 
-  TotalOtherIncomeTaxableToNumberType() {
+  TotalOtherIncomeTaxableToNumberTypeFocus() {
+    this._payrollLineModel.TotalOtherIncomeTaxable = this.RemoveComma(this._payrollLineModel.TotalOtherIncomeTaxable);
     this.inputTypeTotalOtherIncomeTaxable = 'number';
   }
 
-  GrossIncomeFormatValue() {
-    this.inputTypeTotalOtherIncomeNotTaxable = 'text';
+  GrossIncomeFormatValueFocusOut() {
+    this.inputTypeGrossIncome = 'text';
 
     if (this._payrollLineModel.GrossIncome == '') {
       this._payrollLineModel.GrossIncome = this._decimalPipe.transform(0, "1.2-2");
@@ -542,11 +562,12 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     }
   }
 
-  GrossIncomeToNumberType() {
+  GrossIncomeToNumberTypeFocus() {
+    this._payrollLineModel.GrossIncome = this.RemoveComma(this._payrollLineModel.GrossIncome);
     this.inputTypeGrossIncome = 'number';
   }
 
-  SSSContributionFormatValue() {
+  SSSContributionFormatValueFocusOut() {
     this.inputTypeSSSContribution = 'text';
 
     if (this._payrollLineModel.SSSContribution == '') {
@@ -556,11 +577,12 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     }
   }
 
-  SSSContributionToNumberType() {
+  SSSContributionToNumberTypeFocus() {
+    this._payrollLineModel.SSSContribution = this.RemoveComma(this._payrollLineModel.SSSContribution);
     this.inputTypeSSSContribution = 'number';
   }
 
-  PHICContributionFormatValue() {
+  PHICContributionFormatValueFocusOut() {
     this.inputTypePHICContribution = 'text';
 
     if (this._payrollLineModel.PHICContribution == '') {
@@ -570,11 +592,12 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     }
   }
 
-  PHICContributionToNumberType() {
+  PHICContributionToNumberTypeFocus() {
+    this._payrollLineModel.PHICContribution = this.RemoveComma(this._payrollLineModel.PHICContribution);
     this.inputTypePHICContribution = 'number';
   }
 
-  HDMFContributionFormatValue() {
+  HDMFContributionFormatValueFocusOut() {
     this.inputTypeHDMFContribution = 'text';
 
     if (this._payrollLineModel.HDMFContribution == '') {
@@ -584,11 +607,12 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     }
   }
 
-  HDMFContributionToNumberType() {
+  HDMFContributionToNumberTypeFocus() {
+    this._payrollLineModel.HDMFContribution = this.RemoveComma(this._payrollLineModel.HDMFContribution);
     this.inputTypeHDMFContribution = 'number';
   }
 
-  IncomeTaxAmountFormatValue() {
+  IncomeTaxAmountFormatValueFocusOut() {
     this.inputTypeIncomeTaxAmount = 'text';
 
     if (this._payrollLineModel.IncomeTaxAmount == '') {
@@ -598,11 +622,12 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     }
   }
 
-  IncomeTaxAmountToNumberType() {
+  IncomeTaxAmountToNumberTypeFocus() {
+    this._payrollLineModel.IncomeTaxAmount = this.RemoveComma(this._payrollLineModel.IncomeTaxAmount);
     this.inputTypeIncomeTaxAmount = 'number';
   }
 
-  TotalOtherDeductionFormatValue() {
+  TotalOtherDeductionFormatValueFocusOut() {
     this.inputTypeTotalOtherDeduction = 'text';
 
     if (this._payrollLineModel.TotalOtherDeduction == '') {
@@ -612,11 +637,12 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     }
   }
 
-  TotalOtherDeductionToNumberType() {
+  TotalOtherDeductionToNumberTypeFocus() {
+    this._payrollLineModel.TotalOtherDeduction = this.RemoveComma(this._payrollLineModel.TotalOtherDeduction);
     this.inputTypeTotalOtherDeduction = 'number';
   }
 
-  NetIncomeFormatValue() {
+  NetIncomeFormatValueFocusOut() {
     this.inputTypeNetIncome = 'text';
 
     if (this._payrollLineModel.NetIncome == '') {
@@ -626,12 +652,13 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     }
   }
 
-  NetIncomeToNumberType() {
+  NetIncomeToNumberTypeFocus() {
+    this._payrollLineModel.NetIncome = this.RemoveComma(this._payrollLineModel.NetIncome);
     this.inputTypeNetIncome = 'number';
   }
 
-  SSSEmployerContributionFormatValue() {
-    this.inputTypeNetIncome = 'text';
+  SSSEmployerContributionFormatValueFocusOut() {
+    this.inputTypeSSSEmployerContribution = 'text';
 
     if (this._payrollLineModel.SSSEmployerContribution == '') {
       this._payrollLineModel.SSSEmployerContribution = this._decimalPipe.transform(0, "1.2-2");
@@ -640,12 +667,13 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     }
   }
 
-  SSSEmployerContributionToNumberType() {
+  SSSEmployerContributionToNumberTypeFocus() {
+    this._payrollLineModel.SSSEmployerContribution = this.RemoveComma(this._payrollLineModel.SSSEmployerContribution);
     this.inputTypeSSSEmployerContribution = 'number';
   }
 
-  SSSECFormatValue() {
-    this.inputTypeNetIncome = 'text';
+  SSSECFormatValueFocusOut() {
+    this.inputTypeSSSEC = 'text';
 
     if (this._payrollLineModel.SSSEC == '') {
       this._payrollLineModel.SSSEC = this._decimalPipe.transform(0, "1.2-2");
@@ -654,12 +682,13 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     }
   }
 
-  SSSECToNumberType() {
+  SSSECToNumberTypeFocus() {
+    this._payrollLineModel.SSSEC = this.RemoveComma(this._payrollLineModel.SSSEC);
     this.inputTypeSSSEC = 'number';
   }
 
-  PHICEmployerContributionFormatValue() {
-    this.inputTypeNetIncome = 'text';
+  PHICEmployerContributionFormatValueFocusOut() {
+    this.inputTypePHICEmployerContribution = 'text';
 
     if (this._payrollLineModel.PHICEmployerContribution == '') {
       this._payrollLineModel.PHICEmployerContribution = this._decimalPipe.transform(0, "1.2-2");
@@ -668,12 +697,13 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     }
   }
 
-  PHICEmployerContributionToNumberType() {
+  PHICEmployerContributionToNumberTypeFocus() {
+    this._payrollLineModel.PHICEmployerContribution = this.RemoveComma(this._payrollLineModel.PHICEmployerContribution);
     this.inputTypePHICEmployerContribution = 'number';
   }
 
-  HDMFEmployerContributionFormatValue() {
-    this.inputTypeNetIncome = 'text';
+  HDMFEmployerContributionFormatValueFocusOut() {
+    this.inputTypeHDMFEmployerContribution = 'text';
 
     if (this._payrollLineModel.HDMFEmployerContribution == '') {
       this._payrollLineModel.HDMFEmployerContribution = this._decimalPipe.transform(0, "1.2-2");
@@ -682,10 +712,8 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     }
   }
 
-  HDMFEmployerContributionToNumberType() {
+  HDMFEmployerContributionToNumberTypeFocus() {
+    this._payrollLineModel.HDMFEmployerContribution = this.RemoveComma(this._payrollLineModel.HDMFEmployerContribution);
     this.inputTypeHDMFEmployerContribution = 'number';
   }
-
-
-
 }

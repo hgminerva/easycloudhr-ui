@@ -59,7 +59,6 @@ export class PayrollOtherDeductionLineDialogComponent implements OnInit {
       response => {
         this._payrollOtherDeductionListDropdown = response;
         this._payrollOtherDeductionLineModel.OtherDeductionId = this._payrollOtherDeductionListDropdown[0].Id;
-        this.LoanListData();
         if (this._payrollOtherDeductionDropdownSubscription !== null) this._payrollOtherDeductionDropdownSubscription.unsubscribe();
       },
       error => {
@@ -67,6 +66,7 @@ export class PayrollOtherDeductionLineDialogComponent implements OnInit {
         if (this._payrollOtherDeductionDropdownSubscription !== null) this._payrollOtherDeductionDropdownSubscription.unsubscribe();
       }
     );
+    this.LoanListData();
   }
 
   private async LoanListData() {
@@ -74,7 +74,6 @@ export class PayrollOtherDeductionLineDialogComponent implements OnInit {
       response => {
         this._loanListDropdown = response;
         this._payrollOtherDeductionLineModel.LNId = this._loanListDropdown[0].Id;
-        this.loadPayrollOtherDeductionLineDetail();
         if (this._loanDropdownSubscription !== null) this._loanDropdownSubscription.unsubscribe();
       },
       error => {
@@ -82,6 +81,7 @@ export class PayrollOtherDeductionLineDialogComponent implements OnInit {
         if (this._loanDropdownSubscription !== null) this._loanDropdownSubscription.unsubscribe();
       }
     );
+    this.loadPayrollOtherDeductionLineDetail();
   }
 
   private loadPayrollOtherDeductionLineDetail() {
@@ -109,6 +109,7 @@ export class PayrollOtherDeductionLineDialogComponent implements OnInit {
   }
 
   public async Save() {
+    console.log(this._payrollOtherDeductionLineModel);
     if (this._payrollOtherDeductionLineModel.EmployeeId != 0) {
       await this.dialogRef.close({ event: this.title, data: this._payrollOtherDeductionLineModel });
     } else {
@@ -135,6 +136,10 @@ export class PayrollOtherDeductionLineDialogComponent implements OnInit {
     });
   }
 
+  public RemoveComma(value: string): string {
+    return value.toString().replace(/,/g, '');
+  }
+
   formatValueAmount() {
     this.inputTypeAmount = 'text';
 
@@ -146,6 +151,7 @@ export class PayrollOtherDeductionLineDialogComponent implements OnInit {
   }
 
   AmountToNumberType() {
+    this._payrollOtherDeductionLineModel.Amount = this.RemoveComma(this._payrollOtherDeductionLineModel.Amount);
     this.inputTypeAmount = 'number';
   }
 
