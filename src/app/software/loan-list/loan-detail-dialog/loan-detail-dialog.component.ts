@@ -1,8 +1,10 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
+import { CollectionView, ObservableArray } from '@grapecity/wijmo';
+import * as wjcGrid from '@grapecity/wijmo.grid';
 
 import { DecimalPipe } from '@angular/common';
 import { LoanModel } from '../loan.model';
@@ -29,21 +31,14 @@ export class LoanDetailDialogComponent implements OnInit {
 
   public title = '';
   public event = 'Close';
-  private inputTypeAmortiztion = 'text';
-  private inputTypeLoanAmount = 'text';
-  private inputTypePaidAmount = 'text';
-  private inputTypeBalanceAmount = 'text';
+  public inputTypeAmortiztion = 'text';
+  public inputTypeLoanAmount = 'text';
+  public inputTypePaidAmount = 'text';
+  public inputTypeBalanceAmount = 'text';
 
   ngOnInit(): void {
     this.title = this.caseData.objDialogTitle;
     this.GetDeductionListData();
-  }
-
-  ToNumberType() {
-    this.inputTypeAmortiztion = 'number';
-    this.inputTypeLoanAmount = 'number';
-    this.inputTypePaidAmount = 'number';
-    this.inputTypeBalanceAmount = 'number';
   }
 
   public _loanModel: LoanModel = {
@@ -95,6 +90,22 @@ export class LoanDetailDialogComponent implements OnInit {
   public _userDropdownSubscription: any;
   public _userListDropdown: any = [];
 
+  public _loanStatusDropdownSubscription: any;
+  public _loanStatusListDropdown: any = [];
+
+  // Class properties
+  public _listPayrollOtherDeductionLineObservableArray: ObservableArray = new ObservableArray();
+  public _listPayrollOtherDeductionLineCollectionView: CollectionView = new CollectionView(this._listPayrollOtherDeductionLineObservableArray);
+  public _listPageIndex: number = 15;
+
+  public _isPayrollOtherDeductionLineProgressBarHidden = false;
+  public _isPayrollOtherDeductionLineDataLoaded: boolean = false;
+
+  private _payrollOtherDeductionLineCListSubscription: any;
+
+  @ViewChild('flexPayrollOtherDeductionLine') _flexPayrollOtherDeductionLine: wjcGrid.FlexGrid;
+
+
   private async GetDeductionListData() {
     this.otherDeductionDropdownSubscription = await (await this._loanListService.OtherDeductionList()).subscribe(
       response => {
@@ -116,7 +127,7 @@ export class LoanDetailDialogComponent implements OnInit {
         this._loanModel.PreparedByUserId = response[0].Id;
         this._loanModel.CheckedByUserId = response[0].Id;
         this._loanModel.ApprovedByUserId = response[0].Id;
-        this.GetLoanDetail();
+        this.LoanStatusListData();
         if (this._userDropdownSubscription !== null) this._userDropdownSubscription.unsubscribe();
       },
       error => {
@@ -124,6 +135,22 @@ export class LoanDetailDialogComponent implements OnInit {
         if (this._userDropdownSubscription !== null) this._userDropdownSubscription.unsubscribe();
       }
     );
+  }
+
+  private async LoanStatusListData() {
+    this._loanStatusDropdownSubscription = await (await this._loanListService.LoanStatusList()).subscribe(
+      response => {
+        this._loanStatusListDropdown = response;
+        this.GetLoanDetail();
+        if (this._loanStatusDropdownSubscription !== null) this._loanStatusDropdownSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this._loanStatusDropdownSubscription !== null) this._loanStatusDropdownSubscription.unsubscribe();
+      }
+    );
+    this.GetLoanDetail();
+
   }
 
   private async GetLoanDetail() {
@@ -135,7 +162,7 @@ export class LoanDetailDialogComponent implements OnInit {
         if (result != null) {
           this._loanModel.Id = result["Id"];
           this._loanModel.LNNumber = result["LNNumber"];
-          this._loanModel.LDDate = new Date(result["LDDate"]);
+          this._loanModel.LDDate = result["LDDate"];
           this._loanModel.EmployeeId = result["EmployeeId"];
           this._loanModel.Employee = result["Employee"];
           this._loanModel.OtherDeductionId = result["OtherDeductionId"];
@@ -158,12 +185,47 @@ export class LoanDetailDialogComponent implements OnInit {
           this._loanModel.IsLocked = result["IsLocked"];
         }
         this.loadComponent(result["IsLocked"]);
-        this.isComponentsShown = true;
         if (this._LoanDetailSubscription !== null) this._LoanDetailSubscription.unsubscribe();
       },
       error => {
         this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
         if (this._LoanDetailSubscription !== null) this._LoanDetailSubscription.unsubscribe();
+      }
+    );
+
+    await this.GetPayrollOtherDeductionLineListData(this._loanModel.Id);
+  }
+
+  private async GetPayrollOtherDeductionLineListData(loanId: number) {
+    this._listPayrollOtherDeductionLineObservableArray = new ObservableArray();
+    this._listPayrollOtherDeductionLineCollectionView = new CollectionView(this._listPayrollOtherDeductionLineObservableArray);
+    this._listPayrollOtherDeductionLineCollectionView.pageSize = 15;
+    this._listPayrollOtherDeductionLineCollectionView.trackChanges = true;
+    await this._listPayrollOtherDeductionLineCollectionView.refresh();
+    await this._flexPayrollOtherDeductionLine.refresh();
+
+    this._isPayrollOtherDeductionLineProgressBarHidden = true;
+    this._payrollOtherDeductionLineCListSubscription = (await this._loanListService.PayrollOtherDeductionLineFilteredByLoanList(loanId)).subscribe(
+      (response: any) => {
+        var results = response;
+        if (results["length"] > 0) {
+          this._listPayrollOtherDeductionLineObservableArray = results;
+          this._listPayrollOtherDeductionLineCollectionView = new CollectionView(this._listPayrollOtherDeductionLineObservableArray);
+          this._listPayrollOtherDeductionLineCollectionView.pageSize = 15;
+          this._listPayrollOtherDeductionLineCollectionView.trackChanges = true;
+          this._listPayrollOtherDeductionLineCollectionView.refresh();
+          this._flexPayrollOtherDeductionLine.refresh();
+        }
+
+        this._isPayrollOtherDeductionLineDataLoaded = true;
+        this._isPayrollOtherDeductionLineProgressBarHidden = false;
+        this.isComponentsShown = true;
+
+        if (this._payrollOtherDeductionLineCListSubscription != null) this._payrollOtherDeductionLineCListSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + " Status Code: " + error.status);
+        if (this._payrollOtherDeductionLineCListSubscription != null) this._payrollOtherDeductionLineCListSubscription.unsubscribe();
       }
     );
   }
@@ -261,31 +323,12 @@ export class LoanDetailDialogComponent implements OnInit {
     this._loanDetailDialogRef.close({ event: this.event });
   }
 
-  restrictNumeric(e) {
-    let input;
-    if (e.key == '') {
-      return 0.00;
-    }
-    if (e.metaKey || e.ctrlKey) {
-      return true;
-    }
-    if (e.which === 32) {
-      return false;
-    }
-    if (e.which === 0) {
-      return true;
-    }
-    if (e.which < 33) {
-      return true;
-    }
-    if (e.which < 33) {
-      return true;
-    }
-    input = String.fromCharCode(e.which);
-    return !!/^[0-9.,]+$/.test(input);
+  public RemoveComma(value: string): string {
+    return value.toString().replace(/,/g, '');
   }
 
-  formatValueAmortization() {
+
+  FormatValueAmortization() {
     this.inputTypeAmortiztion = 'text';
 
     if (this._loanModel.Amortization == '') {
@@ -296,10 +339,11 @@ export class LoanDetailDialogComponent implements OnInit {
   }
 
   AmortiztionToNumberType() {
+    this._loanModel.Amortization = this.RemoveComma( this._loanModel.Amortization);
     this.inputTypeAmortiztion = 'number';
   }
 
-  formatValueLoanAmount() {
+  FormatValueLoanAmount() {
     this.inputTypeLoanAmount = 'text';
 
     if (this._loanModel.LoanAmount == '') {
@@ -310,35 +354,9 @@ export class LoanDetailDialogComponent implements OnInit {
   }
 
   LoanAmountToNumberType() {
+    this._loanModel.LoanAmount = this.RemoveComma( this._loanModel.LoanAmount);
+
     this.inputTypeLoanAmount = 'number';
-  }
-
-  formatValuePaidAmount() {
-    this.inputTypePaidAmount = 'text';
-
-    if (this._loanModel.PaidAmount == '') {
-      this._loanModel.PaidAmount = this.decimalPipe.transform(0, "1.2-2");
-    } else {
-      this._loanModel.PaidAmount = this.decimalPipe.transform(this._loanModel.PaidAmount, "1.2-2");
-    }
-  }
-
-  PaidAmountToNumberType() {
-    this.inputTypePaidAmount = 'number';
-  }
-
-  formatValueBalanceAmount() {
-    this.inputTypeBalanceAmount = 'text';
-
-    if (this._loanModel.BalanceAmount == '') {
-      this._loanModel.BalanceAmount = this.decimalPipe.transform(0, "1.2-2");
-    } else {
-      this._loanModel.BalanceAmount = this.decimalPipe.transform(this._loanModel.BalanceAmount, "1.2-2");
-    }
-  }
-
-  BalanceAmountToNumberType() {
-    this.inputTypeBalanceAmount = 'number';
   }
 
   public EmployeeListDialog() {
@@ -361,4 +379,6 @@ export class LoanDetailDialogComponent implements OnInit {
       });
     }
   }
+
+  activeTab() { }
 }

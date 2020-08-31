@@ -24,29 +24,19 @@
 <mat-progress-bar *ngIf="isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'" style="width: 100%;">
 </mat-progress-bar>
 <div class="software-container">
-    <div *ngIf="isComponentsShown">
+    <div [hidden]="!isComponentsShown">
         <div fxLayout="row" fxLayout.xs="column">
-            <div fxFlex="20" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
-                    <mat-label>LNNumber</mat-label>
-                    <input matInput placeholder="LNNumber" [(ngModel)]="_loanModel.LNNumber" readonly>
-                </mat-form-field>
+            <div fxFlex="20" style="padding: 5px;margin-top: 3px;">
+                <h2 class="text_box"><b>{{_loanModel.LNNumber}}</b> </h2>
             </div>
-            <div fxFlex="20" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
-                    <mat-label>LDDate</mat-label>
-                    <input matInput [matDatepicker]="datePickerLDDate" [(ngModel)]="_loanModel.LDDate"
-                        [readonly]="_isLocked">
-                    <mat-datepicker-toggle matSuffix [for]="datePickerLDDate">
-                    </mat-datepicker-toggle>
-                    <mat-datepicker #datePickerLDDate color="primary"></mat-datepicker>
-                </mat-form-field>
+            <div fxFlex="20" style="padding: 5px;margin-top: 3px;">
+                <h2 class="text_box"><b>{{_loanModel.LDDate}}</b> </h2>
             </div>
             <div fxFlex="60" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>Employee</mat-label>
                     <input type="text" [(ngModel)]="_loanModel.Employee" matInput readonly>
-                    <mat-icon matSuffix (click)="EmployeeListDialog()" >keyboard_arrow_down
+                    <mat-icon matSuffix (click)="EmployeeListDialog()">keyboard_arrow_down
                     </mat-icon>
                 </mat-form-field>
             </div>
@@ -74,8 +64,8 @@
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>Amortization</mat-label>
                     <input type="{{ inputTypeAmortiztion }}" matInput placeholder="0.00" style="text-align:right;"
-                        [(ngModel)]="_loanModel.Amortization" (focus)="AmortiztionToNumberType()"
-                        [readonly]="_isLocked" (focusout)="formatValueAmortization()">
+                        [(ngModel)]="_loanModel.Amortization" (focus)="AmortiztionToNumberType()" [readonly]="_isLocked"
+                        (focusout)="FormatValueAmortization()">
                 </mat-form-field>
             </div>
             <div fxFlex="15" style="padding: 5px;">
@@ -83,23 +73,21 @@
                     <mat-label>LoanAmount</mat-label>
                     <input type="{{ inputTypeLoanAmount }}" matInput placeholder="0.00" ui-number-mask="2"
                         style="text-align:right;" [(ngModel)]="_loanModel.LoanAmount" [readonly]="_isLocked"
-                        (focus)="LoanAmountToNumberType()" (focusout)="formatValueLoanAmount()">
+                        (focus)="LoanAmountToNumberType()" (focusout)="FormatValueLoanAmount()">
                 </mat-form-field>
             </div>
             <div fxFlex="15" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>PaidAmount</mat-label>
                     <input type="{{ inputTypePaidAmount }}" matInput placeholder="0.00" style="text-align:right;"
-                        [(ngModel)]="_loanModel.PaidAmount" [readonly]="_isLocked" (focus)="PaidAmountToNumberType()"
-                        (focusout)="formatValuePaidAmount()">
+                        readonly [(ngModel)]="_loanModel.PaidAmount">
                 </mat-form-field>
             </div>
             <div fxFlex="15" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>BalanceAmount</mat-label>
                     <input type="{{ inputTypeBalanceAmount }}" matInput placeholder="0.00" style="text-align:right;"
-                        [(ngModel)]="_loanModel.BalanceAmount" (focus)="BalanceAmountToNumberType()"
-                        [readonly]="_isLocked" (focusout)="formatValueBalanceAmount()">
+                        readonly [(ngModel)]="_loanModel.BalanceAmount">
                 </mat-form-field>
             </div>
         </div>
@@ -137,17 +125,62 @@
             <div fxFlex="25" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>Status</mat-label>
-                    <input matInput placeholder="Status" [(ngModel)]="_loanModel.Status" readonly>
+                    <mat-select [(ngModel)]="_loanModel.Status">
+                        <mat-option *ngFor="let status of _loanStatusListDropdown" [disabled]="_isLocked"
+                            [value]="status.Value">
+                            {{status.Value}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
             </div>
         </div>
+        <!-- Tabs -->
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="100" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
-                    <mat-label>Remarks</mat-label>
-                    <textarea matInput placeholder="Remarks" [(ngModel)]="_loanModel.Remarks" rows="5"
-                        [readonly]="_isLocked" style="min-height: 102px;"></textarea>
-                </mat-form-field>
+                <mat-tab-group #tabGroup (selectedTabChange)="activeTab()" style="max-height:100%;">
+                    <mat-tab label="Payments">
+                        <br>
+                        <div style="height: 10em;">
+                            <mat-progress-bar *ngIf="_isPayrollOtherDeductionLineProgressBarHidden" [color]="'primary'"
+                                [mode]="'indeterminate'">
+                            </mat-progress-bar>
+                            <wj-flex-grid #flexPayrollOtherDeductionLine
+                                [itemsSource]="_listPayrollOtherDeductionLineCollectionView" [selectionMode]="3"
+                                [frozenColumns]="2" [headersVisibility]="1">
+                                <wj-flex-grid-filter></wj-flex-grid-filter>
+                                <wj-flex-grid-column [header]="'Employee'" [binding]="'Employee'" [isReadOnly]="true"
+                                    [width]="'2*'">
+                                </wj-flex-grid-column>
+                                <wj-flex-grid-column [header]="'Other Deduction'" [binding]="'OtherDeduction'"
+                                    [isReadOnly]="true" [width]="'2*'">
+                                </wj-flex-grid-column>
+                                <wj-flex-grid-column [header]="'Loan'" [binding]="'Loan'" [isReadOnly]="true"
+                                    [width]="'2*'">
+                                </wj-flex-grid-column>
+                                <wj-flex-grid-column [header]="'Amount'" [binding]="'Amount'" [isReadOnly]="true"
+                                    [width]="'2*'">
+                                </wj-flex-grid-column>
+                                <wj-flex-grid-column [header]="'Particulars'" [binding]="'Particulars'"
+                                    [isReadOnly]="true" [width]="'2*'">
+                                </wj-flex-grid-column>
+                            </wj-flex-grid>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Remarks">
+                        <br>
+                        <div style="height: 10em;">
+                            <div fxLayout="row" fxLayout.xs="column">
+                                <div fxFlex="100">
+                                    <mat-form-field appearance="outline" style="width: 100%;">
+                                        <mat-label>Remarks</mat-label>
+                                        <textarea matInput placeholder="Remarks" [(ngModel)]="_loanModel.Remarks"
+                                            rows="5" [readonly]="_isLocked" style="min-height: 3em;"></textarea>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                </mat-tab-group>
             </div>
         </div>
         <mat-divider></mat-divider>
