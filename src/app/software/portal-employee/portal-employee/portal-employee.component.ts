@@ -42,11 +42,11 @@ export class PortalEmployeeComponent implements OnInit {
     Position: ''
   }
 
-  public employeeDetailSubscription: any;
+  public _employeeDetailSubscription: any;
 
-  public isProgressBarHidden: boolean = false;
-  public isComponentsShown: boolean = false;
-  public isDataLoaded: boolean = false;
+  public _isProgressBarHidden: boolean = false;
+  public _isComponentsShown: boolean = false;
+  public _isDataLoaded: boolean = false;
 
   // Class properties
   // OT Application
@@ -102,8 +102,8 @@ export class PortalEmployeeComponent implements OnInit {
   public _listLoanCollectionView: CollectionView = new CollectionView(this._listLoanObservableArray);
   public _istLoanPageIndex: number = 15;
 
-  public _isProgressBarHidden = false;
-  public _isDataLoaded: boolean = false;
+  public __isProgressBarHidden = false;
+  public __isDataLoaded: boolean = false;
 
   // DOM declaration
   @ViewChild('flexLoan') _flexLoan: wjcGrid.FlexGrid;
@@ -114,10 +114,10 @@ export class PortalEmployeeComponent implements OnInit {
   // Employee Detail
   // =============== 
   private async GetEmployeeDetail() {
-    this.isProgressBarHidden = true;
-    this.isComponentsShown = false;
+    this._isProgressBarHidden = true;
+    this._isComponentsShown = false;
 
-    this.employeeDetailSubscription = (await this._portalEmployeeService.EmployeeDetail()).subscribe(
+    this._employeeDetailSubscription = (await this._portalEmployeeService.EmployeeDetail()).subscribe(
       response => {
         let result = response;
         console.log(result)
@@ -136,14 +136,14 @@ export class PortalEmployeeComponent implements OnInit {
           this._portalEmployeeModel.Position = result["Position"];
         }
 
-        this.isProgressBarHidden = false;
-        this.isDataLoaded = true;
-        this.isComponentsShown = true;
-        if (this.employeeDetailSubscription !== null) this.employeeDetailSubscription.unsubscribe();
+        this._isProgressBarHidden = false;
+        this._isDataLoaded = true;
+        this._isComponentsShown = true;
+        if (this._employeeDetailSubscription !== null) this._employeeDetailSubscription.unsubscribe();
       },
       error => {
         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this.employeeDetailSubscription !== null) this.employeeDetailSubscription.unsubscribe();
+        if (this._employeeDetailSubscription !== null) this._employeeDetailSubscription.unsubscribe();
       }
     );
 
@@ -303,7 +303,7 @@ export class PortalEmployeeComponent implements OnInit {
     await this._listLoanCollectionView.refresh();
     await this._flexLoan.refresh();
 
-    this._isProgressBarHidden = true;
+    this.__isProgressBarHidden = true;
     this._loanListSubscription = (await this._portalEmployeeService.LoanList(this._portalEmployeeModel.Id)).subscribe(
       (response: any) => {
         var results = response;
@@ -316,8 +316,8 @@ export class PortalEmployeeComponent implements OnInit {
           this._flexLoan.refresh();
         }
 
-        this._isDataLoaded = true;
-        this._isProgressBarHidden = false;
+        this.__isDataLoaded = true;
+        this.__isProgressBarHidden = false;
 
         if (this._loanListSubscription != null) this._loanListSubscription.unsubscribe();
       },

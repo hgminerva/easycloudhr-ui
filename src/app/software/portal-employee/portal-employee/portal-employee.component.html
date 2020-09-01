@@ -12,7 +12,7 @@
 </mat-progress-bar>
 
 <div class="software-container" style='min-height:1000px'>
-    <div [hidden]="isComponentsShown">
+    <div [hidden]="!_isComponentsShown">
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="15">
                 <div fxLayout="row" fxLayout.xs="column">
