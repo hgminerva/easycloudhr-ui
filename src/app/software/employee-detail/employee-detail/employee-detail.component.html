@@ -216,12 +216,13 @@
                             <div fxFlex="50" style="padding: 5px;">
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>Date Of Birth</mat-label>
-                                    <input matInput [matDatepicker]="datePickerDateOfBirth"
-                                        [(ngModel)]="employeeModel.DateOfBirth" [readonly]="isLocked">
-                                    <mat-datepicker-toggle matSuffix [for]="datePickerDateOfBirth"
+                                    <input matInput [matDatepicker]="datePickerUIDateOfBirth"
+                                        [(ngModel)]="UIDateOfBirth" [readonly]="isLocked"
+                                        (dateInput)="GetUIDateOfBirth()">
+                                    <mat-datepicker-toggle matSuffix [for]="datePickerUIDateOfBirth"
                                         [disabled]="isLocked">
                                     </mat-datepicker-toggle>
-                                    <mat-datepicker #datePickerDateOfBirth color="primary"></mat-datepicker>
+                                    <mat-datepicker #datePickerUIDateOfBirth color="primary"></mat-datepicker>
                                 </mat-form-field>
                             </div>
                             <div fxFlex="50" style="padding: 5px;">
@@ -252,7 +253,6 @@
                                 </mat-form-field>
                             </div>
                         </div>
-
                     </div>
                     <div fxFlex="50" style="padding: 5px;">
                         <div fxLayout="row" fxLayout.xs="column">
@@ -295,17 +295,19 @@
                             <div fxFlex="33" style="padding: 5px;">
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>Height (cm)</mat-label>
-                                    <input type="text" matInput placeholder="Contact No." style="text-align:right;"
-                                        (keypress)="restrictNumeric($event)" (change)="formatValueHeight()"
-                                        [(ngModel)]="employeeModel.Height" [readonly]="isLocked">
+                                    <input type="{{inputTypeHeight}}" matInput placeholder="Contact No."
+                                        style="text-align:right;" [(ngModel)]="employeeModel.Height"
+                                        [readonly]="isLocked" (focus)="HeightToNumberTypeFocus()"
+                                        (focusout)="HeightFormatValueFocusOut()">
                                 </mat-form-field>
                             </div>
                             <div fxFlex="33" style="padding: 5px;">
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>Weight (kg)</mat-label>
-                                    <input type="text" matInput placeholder="Civil Status" style="text-align:right;"
-                                        (keypress)="restrictNumeric($event)" (change)="formatValueWeight()"
-                                        [(ngModel)]="employeeModel.Weight" [readonly]="isLocked">
+                                    <input type="{{inputTypeWeight}}" matInput placeholder="Civil Status"
+                                        style="text-align:right;" [(ngModel)]="employeeModel.Weight"
+                                        [readonly]="isLocked" (focus)="WeightToNumberTypeFocus()"
+                                        (focusout)="WeightFormatValueFocusOut()">
                                 </mat-form-field>
                             </div>
                             <div fxFlex="34" style="padding: 5px;">
@@ -361,17 +363,21 @@
                             <div fxFlex="50" style="padding: 5px;">
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>Monthly Rate</mat-label>
-                                    <input type="text" matInput placeholder="0.00" style="text-align:right;"
+                                    <input type="{{inputTypeMonthlyRate}}" matInput placeholder="0.00"
+                                        style="text-align:right;"
                                         [(ngModel)]="employeeModel.EmployeePayroll.MonthlyRate" [readonly]="isLocked"
-                                        (keypress)="restrictNumeric($event)" (change)="formatValueMonthlyRate()">
+                                        (focus)="MonthlyRateToNumberTypeFocus()"
+                                        (focusout)="MonthlyRateFormatValueFocusOut()">
                                 </mat-form-field>
                             </div>
                             <div fxFlex="50" style="padding: 5px;">
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>Late Hourly Rate</mat-label>
-                                    <input matInput placeholder="0.00" style="text-align:right;"
+                                    <input type="{{inputTypeHourlyRate}}" matInput placeholder="0.00"
+                                        style="text-align:right;"
                                         [(ngModel)]="employeeModel.EmployeePayroll.LateHourlyRate" [readonly]="isLocked"
-                                        (keypress)="restrictNumeric($event)" (change)="formatValueLateHourlyRate()">
+                                        (focus)="LateHourlyRateToNumberTypeFocus()"
+                                        (focusout)="LateHourlyRateFormatValueFocusOut()">
                                 </mat-form-field>
                             </div>
                         </div>
@@ -381,19 +387,21 @@
                             <div fxFlex="50" style="padding: 5px;">
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>Payroll Rate</mat-label>
-                                    <input type="text" matInput placeholder="0.00" [readonly]="isLocked"
-                                        style="text-align:right;"
+                                    <input type="{{inputTypePayrollRate}}" matInput placeholder="0.00"
+                                        [readonly]="isLocked" style="text-align:right;"
                                         [(ngModel)]="employeeModel.EmployeePayroll.PayrollRate"
-                                        (keypress)="restrictNumeric($event)" (change)="formatValuePayrollRate()">
+                                        (focus)="PayrollRateToNumberTypeFocus()"
+                                        (focusout)="PayrollRateFormatValueFocusOut()">
                                 </mat-form-field>
                             </div>
                             <div fxFlex="50" style="padding: 5px;">
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>Under timeHourly Rate</mat-label>
-                                    <input type="text" matInput placeholder="0.00"
+                                    <input type="{{inputTypeUndertimeHourlyRate}}" matInput placeholder="0.00"
                                         [(ngModel)]="employeeModel.EmployeePayroll.UndertimeHourlyRate"
-                                        (keypress)="restrictNumeric($event)" style="text-align:right;"
-                                        [readonly]="isLocked" (change)="formatValueLateUndertimeHourlyRate()">
+                                        style="text-align:right;" [readonly]="isLocked"
+                                        (focus)="UndertimeHourlyRateToNumberTypeFocus()"
+                                        (focusout)="UndertimeHourlyRateFormatValueFocusOut()">
                                 </mat-form-field>
                             </div>
                         </div>
@@ -401,20 +409,21 @@
                             <div fxFlex="50" style="padding: 5px;">
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>Daily Rate</mat-label>
-                                    <input type="text" matInput placeholder="0.00" style="text-align:right;"
-                                        (keypress)="restrictNumeric($event)"
-                                        [(ngModel)]="employeeModel.EmployeePayroll.DailyRate" [readonly]="isLocked"
-                                        (change)="formatValueDailyRate()">
+                                    <input type="{{inputTypeDailyRate}}" matInput placeholder="0.00"
+                                        style="text-align:right;" [(ngModel)]="employeeModel.EmployeePayroll.DailyRate"
+                                        [readonly]="isLocked" (focus)="DailyRateToNumberTypeFocus()"
+                                        (focusout)="DailyRateFormatValueFocusOut()">
                                 </mat-form-field>
                             </div>
                             <div fxFlex="50" style="padding: 5px;">
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>Overtime Hourly Rate</mat-label>
-                                    <input type="text" matInput placeholder="0.00" ui-number-mask="2"
-                                        style="text-align:right;"
+                                    <input type="{{inputTypeOvertimeHourlyRate}}" matInput placeholder="0.00"
+                                        ui-number-mask="2" style="text-align:right;"
                                         [(ngModel)]="employeeModel.EmployeePayroll.OvertimeHourlyRate"
                                         [readonly]="isLocked" (keypress)="restrictNumeric($event)"
-                                        (change)="formatValueOvertimeHourlyRate()">
+                                        (focus)="OvertimeHourlyRateToNumberTypeFocus()"
+                                        (focusout)="OvertimeHourlyRateFormatValueFocusOut()">
                                 </mat-form-field>
                             </div>
                         </div>
@@ -422,20 +431,22 @@
                             <div fxFlex="50" style="padding: 5px;">
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>Absent Daily Rate</mat-label>
-                                    <input type="text" matInput placeholder="0.00" style="text-align:right;"
+                                    <input type="{{inputTypeAbsentDailyRate}}" matInput placeholder="0.00"
+                                        style="text-align:right;"
                                         [(ngModel)]="employeeModel.EmployeePayroll.AbsentDailyRate"
-                                        [readonly]="isLocked" (keypress)="restrictNumeric($event)"
-                                        (change)="formatValueAbsentDailyRate()">
+                                        [readonly]="isLocked" (focus)="AbsentDailyRateToNumberTypeFocus()"
+                                        (focusout)="AbsentDailyRateFormatValueFocusOut()">
                                 </mat-form-field>
 
                             </div>
                             <div fxFlex="50" style="padding: 5px;">
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>Night Differential Rate</mat-label>
-                                    <input type="text" matInput placeholder="0.00" style="text-align:right;"
+                                    <input type="{{inputTypeNightDifferentialRate}}" matInput placeholder="0.00"
+                                        style="text-align:right;"
                                         [(ngModel)]="employeeModel.EmployeePayroll.NightDifferentialRate"
-                                        (keypress)="restrictNumeric($event)" [readonly]="isLocked"
-                                        (change)="formatValueLateNightDifferentialRate()">
+                                        [readonly]="isLocked" (focus)="NightDifferentialRateToNumberTypeFocus()"
+                                        (focusout)="NightDifferentialRateFormatValueFocusOut()">
                                 </mat-form-field>
                             </div>
                         </div>
@@ -454,10 +465,11 @@
                             <div fxFlex="50" style="padding: 5px;">
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>Cost Of Living Allowance</mat-label>
-                                    <input matInput placeholder="0.00" style="text-align:right;"
+                                    <input type="{{inputTypeCostOfLivingAllowance}}" matInput placeholder="0.00"
+                                        style="text-align:right;"
                                         [(ngModel)]="employeeModel.EmployeePayroll.CostOfLivingAllowance"
-                                        (keypress)="restrictNumeric($event)"
-                                        (change)="formatValueCostOfLivingAllowance()" [readonly]="isLocked">
+                                        ((focus)="CostOfLivingAllowanceToNumberTypeFocus()"
+                                        (focusout)="CostOfLivingAllowanceFormatValueFocusOut()" [readonly]="isLocked">
                                 </mat-form-field>
                             </div>
                         </div>
@@ -524,19 +536,21 @@
                             <div fxFlex="33" style="padding: 5px;">
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>SSS Add On Amount</mat-label>
-                                    <input matInput placeholder="0.00" style="text-align:right;"
-                                        (keypress)="restrictNumeric($event)"
+                                    <input type="{{inputTypeSSSAddOnAmount}}" matInput placeholder="0.00"
+                                        style="text-align:right;"
                                         [(ngModel)]="employeeModel.EmployeePayroll.SSSAddOnAmount" [readonly]="isLocked"
-                                        (change)="formatValueSSSAddOnAmount()">
+                                        (focus)="SSSAddOnAmountToNumberTypeFocus()"
+                                        (focusout)="SSSAddOnAmountFormatValueFocusOut()">
                                 </mat-form-field>
                             </div>
                             <div fxFlex="33" style="padding: 5px;">
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>HDMF Add On Amount</mat-label>
-                                    <input type="text" matInput placeholder="0.00" style="text-align:right;"
-                                        (keypress)="restrictNumeric($event)"
+                                    <input type="{{inputTypeHDMFAddOnAmount}}" matInput placeholder="0.00"
+                                        style="text-align:right;"
                                         [(ngModel)]="employeeModel.EmployeePayroll.HDMFAddOnAmount"
-                                        [readonly]="isLocked" (change)="formatValueHDMFAddOnAmount()">
+                                        [readonly]="isLocked" (focus)="HDMFAddOnAmountToNumberTypeFocus()"
+                                        (focusout)="HDMFAddOnAmountFormatValueFocusOut()">
                                 </mat-form-field>
                             </div>
                             <div fxFlex="34" style="padding: 5px;">
@@ -555,10 +569,11 @@
                             <div fxFlex="33" style="padding: 5px;">
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>Additional Allowance</mat-label>
-                                    <input matInput placeholder="0.00" style="text-align:right;"
+                                    <input type="{{inputTypeAdditionalAllowance}}" matInput placeholder="0.00"
+                                        style="text-align:right;"
                                         [(ngModel)]="employeeModel.EmployeePayroll.AdditionalAllowance"
-                                        (keypress)="restrictNumeric($event)" [readonly]="isLocked"
-                                        (change)="formatValueAdditionalAllowance()">
+                                        [readonly]="isLocked" (focus)="AdditionalAllowanceToNumberTypeFocus()"
+                                        (focusout)="AdditionalAllowanceFormatValueFocusOut()">
                                 </mat-form-field>
                             </div>
                             <div fxFlex="33" style="padding: 5px;">
@@ -605,33 +620,36 @@
                             <div fxFlex="33" style="padding: 5px;">
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>Date Hired</mat-label>
-                                    <input matInput [matDatepicker]="datePickerDateHired"
-                                        [(ngModel)]="employeeModel.EmployeeHR.DateHired" [readonly]="isLocked">
-                                    <mat-datepicker-toggle matSuffix [for]="datePickerDateHired" [disabled]="isLocked">
+                                    <input matInput [matDatepicker]="datePickerUIDateHired" [(ngModel)]="UIDateHired"
+                                        [readonly]="isLocked" (dateInput)="GetUIDateHired()">
+                                    <mat-datepicker-toggle matSuffix [for]="datePickerUIDateHired"
+                                        [disabled]="isLocked">
                                     </mat-datepicker-toggle>
-                                    <mat-datepicker #datePickerDateHired color="primary"></mat-datepicker>
+                                    <mat-datepicker #datePickerUIDateHired color="primary"></mat-datepicker>
                                 </mat-form-field>
                             </div>
                             <div fxFlex="33" style="padding: 5px;">
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>Date Regular</mat-label>
-                                    <input matInput [matDatepicker]="datePickerDateRegular"
-                                        [(ngModel)]="employeeModel.EmployeeHR.DateRegular" [readonly]="isLocked">
-                                    <mat-datepicker-toggle matSuffix [for]="datePickerDateRegular"
+                                    <input matInput [matDatepicker]="datePickerUIDateRegular"
+                                        [(ngModel)]="UIDateRegular" [readonly]="isLocked"
+                                        (dateInput)="GetUIDateRegular()">
+                                    <mat-datepicker-toggle matSuffix [for]="datePickerUIDateRegular"
                                         [disabled]="isLocked">
                                     </mat-datepicker-toggle>
-                                    <mat-datepicker #datePickerDateRegular color="primary"></mat-datepicker>
+                                    <mat-datepicker #datePickerUIDateRegular color="primary"></mat-datepicker>
                                 </mat-form-field>
                             </div>
                             <div fxFlex="34" style="padding: 5px;">
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>Date Resigned</mat-label>
-                                    <input matInput [matDatepicker]="datePickerDateResigned"
-                                        [(ngModel)]="employeeModel.EmployeeHR.DateResigned" [readonly]="isLocked">
-                                    <mat-datepicker-toggle matSuffix [for]="datePickerDateResigned"
+                                    <input matInput [matDatepicker]="datePickerUIDateResigned"
+                                        [(ngModel)]="UIDateResigned" [readonly]="isLocked"
+                                        (dateInput)="GetUIDateResigned()">
+                                    <mat-datepicker-toggle matSuffix [for]="datePickerUIDateResigned"
                                         [disabled]="isLocked">
                                     </mat-datepicker-toggle>
-                                    <mat-datepicker #datePickerDateResigned color="primary"></mat-datepicker>
+                                    <mat-datepicker #datePickerUIDateResigned color="primary"></mat-datepicker>
                                 </mat-form-field>
                             </div>
                         </div>

@@ -14,7 +14,7 @@ export class EmployeeModel {
     ContactNumber: string;
     ContactMobileNumber: string;
     EmailAddress: string;
-    DateOfBirth: Date;
+    DateOfBirth: string;
     PlaceOfBirth: string;
     Sex: string;
     CivilStatus: string;
@@ -72,9 +72,9 @@ export class EmployeePayrollModel {
 export class EmployeeHRModel {
     Id: number;
     EmployeeId: number;
-    DateHired: Date;
-    DateRegular: Date;
-    DateResigned: Date;
+    DateHired: string;
+    DateRegular: string;
+    DateResigned: string;
     Branch: string;
     Division: string;
     Department: string;
