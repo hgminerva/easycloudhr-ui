@@ -19,7 +19,7 @@ export class PortalEmployeeService {
 
   // overtimeApplication LINE
   public async OvertimeApplicationLineList(employeeId: number) {
-    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/portal/employee/vertime/application/line/list/' + employeeId, this.appSettings.defaultOptions);
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/portal/employee/overtime/application/line/list/' + employeeId, this.appSettings.defaultOptions);
   }
 
   // Leave Application LINE
