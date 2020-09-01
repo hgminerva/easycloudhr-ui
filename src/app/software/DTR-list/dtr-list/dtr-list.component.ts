@@ -10,6 +10,7 @@ import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { DTRListService } from './../dtr-list.service';
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-dtr-list',
   templateUrl: './dtr-list.component.html',

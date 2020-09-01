@@ -165,13 +165,13 @@ export class DTRDetailComponent implements OnInit {
   public _isDTRLineProgressBarHidden = false;
   public _isDTRLineDataLoaded: boolean = false;
 
+  @ViewChild('flexDTRLine') flexDTRLine: wjcGrid.FlexGrid;
+
   private _dTRLineListSubscription: any;
   private _saveDTRLineSubscription: any;
   private _deleteDTRLineSubscription: any;
 
   public _btnAddDTRLineDisabled: boolean = false;
-
-  @ViewChild('flexDTRLine') flexDTRLine: wjcGrid.FlexGrid;
 
   private async PayrollGroupListData() {
     this._payrollGroupDropdownSubscription = (await this._dtrDetialService.PayrollGroupList()).subscribe(

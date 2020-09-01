@@ -10,6 +10,7 @@ import { SoftwareSecurityService } from '../../software-security/software-securi
 import { EmployeeDetailEditNameDialogComponent } from '../employee-detail-edit-name-dialog/employee-detail-edit-name-dialog.component';
 import { EmployeeDetialLinkToUsernameDialogComponent } from '../employee-detial-link-to-username-dialog/employee-detial-link-to-username-dialog.component';
 import { DecimalPipe, DatePipe } from '@angular/common';
+
 @Component({
   selector: 'app-employee-detail',
   templateUrl: './employee-detail.component.html',
@@ -18,14 +19,14 @@ import { DecimalPipe, DatePipe } from '@angular/common';
 export class EmployeeDetailComponent implements OnInit {
 
   private userRightEmployeeDetail: any = null;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBar,
     private snackBarTemplate: SnackBarTemplate,
     private employeeDetailService: EmployeeDetailService,
     private softwareSecurityService: SoftwareSecurityService,
-    private editNameDialog: MatDialog,
-    private lickToUserNameDialog: MatDialog,
+    private matDialog: MatDialog,
     private _decimalPipe: DecimalPipe,
     private datePipe: DatePipe
   ) {
@@ -748,7 +749,7 @@ export class EmployeeDetailComponent implements OnInit {
       MiddleName: this.employeeModel.MiddleName,
       ExtensionName: this.employeeModel.ExtensionName
     };
-    const matDialogRef = this.editNameDialog.open(EmployeeDetailEditNameDialogComponent, {
+    const matDialogRef = this.matDialog.open(EmployeeDetailEditNameDialogComponent, {
       width: '1000px',
       data: {
         objDialogTitle: "Edit Employee Name",
@@ -768,7 +769,7 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   public LinkToUserName() {
-    const matDialogRef = this.lickToUserNameDialog.open(EmployeeDetialLinkToUsernameDialogComponent, {
+    const matDialogRef = this.matDialog.open(EmployeeDetialLinkToUsernameDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Link Username",

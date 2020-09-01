@@ -2,7 +2,7 @@
     <mat-label>User</mat-label>
     <mat-select [(ngModel)]="UserId" (selectionChange)="selected($event)">
         <mat-option *ngFor="let user of userListDropdown" [value]="user.Id" [disabled]="isLocked">
-            {{user.Username}}
+            {{user.Value}}
         </mat-option>
     </mat-select>
 </mat-form-field>

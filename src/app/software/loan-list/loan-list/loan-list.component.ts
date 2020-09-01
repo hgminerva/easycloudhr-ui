@@ -26,14 +26,16 @@ export class LoanListComponent implements OnInit {
   public _isProgressBarHidden = false;
   public _isDataLoaded: boolean = false;
 
+  // DOM declaration
+  @ViewChild('flexLoan') _flexLoan: wjcGrid.FlexGrid;
+
   private _loanListSubscription: any;
   private _addLoanSubscription: any;
   private _deleteLoanSubscription: any;
 
   public _btnAddDisabled: boolean = false;
 
-  // DOM declaration
-  @ViewChild('flexLoan') _flexLoan: wjcGrid.FlexGrid;
+
 
   // Constructor and overrides
   constructor(private _LoanListService: LoanListService,
