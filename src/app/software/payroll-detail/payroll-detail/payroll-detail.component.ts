@@ -136,6 +136,8 @@ export class PayrollDetailComponent implements OnInit {
 
   public _isPayrollLineProgressBarHidden = false;
   public _isPayrollLineDataLoaded: boolean = false;
+  
+  @ViewChild('flexPayrollLine') flexPayrollLine: wjcGrid.FlexGrid;
 
   private _payrollLineListSubscription: any;
   private _savePayrollLineSubscription: any;
@@ -145,7 +147,6 @@ export class PayrollDetailComponent implements OnInit {
   public _btnAddPayrollLineDisabled: boolean = false;
   public payrollDetail: any;
 
-  @ViewChild('flexPayrollLine') flexPayrollLine: wjcGrid.FlexGrid;
 
   private async GetPayrollDetail() {
     let id = 0;

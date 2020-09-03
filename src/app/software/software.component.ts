@@ -65,6 +65,9 @@ export class SoftwareComponent implements OnInit {
 
   public moduleMandatory: boolean = false;
 
+  public modulePortal: boolean = false;
+  public moduleEmployeePortal: boolean = false;
+
   public moduleOthers: boolean = false;
 
 
@@ -199,6 +202,14 @@ export class SoftwareComponent implements OnInit {
 
     if (this.softwareSecurityService.openModule("Year Detail") == true) {
       this.moduleYearDetail = true;
+    }
+
+    if (this.softwareSecurityService.openModule("Portal") == true) {
+      this.modulePortal = true;
+    }
+
+    if (this.softwareSecurityService.openModule("Employee Portal") == true) {
+      this.moduleEmployeePortal = true;
     }
 
     if (this.softwareSecurityService.openModule("Others") == true) {

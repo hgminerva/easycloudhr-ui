@@ -48,7 +48,7 @@ export class DashboardComponent implements OnInit {
   public moduleMandatoryListList: boolean = false;
   public moduleMandatoryDetail: boolean = false;
 
-  public moduleOthers: boolean = true;
+  public moduleOthers: boolean = false;
 
   ngOnInit(): void {
     if (this.softwareSecurityService.openModule("Dashboard") == true) {
