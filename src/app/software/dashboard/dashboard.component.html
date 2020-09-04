@@ -12,6 +12,27 @@
                 <br />
                 <span style="font-size: 17px;">Employee</span>
             </button>
+            <button routerLink="/software/year-list" mat-stroked-button style="width: 100%; padding: 30px; "
+                *ngIf="moduleYearList">
+                <img src="../../assets/menu-icons/year.png" height="80" />
+                <br />
+                <br />
+                <span style="font-size: 17px;">Year</span>
+            </button>
+            <button *ngIf="moduleShiftList" routerLink="/software/shift-code-list" mat-stroked-button
+                style="width: 100%; padding: 30px; ">
+                <img src="../../assets/menu-icons/shift code.png" height="80" />
+                <br />
+                <br />
+                <span style="font-size: 17px;">Shift</span>
+            </button>
+            <button routerLink="/software/mandatory-tables" mat-stroked-button style="width: 100%; padding: 30px; "
+                *ngIf="moduleMandatory">
+                <img src="../../assets/menu-icons/mandatory tables.png" height="80" />
+                <br />
+                <br />
+                <span style="font-size: 17px;">Mandatory Tables</span>
+            </button>
         </div>
         <!-- DTR -->
         <div fxFlex="25" style="margin: 5px;">
@@ -21,20 +42,27 @@
                 <br />
                 <br />
                 <span style="font-size: 17px;">DTR</span>
-            </button> <br>
+            </button>
             <button routerLink="/software/overtime-application-list" mat-stroked-button
                 *ngIf="moduleOvertimeApplicationList" style="width: 100%; padding: 30px;">
                 <img src="../../../assets/menu-icons/overtime application.png" height="80" />
                 <br />
                 <br />
                 <span style="font-size: 17px;">Overtime Application</span>
-            </button><br>
+            </button>
             <button routerLink="/software/leave-application-list" mat-stroked-button *ngIf="moduleLeaveApplicationList"
                 style="width: 100%; padding: 30px;">
                 <img src="../../../assets/menu-icons/leave application.png" height="80" />
                 <br />
                 <br />
                 <span style="font-size: 17px;">Leave Application</span>
+            </button>
+            <button routerLink="/software/change-shift-code-list" mat-stroked-button style="width: 100%; padding: 30px;"
+                *ngIf="moduleChangeShiftList">
+                <img src="../../assets/menu-icons/change shift code.png" height="80" />
+                <br />
+                <br />
+                <span style="font-size: 17px;">Change Shift</span>
             </button>
         </div>
         <!-- Payroll -->
@@ -45,21 +73,21 @@
                 <br />
                 <br />
                 <span style="font-size: 17px;">Payroll</span>
-            </button> <br>
+            </button>
             <button routerLink="/software/payroll-other-deduction-list" mat-stroked-button
                 style="width: 100%; padding: 30px;" *ngIf="moduleOtherDeductionList">
                 <img src="../../../assets/menu-icons/other deductions.png" height="80" />
                 <br />
                 <br />
                 <span style="font-size: 17px;">Other Deductions</span>
-            </button><br>
+            </button>
             <button routerLink="/software/payroll-other-income-list" mat-stroked-button
                 style="width: 100%; padding: 30px;" *ngIf="moduleOtherIncomeList">
                 <img src="../../../assets/menu-icons/other income.png" height="80" />
                 <br />
                 <br />
                 <span style="font-size: 17px;">Other Income</span>
-            </button> <br>
+            </button>
             <button routerLink="./software/loan-list" mat-stroked-button style="width: 100%; padding: 30px;"
                 *ngIf="moduleLoanList">
                 <img src="../../../assets/menu-icons/loan.png" height="80" />
@@ -75,19 +103,19 @@
                 <br />
                 <br />
                 <span style="font-size: 17px;">Payroll Reports</span>
-            </button> <br>
+            </button>
             <button routerLink="." mat-stroked-button style="width: 100%; padding: 30px;" *ngIf="moduleOthers">
                 <img src="../../../assets/menu-icons/reports.png" height="80" />
                 <br />
                 <br />
                 <span style="font-size: 17px;">DTR Reports</span>
-            </button><br>
+            </button>
             <button routerLink="." mat-stroked-button style="width: 100%; padding: 30px;" *ngIf="moduleOthers">
                 <img src="../../../assets/menu-icons/reports.png" height="80" />
                 <br />
                 <br />
                 <span style="font-size: 17px;">Mandatory Reports</span>
-            </button> <br>
+            </button>
             <button routerLink="." mat-stroked-button style="width: 100%; padding: 30px;" *ngIf="moduleOthers">
                 <img src="../../../assets/menu-icons/reports.png" height="80" />
                 <br />

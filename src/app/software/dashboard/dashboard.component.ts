@@ -48,6 +48,8 @@ export class DashboardComponent implements OnInit {
   public moduleMandatoryListList: boolean = false;
   public moduleMandatoryDetail: boolean = false;
 
+  public moduleYearList: boolean = false;
+
   public moduleOthers: boolean = false;
 
   ngOnInit(): void {
@@ -133,6 +135,10 @@ export class DashboardComponent implements OnInit {
 
     if (this.softwareSecurityService.openModule("Payroll List") == true) {
       this.modulePayrollList = true;
+    }
+
+    if (this.softwareSecurityService.openModule("Year List") == true) {
+      this.moduleYearList = true;
     }
 
     if (this.softwareSecurityService.openModule("Others") == true) {
