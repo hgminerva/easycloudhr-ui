@@ -139,4 +139,33 @@ export class EmployeeDetailService {
   public async EmployeePayrollDetail(id: number) {
     return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/payroll/detail/' + id, this.appSettings.defaultOptions);
   }
+
+  //==============
+  // Employee Memo 
+  //==============
+  public async EmployeeMemoList() {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/memo/list', this.appSettings.defaultOptions);
+  }
+
+  public async AddEmployeeMemo(objEmployeeMemo: any) {
+    return this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/employee/memo/create', JSON.stringify(objEmployeeMemo), this.appSettings.defaultOptions);
+  }
+
+  public async SaveEmployeeMemo(objEmployeeMemo: any) {
+    return this.httpClient.put(this.appSettings.defaultAPIURLHost + '/api/employee/memo/update/' + objEmployeeMemo.Id, JSON.stringify(objEmployeeMemo), this.appSettings.defaultOptions);
+  }
+
+  public async DeleteEmployeeMemo(id: number) {
+    return this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/api/employee/memo/delete/' + id, this.appSettings.defaultOptions);
+  }
+
+  public async uploadMemoFile(file: File, fileType: string) {
+    var formData: FormData = new FormData();
+    formData.append(fileType, file);
+    return this.httpClient.post(this.appSettings.defaultAPIURLHost + "/api/employee/memo/upload/memo/file/", formData, this.appSettings.uploadFileOptions);
+  }
+
+  public async DocTypeList() {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/memo/doctype/list', this.appSettings.defaultOptions);
+  }
 }

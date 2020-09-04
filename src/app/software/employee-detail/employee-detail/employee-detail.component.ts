@@ -3,14 +3,18 @@ import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DecimalPipe, DatePipe } from '@angular/common';
+import * as wjcGrid from '@grapecity/wijmo.grid';
+import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 
 import { EmployeeDetailService } from './../employee-detail.service';
 import { EmployeeModel, EmployeePayrollModel, EmployeeHRModel } from './../employee.model';
 import { SoftwareSecurityService } from '../../software-security/software-security.service';
 import { EmployeeDetailEditNameDialogComponent } from '../employee-detail-edit-name-dialog/employee-detail-edit-name-dialog.component';
 import { EmployeeDetialLinkToUsernameDialogComponent } from '../employee-detial-link-to-username-dialog/employee-detial-link-to-username-dialog.component';
-import { DecimalPipe, DatePipe } from '@angular/common';
-
+import { EmployeeMemoModel } from './../employee-memo.model';
+import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
+import { EmployeeDetailEmployeeMemoComponent } from '../employee-detail-employee-memo/employee-detail-employee-memo.component';
 @Component({
   selector: 'app-employee-detail',
   templateUrl: './employee-detail.component.html',
@@ -596,6 +600,7 @@ export class EmployeeDetailComponent implements OnInit {
         this.isProgressBarHidden = false;
         this.isDataLoaded = true;
         this.isComponentsShown = true;
+        this.GetEmployeeMemoListData();
         if (this.employeeDetailSubscription !== null) this.employeeDetailSubscription.unsubscribe();
       },
       error => {
@@ -609,8 +614,8 @@ export class EmployeeDetailComponent implements OnInit {
 
   public GetUIDateOfBirth() {
     this.employeeModel.DateOfBirth = this.datePipe.transform(this.UIDateOfBirth, 'yyyy-MM-dd');
-
   }
+
   public GetUIDateHired() {
     this.employeeModel.EmployeeHR.DateHired = this.datePipe.transform(this.UIDateHired, 'yyyy-MM-dd');
 
@@ -712,14 +717,6 @@ export class EmployeeDetailComponent implements OnInit {
         if (this.uploadPhotoSubscription !== null) this.uploadPhotoSubscription.unsubscribe();
       }
     );
-  }
-
-
-  async activeTab() {
-    // console.log(this.tabGroup.selectedIndex);
-    // if (this.tabGroup.selectedIndex == 1) {
-    //   await this.GetEmployeePayrollDetail();
-    // }
   }
 
   private async loadComponent(isDisabled) {
@@ -1060,6 +1057,201 @@ export class EmployeeDetailComponent implements OnInit {
   documentFileOnChange() {
     if (this.imagefile !== '') {
       this.uploadButtonDisabled = false;
+    }
+  }
+
+  // =============
+  // Code Tables
+  // =============
+  public _listEmployeeMemoObservableArray: ObservableArray = new ObservableArray();
+  public _listEmployeeMemoCollectionView: CollectionView = new CollectionView(this._listEmployeeMemoObservableArray);
+  public _listEmployeeMemoPageIndex: number = 15;
+  @ViewChild('flexEmployeeMemo') _flexEmployeeMemo: wjcGrid.FlexGrid;
+  public _isEmployeeMemoProgressBarHidden = false;
+  public _isEmployeeMemDataLoaded: boolean = false;
+
+  private _employeeMemoListSubscription: any;
+  private _addEmployeeMemoSubscription: any;
+  private _deleteEmployeeMemoSubscription: any;
+
+  public buttonAddDisabled: boolean = false;
+
+  private async GetEmployeeMemoListData() {
+    this._listEmployeeMemoObservableArray = new ObservableArray();
+    this._listEmployeeMemoCollectionView = new CollectionView(this._listEmployeeMemoObservableArray);
+    this._listEmployeeMemoCollectionView.pageSize = 15;
+    this._listEmployeeMemoCollectionView.trackChanges = true;
+    await this._listEmployeeMemoCollectionView.refresh();
+    await this._flexEmployeeMemo.refresh();
+
+    this._isEmployeeMemoProgressBarHidden = true;
+
+    this._employeeMemoListSubscription = (await this.employeeDetailService.EmployeeMemoList()).subscribe(
+      (response: any) => {
+        var results = response;
+        if (results["length"] > 0) {
+          this._listEmployeeMemoCollectionView = results;
+          this._listEmployeeMemoCollectionView = new CollectionView(this._listEmployeeMemoCollectionView);
+          this._listEmployeeMemoCollectionView.pageSize = 15;
+          this._listEmployeeMemoCollectionView.trackChanges = true;
+          this._listEmployeeMemoCollectionView.refresh();
+          this._flexEmployeeMemo.refresh();
+        }
+
+        this._isEmployeeMemDataLoaded = true;
+        this._isEmployeeMemoProgressBarHidden = false;
+        if (this._employeeMemoListSubscription != null) this._employeeMemoListSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this._employeeMemoListSubscription !== null) this._employeeMemoListSubscription.unsubscribe();
+      }
+    );
+  }
+
+  public BtnAddEmployeeMemo() {
+
+    let objEmployeeMemoModel: EmployeeMemoModel = {
+      Id: 0,
+      EmployeeId: this.employeeModel.Id,
+      MemoCode: '0000000000',
+      MemoDate: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
+      Particulars: 'NA',
+      AttachmentURL: 'NA',
+      AttachmentType: ''
+    }
+    console.log(this._isEmployeeMemDataLoaded);
+
+    this.DetailEmployeeMemo(objEmployeeMemoModel, 'Add Memo');
+  }
+
+  public EditEmployeeMemo() {
+    let currentEmployeeMemoModel = this._listEmployeeMemoCollectionView.currentItem;
+    this.DetailEmployeeMemo(currentEmployeeMemoModel, 'Edit Memo');
+  }
+
+  public async AddEmployeeMemoModel(objEmployeeMemoModel: EmployeeMemoModel) {
+    this.buttonAddDisabled = true;
+    if (this._isEmployeeMemDataLoaded == true) {
+      this._isEmployeeMemDataLoaded = false;
+      this._addEmployeeMemoSubscription = (await this.employeeDetailService.AddEmployeeMemo(objEmployeeMemoModel)).subscribe(
+        response => {
+          this.buttonAddDisabled = false;
+          this._isEmployeeMemDataLoaded = true;
+          this.GetEmployeeMemoListData();
+          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Added Successfully");
+          if (this._addEmployeeMemoSubscription != null) this._addEmployeeMemoSubscription.unsubscribe();
+        },
+        error => {
+          this.buttonAddDisabled = false;
+          this._isEmployeeMemDataLoaded = true;
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this._addEmployeeMemoSubscription != null) this._addEmployeeMemoSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
+  public async SaveEmployeeMemo(objEmployeeMemoModel: EmployeeMemoModel) {
+    this.buttonAddDisabled = true;
+    if (this._isEmployeeMemDataLoaded == true) {
+      this._isEmployeeMemDataLoaded = false;
+      this._addEmployeeMemoSubscription = (await this.employeeDetailService.SaveEmployeeMemo(objEmployeeMemoModel)).subscribe(
+        response => {
+          this.buttonAddDisabled = false;
+          this._isEmployeeMemDataLoaded = true;
+          this.GetEmployeeMemoListData();
+          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Save Successfully");
+        },
+        error => {
+          this.buttonAddDisabled = false;
+          this._isEmployeeMemDataLoaded = true;
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this._addEmployeeMemoSubscription != null) this._addEmployeeMemoSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
+  public async DeleteEmployeeMemo() {
+    if (this._isEmployeeMemDataLoaded == true) {
+      this._isEmployeeMemDataLoaded = false;
+      let currentEmployeeMemoModel = this._listEmployeeMemoCollectionView.currentItem;
+      this._isEmployeeMemoProgressBarHidden = true;
+
+      this._deleteEmployeeMemoSubscription = (await this.employeeDetailService.DeleteEmployeeMemo(currentEmployeeMemoModel.Id)).subscribe(
+        response => {
+          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Delete Successfully");
+          this.GetEmployeeMemoListData();
+          this._isEmployeeMemoProgressBarHidden = false;
+          this._isEmployeeMemDataLoaded = true;
+        },
+        error => {
+          this._isEmployeeMemDataLoaded = true;
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + error.status);
+          if (this._deleteEmployeeMemoSubscription != null) this._deleteEmployeeMemoSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
+  public ComfirmDeleteEmployeeMemo(): void {
+    let currentEmployeeMemoModel = this._listEmployeeMemoCollectionView.currentItem;
+    const matDialogRef = this.matDialog.open(DeleteDialogBoxComponent, {
+      width: '500px',
+      data: {
+        objDialogTitle: "",
+        objComfirmationMessage: `Delete ${currentEmployeeMemoModel.MemoCode}?`,
+      },
+      disableClose: true
+    });
+
+    matDialogRef.afterClosed().subscribe(result => {
+      if (result.message == "Yes") {
+        this.DeleteEmployeeMemo();
+      }
+    });
+  }
+
+  public DetailEmployeeMemo(data: EmployeeMemoModel, eventTitle: string): void {
+    const matDialogRef = this.matDialog.open(EmployeeDetailEmployeeMemoComponent, {
+      width: '1000px',
+      data: {
+        objDialogTitle: eventTitle,
+        objData: data,
+      },
+      disableClose: true
+    });
+
+    matDialogRef.afterClosed().subscribe(data => {
+
+      let objEmployeeMemoModel: EmployeeMemoModel = {
+        Id: data.objData.Id,
+        EmployeeId: data.objData.EmployeeId,
+        MemoCode: data.objData.MemoCode,
+        MemoDate: data.objData.MemoDate,
+        Particulars: data.objData.Particulars,
+        AttachmentURL: data.objData.AttachmentURL,
+        AttachmentType: data.objData.AttachmentType
+      }
+
+      console.log(data.event);
+
+      if (data.event === 'Add') {
+        this.AddEmployeeMemoModel(objEmployeeMemoModel);
+      }
+      if (data.event === 'Edit') {
+        this.SaveEmployeeMemo(objEmployeeMemoModel);
+      }
+    });
+  }
+
+  public _isTabMemo: boolean = false;
+
+  async activeTab() {
+    this._isTabMemo = await false;
+    if (this.tabGroup.selectedIndex == 3) {
+      this._isTabMemo = await true;
     }
   }
 }

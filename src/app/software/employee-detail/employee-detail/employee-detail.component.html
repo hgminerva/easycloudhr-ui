@@ -25,7 +25,7 @@
 <mat-progress-bar *ngIf="isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'" style="width: 100%;">
 </mat-progress-bar>
 <div class="software-container" style='min-height:1000px'>
-    <div *ngIf="isComponentsShown">
+    <div [hidden]="!isComponentsShown">
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="18">
                 <div fxLayout="row" fxLayout.xs="column">
@@ -174,8 +174,8 @@
             </div>
         </div>
         <mat-divider></mat-divider>
-        <mat-tab-group #tabGroup (selectedTabChange)="activeTab()">
-            <mat-tab label="General Information">
+        <mat-tab-group #tabGroup (selectedTabChange)="activeTab()" class="detail-tab">
+            <mat-tab label="General">
                 <br>
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="50" style="padding: 5px;">
@@ -334,7 +334,7 @@
                     </div>
                 </div>
             </mat-tab>
-            <mat-tab label="Payroll Information">
+            <mat-tab label="Payroll">
                 <br>
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="50" style="padding: 5px;">
@@ -599,7 +599,7 @@
                     </div>
                 </div>
             </mat-tab>
-            <mat-tab label="HR Information">
+            <mat-tab label="HR">
                 <br>
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="50" style="padding: 5px;">
@@ -682,8 +682,80 @@
                     </div>
                 </div>
             </mat-tab>
+            <mat-tab label="Memo">
+                <mat-progress-bar *ngIf="_isEmployeeMemoProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'">
+                </mat-progress-bar>
+                <wj-flex-grid #flexEmployeeMemo [itemsSource]="_listEmployeeMemoCollectionView" [selectionMode]="3"
+                    [frozenColumns]="2">
+                    <wj-flex-grid-filter></wj-flex-grid-filter>
+                    <wj-flex-grid-column [isReadOnly]="true" [width]="90">
+                        <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
+                            <button mat-raised-button color="primary"
+                                style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
+                                (click)="EditEmployeeMemo()" id="btnEditTaxExempt">
+                                <mat-icon>edit</mat-icon>
+                                Edit
+                            </button>
+                        </ng-template>
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [isReadOnly]="true" [width]="90">
+                        <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
+                            <button mat-raised-button color="warn"
+                                style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
+                                (click)="ComfirmDeleteEmployeeMemo()" id="btnDeleteEmployeeMemo">
+                                <mat-icon>delete</mat-icon>
+                                Delete
+                            </button>
+                        </ng-template>
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Code'" [binding]="'MemoCode'" [isReadOnly]="true"
+                        [isReadOnly]="true" [width]="'2*'">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Date'" [binding]="'MemoDate'" [isReadOnly]="true"
+                        [isReadOnly]="true" [width]="'2*'">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Particulars'" [binding]="'Particulars'" [isReadOnly]="true"
+                        [isReadOnly]="true" [width]="'2*'">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Attachment URL'" [binding]="'AttachmentURL'" [isReadOnly]="true"
+                        [isReadOnly]="true" [width]="'2*'">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Attachment Type'" [binding]="'AttachmentType'" [isReadOnly]="true"
+                        [isReadOnly]="true" [width]="'2*'">
+                    </wj-flex-grid-column>
+                </wj-flex-grid>
+                <mat-button-toggle-group style="margin-top: 7px;">
+                    <mat-button-toggle (click)="_listEmployeeMemoCollectionView.moveToFirstPage()">
+                        <mat-icon style="margin-right: -15px">navigate_before</mat-icon>
+                        <mat-icon>navigate_before</mat-icon>
+                    </mat-button-toggle>
+                    <mat-button-toggle (click)="_listEmployeeMemoCollectionView.moveToPreviousPage()">
+                        <mat-icon>navigate_before</mat-icon>
+                    </mat-button-toggle>
+                    <mat-button-toggle style="width: 100px;">
+                        {{ _listEmployeeMemoCollectionView.pageIndex + 1 }}
+                        /
+                        {{ _listEmployeeMemoCollectionView.pageCount }}</mat-button-toggle>
+                    <mat-button-toggle (click)="_listEmployeeMemoCollectionView.moveToNextPage()">
+                        <mat-icon>navigate_next</mat-icon>
+                    </mat-button-toggle>
+                    <mat-button-toggle (click)="_listEmployeeMemoCollectionView.moveToLastPage()">
+                        <mat-icon style="margin-right: -15px">navigate_next</mat-icon>
+                        <mat-icon>navigate_next</mat-icon>
+                    </mat-button-toggle>
+                </mat-button-toggle-group>
+            </mat-tab>
+            <mat-tab label="Change History"></mat-tab>
+            <mat-tab disabled style="background-color: transparent; ">
+                <ng-template mat-tab-label>
+                    <button mat-raised-button color="primary" (click)="BtnAddEmployeeMemo()" [disabled]="isLocked"
+                        *ngIf="_isTabMemo" style="float: right; margin: 5px;">
+                        <mat-icon>add</mat-icon> ADD
+                    </button><br>
+                </ng-template>
+            </mat-tab>
         </mat-tab-group>
-        <mat-divider></mat-divider>
+        <mat-divider style="margin-top: 10px;"></mat-divider>
         <div fxLayout="row" fxLayout.xs="column" style="color: gray;">
             <div fxFlex="50" style="padding: 5px;">
                 <div fxLayout="row" fxLayout.xs="column">

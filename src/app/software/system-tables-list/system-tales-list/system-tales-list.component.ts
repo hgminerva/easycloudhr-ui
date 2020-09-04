@@ -44,7 +44,7 @@ export class SystemTalesListComponent implements OnInit {
 
   private codeTableCodeTablesListSubscription: any;
   private addCodeTablesSubscription: any;
-  private aeleteCodeTablesSubscription: any;
+  private deleteCodeTablesSubscription: any;
 
   private async GetCodeTablesListData() {
     this.listCodeTablesObservableArray = new ObservableArray();
@@ -138,7 +138,7 @@ export class SystemTalesListComponent implements OnInit {
       let currentCodeTables = this.listCodeTablesCollectionView.currentItem;
       this.isTablesCodeProgressBarHidden = true;
 
-      this.aeleteCodeTablesSubscription = (await this.systemTablesListService.DeleteCodeTable(currentCodeTables.Id)).subscribe(
+      this.deleteCodeTablesSubscription = (await this.systemTablesListService.DeleteCodeTable(currentCodeTables.Id)).subscribe(
         response => {
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Delete Successfully");
           this.GetCodeTablesListData();
@@ -148,7 +148,7 @@ export class SystemTalesListComponent implements OnInit {
         error => {
           this.isTablesCodeDataLoaded = true;
           this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + error.status);
-          if (this.aeleteCodeTablesSubscription != null) this.aeleteCodeTablesSubscription.unsubscribe();
+          if (this.deleteCodeTablesSubscription != null) this.deleteCodeTablesSubscription.unsubscribe();
         }
       );
     }

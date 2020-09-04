@@ -1,0 +1,82 @@
+<h3 mat-dialog-title>
+    {{ title }}
+</h3>
+<mat-divider></mat-divider>
+<div mat-dialog-content style="height: 70%;">
+    <div class="dialog-body" [hidden]="isHiddenComponent">
+        <div fxLayout="row" fxLayout.xs="column">
+            <div fxFlex="33" style="padding: 5px;">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Code</mat-label>
+                    <input type="text" matInput placeholder="URL" [(ngModel)]="_employeeMemo.MemoCode" readonly
+                        autocomplete="off">
+                </mat-form-field>
+            </div>
+            <div fxFlex="33" style="padding: 5px;">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Date</mat-label>
+                    <input matInput [matDatepicker]="datePickerUIDate" [(ngModel)]="UIDate" (dateInput)="GetUIDate()">
+                    <mat-datepicker-toggle matSuffix [for]="datePickerUIDate">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #datePickerUIDate color="primary"></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div fxFlex="34" style="padding: 5px;">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Attachment Type</mat-label>
+                    <mat-select [(ngModel)]="_employeeMemo.AttachmentType">
+                        <mat-option *ngFor="let type of fileTypeListDropdown" [value]="type.Value">
+                            {{type.Value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayout.xs="column">
+            <div fxFlex="100" style="padding: 5px  5px  0px  5px;">
+                <div fxLayout="row" fxLayout.xs="column">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>URL</mat-label>
+                        <input type="text" matInput placeholder="URL" [(ngModel)]="_employeeMemo.AttachmentURL"
+                            autocomplete="off">
+                    </mat-form-field>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column">
+                    <div fxFlex="10">
+                        <input type="button" color="" [disabled]="isUploadButtonDisable" (click)="btnUploadFile()"
+                            id="btnUploadFile" value="Upload" style="margin-right: 5px;">
+                    </div>
+                    <div fxFlex="30">
+                        <input id="inputFileUpload" placeholder="" type="file" style="width: 90%;"
+                            (change)="DocumentFileOnChange()" [(ngModel)]="AttachmentFile" accept="image/*" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column">
+            <div fxFlex="100" style="padding: 5px; margin-top: 10px;">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Particulars</mat-label>
+                    <textarea matInput placeholder="Particulars" [(ngModel)]="_employeeMemo.Particulars" rows="5"
+                        style="min-height: 102px;"> </textarea>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions align="right">
+    <button mat-flat-button color="primary" align-self="right" style="margin-right: 5px;" (click)="Save()">
+        <mat-icon>save</mat-icon>
+        Save
+    </button>
+    <button mat-flat-button color="primary" align-self="right" style="margin-right: 5px;" (click)="ViewDocumentUrl()">
+        <mat-icon>visibility</mat-icon>
+        View
+    </button>
+    <button mat-flat-button mat-dialog-close style="margin: 5px;" color="warn" (click)="Close()">
+        <mat-icon>close</mat-icon>
+        Cancel
+    </button>
+</div>
