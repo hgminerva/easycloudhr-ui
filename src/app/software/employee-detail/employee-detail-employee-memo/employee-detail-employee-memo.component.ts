@@ -34,7 +34,7 @@ export class EmployeeDetailEmployeeMemoComponent implements OnInit {
 
   public isHiddenComponent: boolean = false;
   public isHiddenMemoCode: boolean = false;
-  public isUploadButtonDisable: boolean = false;
+  public isUploadButtonDisable: boolean = true;
 
   async ngOnInit() {
     this.title = this.caseData.objDialogTitle;
@@ -118,9 +118,11 @@ export class EmployeeDetailEmployeeMemoComponent implements OnInit {
       this.uploadFileSub = (await this.employeeDetailService.uploadMemoFile(inputFileImage.files[0], this._employeeMemo.AttachmentURL)).subscribe(
         response => {
           this._employeeMemo.AttachmentURL = response;
+          this.isUploadButtonDisable = true;
           if (this.payrollTypeDropdownSubscription !== null) this.payrollTypeDropdownSubscription.unsubscribe();
         },
         error => {
+          this.isUploadButtonDisable = true;
           this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
           if (this.payrollTypeDropdownSubscription !== null) this.payrollTypeDropdownSubscription.unsubscribe();
         }
