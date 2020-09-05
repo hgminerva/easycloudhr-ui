@@ -355,7 +355,8 @@
                                     <mat-label>Hourly Rate</mat-label>
                                     <input type="text" matInput placeholder="0.00" style="text-align:right;"
                                         [(ngModel)]="employeeModel.EmployeePayroll.HourlyRate" [readonly]="isLocked"
-                                        (keypress)="restrictNumeric($event)" (change)="formatValueHourlyRate()">
+                                        (focus)="HourlyRateToNumberTypeFocus()"
+                                        (focusout)=" HourlyRateFormatValueFocusOut()">
                                 </mat-form-field>
                             </div>
                         </div>
