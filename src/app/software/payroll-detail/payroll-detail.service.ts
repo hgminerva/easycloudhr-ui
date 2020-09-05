@@ -77,6 +77,10 @@ export class PayrollDetailService {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/trn/payroll/line/create/' + id, this.appSettings.defaultOptions);
   }
 
+  public async ComputePayrollLine(id: number) {
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/trn/payroll/line/compute/' + id, this.appSettings.defaultOptions);
+  }
+
   public async DeletePayrollLine(id: number) {
     return await this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/api/trn/payroll/line/delete/' + id, this.appSettings.defaultOptions);
   }

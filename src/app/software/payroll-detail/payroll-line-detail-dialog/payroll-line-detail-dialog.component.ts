@@ -175,9 +175,10 @@ export class PayrollLineDetailDialogComponent implements OnInit {
   public async ComputePayrollLine() {
     this._event = 'Compute';
     this._isProgressBarHidden = true;
-    this._computePayrollLineSubscription = (await this._payrollDetailService.AddPayrollLine(this._payrollLineModel.PAYId, this._payrollLineModel)).subscribe(
+    this._computePayrollLineSubscription = (await this._payrollDetailService.ComputePayrollLine(this._payrollLineModel.Id)).subscribe(
       (response: any) => {
         let result = response;
+        console.log(result);
         this._payrollLineModel.EmployeeId = result.EmployeeId;
         this._payrollLineModel.Employee = result.Employee;
         this._payrollLineModel.PayrollRate = this._decimalPipe.transform(result.PayrollRate, "1.2-2");
@@ -205,6 +206,8 @@ export class PayrollLineDetailDialogComponent implements OnInit {
         this._payrollLineModel.PHICEmployerContribution = this._decimalPipe.transform(result.PHICEmployerContribution, "1.2-2");
         this._payrollLineModel.HDMFEmployerContribution = this._decimalPipe.transform(result.HDMFEmployerContribution, "1.2-2");
         this._isProgressBarHidden = false;
+
+        this._snackBarTemplate.snackBarSuccess(this._snackBar, "Compute Successfully!");
         if (this._computePayrollLineSubscription !== null) this._computePayrollLineSubscription.unsubscribe();
       },
       error => {
