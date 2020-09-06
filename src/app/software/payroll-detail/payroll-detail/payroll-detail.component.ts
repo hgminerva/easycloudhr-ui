@@ -16,6 +16,7 @@ import { PayrollModel } from './../payroll.model';
 import { PayrollLineModel } from './../payroll-line.model';
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { PayrollLineDetailDialogComponent } from '../payroll-line-detail-dialog/payroll-line-detail-dialog.component';
+import { PayrollDetailComputeConfirmDialogComponent } from './payroll-detail-compute-confirm-dialog/payroll-detail-compute-confirm-dialog.component';
 
 @Component({
   selector: 'app-payroll-detail',
@@ -513,6 +514,24 @@ export class PayrollDetailComponent implements OnInit {
       );
     }
   }
+
+  public ComfirmComputePayroll(): void {
+    const userRegistrationlDialogRef = this._matDialogRef.open(PayrollDetailComputeConfirmDialogComponent, {
+      width: '500px',
+      data: {
+        objDialogTitle: "Compute",
+        objComfirmationMessage: `Compute Payroll?`,
+      },
+      disableClose: true
+    });
+
+    userRegistrationlDialogRef.afterClosed().subscribe(result => {
+      if (result.message == "Yes") {
+        this.DownloadDTR();
+      }
+    });
+  }
+
 
   selectedCheckedByUser(event: MatSelectChange) {
     const selectedData = {

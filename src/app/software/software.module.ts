@@ -86,6 +86,7 @@ import { MandatoryTablesDetailMandatoryPhicDetailComponent } from './mandatory-t
 import { MandatoryTablesDetailMandatorySssDetailComponent } from './mandatory-tables-detail/mandatory-tables-detail-mandatory-sss-detail/mandatory-tables-detail-mandatory-sss-detail.component';
 import { PortalEmployeeComponent } from './portal-employee/portal-employee/portal-employee.component';
 import { EmployeeDetailEmployeeMemoComponent } from './employee-detail/employee-detail-employee-memo/employee-detail-employee-memo.component';
+import { PayrollDetailComputeConfirmDialogComponent } from './payroll-detail/payroll-detail/payroll-detail-compute-confirm-dialog/payroll-detail-compute-confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -153,6 +154,7 @@ import { EmployeeDetailEmployeeMemoComponent } from './employee-detail/employee-
     MandatoryTablesDetailMandatorySssDetailComponent,
     PortalEmployeeComponent,
     EmployeeDetailEmployeeMemoComponent,
+    PayrollDetailComputeConfirmDialogComponent,
   ],
   imports: [
     CommonModule,
