@@ -1060,9 +1060,9 @@ export class EmployeeDetailComponent implements OnInit {
     }
   }
 
-  // =============
-  // Code Tables
-  // =============
+  // ==== 
+  // Memo
+  // ==== 
   public _listEmployeeMemoObservableArray: ObservableArray = new ObservableArray();
   public _listEmployeeMemoCollectionView: CollectionView = new CollectionView(this._listEmployeeMemoObservableArray);
   public _listEmployeeMemoPageIndex: number = 15;
@@ -1086,7 +1086,7 @@ export class EmployeeDetailComponent implements OnInit {
 
     this._isEmployeeMemoProgressBarHidden = true;
 
-    this._employeeMemoListSubscription = (await this.employeeDetailService.EmployeeMemoList()).subscribe(
+    this._employeeMemoListSubscription = (await this.employeeDetailService.EmployeeMemoList(this.employeeModel.Id)).subscribe(
       (response: any) => {
         var results = response;
         if (results["length"] > 0) {
@@ -1107,6 +1107,8 @@ export class EmployeeDetailComponent implements OnInit {
         if (this._employeeMemoListSubscription !== null) this._employeeMemoListSubscription.unsubscribe();
       }
     );
+
+    await this.GetChangeHistoryListData();
   }
 
   public BtnAddEmployeeMemo() {
@@ -1253,5 +1255,50 @@ export class EmployeeDetailComponent implements OnInit {
     if (this.tabGroup.selectedIndex == 3) {
       this._isTabMemo = await true;
     }
+  }
+
+  // ==============
+  // Mandatory HDMF
+  // ==============
+  public _listChangeHistoryObservableArray: ObservableArray = new ObservableArray();
+  public _listChangeHistoryCollectionView: CollectionView = new CollectionView(this._listChangeHistoryObservableArray);
+  public _listChangeHistoryPageIndex: number = 15;
+  @ViewChild('flexChangeHistory') _flexChangeHistory: wjcGrid.FlexGrid;
+  public _isChangeHistoryProgressBarHidden = false;
+  public _isChangeHistoryDataLoaded: boolean = false;
+
+  private _ChangeHistoryListSubscription: any;
+
+  private async GetChangeHistoryListData() {
+    this._listChangeHistoryObservableArray = new ObservableArray();
+    this._listChangeHistoryCollectionView = new CollectionView(this._listChangeHistoryObservableArray);
+    this._listChangeHistoryCollectionView.pageSize = 15;
+    this._listChangeHistoryCollectionView.trackChanges = true;
+    await this._listChangeHistoryCollectionView.refresh();
+    await this._flexChangeHistory.refresh();
+
+    this._isChangeHistoryProgressBarHidden = true;
+
+    this._ChangeHistoryListSubscription = (await this.employeeDetailService.ChangeHistoryList(this.employeeModel.Id)).subscribe(
+      (response: any) => {
+        var results = response;
+        if (results["length"] > 0) {
+          this._listChangeHistoryCollectionView = results;
+          this._listChangeHistoryCollectionView = new CollectionView(this._listChangeHistoryCollectionView);
+          this._listChangeHistoryCollectionView.pageSize = 15;
+          this._listChangeHistoryCollectionView.trackChanges = true;
+          this._listChangeHistoryCollectionView.refresh();
+          this._flexChangeHistory.refresh();
+        }
+
+        this._isChangeHistoryDataLoaded = true;
+        this._isChangeHistoryProgressBarHidden = false;
+        if (this._ChangeHistoryListSubscription != null) this._ChangeHistoryListSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this._ChangeHistoryListSubscription !== null) this._ChangeHistoryListSubscription.unsubscribe();
+      }
+    );
   }
 }

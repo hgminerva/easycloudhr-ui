@@ -746,7 +746,56 @@
                     </mat-button-toggle>
                 </mat-button-toggle-group>
             </mat-tab>
-            <mat-tab label="Change History"></mat-tab>
+            <mat-tab label="Change History">
+                <mat-progress-bar *ngIf="_isChangeHistoryProgressBarHidden" [color]="'primary'"
+                    [mode]="'indeterminate'">
+                </mat-progress-bar>
+                <wj-flex-grid #flexChangeHistory [itemsSource]="_listChangeHistoryCollectionView" [selectionMode]="3"
+                    [frozenColumns]="2">
+                    <wj-flex-grid-filter></wj-flex-grid-filter>
+                    <wj-flex-grid-column [header]="'Code'" [binding]="'HistoryCode'" [isReadOnly]="true"
+                        [isReadOnly]="true" [width]="'2*'">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Date'" [binding]="'HistoryDate'" [isReadOnly]="true"
+                        [isReadOnly]="true" [width]="'2*'">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Field Name'" [binding]="'FieldName'" [isReadOnly]="true"
+                        [isReadOnly]="true" [width]="'2*'">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Old Value'" [binding]="'OldValue'" [isReadOnly]="true"
+                        [isReadOnly]="true" [width]="'2*'">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'New Value'" [binding]="'NewValue'" [isReadOnly]="true"
+                        [isReadOnly]="true" [width]="'2*'">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Edited By'" [binding]="'EditedUser'" [isReadOnly]="true"
+                        [isReadOnly]="true" [width]="'2*'">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Time Stamp'" [binding]="'EditedTimeStamp'" [isReadOnly]="true"
+                        [isReadOnly]="true" [width]="'2*'">
+                    </wj-flex-grid-column>
+                </wj-flex-grid>
+                <mat-button-toggle-group style="margin-top: 7px;">
+                    <mat-button-toggle (click)="_listChangeHistoryCollectionView.moveToFirstPage()">
+                        <mat-icon style="margin-right: -15px">navigate_before</mat-icon>
+                        <mat-icon>navigate_before</mat-icon>
+                    </mat-button-toggle>
+                    <mat-button-toggle (click)="_listChangeHistoryCollectionView.moveToPreviousPage()">
+                        <mat-icon>navigate_before</mat-icon>
+                    </mat-button-toggle>
+                    <mat-button-toggle style="width: 100px;">
+                        {{ _listChangeHistoryCollectionView.pageIndex + 1 }}
+                        /
+                        {{ _listChangeHistoryCollectionView.pageCount }}</mat-button-toggle>
+                    <mat-button-toggle (click)="_listChangeHistoryCollectionView.moveToNextPage()">
+                        <mat-icon>navigate_next</mat-icon>
+                    </mat-button-toggle>
+                    <mat-button-toggle (click)="_listChangeHistoryCollectionView.moveToLastPage()">
+                        <mat-icon style="margin-right: -15px">navigate_next</mat-icon>
+                        <mat-icon>navigate_next</mat-icon>
+                    </mat-button-toggle>
+                </mat-button-toggle-group>
+            </mat-tab>
             <mat-tab disabled style="background-color: transparent; ">
                 <ng-template mat-tab-label>
                     <button mat-raised-button color="primary" (click)="BtnAddEmployeeMemo()" [disabled]="isLocked"

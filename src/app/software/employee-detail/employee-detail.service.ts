@@ -143,8 +143,8 @@ export class EmployeeDetailService {
   //==============
   // Employee Memo 
   //==============
-  public async EmployeeMemoList() {
-    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/memo/list', this.appSettings.defaultOptions);
+  public async EmployeeMemoList(employeeId: number) {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/memo/list/' + employeeId, this.appSettings.defaultOptions);
   }
 
   public async AddEmployeeMemo(objEmployeeMemo: any) {
@@ -167,5 +167,12 @@ export class EmployeeDetailService {
 
   public async DocTypeList() {
     return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/memo/doctype/list', this.appSettings.defaultOptions);
+  }
+
+  //================
+  // Employee History 
+  //=================
+  public async ChangeHistoryList(employeeId: number) {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/history/list/' + employeeId, this.appSettings.defaultOptions);
   }
 }
