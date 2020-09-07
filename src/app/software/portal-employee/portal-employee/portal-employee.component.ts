@@ -121,6 +121,11 @@ export class PortalEmployeeComponent implements OnInit {
       response => {
         let result = response;
         console.log(result)
+
+        if (this._portalEmployeeModel.Id === null || this._portalEmployeeModel.Id === 0) {
+          this._snackBarTemplate.snackBarError(this._snackBar, "Link employee to current user.");
+        }
+
         if (result != null) {
           this._portalEmployeeModel.Id = result["Id"];
           this._portalEmployeeModel.EmployeeCode = result["EmployeeCode"];
