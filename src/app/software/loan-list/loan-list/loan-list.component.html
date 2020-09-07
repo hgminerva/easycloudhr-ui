@@ -2,9 +2,9 @@
     <img src="../../../../assets/menu-icons/loan.png" height="35" />
     <span>&nbsp;&nbsp; Loan List</span>
     <span class="spacer"></span>
-    <button mat-flat-button color="primary" (click)="AddLoan()" [disabled]="_btnAddDisabled">
+    <button mat-flat-button color="primary" style="margin: 5px;" (click)="AddLoan()" [disabled]="_btnAddDisabled">
         <mat-icon>add</mat-icon>
-        ADD
+        Add
     </button>
     <button mat-raised-button style="margin: 5px;" routerLink="/software" color="warn">
         <mat-icon>close</mat-icon>
@@ -81,25 +81,21 @@
         <div fxFlex="25" style="padding: 2px;">
             <div fxLayout="row" fxLayout.xs="column">
                 <mat-button-toggle-group style="margin-top: 7px; width: 100%;">
-                    <mat-button-toggle style="width: 100%;"
-                        (click)="_listLoanCollectionView.moveToFirstPage()">
+                    <mat-button-toggle style="width: 100%;" (click)="_listLoanCollectionView.moveToFirstPage()">
                         <mat-icon style="margin-right: -15px;">navigate_before</mat-icon>
                         <mat-icon>navigate_before</mat-icon>
                     </mat-button-toggle>
-                    <mat-button-toggle style="width: 100%;"
-                        (click)="_listLoanCollectionView.moveToPreviousPage()">
+                    <mat-button-toggle style="width: 100%;" (click)="_listLoanCollectionView.moveToPreviousPage()">
                         <mat-icon>navigate_before</mat-icon>
                     </mat-button-toggle>
                     <mat-button-toggle style="width: 100%;">
                         {{ _listLoanCollectionView.pageIndex + 1 }}
                         /
                         {{ _listLoanCollectionView.pageCount }}</mat-button-toggle>
-                    <mat-button-toggle style="width: 100%;"
-                        (click)="_listLoanCollectionView.moveToNextPage()">
+                    <mat-button-toggle style="width: 100%;" (click)="_listLoanCollectionView.moveToNextPage()">
                         <mat-icon>navigate_next</mat-icon>
                     </mat-button-toggle>
-                    <mat-button-toggle style="width: 100%;"
-                        (click)="_listLoanCollectionView.moveToLastPage()">
+                    <mat-button-toggle style="width: 100%;" (click)="_listLoanCollectionView.moveToLastPage()">
                         <mat-icon style="margin-right: -15px">navigate_next</mat-icon>
                         <mat-icon>navigate_next</mat-icon>
                     </mat-button-toggle>

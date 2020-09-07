@@ -5,7 +5,11 @@
     <button mat-flat-button color="primary" style="margin: 5px;" [disabled]="buttonDisabled"
         (click)="AddMandatoryTable()">
         <mat-icon>add</mat-icon>
-        ADD
+        Add
+    </button>
+    <button mat-raised-button style="margin: 5px;" routerLink="/software" color="warn">
+        <mat-icon>close</mat-icon>
+        Close
     </button>
 </mat-toolbar>
 <div class="software-container">
@@ -255,9 +259,8 @@
                             [binding]="'EmployerContributionValue'" [isReadOnly]="true" [isReadOnly]="true"
                             [width]="'2*'">
                         </wj-flex-grid-column>
-                        <wj-flex-grid-column [header]="'Employer EC Value'"
-                            [binding]="'EmployerECValue'" [isReadOnly]="true" [isReadOnly]="true"
-                            [width]="'2*'">
+                        <wj-flex-grid-column [header]="'Employer EC Value'" [binding]="'EmployerECValue'"
+                            [isReadOnly]="true" [isReadOnly]="true" [width]="'2*'">
                         </wj-flex-grid-column>
                         <wj-flex-grid-column [header]="'Remarks'" [binding]="'Remarks'" [isReadOnly]="true"
                             [isReadOnly]="true" [width]="'2*'">

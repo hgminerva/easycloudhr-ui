@@ -2,9 +2,14 @@
     <img src="../../../../assets/menu-icons/system tables.png" height="35" />
     <span>&nbsp;&nbsp; System Tables</span>
     <span class="spacer"></span>
-    <button mat-flat-button color="primary" style="margin: 5px;" [disabled]="buttonDisabled" (click)="BtnAddCodeTables()">
+    <button mat-flat-button color="primary" style="margin: 5px;" [disabled]="buttonDisabled"
+        (click)="BtnAddCodeTables()">
         <mat-icon>add</mat-icon>
-        ADD
+        Add
+    </button>
+    <button mat-raised-button style="margin: 5px;" routerLink="/software" color="warn">
+        <mat-icon>close</mat-icon>
+        Close
     </button>
 </mat-toolbar>
 <div class="software-container">
