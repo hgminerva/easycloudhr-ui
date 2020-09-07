@@ -300,39 +300,40 @@
             </div>
         </div>
 
-        <mat-divider></mat-divider>
+        <mat-divider style="margin: 5px;"></mat-divider>
 
-        <div fxLayout="row" fxLayout.xs="column" style="color: gray;" style="margin-top: 5px;">
+        <div fxLayout="row" fxLayout.xs="column" style="color: gray;">
 
-            <div fxFlex="60" style="padding: 5px;">
+            <div fxFlex="50" style="padding: 5px;">
                 <div fxLayout="row" fxLayout.xs="column">
-                    <div fxFlex="13" style="padding: 5px;">
-                        <mat-label>Created By:</mat-label>
+                    <div fxFlex="13">
+                        <mat-label class="text-create-update">Created By:</mat-label>
                     </div>
-                    <div fxFlex="37" style="padding: 5px;">
-                        <mat-label>{{_payrollModel.CreatedByUser}}</mat-label>
+                    <div fxFlex="37">
+                        <mat-label class="text-create-update">{{_payrollModel.CreatedByUser}}</mat-label>
                     </div>
-                    <div fxFlex="20" style="padding: 5px;">
-                        <mat-label>Created DateTime:</mat-label>
+                    <div fxFlex="20">
+                        <mat-label class="text-create-update">Created DateTime:</mat-label>
                     </div>
-                    <div fxFlex="60" style="padding: 5px;">
-                        <mat-label>{{_payrollModel.CreatedDateTime}}</mat-label>
+                    <div fxFlex="30">
+                        <mat-label class="text-create-update">{{_payrollModel.CreatedDateTime}}</mat-label>
                     </div>
                 </div>
             </div>
-            <div fxFlex="60" style="padding: 5px;">
+            
+            <div fxFlex="50" style="padding: 5px;">
                 <div fxLayout="row" fxLayout.xs="column">
-                    <div fxFlex="13" style="padding: 5px;">
-                        <mat-label>Updated By:</mat-label>
+                    <div fxFlex="13">
+                        <mat-label class="text-create-update">Updated By:</mat-label>
                     </div>
-                    <div fxFlex="37" style="padding: 5px;">
-                        <mat-label>{{_payrollModel.UpdatedByUser}}</mat-label>
+                    <div fxFlex="37">
+                        <mat-label class="text-create-update">{{_payrollModel.UpdatedByUser}}</mat-label>
                     </div>
-                    <div fxFlex="20" style="padding: 5px;">
-                        <mat-label>Updated DateTime:</mat-label>
+                    <div fxFlex="20">
+                        <mat-label class="text-create-update">Updated DateTime:</mat-label>
                     </div>
-                    <div fxFlex="60" style="padding: 5px;">
-                        <mat-label>{{_payrollModel.UpdatedDateTime}}</mat-label>
+                    <div fxFlex="30">
+                        <mat-label class="text-create-update">{{_payrollModel.UpdatedDateTime}}</mat-label>
                     </div>
                 </div>
             </div>

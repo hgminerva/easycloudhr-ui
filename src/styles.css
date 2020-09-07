@@ -45,6 +45,6 @@ body {
     flex: 1 1 auto;
 }
 
-
-
-
+.text-create-update{
+    font-size: small;
+}

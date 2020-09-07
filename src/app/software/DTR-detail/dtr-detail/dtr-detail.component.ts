@@ -267,6 +267,7 @@ export class DTRDetailComponent implements OnInit {
     this._dTRDetailSubscription = await (await this._dtrDetialService.DTRDetail(id)).subscribe(
       (response: any) => {
         let result = response;
+        console.log(response);
         if (result != null) {
           this._dTRModel = result;
           this.UIDTRDate = new Date(result["DTRDate"]);

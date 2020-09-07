@@ -73,28 +73,24 @@
                     </wj-flex-grid-column>
                     <wj-flex-grid-column [header]="'IN1'" [binding]="'TimeIn1'" [isReadOnly]="true" [width]="75">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'OUT1'" [binding]="'TimeOut1'" [isReadOnly]="true"
-                        [width]="75">
+                    <wj-flex-grid-column [header]="'OUT1'" [binding]="'TimeOut1'" [isReadOnly]="true" [width]="75">
                     </wj-flex-grid-column>
                     <wj-flex-grid-column [header]="'IN2'" [binding]="'TimeIn2'" [isReadOnly]="true" [width]="75">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'OUT2'" [binding]="'TimeOut2'" [isReadOnly]="true"
-                        [width]="75">
+                    <wj-flex-grid-column [header]="'OUT2'" [binding]="'TimeOut2'" [isReadOnly]="true" [width]="75">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'RD'" [binding]="'IsRestDay'" [isReadOnly]="true"
-                        [width]="30">
+                    <wj-flex-grid-column [header]="'RD'" [binding]="'IsRestDay'" [isReadOnly]="true" [width]="30">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Hrs'" [binding]="'TotalNumberOfHours'"
-                        [isReadOnly]="true" [width]="70">
+                    <wj-flex-grid-column [header]="'Hrs'" [binding]="'TotalNumberOfHours'" [isReadOnly]="true"
+                        [width]="70">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'ND'" [binding]="'NightDifferentialHours'"
-                        [isReadOnly]="true" [width]="70">
+                    <wj-flex-grid-column [header]="'ND'" [binding]="'NightDifferentialHours'" [isReadOnly]="true"
+                        [width]="70">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'FLEX'" [binding]="'IsFlexible'" [isReadOnly]="true"
-                        [width]="30">
+                    <wj-flex-grid-column [header]="'FLEX'" [binding]="'IsFlexible'" [isReadOnly]="true" [width]="30">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'FMIN'" [binding]="'FixibilityHoursLimit'"
-                        [isReadOnly]="true" [width]="70">
+                    <wj-flex-grid-column [header]="'FMIN'" [binding]="'FixibilityHoursLimit'" [isReadOnly]="true"
+                        [width]="70">
                     </wj-flex-grid-column>
                     <wj-flex-grid-column [header]="'Remarks'" [binding]="'Remarks'" [isReadOnly]="true" [width]="'2*'">
                     </wj-flex-grid-column>
@@ -132,38 +128,37 @@
             <div fxFlex="15" style="padding: 5px;">
             </div>
         </div>
-        <mat-divider></mat-divider>
-
+        <mat-divider style="margin: 5px;"></mat-divider>
         <div fxLayout="row" fxLayout.xs="column" style="color: gray;">
             <div fxFlex="50" style="padding: 5px;">
                 <div fxLayout="row" fxLayout.xs="column">
-                    <div fxFlex="20" style="padding: 5px;">
-                        <mat-label>Created By:</mat-label>
+                    <div fxFlex="13">
+                        <mat-label class="text-create-update">Created By:</mat-label>
                     </div>
-                    <div fxFlex="30" style="padding: 5px;">
-                        <mat-label>{{shiftModel.CreatedByUser}}</mat-label>
+                    <div fxFlex="37">
+                        <mat-label class="text-create-update">{{shiftModel.CreatedByUser}}</mat-label>
                     </div>
-                    <div fxFlex="25" style="padding: 5px;">
-                        <mat-label>Created DateTime:</mat-label>
+                    <div fxFlex="20">
+                        <mat-label class="text-create-update">Created DateTime:</mat-label>
                     </div>
-                    <div fxFlex="30" style="padding: 5px;">
-                        <mat-label>{{shiftModel.CreatedDateTime}}</mat-label>
+                    <div fxFlex="30">
+                        <mat-label class="text-create-update">{{shiftModel.CreatedDateTime}}</mat-label>
                     </div>
                 </div>
             </div>
             <div fxFlex="50" style="padding: 5px;">
                 <div fxLayout="row" fxLayout.xs="column">
-                    <div fxFlex="20" style="padding: 5px;">
-                        <mat-label>Updated By:</mat-label>
+                    <div fxFlex="13">
+                        <mat-label class="text-create-update">Updated By:</mat-label>
                     </div>
-                    <div fxFlex="35" style="padding: 5px;">
-                        <mat-label>{{shiftModel.UpdatedByUser}}</mat-label>
+                    <div fxFlex="37">
+                        <mat-label class="text-create-update">{{shiftModel.UpdatedByUser}}</mat-label>
                     </div>
-                    <div fxFlex="25" style="padding: 5px;">
-                        <mat-label>Updated DateTime:</mat-label>
+                    <div fxFlex="20">
+                        <mat-label class="text-create-update">Updated DateTime:</mat-label>
                     </div>
-                    <div fxFlex="30" style="padding: 5px;">
-                        <mat-label>{{shiftModel.UpdatedDateTime}}</mat-label>
+                    <div fxFlex="30">
+                        <mat-label class="text-create-update">{{shiftModel.UpdatedDateTime}}</mat-label>
                     </div>
                 </div>
             </div>

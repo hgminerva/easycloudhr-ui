@@ -43,8 +43,8 @@
             <div fxFlex="20" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>DateStart</mat-label>
-                    <input matInput [matDatepicker]="datePickerDateStart" [(ngModel)]="UIDateStart" (dateInput)="GetUIDATEDateStart()"
-                        [readonly]="_isLocked">
+                    <input matInput [matDatepicker]="datePickerDateStart" [(ngModel)]="UIDateStart"
+                        (dateInput)="GetUIDATEDateStart()" [readonly]="_isLocked">
                     <mat-datepicker-toggle matSuffix [for]="datePickerDateStart" [disabled]="_isLocked">
                     </mat-datepicker-toggle>
                     <mat-datepicker #datePickerDateStart color="primary"></mat-datepicker>
@@ -53,8 +53,8 @@
             <div fxFlex="20" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>DateEnd</mat-label>
-                    <input matInput [matDatepicker]="datePickerDateEnd" [(ngModel)]="UIDateEnd"  (dateInput)="GetUIDATEDateEnd()"
-                        [readonly]="_isLocked">
+                    <input matInput [matDatepicker]="datePickerDateEnd" [(ngModel)]="UIDateEnd"
+                        (dateInput)="GetUIDATEDateEnd()" [readonly]="_isLocked">
                     <mat-datepicker-toggle matSuffix [for]="datePickerDateEnd" [disabled]="_isLocked">
                     </mat-datepicker-toggle>
                     <mat-datepicker #datePickerDateEnd color="primary"></mat-datepicker>
@@ -144,38 +144,37 @@
                 </div>
             </div>
         </div>
-        <mat-divider></mat-divider>
-
+        <mat-divider style="margin: 5px;"></mat-divider>
         <div fxLayout="row" fxLayout.xs="column" style="color: gray;">
             <div fxFlex="50" style="padding: 5px;">
                 <div fxLayout="row" fxLayout.xs="column">
-                    <div fxFlex="20" style="padding: 5px;">
-                        <mat-label>Created By:</mat-label>
+                    <div fxFlex="13">
+                        <mat-label class="text-create-update">Created By:</mat-label>
                     </div>
-                    <div fxFlex="30" style="padding: 5px;">
-                        <mat-label>{{_yearModel.CreatedByUser}}</mat-label>
+                    <div fxFlex="37">
+                        <mat-label class="text-create-update">{{_yearModel.CreatedByUser}}</mat-label>
                     </div>
-                    <div fxFlex="25" style="padding: 5px;">
-                        <mat-label>Created DateTime:</mat-label>
+                    <div fxFlex="20">
+                        <mat-label class="text-create-update">Created DateTime:</mat-label>
                     </div>
-                    <div fxFlex="30" style="padding: 5px;">
-                        <mat-label>{{_yearModel.CreatedDateTime}}</mat-label>
+                    <div fxFlex="30">
+                        <mat-label class="text-create-update">{{_yearModel.CreatedDateTime}}</mat-label>
                     </div>
                 </div>
             </div>
             <div fxFlex="50" style="padding: 5px;">
                 <div fxLayout="row" fxLayout.xs="column">
-                    <div fxFlex="20" style="padding: 5px;">
-                        <mat-label>Updated By:</mat-label>
+                    <div fxFlex="13">
+                        <mat-label class="text-create-update">Updated By:</mat-label>
                     </div>
-                    <div fxFlex="35" style="padding: 5px;">
-                        <mat-label>{{_yearModel.UpdatedByUser}}</mat-label>
+                    <div fxFlex="37">
+                        <mat-label class="text-create-update">{{_yearModel.UpdatedByUser}}</mat-label>
                     </div>
-                    <div fxFlex="25" style="padding: 5px;">
-                        <mat-label>Updated DateTime:</mat-label>
+                    <div fxFlex="20">
+                        <mat-label class="text-create-update">Updated DateTime:</mat-label>
                     </div>
-                    <div fxFlex="30" style="padding: 5px;">
-                        <mat-label>{{_yearModel.UpdatedDateTime}}</mat-label>
+                    <div fxFlex="30">
+                        <mat-label class="text-create-update">{{_yearModel.UpdatedDateTime}}</mat-label>
                     </div>
                 </div>
             </div>
