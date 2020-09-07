@@ -41,8 +41,8 @@
                         </button>
                     </ng-template>
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Code'" [binding]="'ShiftCode'" [isReadOnly]="true"
-                    [isReadOnly]="true" [width]="100">
+                <wj-flex-grid-column [header]="'Code'" [binding]="'ShiftCode'" [isReadOnly]="true" [isReadOnly]="true"
+                    [width]="100">
                 </wj-flex-grid-column>
                 <wj-flex-grid-column [header]="'Shift'" [binding]="'Shift'" [isReadOnly]="true" [isReadOnly]="true"
                     [width]="'2*'">
@@ -56,22 +56,24 @@
         </div>
     </div>
     <div fxLayout="row" fxLayout.xs="column">
-        <div fxFlex="20" style="padding: 2px;">
+        <div fxFlex="25" style="padding: 2px;">
             <div fxLayout="row" fxLayout.xs="column">
                 <mat-button-toggle-group style="margin-top: 7px; width: 100%;">
-                    <mat-button-toggle (click)="listShiftCodeCollectionView.moveToFirstPage()">
-                        <mat-icon style="margin-right: -15px">navigate_before</mat-icon>
+                    <mat-button-toggle style="width: 100%;" (click)="listShiftCodeCollectionView.moveToFirstPage()">
+                        <mat-icon style="margin-right: -15px;">navigate_before</mat-icon>
                         <mat-icon>navigate_before</mat-icon>
                     </mat-button-toggle>
-                    <mat-button-toggle (click)="listShiftCodeCollectionView.moveToPreviousPage()">
+                    <mat-button-toggle style="width: 100%;" (click)="listShiftCodeCollectionView.moveToPreviousPage()">
                         <mat-icon>navigate_before</mat-icon>
                     </mat-button-toggle>
-                    <mat-button-toggle style="width: 100px;">{{ listShiftCodeCollectionView.pageIndex + 1 }} /
+                    <mat-button-toggle style="width: 100%;">
+                        {{ listShiftCodeCollectionView.pageIndex + 1 }}
+                        /
                         {{ listShiftCodeCollectionView.pageCount }}</mat-button-toggle>
-                    <mat-button-toggle (click)="listShiftCodeCollectionView.moveToNextPage()">
+                    <mat-button-toggle style="width: 100%;" (click)="listShiftCodeCollectionView.moveToNextPage()">
                         <mat-icon>navigate_next</mat-icon>
                     </mat-button-toggle>
-                    <mat-button-toggle (click)="listShiftCodeCollectionView.moveToLastPage()">
+                    <mat-button-toggle style="width: 100%;" (click)="listShiftCodeCollectionView.moveToLastPage()">
                         <mat-icon style="margin-right: -15px">navigate_next</mat-icon>
                         <mat-icon>navigate_next</mat-icon>
                     </mat-button-toggle>

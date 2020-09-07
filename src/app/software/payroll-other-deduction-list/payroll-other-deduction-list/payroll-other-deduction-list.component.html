@@ -78,23 +78,28 @@
         </div>
     </div>
     <div fxLayout="row" fxLayout.xs="column">
-        <div fxFlex="20" style="padding: 2px;">
+        <div fxFlex="25" style="padding: 2px;">
             <div fxLayout="row" fxLayout.xs="column">
-                <mat-button-toggle-group style="margin-top: 7px;">
-                    <mat-button-toggle (click)="_listPayrollOtherDeductionCollectionView.moveToFirstPage()">
-                        <mat-icon style="margin-right: -15px">navigate_before</mat-icon>
+                <mat-button-toggle-group style="margin-top: 7px; width: 100%;">
+                    <mat-button-toggle style="width: 100%;"
+                        (click)="_listPayrollOtherDeductionCollectionView.moveToFirstPage()">
+                        <mat-icon style="margin-right: -15px;">navigate_before</mat-icon>
                         <mat-icon>navigate_before</mat-icon>
                     </mat-button-toggle>
-                    <mat-button-toggle (click)="_listPayrollOtherDeductionCollectionView.moveToPreviousPage()">
+                    <mat-button-toggle style="width: 100%;"
+                        (click)="_listPayrollOtherDeductionCollectionView.moveToPreviousPage()">
                         <mat-icon>navigate_before</mat-icon>
                     </mat-button-toggle>
-                    <mat-button-toggle style="width: 100px;">{{ _listPayrollOtherDeductionCollectionView.pageIndex + 1 }}
+                    <mat-button-toggle style="width: 100%;">
+                        {{ _listPayrollOtherDeductionCollectionView.pageIndex + 1 }}
                         /
                         {{ _listPayrollOtherDeductionCollectionView.pageCount }}</mat-button-toggle>
-                    <mat-button-toggle (click)="_listPayrollOtherDeductionCollectionView.moveToNextPage()">
+                    <mat-button-toggle style="width: 100%;"
+                        (click)="_listPayrollOtherDeductionCollectionView.moveToNextPage()">
                         <mat-icon>navigate_next</mat-icon>
                     </mat-button-toggle>
-                    <mat-button-toggle (click)="_listPayrollOtherDeductionCollectionView.moveToLastPage()">
+                    <mat-button-toggle style="width: 100%;"
+                        (click)="_listPayrollOtherDeductionCollectionView.moveToLastPage()">
                         <mat-icon style="margin-right: -15px">navigate_next</mat-icon>
                         <mat-icon>navigate_next</mat-icon>
                     </mat-button-toggle>

@@ -99,7 +99,7 @@
                             <mat-label>Remarks</mat-label>
                             <textarea matInput placeholder="AddrRemarksess"
                                 [(ngModel)]="_payrollOtherIncomeModel.Remarks" [readonly]="_isLocked" rows="5"
-                                style="min-height: 102px;"></textarea>
+                                style="min-height: 100px;"></textarea>
                         </mat-form-field>
                     </div>
                 </div>
@@ -155,8 +155,9 @@
                 </ng-template>
             </mat-tab>
         </mat-tab-group>
+
         <div fxLayout="row" fxLayout.xs="column" style="margin-bottom: 15px;">
-            <div fxFlex="20" style="padding: 2px;">
+            <div fxFlex="25" style="padding: 2px;">
                 <div fxLayout="row" fxLayout.xs="column">
                     <mat-button-toggle-group style="margin-top: 7px; width: 100%;">
                         <mat-button-toggle (click)="_listPayrollOtherIncomeLineCollectionView.moveToFirstPage()"
@@ -183,14 +184,13 @@
                     </mat-button-toggle-group>
                 </div>
             </div>
-            <div fxFlex="60" style="padding: 5px;">
-            </div>
-            <div fxFlex="20" style="padding: 5px;">
-                <p>Total Amount: {{ totalIncomeAmount}}</p>
-            </div>
+            <div fxFlex="15" style="padding: 5px;">
 
+            </div>
         </div>
+
         <mat-divider style="margin: 5px;"></mat-divider>
+
         <div fxLayout="row" fxLayout.xs="column" style="color: gray;">
             <div fxFlex="50" style="padding: 5px;">
                 <div fxLayout="row" fxLayout.xs="column">
