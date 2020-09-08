@@ -639,6 +639,7 @@ export class EmployeeDetailComponent implements OnInit {
       this.saveEmployeeDetailSubscription = await (await this.employeeDetailService.SaveEmployee(this.employeeModel.Id, this.employeeModel)).subscribe(
         response => {
           this.loadComponent(this.employeeModel.IsLocked);
+          this.GetChangeHistoryListData();
           this.isDataLoaded = true;
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Save Successfully.");
           if (this.saveEmployeeDetailSubscription !== null) this.saveEmployeeDetailSubscription.unsubscribe();
@@ -661,6 +662,7 @@ export class EmployeeDetailComponent implements OnInit {
       this.lockEmployeeDetailSubscription = await (await this.employeeDetailService.LockEmployee(this.employeeModel.Id, this.employeeModel)).subscribe(
         response => {
           this.loadComponent(true);
+          this.GetChangeHistoryListData();
           this.isDataLoaded = true;
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Lock Successfully.");
           if (this.lockEmployeeDetailSubscription !== null) this.lockEmployeeDetailSubscription.unsubscribe();
