@@ -87,6 +87,14 @@ import { MandatoryTablesDetailMandatorySssDetailComponent } from './mandatory-ta
 import { PortalEmployeeComponent } from './portal-employee/portal-employee/portal-employee.component';
 import { EmployeeDetailEmployeeMemoComponent } from './employee-detail/employee-detail-employee-memo/employee-detail-employee-memo.component';
 import { PayrollDetailComputeConfirmDialogComponent } from './payroll-detail/payroll-detail/payroll-detail-compute-confirm-dialog/payroll-detail-compute-confirm-dialog.component';
+import { PortalEmployeeLeaveApplicationDialogComponent } from './portal-employee/portal-employee-leave-application-dialog/portal-employee-leave-application-dialog.component';
+import { PortalEmployeeLeaveApplicationLineAddDialogComponent } from './portal-employee/portal-employee-leave-application-dialog/portal-employee-leave-application-line-add-dialog/portal-employee-leave-application-line-add-dialog.component';
+import { PortalEmployeeOvertimeApplicationDialogComponent } from './portal-employee/portal-employee-overtime-application-dialog/portal-employee-overtime-application-dialog.component';
+import { PortalEmployeeOvertimeApplicationLineAddDialogComponent } from './portal-employee/portal-employee-overtime-application-dialog/portal-employee-overtime-application-line-add-dialog/portal-employee-overtime-application-line-add-dialog.component';
+import { PortalEmployeeLoanDialogComponent } from './portal-employee/portal-employee-loan-dialog/portal-employee-loan-dialog.component';
+import { PortalEmployeeDtrDialogComponent } from './portal-employee/portal-employee-dtr-dialog/portal-employee-dtr-dialog.component';
+import { PortalEmployeeDtrLineDialogComponent } from './portal-employee/portal-employee-dtr-dialog/portal-employee-dtr-line-dialog/portal-employee-dtr-line-dialog.component';
+import { PortalEmployeePayrollDialogComponent } from './portal-employee/portal-employee-payroll-dialog/portal-employee-payroll-dialog.component';
 
 @NgModule({
   declarations: [
@@ -155,6 +163,14 @@ import { PayrollDetailComputeConfirmDialogComponent } from './payroll-detail/pay
     PortalEmployeeComponent,
     EmployeeDetailEmployeeMemoComponent,
     PayrollDetailComputeConfirmDialogComponent,
+    PortalEmployeeLeaveApplicationDialogComponent,
+    PortalEmployeeLeaveApplicationLineAddDialogComponent,
+    PortalEmployeeOvertimeApplicationDialogComponent,
+    PortalEmployeeOvertimeApplicationLineAddDialogComponent,
+    PortalEmployeeLoanDialogComponent,
+    PortalEmployeeDtrDialogComponent,
+    PortalEmployeeDtrLineDialogComponent,
+    PortalEmployeePayrollDialogComponent,
   ],
   imports: [
     CommonModule,

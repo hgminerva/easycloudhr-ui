@@ -4,6 +4,7 @@ export class PortalEmployeeModel {
     IdNumber: string;
     BiometricIdNumber: string;
     FullName: string;
+    Address: string;
     ContactNumber: string;
     ContactMobileNumber: string;
     PictureURL: string;

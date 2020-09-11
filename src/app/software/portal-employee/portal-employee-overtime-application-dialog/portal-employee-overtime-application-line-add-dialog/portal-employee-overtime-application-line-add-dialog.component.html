@@ -1,0 +1,49 @@
+<h3 mat-dialog-title>
+    {{ title }}
+</h3>
+<mat-divider></mat-divider>
+<div mat-dialog-content style="height: 70%;">
+    <div class="dialog-body" [hidden]="isComponentHidden">
+        <br>
+        <div fxLayout="row" fxLayout.xs="column">
+            <div fxFlex="50" style="padding: 5px;">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Date</mat-label>
+                    <input matInput [matDatepicker]="datePickerOTDate" [(ngModel)]="this.UIOTDate"
+                        (dateInput)="GetUIDATEOTDate()">
+                    <mat-datepicker-toggle matSuffix [for]="datePickerOTDate">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #datePickerOTDate color="primary"></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" style="padding: 5px;">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>OT Hours</mat-label>
+                    <input type="{{inputTypeOTHours}}" matInput placeholder="0.00" style="text-align:right;"
+                        autocomplete="off" [(ngModel)]="_overtimeApplicationLineModel.OTHours"
+                        (focus)="OTHoursToNumberType()" (focusout)="OTHoursFormatValue()">
+                </mat-form-field>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayout.xs="column">
+            <div fxFlex="100" style="padding: 5px;">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Remarks</mat-label>
+                    <textarea matInput placeholder="Remarks" [(ngModel)]="_overtimeApplicationLineModel.Remarks"
+                        rows="5" style="min-height: 102px;"></textarea>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions align="right">
+    <button mat-flat-button color="primary" align-self="right" style="margin-right: 5px;" (click)="Save()">
+        <mat-icon>save</mat-icon>
+        Save
+    </button>
+    <button mat-flat-button mat-dialog-close style="margin: 5px;" color="warn" (click)="Close()">
+        <mat-icon>close</mat-icon>
+        Cancel
+    </button>
+</div>

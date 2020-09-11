@@ -7,7 +7,6 @@ import { LeaveApplicationLineModel } from '../leave-application-line.model';
 import { EmployeeListPickDialogComponent } from './../../shared/employee-list-pick-dialog/employee-list-pick-dialog.component';
 import { DatePipe } from '@angular/common';
 
-
 @Component({
   selector: 'app-leave-application-line-detail',
   templateUrl: './leave-application-line-detail.component.html',

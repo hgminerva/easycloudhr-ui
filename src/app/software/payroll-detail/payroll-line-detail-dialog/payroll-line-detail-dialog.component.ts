@@ -175,6 +175,7 @@ export class PayrollLineDetailDialogComponent implements OnInit {
   public async ComputePayrollLine() {
     this._event = 'Compute';
     this._isProgressBarHidden = true;
+    console.log(this._payrollLineModel.Id);
     this._computePayrollLineSubscription = (await this._payrollDetailService.ComputePayrollLine(this._payrollLineModel.Id)).subscribe(
       (response: any) => {
         let result = response;
@@ -290,7 +291,8 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
       this._savePayrollLineSubscription = await (await this._payrollDetailService.AddPayrollLine(this._payrollLineModel.PAYId, this._payrollLineModel)).subscribe(
-        response => {
+        (response: any) => {
+          this._payrollLineModel.Id = response;
           this._isDataLoaded = true;
           this._isProgressBarHidden = false;
           this._snackBarTemplate.snackBarSuccess(this._snackBar, "Added Successfully");

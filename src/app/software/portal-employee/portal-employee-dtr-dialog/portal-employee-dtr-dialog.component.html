@@ -1,0 +1,124 @@
+<h3 mat-dialog-title>
+    <mat-toolbar>
+        <span>{{title}}</span>
+        <span class="spacer"></span>
+        <button mat-flat-button mat-dialog-close style="margin: 5px;" color="warn" (click)="Close()">
+            <mat-icon>close</mat-icon>
+            Close
+        </button>
+    </mat-toolbar>
+</h3>
+<mat-divider></mat-divider>
+<div mat-dialog-content>
+    <div [hidden]="_isComponentHidden">
+
+        <mat-progress-bar *ngIf="_isDTRLineProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'">
+        </mat-progress-bar>
+
+        <wj-flex-grid #flexDTRLine [itemsSource]="_listDTRLineCollectionView" [selectionMode]="3"
+            [headersVisibility]="1">
+            <wj-flex-grid-filter></wj-flex-grid-filter>
+
+            <wj-flex-grid-column [header]="'Branch'" [binding]="'Branch'" [isReadOnly]="true" [width]="100">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'Employee'" [binding]="'Employee'" [isReadOnly]="true" [width]="200">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'Date'" [binding]="'DTRDate'" [isReadOnly]="true" [width]="80">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'Type'" [binding]="'DateType'" [isReadOnly]="true" [width]="80">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'RD'" [binding]="'IsRestDay'" [isReadOnly]="true" [width]="30">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'Shift'" [binding]="'Shift'" [isReadOnly]="true" [width]="80">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'IN1'" [binding]="'TimeIn1'" [isReadOnly]="true" [width]="75">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'OUT1'" [binding]="'TimeOut1'" [isReadOnly]="true" [width]="75">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'IN2'" [binding]="'TimeIn2'" [isReadOnly]="true" [width]="75">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'OUT2'" [binding]="'TimeOut2'" [isReadOnly]="true" [width]="75">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'OL'" [binding]="'IsOnLeave'" [isReadOnly]="true" [width]="30">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'HOL'" [binding]="'IsOnLeaveHalfDay'" [isReadOnly]="true" [width]="30">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'OB'" [binding]="'IsOnOfficialBusiness'" [isReadOnly]="true" [width]="30">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'HOB'" [binding]="'IsOnOfficialBusinessHalfDay'" [isReadOnly]="true"
+                [width]="30">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'A'" [binding]="'IsAbsent'" [isReadOnly]="true" [width]="30">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'HA'" [binding]="'IsAbsentHalfDay'" [isReadOnly]="true" [width]="30">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'Remarks'" [binding]="'Remarks'" [isReadOnly]="true" [width]="150">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'HRS'" [binding]="'NumberOfHoursWorked'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'OT'" [binding]="'OvertimeHours'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'ND'" [binding]="'NightDifferentialHours'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'LH'" [binding]="'LateHours'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'UT'" [binding]="'UndertimeHours'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'DP'" [binding]="'DailyPay'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'PP'" [binding]="'PremiumPay'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'HP'" [binding]="'HolidayPay'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'OP'" [binding]="'OvertimePay'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'COLA'" [binding]="'COLA'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'AA'" [binding]="'AdditionalAllowance'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'LD'" [binding]="'LateDeduction'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'LD'" [binding]="'LateDeduction'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'UD'" [binding]="'UndertimeDeduction'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'AD'" [binding]="'AbsentDeduction'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'NP'" [binding]="'DailyNetPay'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+
+        </wj-flex-grid>
+        <div fxLayout="row" fxLayout.xs="column">
+            <div fxFlex="35" style="padding: 2px;">
+                <div fxLayout="row" fxLayout.xs="column">
+                    <mat-button-toggle-group style="margin-top: 7px; width: 100%;">
+                        <mat-button-toggle (click)="_listDTRLineCollectionView.moveToFirstPage()" style=" width: 100%;">
+                            <mat-icon style="margin-right: -15px">navigate_before</mat-icon>
+                            <mat-icon>navigate_before</mat-icon>
+                        </mat-button-toggle>
+                        <mat-button-toggle (click)="_listDTRLineCollectionView.moveToPreviousPage()"
+                            style=" width: 100%;">
+                            <mat-icon>navigate_before</mat-icon>
+                        </mat-button-toggle>
+                        <mat-button-toggle style=" width: 100%;">
+                            {{ _listDTRLineCollectionView.pageIndex + 1 }} /
+                            {{ _listDTRLineCollectionView.pageCount }}</mat-button-toggle>
+                        <mat-button-toggle (click)="_listDTRLineCollectionView.moveToNextPage()" style=" width: 100%;">
+                            <mat-icon>navigate_next</mat-icon>
+                        </mat-button-toggle>
+                        <mat-button-toggle (click)="_listDTRLineCollectionView.moveToLastPage()" style=" width: 100%;">
+                            <mat-icon style="margin-right: -15px">navigate_next</mat-icon>
+                            <mat-icon>navigate_next</mat-icon>
+                        </mat-button-toggle>
+                    </mat-button-toggle-group>
+                </div>
+            </div>
+            <div fxFlex="15" style="padding: 5px;">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <mat-divider style="margin-top: 10px;"></mat-divider>
+<div mat-dialog-actions align="right">
+
+</div> -->

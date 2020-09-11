@@ -141,27 +141,21 @@
                     <mat-tab label="Payments">
                         <br>
                         <div style="height: 10em;">
-                            <mat-progress-bar *ngIf="_isPayrollOtherDeductionLineProgressBarHidden" [color]="'primary'"
+                            <mat-progress-bar *ngIf="_isLoanPaymentProgressBarHidden" [color]="'primary'"
                                 [mode]="'indeterminate'">
                             </mat-progress-bar>
-                            <wj-flex-grid #flexPayrollOtherDeductionLine
-                                [itemsSource]="_listPayrollOtherDeductionLineCollectionView" [selectionMode]="3"
+                            <wj-flex-grid #flexLoanPayment
+                                [itemsSource]="_listLoanPaymentCollectionView" [selectionMode]="3"
                                 [frozenColumns]="2" [headersVisibility]="1">
                                 <wj-flex-grid-filter></wj-flex-grid-filter>
-                                <wj-flex-grid-column [header]="'Employee'" [binding]="'Employee'" [isReadOnly]="true"
+                                <wj-flex-grid-column [header]="'Payroll No.'" [binding]="'PAYNumber'" [isReadOnly]="true"
                                     [width]="'2*'">
                                 </wj-flex-grid-column>
-                                <wj-flex-grid-column [header]="'Other Deduction'" [binding]="'OtherDeduction'"
+                                <wj-flex-grid-column [header]="'Payroll Other Deduction No.'" [binding]="'PDNumber'"
                                     [isReadOnly]="true" [width]="'2*'">
-                                </wj-flex-grid-column>
-                                <wj-flex-grid-column [header]="'Loan'" [binding]="'Loan'" [isReadOnly]="true"
-                                    [width]="'2*'">
                                 </wj-flex-grid-column>
                                 <wj-flex-grid-column [header]="'Amount'" [binding]="'Amount'" [isReadOnly]="true"
                                     [width]="'2*'">
-                                </wj-flex-grid-column>
-                                <wj-flex-grid-column [header]="'Particulars'" [binding]="'Particulars'"
-                                    [isReadOnly]="true" [width]="'2*'">
                                 </wj-flex-grid-column>
                             </wj-flex-grid>
                         </div>

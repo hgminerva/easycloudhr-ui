@@ -5,12 +5,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 import * as wjcGrid from '@grapecity/wijmo.grid';
-
 import { DecimalPipe } from '@angular/common';
+
 import { LoanModel } from '../loan.model';
 import { LoanListService } from '../loan-list.service';
 import { EmployeeListPickDialogComponent } from '../../shared/employee-list-pick-dialog/employee-list-pick-dialog.component';
-
 
 @Component({
   selector: 'app-loan-detail-dialog',
@@ -94,16 +93,16 @@ export class LoanDetailDialogComponent implements OnInit {
   public _loanStatusListDropdown: any = [];
 
   // Class properties
-  public _listPayrollOtherDeductionLineObservableArray: ObservableArray = new ObservableArray();
-  public _listPayrollOtherDeductionLineCollectionView: CollectionView = new CollectionView(this._listPayrollOtherDeductionLineObservableArray);
+  public _listLoanPaymentObservableArray: ObservableArray = new ObservableArray();
+  public _listLoanPaymentCollectionView: CollectionView = new CollectionView(this._listLoanPaymentObservableArray);
   public _listPageIndex: number = 15;
 
-  public _isPayrollOtherDeductionLineProgressBarHidden = false;
-  public _isPayrollOtherDeductionLineDataLoaded: boolean = false;
+  public _isLoanPaymentProgressBarHidden = false;
+  public _isLoanPaymentDataLoaded: boolean = false;
 
-  private _payrollOtherDeductionLineCListSubscription: any;
+  private _loanPaymentCListSubscription: any;
 
-  @ViewChild('flexPayrollOtherDeductionLine') _flexPayrollOtherDeductionLine: wjcGrid.FlexGrid;
+  @ViewChild('flexLoanPayment') _flexLoanPayment: wjcGrid.FlexGrid;
 
 
   private async GetDeductionListData() {
@@ -193,39 +192,39 @@ export class LoanDetailDialogComponent implements OnInit {
       }
     );
 
-    await this.GetPayrollOtherDeductionLineListData(this._loanModel.Id);
+    await this.GetLoanPaymentListData(this._loanModel.Id);
   }
 
-  private async GetPayrollOtherDeductionLineListData(loanId: number) {
-    this._listPayrollOtherDeductionLineObservableArray = new ObservableArray();
-    this._listPayrollOtherDeductionLineCollectionView = new CollectionView(this._listPayrollOtherDeductionLineObservableArray);
-    this._listPayrollOtherDeductionLineCollectionView.pageSize = 15;
-    this._listPayrollOtherDeductionLineCollectionView.trackChanges = true;
-    await this._listPayrollOtherDeductionLineCollectionView.refresh();
-    await this._flexPayrollOtherDeductionLine.refresh();
+  private async GetLoanPaymentListData(loanId: number) {
+    this._listLoanPaymentObservableArray = new ObservableArray();
+    this._listLoanPaymentCollectionView = new CollectionView(this._listLoanPaymentObservableArray);
+    this._listLoanPaymentCollectionView.pageSize = 15;
+    this._listLoanPaymentCollectionView.trackChanges = true;
+    await this._listLoanPaymentCollectionView.refresh();
+    await this._flexLoanPayment.refresh();
 
-    this._isPayrollOtherDeductionLineProgressBarHidden = true;
-    this._payrollOtherDeductionLineCListSubscription = (await this._loanListService.PayrollOtherDeductionLineFilteredByLoanList(loanId)).subscribe(
+    this._isLoanPaymentProgressBarHidden = true;
+    this._loanPaymentCListSubscription = (await this._loanListService.LoanPayments(loanId)).subscribe(
       (response: any) => {
         var results = response;
         if (results["length"] > 0) {
-          this._listPayrollOtherDeductionLineObservableArray = results;
-          this._listPayrollOtherDeductionLineCollectionView = new CollectionView(this._listPayrollOtherDeductionLineObservableArray);
-          this._listPayrollOtherDeductionLineCollectionView.pageSize = 15;
-          this._listPayrollOtherDeductionLineCollectionView.trackChanges = true;
-          this._listPayrollOtherDeductionLineCollectionView.refresh();
-          this._flexPayrollOtherDeductionLine.refresh();
+          this._listLoanPaymentObservableArray = results;
+          this._listLoanPaymentCollectionView = new CollectionView(this._listLoanPaymentObservableArray);
+          this._listLoanPaymentCollectionView.pageSize = 15;
+          this._listLoanPaymentCollectionView.trackChanges = true;
+          this._listLoanPaymentCollectionView.refresh();
+          this._flexLoanPayment.refresh();
         }
 
-        this._isPayrollOtherDeductionLineDataLoaded = true;
-        this._isPayrollOtherDeductionLineProgressBarHidden = false;
+        this._isLoanPaymentDataLoaded = true;
+        this._isLoanPaymentProgressBarHidden = false;
         this.isComponentsShown = true;
 
-        if (this._payrollOtherDeductionLineCListSubscription != null) this._payrollOtherDeductionLineCListSubscription.unsubscribe();
+        if (this._loanPaymentCListSubscription != null) this._loanPaymentCListSubscription.unsubscribe();
       },
       error => {
         this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + " Status Code: " + error.status);
-        if (this._payrollOtherDeductionLineCListSubscription != null) this._payrollOtherDeductionLineCListSubscription.unsubscribe();
+        if (this._loanPaymentCListSubscription != null) this._loanPaymentCListSubscription.unsubscribe();
       }
     );
   }

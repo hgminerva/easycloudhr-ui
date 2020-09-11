@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AppSettings } from 'src/app/app-settings';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { LoanModel } from './loan.model';
 
@@ -15,8 +15,14 @@ export class LoanListService {
   ) { }
 
   public async LoanList() {
+    let defaultOptions: any = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      })
+    };
     return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/loan/list',
-      this.appSettings.defaultOptions);
+      defaultOptions);
   }
 
   public async UserList() {
@@ -33,8 +39,8 @@ export class LoanListService {
       this.appSettings.defaultOptions);
   }
 
-  public async PayrollOtherDeductionLineFilteredByLoanList(loanId: number) {
-    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/loan/payroll/deduction/line/list/' + loanId,
+  public async LoanPayments(loanId: number) {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/loan/loan/payment/' + loanId,
       this.appSettings.defaultOptions);
   }
 
