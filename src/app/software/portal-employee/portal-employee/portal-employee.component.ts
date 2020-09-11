@@ -468,8 +468,8 @@ export class PortalEmployeeComponent implements OnInit {
   private async GetCurrentPayrollYear() {
     this._yearPayrollListSubscription = await (await this._portalEmployeeService.CurrentYear()).subscribe(
       (result: any) => {
-        this._yearPayrollListDropdownList = result;
-        this.GetDTRListData();
+        this._currentYearIdPayroll = result;
+        this.GetPayrollListData();
         if (this._yearPayrollListSubscription !== null) this._yearPayrollListSubscription.unsubscribe();
       },
       error => {

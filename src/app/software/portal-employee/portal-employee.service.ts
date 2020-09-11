@@ -87,8 +87,8 @@ export class PortalEmployeeService {
       this.appSettings.defaultOptions);
   }
 
-  public async PayrollLineList(employeeId: number) {
-    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/portal/employee/payroll/line/list/' + employeeId, this.appSettings.defaultOptions);
+  public async PayrollLineList(employeeId: number, payrollId: number) {
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/portal/employee/payroll/line/list/' + employeeId + '/' + payrollId, this.appSettings.defaultOptions);
   }
 
   // Loan
