@@ -25,13 +25,13 @@ export class UserDetailUserModuleDialogComponent implements OnInit {
     UserId: 0,
     ModuleId: 0,
     Module: '',
-    CanOpen: true,
-    CanAdd: true,
-    CanEdit: true,
-    CanLock: true,
-    CanUnlock: true,
-    CanDelete: true,
-    CanPrint: true,
+    CanOpen: false,
+    CanAdd: false,
+    CanEdit: false,
+    CanLock: false,
+    CanUnlock: false,
+    CanDelete: false,
+    CanPrint: false
   }
 
   public buttonSaveDisabled: boolean = false;
