@@ -14,6 +14,7 @@ import { YearDetialService } from './../year-detial.service';
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { YearDateDialogComponent } from '../year-date-dialog/year-date-dialog.component';
 import { DatePipe } from '@angular/common';
+import { YearDateAddToBranchesDialogComponent } from '../year-date-add-to-branches-dialog/year-date-add-to-branches-dialog.component';
 
 @Component({
   selector: 'app-year-detial',
@@ -93,7 +94,7 @@ export class YearDetialComponent implements OnInit {
     YearId: 0,
     YearDate: '',
     Branch: '',
-    DateType:  this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
+    DateType: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
     Remarks: 'NA',
   }
 
@@ -383,6 +384,24 @@ export class YearDetialComponent implements OnInit {
       }
       if (result.event === "Update") {
         this.UpdateYearDate(result.data);
+      }
+    });
+  }
+
+  public AddYearDateToBranches(): void {
+    const userRegistrationlDialogRef = this.YearDateDetailDialog.open(YearDateAddToBranchesDialogComponent, {
+      width: '700px',
+      data: {
+        objDialogTitle: "Add Year Date to Branches",
+        objYearDate: this._yearDateModel,
+      },
+
+      disableClose: true
+    });
+
+    userRegistrationlDialogRef.afterClosed().subscribe(result => {
+      if (result.event !== "Close") {
+        this.GetYearDateListData();
       }
     });
   }

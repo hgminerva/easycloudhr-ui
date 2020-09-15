@@ -1,0 +1,73 @@
+<h3 mat-dialog-title>
+    {{ title }}
+</h3>
+<mat-divider></mat-divider>
+<div mat-dialog-content style="height:450px;">
+    <div class="dialog-body" [hidden]="isComponentHidden">
+        <br>
+        <div fxLayout="row" fxLayout.xs="column">
+            <div fxFlex="50" style="padding: 5px;">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Date</mat-label>
+                    <input matInput [matDatepicker]="datePickerYearDate" [(ngModel)]="UIYearDate"
+                        (dateInput)="GetUIDATEYearDate()">
+                    <mat-datepicker-toggle matSuffix [for]="datePickerYearDate">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #datePickerYearDate color="primary"></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" style="padding: 5px;">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Date Type</mat-label>
+                    <mat-select [(ngModel)]="_yearDateLines.DateType" [disabled]="disableComponentOnInsert">
+                        <mat-option *ngFor="let dateType of _dateTypeListDropdown" [value]="dateType.Value">
+                            {{dateType.Value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayout.xs="column">
+            <div fxFlex="100">
+                <mat-progress-bar *ngIf="_isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'">
+                </mat-progress-bar>
+                <wj-flex-grid #flexBranches [itemsSource]="_listBranchesCollectionView" [selectionMode]="3"
+                    style="max-height: 150px;" [frozenColumns]="2">
+                    <wj-flex-grid-filter></wj-flex-grid-filter>
+                    <ng-template wjFlexGridCellTemplate [cellType]="'RowHeader'" let-cell="cell" let-row="row">
+                        <input type="checkbox" [(ngModel)]="row.isSelected" (change)="rowHeaderClicked($event)"
+                            [disabled]="disableComponentOnInsert" (click)="headerClick()" />
+                    </ng-template>
+                    <ng-template wjFlexGridCellTemplate [cellType]="'TopLeft'" let-cell="cell" let-row="row">
+                        <input type="checkbox" (click)="topLeftClicked($event)" [disabled]="disableComponentOnInsert" />
+                    </ng-template>
+                    <wj-flex-grid-column [header]="'Branch'" [binding]="'Value'" [isReadOnly]="true" [isReadOnly]="true"
+                        [width]="'2*'">
+                    </wj-flex-grid-column>
+                </wj-flex-grid>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayout.xs="column">
+            <div fxFlex="100" style="padding: 5px;">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Remarks</mat-label>
+                    <textarea matInput placeholder="Remarks" [(ngModel)]="_yearDateLines.Remarks" rows="5"
+                        [disabled]="disableComponentOnInsert" style="min-height: 75px;"></textarea>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions align="right">
+    <button mat-flat-button color="primary" align-self="right" style="margin-right: 5px;" (click)="AddYearDateLines()"
+        [disabled]="disableComponentOnInsert">
+        <mat-icon>save</mat-icon>
+        Save
+    </button>
+    <button mat-flat-button mat-dialog-close style="margin: 5px;" color="warn" (click)="Close()"
+        [disabled]="disableComponentOnInsert">
+        <mat-icon>close</mat-icon>
+        Cancel
+    </button>
+</div>

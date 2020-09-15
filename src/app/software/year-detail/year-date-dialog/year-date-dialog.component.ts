@@ -23,7 +23,6 @@ export class YearDateDialogComponent implements OnInit {
     private datePipe: DatePipe
   ) { }
 
-
   ngOnInit(): void {
     this.title = this.caseData.objDialogTitle;
     this.DateTypeListData();
@@ -65,7 +64,6 @@ export class YearDateDialogComponent implements OnInit {
     );
   }
 
-
   private async BranchListData() {
     this._branchListDropdownSubscription = (await this._yearDetialService.BranchDropdown()).subscribe(
       response => {
@@ -80,7 +78,6 @@ export class YearDateDialogComponent implements OnInit {
       }
     );
   }
-
 
   private loadShiftLineDetail() {
     this._yearDateModel.Id = this.caseData.objYearDate.Id;
@@ -101,7 +98,6 @@ export class YearDateDialogComponent implements OnInit {
 
   public GetUIDATEYearDate() {
     this._yearDateModel.YearDate = this.datePipe.transform(this.UIYearDate, 'yyyy-MM-dd');
-    console.log(this._yearDateModel.YearDate);
   }
 
   public Close(): void {
@@ -109,6 +105,8 @@ export class YearDateDialogComponent implements OnInit {
   }
 
   public async Save() {
+    this._yearDateModel.YearDate = this.datePipe.transform(this.UIYearDate, 'yyyy-MM-dd');
+
     if (this._yearDateModel.Id == 0) {
       await this.dialogRef.close({ event: 'Add', data: this._yearDateModel });
     } else {

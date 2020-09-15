@@ -3,7 +3,7 @@ import { AppSettings } from 'src/app/app-settings';
 import { HttpClient } from '@angular/common/http';
 
 import {YearModel} from './year.model';
-import {YearDateModel} from './year-date.model';
+import {YearDateList, YearDateModel} from './year-date.model';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +37,10 @@ export class YearDetialService {
 
   public async AddYearDate(objYearDates: YearDateModel) {
     return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/year/date/create', JSON.stringify(objYearDates), this.appSettings.defaultOptions);
+  }
+
+  public async AddYearDateToBranches(objYearDateLines: YearDateList) {
+    return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/year/date/create/branches', JSON.stringify(objYearDateLines), this.appSettings.defaultOptions);
   }
 
   public async Updatedate(id: number, objYearDate: YearDateModel) {
