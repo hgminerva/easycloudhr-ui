@@ -684,6 +684,7 @@
                 </div>
             </mat-tab>
             <mat-tab label="Memo">
+                <br>
                 <mat-progress-bar *ngIf="_isEmployeeMemoProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'">
                 </mat-progress-bar>
                 <wj-flex-grid #flexEmployeeMemo [itemsSource]="_listEmployeeMemoCollectionView" [selectionMode]="3"
@@ -747,6 +748,7 @@
                 </mat-button-toggle-group>
             </mat-tab>
             <mat-tab label="Change History">
+                <br>
                 <mat-progress-bar *ngIf="_isChangeHistoryProgressBarHidden" [color]="'primary'"
                     [mode]="'indeterminate'">
                 </mat-progress-bar>

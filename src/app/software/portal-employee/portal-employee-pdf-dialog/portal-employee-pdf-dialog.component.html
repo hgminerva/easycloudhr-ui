@@ -1,0 +1,18 @@
+<h3 mat-dialog-title>
+    <!-- <span>{{title}}</span> -->
+    <span class="spacer"></span>
+    <button mat-raised-button mat-dialog-close style="margin: 5px;" color="warn" (click)="Close()">
+        <mat-icon>close</mat-icon>
+        Close
+    </button>
+</h3>
+<mat-divider></mat-divider>
+<div mat-dialog-content>
+    <ngx-doc-viewer name="printDoc" [url]="pdfUrl" viewer="url" class="col-sm-12" class="col-sm-12"
+        style="height:720px">
+    </ngx-doc-viewer>
+</div>
+<!-- <mat-divider style="margin-top: 10px;"></mat-divider>
+<div mat-dialog-actions align="right">
+
+</div> -->

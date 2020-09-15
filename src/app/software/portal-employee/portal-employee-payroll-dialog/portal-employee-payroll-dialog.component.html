@@ -18,25 +18,32 @@
         <wj-flex-grid #flexPayrollLine [itemsSource]="_listPayrollLineCollectionView" [selectionMode]="3"
             [frozenColumns]="2" [headersVisibility]="1">
             <wj-flex-grid-filter></wj-flex-grid-filter>
+            <wj-flex-grid-column [isReadOnly]="true" [width]="90">
+                <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
+                    <button mat-raised-button color="primary" (click)="Print()"
+                        style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
+                        View
+                    </button>
+                </ng-template>
+            </wj-flex-grid-column>
             <wj-flex-grid-column [header]="'Employee'" [binding]="'Employee'" [isReadOnly]="true" [width]="200">
             </wj-flex-grid-column>
-            <wj-flex-grid-column [header]="'Payroll Rate'" [binding]="'PayrollRate'" [isReadOnly]="true"
-                [width]="150">
+            <wj-flex-grid-column [header]="'Payroll Rate'" [binding]="'PayrollRate'" [isReadOnly]="true" [width]="150">
             </wj-flex-grid-column>
             <wj-flex-grid-column [header]="'Total Daily Pay'" [binding]="'TotalDailyPay'" [isReadOnly]="true"
                 [width]="150">
             </wj-flex-grid-column>
-            <wj-flex-grid-column [header]="'Total Premium Pay'" [binding]="'TotalPremiumPay'"
-                [isReadOnly]="true" [width]="150">
+            <wj-flex-grid-column [header]="'Total Premium Pay'" [binding]="'TotalPremiumPay'" [isReadOnly]="true"
+                [width]="150">
             </wj-flex-grid-column>
-            <wj-flex-grid-column [header]="'Total Holiday Pay'" [binding]="'TotalHolidayPay'"
-                [isReadOnly]="true" [width]="150">
+            <wj-flex-grid-column [header]="'Total Holiday Pay'" [binding]="'TotalHolidayPay'" [isReadOnly]="true"
+                [width]="150">
             </wj-flex-grid-column>
-            <wj-flex-grid-column [header]="'Total Overtime Pay'" [binding]="'TotalOvertimePay'"
-                [isReadOnly]="true" [width]="150">
+            <wj-flex-grid-column [header]="'Total Overtime Pay'" [binding]="'TotalOvertimePay'" [isReadOnly]="true"
+                [width]="150">
             </wj-flex-grid-column>
-            <wj-flex-grid-column [header]="'Total Night Differential Pay'"
-                [binding]="'TotalNightDifferentialPay'" [isReadOnly]="true" [width]="150">
+            <wj-flex-grid-column [header]="'Total Night Differential Pay'" [binding]="'TotalNightDifferentialPay'"
+                [isReadOnly]="true" [width]="150">
             </wj-flex-grid-column>
             <wj-flex-grid-column [header]="'Total Additional Allowance'" [binding]="'TotalAdditionalAllowance'"
                 [isReadOnly]="true" [width]="150">
@@ -46,20 +53,19 @@
             </wj-flex-grid-column>
             <wj-flex-grid-column [header]="'Income'" [binding]="'Income'" [isReadOnly]="true" [width]="150">
             </wj-flex-grid-column>
-            <wj-flex-grid-column [header]="'Total OtherIncome Not Taxable'"
-                [binding]="'TotalOtherIncomeNotTaxable'" [isReadOnly]="true" [width]="150">
+            <wj-flex-grid-column [header]="'Total OtherIncome Not Taxable'" [binding]="'TotalOtherIncomeNotTaxable'"
+                [isReadOnly]="true" [width]="150">
             </wj-flex-grid-column>
-            <wj-flex-grid-column [header]="'Gross Income'" [binding]="'GrossIncome'" [isReadOnly]="true"
-                [width]="150">
+            <wj-flex-grid-column [header]="'Gross Income'" [binding]="'GrossIncome'" [isReadOnly]="true" [width]="150">
             </wj-flex-grid-column>
             <wj-flex-grid-column [header]="'SSS Contribution'" [binding]="'SSSContribution'" [isReadOnly]="true"
                 [width]="150">
             </wj-flex-grid-column>
-            <wj-flex-grid-column [header]="'PHIC Contribution'" [binding]="'PHICContribution'"
-                [isReadOnly]="true" [width]="150">
+            <wj-flex-grid-column [header]="'PHIC Contribution'" [binding]="'PHICContribution'" [isReadOnly]="true"
+                [width]="150">
             </wj-flex-grid-column>
-            <wj-flex-grid-column [header]="'HDMF Contribution'" [binding]="'HDMFContribution'"
-                [isReadOnly]="true" [width]="150">
+            <wj-flex-grid-column [header]="'HDMF Contribution'" [binding]="'HDMFContribution'" [isReadOnly]="true"
+                [width]="150">
             </wj-flex-grid-column>
             <wj-flex-grid-column [header]="'Income TaxAmount'" [binding]="'IncomeTaxAmount'" [isReadOnly]="true"
                 [width]="150">
@@ -67,8 +73,7 @@
             <wj-flex-grid-column [header]="'Total Other Deduction'" [binding]="'TotalOtherDeduction'"
                 [isReadOnly]="true" [width]="150">
             </wj-flex-grid-column>
-            <wj-flex-grid-column [header]="'Net Income'" [binding]="'NetIncome'" [isReadOnly]="true"
-                [width]="150">
+            <wj-flex-grid-column [header]="'Net Income'" [binding]="'NetIncome'" [isReadOnly]="true" [width]="150">
             </wj-flex-grid-column>
             <wj-flex-grid-column [header]="'SSS Employer Contribution'" [binding]="'SSSEmployerContribution'"
                 [isReadOnly]="true" [width]="150">
@@ -86,7 +91,8 @@
             <div fxFlex="35" style="padding: 2px;">
                 <div fxLayout="row" fxLayout.xs="column">
                     <mat-button-toggle-group style="margin-top: 7px; width: 100%;">
-                        <mat-button-toggle (click)="_listPayrollLineCollectionView.moveToFirstPage()" style=" width: 100%;">
+                        <mat-button-toggle (click)="_listPayrollLineCollectionView.moveToFirstPage()"
+                            style=" width: 100%;">
                             <mat-icon style="margin-right: -15px">navigate_before</mat-icon>
                             <mat-icon>navigate_before</mat-icon>
                         </mat-button-toggle>
@@ -97,10 +103,12 @@
                         <mat-button-toggle style=" width: 100%;">
                             {{ _listPayrollLineCollectionView.pageIndex + 1 }} /
                             {{ _listPayrollLineCollectionView.pageCount }}</mat-button-toggle>
-                        <mat-button-toggle (click)="_listPayrollLineCollectionView.moveToNextPage()" style=" width: 100%;">
+                        <mat-button-toggle (click)="_listPayrollLineCollectionView.moveToNextPage()"
+                            style=" width: 100%;">
                             <mat-icon>navigate_next</mat-icon>
                         </mat-button-toggle>
-                        <mat-button-toggle (click)="_listPayrollLineCollectionView.moveToLastPage()" style=" width: 100%;">
+                        <mat-button-toggle (click)="_listPayrollLineCollectionView.moveToLastPage()"
+                            style=" width: 100%;">
                             <mat-icon style="margin-right: -15px">navigate_next</mat-icon>
                             <mat-icon>navigate_next</mat-icon>
                         </mat-button-toggle>

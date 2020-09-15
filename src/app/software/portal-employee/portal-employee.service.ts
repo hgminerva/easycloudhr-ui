@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AppSettings } from 'src/app/app-settings';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -105,5 +105,19 @@ export class PortalEmployeeService {
   public async LoanPayments(loanId: number) {
     return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/portal/employee/loan/payment/' + loanId,
       this.appSettings.defaultOptions);
+  }
+
+  // Payslip
+  public async Payslip(employeeId: number, payId: number) {
+    let printCaseOptions: any = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }),
+      responseType: "blob"
+    };
+
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/portal/employee/payslip/' + employeeId + '/' + payId,
+      printCaseOptions);
   }
 }

@@ -5,6 +5,7 @@ import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 import { PortalEmployeeService } from '../portal-employee.service';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { PortalEmployeePdfDialogComponent } from '../portal-employee-pdf-dialog/portal-employee-pdf-dialog.component';
 
 @Component({
   selector: 'app-portal-employee-payroll-dialog',
@@ -83,4 +84,21 @@ export class PortalEmployeePayrollDialogComponent implements OnInit {
     this._dialogRef.close({ event: 'Close' });
   }
 
+  public async Print() {
+    let currentPayrollLine = this._listPayrollLineCollectionView.currentItem;
+    const matDialogRef = this._matDialog.open(PortalEmployeePdfDialogComponent, {
+      width: '900px',
+      data: {
+        objDialogTitle: "Leave Application",
+        objDataEmployeeId: this.caseData.objDataEmployeeId,
+        objDataPayrollLineId: currentPayrollLine.Id
+      },
+      disableClose: true
+    });
+
+    matDialogRef.afterClosed().subscribe(result => {
+      if (result.message == "Yes") {
+      }
+    });
+  }
 }
