@@ -1,6 +1,6 @@
 <div class="main-container" [class.main-toolbar-is-mobile]="mobileQuery.matches">
     <mat-toolbar color="" class="main-toolbar">
-        <button mat-icon-button (click)="snav.toggle()">
+        <button mat-icon-button (click)="sidenav.toggle()">
             <mat-icon>menu</mat-icon>
         </button>
         <a routerLink="/landing"><img src="../../../assets/easycloudhrlogo2i.png" height="20"
@@ -14,12 +14,19 @@
         </mat-menu>
     </mat-toolbar>
 
-    <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0"
+        *ngIf="moduleDashBoard">
         <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
             fixedTopGap="56" opened class="sidenav">
 
             <mat-accordion>
-                <mat-expansion-panel hideToggle class="mat-elevation-z0" style="border-bottom: 1px solid #e0e0e0;">
+
+                <div style="width: 100%; text-align: center;padding: 50px 0; ">
+                    <img src="../../assets/logo/gateway-only.png" height="30" />
+                </div>
+
+                <mat-expansion-panel hideToggle class="mat-elevation-z0"
+                    style="border-bottom: 1px solid #e0e0e0;border-top: 1px solid #e0e0e0; ">
                     <mat-expansion-panel-header routerLink="/software" #dashboardPanelHeader *ngIf="moduleDashBoard"
                         (click)="dashboardPanelHeader._toggle()">
                         <mat-panel-title>
