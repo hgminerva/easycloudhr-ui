@@ -4,7 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { UserModel } from './user.model';
 import { UserModuleModel } from './user-module.model';
 import { UserPayrollGroupModel } from './user-payroll-group.model'
-import { UserChangePassword } from './user-detial-change-password/user-detial-change-password.component';
 
 @Injectable({
   providedIn: 'root'
@@ -33,11 +32,6 @@ export class UserDetailService {
   public async UnlockUser(id: number) {
     return this.httpClient.put(this.appSettings.defaultAPIURLHost + '/api/user/unlock/' + id, "", this.appSettings.defaultOptions);
   }
-
-  public async ChangePassword(id: number, objUserChangePassword: UserChangePassword) {
-    return this.httpClient.put(this.appSettings.defaultAPIURLHost + '/api/user/change/password/' + id, JSON.stringify(objUserChangePassword), this.appSettings.defaultOptions);
-  }
-
 
   // ===========
   // User Module

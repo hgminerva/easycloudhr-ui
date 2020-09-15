@@ -14,6 +14,8 @@ import { PortalEmployeeLeaveApplicationDialogComponent } from '../portal-employe
 import { PortalEmployeeLoanDialogComponent } from '../portal-employee-loan-dialog/portal-employee-loan-dialog.component';
 import { PortalEmployeeDtrDialogComponent } from '../portal-employee-dtr-dialog/portal-employee-dtr-dialog.component';
 import { PortalEmployeePayrollDialogComponent } from '../portal-employee-payroll-dialog/portal-employee-payroll-dialog.component';
+import { UserChangePasswordDialogComponent } from '../../shared/user-change-password-dialog/user-change-password-dialog.component';
+
 @Component({
   selector: 'app-portal-employee',
   templateUrl: './portal-employee.component.html',
@@ -447,13 +449,13 @@ export class PortalEmployeeComponent implements OnInit {
   private _yearPayrollCurrentSubscription: any;
   public _currentYearIdPayroll: number = 0;
 
-  private _yearPayrollListSubscription: any;
+  public _yearPayrollListSubscription: any;
   public _yearPayrollListDropdownList: any;
 
   private async GetYearPayrollDropdownListData() {
     this._yearPayrollCurrentSubscription = await (await this._portalEmployeeService.YearList()).subscribe(
       response => {
-        this._yearDTRListDropdownList = response;
+        this._yearPayrollListDropdownList = response;
         this._currentYearIdPayroll = response[0].Id;
         this.GetCurrentPayrollYear();
         if (this._yearPayrollCurrentSubscription !== null) this._yearPayrollCurrentSubscription.unsubscribe();
@@ -601,5 +603,18 @@ export class PortalEmployeeComponent implements OnInit {
         this.GetLoanListData();
       }
     });
+  }
+
+  public ChangePassword(): void {
+    const userRegistrationlDialogRef = this._matDialog.open(UserChangePasswordDialogComponent, {
+      width: '500px',
+      data: {
+        objDialogTitle: "Change Password",
+        objDialogComponent: "Employee Portal",
+        objUserId: this._portalEmployeeModel.Id,
+      },
+      disableClose: true
+    });
+    userRegistrationlDialogRef.afterClosed();
   }
 }

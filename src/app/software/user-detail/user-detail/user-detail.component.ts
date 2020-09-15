@@ -15,7 +15,7 @@ import { UserModuleModel } from '../user-module.model';
 import { UserPayrollGroupModel } from '../user-payroll-group.model';
 import { UserDetailUserPayrollGroupDialogComponent } from '../user-detail-user-payroll-group-dialog/user-detail-user-payroll-group-dialog.component';
 
-import { UserDetialChangePasswordComponent } from './../user-detial-change-password/user-detial-change-password.component';
+import { UserChangePasswordDialogComponent } from '../../shared/user-change-password-dialog/user-change-password-dialog.component';
 
 @Component({
   selector: 'app-user-detail',
@@ -350,12 +350,11 @@ export class UserDetailComponent implements OnInit {
   }
 
   public ChangePassword(): void {
-    let currentUserModule = this.listUserModuleCollectionView.currentItem;
-
-    const userRegistrationlDialogRef = this.matDialog.open(UserDetialChangePasswordComponent, {
+    const userRegistrationlDialogRef = this.matDialog.open(UserChangePasswordDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Change Password",
+        objDialogComponent: "User Detail",
         objUserId: this.userModel.Id,
       },
       disableClose: true

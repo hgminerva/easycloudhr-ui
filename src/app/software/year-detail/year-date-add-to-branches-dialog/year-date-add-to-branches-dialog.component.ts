@@ -39,7 +39,7 @@ export class YearDateAddToBranchesDialogComponent implements OnInit {
     YearDate: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
     Branch: [],
     DateType: '',
-    Remarks: ''
+    Remarks: 'NA'
   }
   public title = '';
   public isComponentHidden: boolean = true;

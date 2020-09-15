@@ -20,6 +20,8 @@ import { WjGridFilterModule } from '@grapecity/wijmo.angular2.grid.filter';
 
 import { DatePipe } from '@angular/common';
 
+import { NgxDocViewerModule } from 'ngx-doc-viewer';
+
 // Components
 import { SoftwareComponent } from './software.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -58,7 +60,6 @@ import { EmployeeDetialLinkToUsernameDialogComponent } from './employee-detail/e
 import { DtrDetialDtrLineDetailDialogComponent } from './DTR-detail/dtr-detial-dtr-line-detail-dialog/dtr-detial-dtr-line-detail-dialog.component';
 import { DtrDetailDtrLineAddDialogComponent } from './DTR-detail/dtr-detail-dtr-line-add-dialog/dtr-detail-dtr-line-add-dialog.component';
 import { ShiftCodeDetialShiftLineComponent } from './shift-code-detail/shift-code-detial-shift-line/shift-code-detial-shift-line.component';
-import { UserDetialChangePasswordComponent } from './user-detail/user-detial-change-password/user-detial-change-password.component';
 import { ChangeShiftCodeLineDetailComponent } from './change-shift-code-detail/change-shift-code-line-detail/change-shift-code-line-detail.component';
 import { LeaveApplicationLineDetailComponent } from './leave-application-detail/leave-application-line-detail/leave-application-line-detail.component';
 import { OvertimeApplicationLineDialogComponent } from './overtime-application-detail/overtime-application-line-dialog/overtime-application-line-dialog.component';
@@ -95,6 +96,9 @@ import { PortalEmployeeLoanDialogComponent } from './portal-employee/portal-empl
 import { PortalEmployeeDtrDialogComponent } from './portal-employee/portal-employee-dtr-dialog/portal-employee-dtr-dialog.component';
 import { PortalEmployeeDtrLineDialogComponent } from './portal-employee/portal-employee-dtr-dialog/portal-employee-dtr-line-dialog/portal-employee-dtr-line-dialog.component';
 import { PortalEmployeePayrollDialogComponent } from './portal-employee/portal-employee-payroll-dialog/portal-employee-payroll-dialog.component';
+import { PortalEmployeePdfDialogComponent } from './portal-employee/portal-employee-pdf-dialog/portal-employee-pdf-dialog.component';
+import { YearDateAddToBranchesDialogComponent } from './year-detail/year-date-add-to-branches-dialog/year-date-add-to-branches-dialog.component';
+import { UserChangePasswordDialogComponent } from './shared/user-change-password-dialog/user-change-password-dialog.component';
 
 @NgModule({
   declarations: [
@@ -134,7 +138,6 @@ import { PortalEmployeePayrollDialogComponent } from './portal-employee/portal-e
     DtrDetialDtrLineDetailDialogComponent,
     DtrDetailDtrLineAddDialogComponent,
     ShiftCodeDetialShiftLineComponent,
-    UserDetialChangePasswordComponent,
     ChangeShiftCodeLineDetailComponent,
     LeaveApplicationLineDetailComponent,
     OvertimeApplicationLineDialogComponent,
@@ -171,6 +174,9 @@ import { PortalEmployeePayrollDialogComponent } from './portal-employee/portal-e
     PortalEmployeeDtrDialogComponent,
     PortalEmployeeDtrLineDialogComponent,
     PortalEmployeePayrollDialogComponent,
+    PortalEmployeePdfDialogComponent,
+    YearDateAddToBranchesDialogComponent,
+    UserChangePasswordDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -181,6 +187,7 @@ import { PortalEmployeePayrollDialogComponent } from './portal-employee/portal-e
     FlexLayoutModule,
     WjGridModule,
     WjGridFilterModule,
+    NgxDocViewerModule
   ],
   providers: [
     SoftwareRoutingActivate,
