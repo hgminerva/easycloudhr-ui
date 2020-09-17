@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AppSettings } from 'src/app/app-settings';
+import { AppSettings } from './../software-appsettings';
 import { HttpClient } from '@angular/common/http';
 import { ShiftModel } from './shift-code-model';
 import { ShiftLineModel } from './shift-code-line.model';
@@ -14,7 +14,7 @@ export class ShiftCodeDetailService {
     private httpClient: HttpClient
   ) { }
 
- 
+
   public async ShiftDetail(id: number) {
     return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/shift/detail/' + id, this.appSettings.defaultOptions);
   }

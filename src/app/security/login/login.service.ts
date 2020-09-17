@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AppSettings } from '../../../app/app-settings';
+import { AppSetting } from '../../../app/app-settings';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { LoginModel } from './login.model';
@@ -10,7 +10,7 @@ import { LoginModel } from './login.model';
 export class LoginService {
 
   constructor(
-    private appSettings: AppSettings,
+    private appSettings: AppSetting,
     private httpClient: HttpClient
   ) { }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AppSettings } from 'src/app/app-settings';
+import { AppSettings } from './../software-appsettings';
 import { HttpClient } from '@angular/common/http';
 import { ChangeShiftModel } from './change-shift-code.model';
 import { ChangeShiftLineModel } from './change-shift-code-line.model';

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AppSettings } from 'src/app/app-settings';
+import { AppSettings } from './../../software-appsettings';
 import { UserChangePassword } from './user-change-password-dialog.component';
 
 @Injectable({

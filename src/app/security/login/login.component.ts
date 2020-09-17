@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from './login.service';
 import { LoginModel } from './login.model';
-import { AppSettings } from './../../app-settings';
+import { AppSetting } from './../../app-settings';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private loginService: LoginService,
     private router: Router,
-    public appSettings: AppSettings,
+    public appSettings: AppSetting,
     public snackBar: MatSnackBar
   ) { }
 
