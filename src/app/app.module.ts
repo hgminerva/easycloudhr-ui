@@ -7,7 +7,9 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 
-import { AppSettings } from './app-settings';
+import { AppSetting } from './app-settings';
+import { AppSettings } from './software/software-appsettings';
+
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { AppSettings } from './app-settings';
     HttpClientModule
   ],
   providers: [
+    AppSetting,
     AppSettings
+
   ],
   bootstrap: [AppComponent]
 })
