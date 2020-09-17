@@ -1,10 +1,10 @@
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { HttpHeaders } from '@angular/common/http';
 
-export class AppSettings {
+export class AppSetting {
     // API URL
-    public defaultAPIURLHost = "https://easycloudhrapi.azurewebsites.net";
-    // public defaultAPIURLHost = "https://localhost:44369";
+    // public defaultAPIURLHost = "https://easycloudhrapi.azurewebsites.net";
+    public defaultAPIURLHost = "https://localhost:44369";
 
     // URL Encoded Options
     public URLEncodedOptions: any = {
