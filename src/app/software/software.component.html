@@ -1,6 +1,6 @@
 <div class="main-container" [class.main-toolbar-is-mobile]="mobileQuery.matches">
     <mat-toolbar color="" class="main-toolbar">
-        <button mat-icon-button (click)="sidenav.toggle()">
+        <button mat-icon-button (click)="sidenav.toggle()" *ngIf="!moduleEmployeePortalOnly">
             <mat-icon>menu</mat-icon>
         </button>
         <a routerLink="/landing"><img src="../../../assets/easycloudhrlogo2i.png" height="20"
@@ -13,12 +13,9 @@
             </button>
         </mat-menu>
     </mat-toolbar>
-
-    <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0"
-        *ngIf="moduleDashBoard">
+    <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
         <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
-            fixedTopGap="56" opened class="sidenav">
-
+            fixedTopGap="56" opened class="sidenav" *ngIf="!moduleEmployeePortalOnly">
             <mat-accordion>
 
                 <div style="width: 100%; text-align: center;padding: 50px 0; ">
@@ -40,7 +37,8 @@
                     </mat-expansion-panel-header>
                 </mat-expansion-panel>
 
-                <mat-expansion-panel class="mat-elevation-z0" style="border-bottom: 1px solid #e0e0e0;">
+                <mat-expansion-panel class="mat-elevation-z0" style="border-bottom: 1px solid #e0e0e0;"
+                    *ngIf="moduleSetup">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
                             <mat-icon>build_circle</mat-icon>
@@ -246,7 +244,7 @@
                 </mat-expansion-panel>
 
                 <mat-expansion-panel class="mat-elevation-z0" style="border-bottom: 1px solid #e0e0e0;"
-                    *ngIf="moduleOthers">
+                    *ngIf="moduleReports">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
                             <mat-icon>print</mat-icon>
@@ -258,8 +256,8 @@
                         <mat-panel-description></mat-panel-description>
                     </mat-expansion-panel-header>
 
-                    <mat-nav-list style="margin-left: -25px; margin-right: -25px;" *ngIf="moduleOthers">
-                        <a mat-list-item routerLink=".">
+                    <mat-nav-list style="margin-left: -25px; margin-right: -25px;">
+                        <a mat-list-item routerLink="." *ngIf="moduleDTRReports">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/reports.png" height="30" />
@@ -267,7 +265,7 @@
                             &nbsp;
                             DTR
                         </a>
-                        <a mat-list-item routerLink=".">
+                        <a mat-list-item routerLink="." *ngIf="modulePayrollReports">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/reports.png" height="30" />
@@ -275,7 +273,7 @@
                             &nbsp;
                             Payroll
                         </a>
-                        <a mat-list-item routerLink=".">
+                        <a mat-list-item routerLink="." *ngIf="moduleMandatoryReports">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/reports.png" height="30" />
@@ -283,7 +281,7 @@
                             &nbsp;
                             Mandatory Reports
                         </a>
-                        <a mat-list-item routerLink=".">
+                        <a mat-list-item routerLink="." *ngIf="moduleBankReports">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/reports.png" height="30" />
@@ -291,7 +289,7 @@
                             &nbsp;
                             Bank
                         </a>
-                        <a mat-list-item routerLink=".">
+                        <a mat-list-item routerLink="." *ngIf="moduleLeaveReports">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/reports.png" height="30" />
@@ -299,7 +297,7 @@
                             &nbsp;
                             Leave Reports
                         </a>
-                        <a mat-list-item routerLink=".">
+                        <a mat-list-item routerLink="." *ngIf="moduleLoanReports">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/reports.png" height="30" />
@@ -307,7 +305,7 @@
                             &nbsp;
                             Loan Reports
                         </a>
-                        <a mat-list-item routerLink=".">
+                        <a mat-list-item routerLink="." *ngIf="moduleDemographicsReports">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/reports.png" height="30" />
@@ -318,7 +316,8 @@
                     </mat-nav-list>
                 </mat-expansion-panel>
 
-                <mat-expansion-panel class="mat-elevation-z0" style="border-bottom: 1px solid #e0e0e0;">
+                <mat-expansion-panel class="mat-elevation-z0" style="border-bottom: 1px solid #e0e0e0;"
+                    *ngIf="modulePortal">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
                             <mat-icon>camera</mat-icon>
@@ -331,7 +330,7 @@
                     </mat-expansion-panel-header>
 
                     <mat-nav-list style="margin-left: -25px; margin-right: -25px;">
-                        <a mat-list-item routerLink="/software/portal-employee">
+                        <a mat-list-item routerLink="/software/portal-employee" *ngIf="moduleEmployeePortal">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/portal.png" height="30" />
@@ -342,7 +341,8 @@
 
                     </mat-nav-list>
                 </mat-expansion-panel>
-                <mat-expansion-panel class="mat-elevation-z0" style="border-bottom: 1px solid #e0e0e0;">
+                <mat-expansion-panel class="mat-elevation-z0" style="border-bottom: 1px solid #e0e0e0;"
+                    *ngIf="moduleSettings">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
                             <mat-icon>settings</mat-icon>
@@ -363,7 +363,7 @@
                             &nbsp;
                             System Tables
                         </a>
-                        <a mat-list-item routerLink="." *ngIf="moduleOthers">
+                        <a mat-list-item routerLink="." *ngIf="moduleSettings">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/settings.png" height="30" />
@@ -375,7 +375,7 @@
                 </mat-expansion-panel>
 
                 <mat-expansion-panel style="pointer-events: none;" class="mat-elevation-z0"
-                    style="border-bottom: 1px solid #e0e0e0;" *ngIf="moduleOthers">
+                    style="border-bottom: 1px solid #e0e0e0;" *ngIf="moduleSecurity">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
                             <mat-icon>security</mat-icon>

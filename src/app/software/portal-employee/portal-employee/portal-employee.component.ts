@@ -15,6 +15,7 @@ import { PortalEmployeeLoanDialogComponent } from '../portal-employee-loan-dialo
 import { PortalEmployeeDtrDialogComponent } from '../portal-employee-dtr-dialog/portal-employee-dtr-dialog.component';
 import { PortalEmployeePayrollDialogComponent } from '../portal-employee-payroll-dialog/portal-employee-payroll-dialog.component';
 import { UserChangePasswordDialogComponent } from '../../shared/user-change-password-dialog/user-change-password-dialog.component';
+import { SoftwareSecurityService } from '../../software-security/software-security.service';
 
 @Component({
   selector: 'app-portal-employee',
@@ -28,9 +29,17 @@ export class PortalEmployeeComponent implements OnInit {
     private _snackBarTemplate: SnackBarTemplate,
     private _portalEmployeeService: PortalEmployeeService,
     public _matDialog: MatDialog,
+    private softwareSecurityService: SoftwareSecurityService
+
   ) { }
 
+  public moduleEmployeePortalOnly: boolean = false;
+
   ngOnInit(): void {
+    if (this.softwareSecurityService.isEmployeePortalOnly() == true) {
+      this.moduleEmployeePortalOnly = true;
+    }
+
     this.GetEmployeeDetail();
   }
 

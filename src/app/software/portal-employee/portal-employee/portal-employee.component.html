@@ -3,7 +3,8 @@
     <span>&nbsp;&nbsp; Employee Portal</span>
     <span class="spacer"></span>
 
-    <button mat-flat-button style="margin-right: 5px;" routerLink="/software/employee-list" color="warn">
+    <button mat-flat-button style="margin-right: 5px;" routerLink="/software" color="warn"
+        *ngIf="!moduleEmployeePortalOnly">
         <mat-icon>close</mat-icon>
         Close
     </button>
@@ -22,61 +23,72 @@
                         </mat-card>
                     </div>
                 </div>
+                <div fxLayout="row" fxLayout.xs="column">
+                    <div fxFlex="100" style="padding: 5px;">
+                        <button mat-raised-button
+                            style="width: 100%; height: 90%; background-color: white; color: #742774;"
+                            (click)="ChangePassword()">
+                            <mat-icon style="font-size:medium; margin-top: 5px;">vpn_key</mat-icon>
+                            <span style="font-size:smaller; ">Change Password</span>
+
+                        </button>
+                    </div>
+                </div>
             </div>
             <div fxFlex="85">
                 <div fxLayout="row" fxLayout.xs="column">
                     <mat-divider style="margin-left: 5px;" [vertical]="true"></mat-divider>
-                    <div fxFlex="55" style="padding: 5px;">
+                    <div fxFlex="50" style="padding: 5px;">
                         <div fxLayout="row" fxLayout.xs="column">
-                            <div fxFlex="20" style="padding: 5px;">
+                            <div fxFlex="25" style="padding: 5px;">
                                 <p class="text_box">Employee Code: </p>
                             </div>
-                            <div fxFlex="30" style="padding: 5px;">
+                            <div fxFlex="75" style="padding: 5px;">
                                 <p class="text_box"><b>{{_portalEmployeeModel.EmployeeCode}}</b> </p>
                             </div>
-                            <div fxFlex="50" style="padding: 5px;">
-                            </div>
+
                         </div>
                         <div fxLayout="row" fxLayout.xs="column">
-                            <div fxFlex="20" style="padding: 5px">
+                            <div fxFlex="25" style="padding: 5px">
                                 <p class="text_box">Fullname:</p>
                             </div>
-                            <div fxFlex="80" style="padding: 5px">
+                            <div fxFlex="75" style="padding: 5px">
                                 <p class="text_box"><b>{{_portalEmployeeModel.FullName}}</b> </p>
                             </div>
                         </div>
                         <div fxLayout="row" fxLayout.xs="column">
-                            <div fxFlex="20" style="padding: 5px">
+                            <div fxFlex="25" style="padding: 5px">
                                 <p class="text_box">Address:</p>
                             </div>
-                            <div fxFlex="80" style="padding: 5px">
+                            <div fxFlex="75" style="padding: 5px">
                                 <p class="text_box"><b>{{_portalEmployeeModel.Address}}</b> </p>
                             </div>
                         </div>
                         <div fxLayout="row" fxLayout.xs="column">
-                            <div fxFlex="20" style="padding: 5px;">
+                            <div fxFlex="25" style="padding: 5px;">
                                 <p class="text_box">Landline No.:</p>
                             </div>
-                            <div fxFlex="80" style="padding: 5px;">
+                            <div fxFlex="75" style="padding: 5px;">
                                 <p class="text_box"><b>{{_portalEmployeeModel.ContactNumber}}</b> </p>
                             </div>
                         </div>
                         <div fxLayout="row" fxLayout.xs="column">
-                            <div fxFlex="20" style="padding: 5px;">
+                            <div fxFlex="25" style="padding: 5px;">
                                 <p class="text_box">Mobile No.:</p>
                             </div>
-                            <div fxFlex="80" style="padding: 5px;">
+                            <div fxFlex="75" style="padding: 5px;">
                                 <p class="text_box"><b>{{_portalEmployeeModel.ContactMobileNumber}}</b> </p>
                             </div>
                         </div>
+
                     </div>
                     <mat-divider [vertical]="true"></mat-divider>
-                    <div fxFlex="45" style="padding: 5px;">
+                    <div fxFlex="50" style="padding: 5px;">
                         <div fxLayout="row" fxLayout.xs="column">
-                            <div fxFlex="20" style="padding: 5px;">
+                            <div fxFlex="30" style="padding: 5px;">
                                 <p class="text_box">ID No.:</p>
                             </div>
-                            <div fxFlex="30" style="padding: 5px;">
+                            <div fxFlex="20" style="padding: 5px;">
                                 <p class="text_box"><b>{{_portalEmployeeModel.IdNumber}}</b> </p>
                             </div>
                             <div fxFlex="25" style="padding: 5px;">
