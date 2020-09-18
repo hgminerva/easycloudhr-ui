@@ -17,6 +17,7 @@ import { PayrollLineModel } from './../payroll-line.model';
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { PayrollLineDetailDialogComponent } from '../payroll-line-detail-dialog/payroll-line-detail-dialog.component';
 import { PayrollDetailComputeConfirmDialogComponent } from './payroll-detail-compute-confirm-dialog/payroll-detail-compute-confirm-dialog.component';
+import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 
 @Component({
   selector: 'app-payroll-detail',
@@ -31,10 +32,46 @@ export class PayrollDetailComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
     public _matDialogRef: MatDialog,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private _softwareSecurityService: SoftwareSecurityService,
   ) { }
 
-  async ngOnInit() {
+  private _userRightsSubscription: any;
+
+  public _userRights: UserModule = {
+    Module: "",
+    CanOpen: false,
+    CanAdd: false,
+    CanEdit: false,
+    CanDelete: false,
+    CanLock: false,
+    CanUnlock: false,
+    CanPrint: false,
+  }
+
+  private async Get_userRights() {
+    this._userRightsSubscription = await (await this._softwareSecurityService.PageModuleRights("Payroll Detail")).subscribe(
+      (response: any) => {
+        let results = response;
+        if (results !== null) {
+          this._userRights.Module = results["Module"];
+          this._userRights.CanOpen = results["CanOpen"];
+          this._userRights.CanAdd = results["CanAdd"];
+          this._userRights.CanEdit = results["CanEdit"];
+          this._userRights.CanDelete = results["CanDelete"];
+          this._userRights.CanLock = results["CanLock"];
+          this._userRights.CanUnlock = results["CanUnlock"];
+          this._userRights.CanPrint = results["CanPrint"];
+        }
+
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      },
+      error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      }
+    );
+
     await this.GetPayrollDetail();
   }
 
@@ -137,7 +174,7 @@ export class PayrollDetailComponent implements OnInit {
 
   public _isPayrollLineProgressBarHidden = false;
   public _isPayrollLineDataLoaded: boolean = false;
-  
+
   @ViewChild('flexPayrollLine') flexPayrollLine: wjcGrid.FlexGrid;
 
   private _payrollLineListSubscription: any;
@@ -319,7 +356,11 @@ export class PayrollDetailComponent implements OnInit {
       this._btnUnlockDisabled = !isDisable;
     }
 
-    this._isLocked = isDisable;
+    if (this._userRights.CanEdit === false) {
+      this._isLocked = true;
+    } else {
+      this._isLocked = isDisable;
+    }
     this._isProgressBarHidden = false;
   }
 
@@ -629,4 +670,8 @@ export class PayrollDetailComponent implements OnInit {
     return new Blob([data], { type: 'text/csv;charset=utf-8;' });
   }
 
+  
+  async ngOnInit() {
+    await this.Get_userRights();
+  }
 }
