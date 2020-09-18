@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { OtherIncomeModel } from '../other-income.model';
 import { OtherIncomeService } from '../other-income.service';
+import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 
 @Component({
   selector: 'app-other-incode-detail-dialog',
@@ -18,15 +19,55 @@ export class OtherIncodeDetailDialogComponent implements OnInit {
     private snackBarTemplate: SnackBarTemplate,
     private _otherIncomeService: OtherIncomeService,
     public _otherIncomeDetailDialogRef: MatDialogRef<OtherIncodeDetailDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public caseData: any
+    @Inject(MAT_DIALOG_DATA) public caseData: any,
+    private _softwareSecurityService: SoftwareSecurityService,
   ) { }
 
   public title = '';
   public event = 'Close';
 
+  private _userRightsSubscription: any;
+
+  public _userRights: UserModule = {
+    Module: "",
+    CanOpen: false,
+    CanAdd: false,
+    CanEdit: false,
+    CanDelete: false,
+    CanLock: false,
+    CanUnlock: false,
+    CanPrint: false,
+  }
+
+  private async Get_userRights() {
+    this._userRightsSubscription = await (await this._softwareSecurityService.PageModuleRights("Other Income")).subscribe(
+      (response: any) => {
+        let results = response;
+        if (results !== null) {
+          this._userRights.Module = results["Module"];
+          this._userRights.CanOpen = results["CanOpen"];
+          this._userRights.CanAdd = results["CanAdd"];
+          this._userRights.CanEdit = results["CanEdit"];
+          this._userRights.CanDelete = results["CanDelete"];
+          this._userRights.CanLock = results["CanLock"];
+          this._userRights.CanUnlock = results["CanUnlock"];
+          this._userRights.CanPrint = results["CanPrint"];
+        } 
+
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      }
+    );
+
+    await this.GetOtherIncomeDetail(this.caseData.objOtherIncomeId);
+  }
+
   ngOnInit(): void {
     this.title = this.caseData.objDialogTitle;
-    this.GetOtherIncomeDetail(this.caseData.objOtherIncomeId);
+    this.Get_userRights();
   }
 
   public _otherIncomeModel: OtherIncomeModel = {
@@ -169,7 +210,12 @@ export class OtherIncodeDetailDialogComponent implements OnInit {
       this.btnUnlockDisabled = !isDisable;
     }
 
-    this.isLocked = isDisable;
+    if (this._userRights.CanEdit === false) {
+      this.isLocked = true;
+    } else {
+      this.isLocked = isDisable;
+    }
+
     this.isProgressBarHidden = false;
   }
 

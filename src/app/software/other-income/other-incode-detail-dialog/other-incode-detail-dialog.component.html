@@ -3,17 +3,17 @@
     <span>{{title}}</span>
     <span class="spacer"></span>
     <button mat-raised-button style="margin: 5px;" color="primary" [disabled]="btnSaveDisabled"
-        (click)="SaveOtherIncomeDetail()">
+        (click)="SaveOtherIncomeDetail()" *ngIf="_userRights.CanEdit">
         <mat-icon>save</mat-icon>
         Save
     </button>
     <button mat-raised-button style="margin: 5px;" color="primary" [disabled]="btnLockisabled"
-        (click)="LockOtherIncomeDetail()">
+        (click)="LockOtherIncomeDetail()" *ngIf="_userRights.CanLock">
         <mat-icon>lock</mat-icon>
         Lock
     </button>
     <button mat-raised-button style="margin: 5px;" color="primary" [disabled]="btnUnlockDisabled"
-        (click)="UnlockOtherIncomeDetail()">
+        (click)="UnlockOtherIncomeDetail()" *ngIf="_userRights.CanUnlock">
         <mat-icon>lock_open</mat-icon>
         Unlock
     </button>
@@ -23,7 +23,7 @@
 </mat-toolbar>
 <mat-progress-bar *ngIf="isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'" style="width: 100%;">
 </mat-progress-bar>
-<div class="software">
+<div class="software" [hidden]="!_userRights.CanOpen">
     <div *ngIf="isComponentsShown">
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="25" style="padding: 5px;">
