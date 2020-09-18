@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 
 import { UserListService } from '../user-list.service';
+import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 
 
 @Component({
@@ -23,15 +24,53 @@ export class UserListComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar,
     private snackBarTemplate: SnackBarTemplate,
+    private _softwareSecurityService: SoftwareSecurityService,
   ) {
   }
 
-  async ngOnInit() {
-    await this.getUserListData();
-    await this.CreateCboShowNumberOfRows();
+  private _userRightsSubscription: any;
+
+  public _userRights: UserModule = {
+    Module: "",
+    CanOpen: false,
+    CanAdd: false,
+    CanEdit: false,
+    CanDelete: false,
+    CanLock: false,
+    CanUnlock: false,
+    CanPrint: false,
   }
 
-  
+  private async Get_userRights() {
+    this._userRightsSubscription = await (await this._softwareSecurityService.PageModuleRights("User List")).subscribe(
+      (response: any) => {
+        let results = response;
+        if (results !== null) {
+          this._userRights.Module = results["Module"];
+          this._userRights.CanOpen = results["CanOpen"];
+          this._userRights.CanAdd = results["CanAdd"];
+          this._userRights.CanEdit = results["CanEdit"];
+          this._userRights.CanDelete = results["CanDelete"];
+          this._userRights.CanLock = results["CanLock"];
+          this._userRights.CanUnlock = results["CanUnlock"];
+          this._userRights.CanPrint = results["CanPrint"];
+        } 
+
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      }
+    );
+
+    await this.getUserListData();
+  }
+
+  async ngOnInit() {
+    await this.Get_userRights();
+    await this.CreateCboShowNumberOfRows();
+  }
 
   public listUserObservableArray: ObservableArray = new ObservableArray();
   public listUserCollectionView: CollectionView = new CollectionView(this.listUserObservableArray);

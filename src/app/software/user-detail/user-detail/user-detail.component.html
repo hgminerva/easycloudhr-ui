@@ -3,17 +3,17 @@
     <span>&nbsp;&nbsp; User Detail</span>
     <span class="spacer"></span>
     <button mat-raised-button style="margin: 5px;" color="primary" (click)="SaveUserDetail()"
-        [disabled]="btnSaveDisabled">
+        [disabled]="btnSaveDisabled" *ngIf="_userRights.CanEdit">
         <mat-icon>save</mat-icon>
         Save
     </button>
     <button mat-raised-button style="margin: 5px;" color="primary" (click)="LockUserDetail()"
-        [disabled]="btnLockisabled">
+        [disabled]="btnLockisabled" *ngIf="_userRights.CanLock">
         <mat-icon>lock</mat-icon>
         Lock
     </button>
     <button mat-raised-button style="margin: 5px;" color="primary" (click)="UnlockUserDetail()"
-        [disabled]="btnUnlockDisabled">
+        [disabled]="btnUnlockDisabled" *ngIf="_userRights.CanUnlock">
         <mat-icon>lock_open</mat-icon>
         Unlock
     </button>
@@ -24,7 +24,7 @@
 </mat-toolbar>
 <mat-progress-bar *ngIf="isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'" style="width: 100%;">
 </mat-progress-bar>
-<div class="software-container">
+<div class="software-container" [hidden]="!_userRights.CanOpen">
     <div [hidden]="!isComponentsShown">
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="35" style="padding: 5px;">
@@ -78,7 +78,8 @@
                         <wj-flex-grid #flexUserModule [itemsSource]="listUserModuleCollectionView" [selectionMode]="3"
                             [frozenColumns]="2">
                             <wj-flex-grid-filter></wj-flex-grid-filter>
-                            <wj-flex-grid-column [isReadOnly]="true" [width]="90" *ngIf="!isLocked">
+                            <wj-flex-grid-column [isReadOnly]="true" [width]="90" [hidden]="_isLocked"
+                                *ngIf="_userRights.CanEdit">
                                 <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                                     <button mat-raised-button color="primary"
                                         style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
@@ -87,7 +88,8 @@
                                     </button>
                                 </ng-template>
                             </wj-flex-grid-column>
-                            <wj-flex-grid-column [isReadOnly]="true" [width]="90" *ngIf="!isLocked">
+                            <wj-flex-grid-column [isReadOnly]="true" [width]="90" [hidden]="_isLocked"
+                                *ngIf="_userRights.CanDelete">
                                 <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                                     <button mat-raised-button color="warn"
                                         style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
@@ -150,7 +152,8 @@
                         <wj-flex-grid #flexUserPayrollGroup [itemsSource]="listUserPayrollGroupCollectionView"
                             [selectionMode]="3" [frozenColumns]="2">
                             <wj-flex-grid-filter></wj-flex-grid-filter>
-                            <wj-flex-grid-column [isReadOnly]="true" [width]="90" *ngIf="!isLocked">
+                            <wj-flex-grid-column [isReadOnly]="true" [width]="90" [hidden]="_isLocked"
+                                *ngIf="_userRights.CanEdit">
                                 <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                                     <button mat-raised-button color="primary"
                                         style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
@@ -160,7 +163,8 @@
                                     </button>
                                 </ng-template>
                             </wj-flex-grid-column>
-                            <wj-flex-grid-column [isReadOnly]="true" [width]="90" *ngIf="!isLocked">
+                            <wj-flex-grid-column [isReadOnly]="true" [width]="90" [hidden]="_isLocked"
+                                *ngIf="_userRights.CanDelete">
                                 <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                                     <button mat-raised-button color="warn"
                                         style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
@@ -198,7 +202,7 @@
                     <mat-tab disabled style="background-color: transparent; ">
                         <ng-template mat-tab-label>
                             <button mat-raised-button color="primary" (click)="AddUserTable()" [disabled]="isLocked"
-                                style="float: right; margin: 5px;">
+                                style="float: right; margin: 5px;" *ngIf="_userRights.CanAdd">
                                 <mat-icon>add</mat-icon> ADD
                             </button><br>
                         </ng-template>

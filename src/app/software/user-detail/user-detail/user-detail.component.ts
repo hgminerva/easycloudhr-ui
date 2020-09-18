@@ -16,6 +16,7 @@ import { UserPayrollGroupModel } from '../user-payroll-group.model';
 import { UserDetailUserPayrollGroupDialogComponent } from '../user-detail-user-payroll-group-dialog/user-detail-user-payroll-group-dialog.component';
 
 import { UserChangePasswordDialogComponent } from '../../shared/user-change-password-dialog/user-change-password-dialog.component';
+import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 
 @Component({
   selector: 'app-user-detail',
@@ -30,7 +31,47 @@ export class UserDetailComponent implements OnInit {
     private snackBarTemplate: SnackBarTemplate,
     private userDetailService: UserDetailService,
     public matDialog: MatDialog,
+    private _softwareSecurityService: SoftwareSecurityService,
   ) {
+  }
+
+  private _userRightsSubscription: any;
+
+  public _userRights: UserModule = {
+    Module: "",
+    CanOpen: false,
+    CanAdd: false,
+    CanEdit: false,
+    CanDelete: false,
+    CanLock: false,
+    CanUnlock: false,
+    CanPrint: false,
+  }
+
+  private async Get_userRights() {
+    this._userRightsSubscription = await (await this._softwareSecurityService.PageModuleRights("User Detail")).subscribe(
+      (response: any) => {
+        let results = response;
+        if (results !== null) {
+          this._userRights.Module = results["Module"];
+          this._userRights.CanOpen = results["CanOpen"];
+          this._userRights.CanAdd = results["CanAdd"];
+          this._userRights.CanEdit = results["CanEdit"];
+          this._userRights.CanDelete = results["CanDelete"];
+          this._userRights.CanLock = results["CanLock"];
+          this._userRights.CanUnlock = results["CanUnlock"];
+          this._userRights.CanPrint = results["CanPrint"];
+        } 
+
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      }
+    );
+
+    await this.GetUserDetail();
   }
 
   public userModel: UserModel = {
@@ -86,10 +127,7 @@ export class UserDetailComponent implements OnInit {
 
   @ViewChild('tabGroup') tabGroup;
 
-  async ngOnInit() {
-    await this.GetUserDetail();
-  }
-
+ 
   private async GetUserDetail() {
     if (this.isUserDetailLoaded == false) {
       this.isComponentsShown = false;
@@ -498,12 +536,15 @@ export class UserDetailComponent implements OnInit {
     });
   }
 
-
   public async AddUserTable() {
     if (this.tabGroup.selectedIndex == 0) {
       this.UserModuleDetailDailog(this.userModuleModel, "Add User Module");
     } else {
       this.UserPayrollGroupDetailDailog(this.userPayrollGroupModel, "Add Payroll Group");
     }
+  }
+
+  async ngOnInit() {
+    await this.Get_userRights();
   }
 }
