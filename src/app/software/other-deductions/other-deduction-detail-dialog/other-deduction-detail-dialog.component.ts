@@ -8,6 +8,7 @@ import { DecimalPipe } from '@angular/common';
 
 import { OtherDeductionsService } from '../other-deductions.service';
 import { OtherDeductionModel } from '../other-deduction.model';
+import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 
 @Component({
   selector: 'app-other-deduction-detail-dialog',
@@ -22,15 +23,50 @@ export class OtherDeductionDetailDialogComponent implements OnInit {
     private _otherDeductionsService: OtherDeductionsService,
     public _OtherDeductionDetailDialogRef: MatDialogRef<OtherDeductionDetailDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public caseData: any,
-    private decimalPipe: DecimalPipe
+    private decimalPipe: DecimalPipe,
+    private _softwareSecurityService: SoftwareSecurityService,
   ) { }
 
   public title = '';
   public event = 'Close';
 
-  ngOnInit(): void {
-    this.title = this.caseData.objDialogTitle;
-    this.GetOtherDeductionDetail(this.caseData.objOtherDeductionId);
+  private _userRightsSubscription: any;
+
+  public _userRights: UserModule = {
+    Module: "",
+    CanOpen: false,
+    CanAdd: false,
+    CanEdit: false,
+    CanDelete: false,
+    CanLock: false,
+    CanUnlock: false,
+    CanPrint: false,
+  }
+
+  private async Get_userRights() {
+    this._userRightsSubscription = await (await this._softwareSecurityService.PageModuleRights("Overtime List")).subscribe(
+      (response: any) => {
+        let results = response;
+        if (results !== null) {
+          this._userRights.Module = results["Module"];
+          this._userRights.CanOpen = results["CanOpen"];
+          this._userRights.CanAdd = results["CanAdd"];
+          this._userRights.CanEdit = results["CanEdit"];
+          this._userRights.CanDelete = results["CanDelete"];
+          this._userRights.CanLock = results["CanLock"];
+          this._userRights.CanUnlock = results["CanUnlock"];
+          this._userRights.CanPrint = results["CanPrint"];
+        }
+
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      }
+    );
+
+    await this.GetOtherDeductionDetail(this.caseData.objOtherDeductionId);
   }
 
   public _otherDeductionModel: OtherDeductionModel = {
@@ -64,7 +100,6 @@ export class OtherDeductionDetailDialogComponent implements OnInit {
   public btnUnlockDisabled: boolean = true;
 
   public isComponentsShown: boolean = false;
-
 
   private async GetOtherDeductionDetail(id) {
     this.isComponentsShown = false;
@@ -175,7 +210,12 @@ export class OtherDeductionDetailDialogComponent implements OnInit {
       this.btnUnlockDisabled = !isDisable;
     }
 
-    this.isLocked = isDisable;
+    if (this._userRights.CanEdit === false) {
+      this.isLocked = true;
+    } else {
+      this.isLocked = isDisable;
+    }
+
     this.isProgressBarHidden = false;
   }
 
@@ -220,5 +260,10 @@ export class OtherDeductionDetailDialogComponent implements OnInit {
     } else {
       this._otherDeductionModel.DefaultAmount = this.decimalPipe.transform(this._otherDeductionModel.DefaultAmount, "1.2-2");
     }
+  }
+
+  ngOnInit(): void {
+    this.title = this.caseData.objDialogTitle;
+    this.Get_userRights();
   }
 }
