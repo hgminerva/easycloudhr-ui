@@ -52,99 +52,105 @@ export class DashboardComponent implements OnInit {
 
   public moduleOthers: boolean = false;
 
-  ngOnInit(): void {
-    if (this.softwareSecurityService.openModule("Dashboard") == true) {
-      this.moduleDashBoard = true;
-    }
+  async ngOnInit() {
+    await this.softwareSecurityService.getUserRights();
 
-    if (this.softwareSecurityService.openModule("User List") == true) {
-      this.moduleUserList = true;
-    }
+    await setTimeout(() => {
+      if (this.softwareSecurityService.openModule("Dashboard") == true) {
+        this.moduleDashBoard = true;
+      }
 
-    if (this.softwareSecurityService.openModule("Employee List") == true) {
-      this.moduleEmployeeList = true;
-    }
+      if (this.softwareSecurityService.openModule("User List") == true) {
+        this.moduleUserList = true;
+      }
 
-    if (this.softwareSecurityService.openModule("Company List") == true) {
-      this.moduleCompanyList = true;
-    }
+      if (this.softwareSecurityService.openModule("Employee List") == true) {
+        this.moduleEmployeeList = true;
+      }
 
-    if (this.softwareSecurityService.openModule("System Tables") == true) {
-      this.moduleSystemTables = true;
-    }
+      if (this.softwareSecurityService.openModule("Company List") == true) {
+        this.moduleCompanyList = true;
+      }
 
-    if (this.softwareSecurityService.openModule("DTR") == true) {
-      this.moduleDTR = true;
-    }
+      if (this.softwareSecurityService.openModule("System Tables") == true) {
+        this.moduleSystemTables = true;
+      }
 
-    if (this.softwareSecurityService.openModule("DTR List") == true) {
-      this.moduleDTRList = true;
-    }
+      if (this.softwareSecurityService.openModule("DTR") == true) {
+        this.moduleDTR = true;
+      }
 
-    if (this.softwareSecurityService.openModule("DTR Detail") == true) {
-      this.moduleDTRDetail = true;
-    }
+      if (this.softwareSecurityService.openModule("DTR List") == true) {
+        this.moduleDTRList = true;
+      }
 
-    if (this.softwareSecurityService.openModule("Shift List") == true) {
-      this.moduleShiftList = true;
-    }
+      if (this.softwareSecurityService.openModule("DTR Detail") == true) {
+        this.moduleDTRDetail = true;
+      }
 
-    if (this.softwareSecurityService.openModule("Shift Detail") == true) {
-      this.moduleShiftDetail = true;
-    }
+      if (this.softwareSecurityService.openModule("Shift List") == true) {
+        this.moduleShiftList = true;
+      }
 
-    if (this.softwareSecurityService.openModule("Change Shift List") == true) {
-      this.moduleChangeShiftList = true;
-    }
+      if (this.softwareSecurityService.openModule("Shift Detail") == true) {
+        this.moduleShiftDetail = true;
+      }
 
-    if (this.softwareSecurityService.openModule("Change Shift Detail") == true) {
-      this.moduleChangeShiftDetail = true;
-    }
+      if (this.softwareSecurityService.openModule("Change Shift List") == true) {
+        this.moduleChangeShiftList = true;
+      }
 
-    if (this.softwareSecurityService.openModule("Leave Application List") == true) {
-      this.moduleLeaveApplicationList = true;
-    }
+      if (this.softwareSecurityService.openModule("Change Shift Detail") == true) {
+        this.moduleChangeShiftDetail = true;
+      }
 
-    if (this.softwareSecurityService.openModule("Leave Application Detail") == true) {
-      this.moduleLeaveApplicationDetail = true;
-    }
+      if (this.softwareSecurityService.openModule("Leave Application List") == true) {
+        this.moduleLeaveApplicationList = true;
+      }
 
-    if (this.softwareSecurityService.openModule("Overtime List") == true) {
-      this.moduleOvertimeApplicationList = true;
-    }
+      if (this.softwareSecurityService.openModule("Leave Application Detail") == true) {
+        this.moduleLeaveApplicationDetail = true;
+      }
 
-    if (this.softwareSecurityService.openModule("Overtime Detail") == true) {
-      this.moduleOvertimeApplicationDetail = true;
-    }
+      if (this.softwareSecurityService.openModule("Overtime Application List") == true) {
+        this.moduleOvertimeApplicationList = true;
+      }
 
-    if (this.softwareSecurityService.openModule("Other Income") == true) {
-      this.moduleOtherIncomeList = true;
-    }
+      if (this.softwareSecurityService.openModule("Overtime Application Detail") == true) {
+        this.moduleOvertimeApplicationDetail = true;
+      }
 
-    if (this.softwareSecurityService.openModule("Other Deduction") == true) {
-      this.moduleOtherDeductionList = true;
-    }
+      if (this.softwareSecurityService.openModule("Payroll Other Income List") == true) {
+        this.modulePayrollOtherIncomeList = true;
+      }
 
-    if (this.softwareSecurityService.openModule("Mandatory") == true) {
-      this.moduleMandatory = true;
-    }
+      if (this.softwareSecurityService.openModule("Payroll Other Deduction List") == true) {
+        this.modulePayrollOtherDeductionList = true;
+      }
 
-    if (this.softwareSecurityService.openModule("Loan List") == true) {
-      this.moduleLoanList = true;
-    }
+      if (this.softwareSecurityService.openModule("Mandatory") == true) {
+        this.moduleMandatory = true;
+      }
 
-    if (this.softwareSecurityService.openModule("Payroll List") == true) {
-      this.modulePayrollList = true;
-    }
+      if (this.softwareSecurityService.openModule("Loan List") == true) {
+        this.moduleLoanList = true;
+      }
 
-    if (this.softwareSecurityService.openModule("Year List") == true) {
-      this.moduleYearList = true;
-    }
+      if (this.softwareSecurityService.openModule("Payroll") == true) {
+        this.modulePayroll = true;
+      }
 
-    if (this.softwareSecurityService.openModule("Others") == true) {
-      this.moduleOthers = true;
-    }
+      if (this.softwareSecurityService.openModule("Payroll List") == true) {
+        this.modulePayrollList = true;
+      }
+
+      if (this.softwareSecurityService.openModule("Year List") == true) {
+        this.moduleYearList = true;
+      }
+
+      if (this.softwareSecurityService.openModule("Others") == true) {
+        this.moduleOthers = true;
+      }
+    }, 300);
   }
-
-
 }

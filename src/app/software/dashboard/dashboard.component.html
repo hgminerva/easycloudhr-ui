@@ -66,23 +66,23 @@
             </button>
         </div>
         <!-- Payroll -->
-        <div fxFlex="25" style="margin: 5px;" *ngIf="moduleEmployeeList">
+        <div fxFlex="25" style="margin: 5px;">
             <button routerLink="/software/payroll-list" mat-stroked-button style="width: 100%; padding: 30px;"
-                *ngIf="modulePayrollList">
+                *ngIf="modulePayroll">
                 <img src="../../../assets/menu-icons/payroll.png" height="80" />
                 <br />
                 <br />
                 <span style="font-size: 17px;">Payroll</span>
             </button>
             <button routerLink="/software/payroll-other-deduction-list" mat-stroked-button
-                style="width: 100%; padding: 30px;" *ngIf="moduleOtherDeductionList">
+                style="width: 100%; padding: 30px;" *ngIf="modulePayrollOtherDeductionList">
                 <img src="../../../assets/menu-icons/other deductions.png" height="80" />
                 <br />
                 <br />
                 <span style="font-size: 17px;">Other Deductions</span>
             </button>
             <button routerLink="/software/payroll-other-income-list" mat-stroked-button
-                style="width: 100%; padding: 30px;" *ngIf="moduleOtherIncomeList">
+                style="width: 100%; padding: 30px;" *ngIf="modulePayrollOtherIncomeList">
                 <img src="../../../assets/menu-icons/other income.png" height="80" />
                 <br />
                 <br />
