@@ -11,6 +11,7 @@ import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-
 import { OtherDeductionDetailDialogComponent } from '../other-deduction-detail-dialog/other-deduction-detail-dialog.component';
 
 import {OtherDeductionsService} from './../other-deductions.service';
+import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 
 @Component({
   selector: 'app-other-deductions',
@@ -18,6 +19,54 @@ import {OtherDeductionsService} from './../other-deductions.service';
   styleUrls: ['./other-deductions.component.css']
 })
 export class OtherDeductionsComponent implements OnInit {
+
+  // Constructor and overrides
+  constructor(private _otherDeductionsService: OtherDeductionsService,
+    private _snackBar: MatSnackBar,
+    private _snackBarTemplate: SnackBarTemplate,
+    public _matDialogRef: MatDialog,
+    private _softwareSecurityService: SoftwareSecurityService,
+    ) {
+  }
+
+  private _userRightsSubscription: any;
+
+  public _userRights: UserModule = {
+    Module: "",
+    CanOpen: false,
+    CanAdd: false,
+    CanEdit: false,
+    CanDelete: false,
+    CanLock: false,
+    CanUnlock: false,
+    CanPrint: false,
+  }
+
+  private async Get_userRights() {
+    this._userRightsSubscription = await (await this._softwareSecurityService.PageModuleRights("Other Deduction")).subscribe(
+      (response: any) => {
+        let results = response;
+        if (results !== null) {
+          this._userRights.Module = results["Module"];
+          this._userRights.CanOpen = results["CanOpen"];
+          this._userRights.CanAdd = results["CanAdd"];
+          this._userRights.CanEdit = results["CanEdit"];
+          this._userRights.CanDelete = results["CanDelete"];
+          this._userRights.CanLock = results["CanLock"];
+          this._userRights.CanUnlock = results["CanUnlock"];
+          this._userRights.CanPrint = results["CanPrint"];
+        } 
+
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      },
+      error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      }
+    );
+
+    await this.GetOtherDeductionListData();
+  }
 
    // Class properties
    public _listOtherDeductionObservableArray: ObservableArray = new ObservableArray();
@@ -35,18 +84,7 @@ export class OtherDeductionsComponent implements OnInit {
  
    // DOM declaration
    @ViewChild('flexOtherDeduction') _flexOtherDeduction: wjcGrid.FlexGrid;
- 
-   // Constructor and overrides
-   constructor(private _otherDeductionsService: OtherDeductionsService,
-     private _snackBar: MatSnackBar,
-     private _snackBarTemplate: SnackBarTemplate,
-     public _matDialogRef: MatDialog) {
-   }
-   async ngOnInit() {
-     await this.GetOtherDeductionListData();
-     await this.createCboShowNumberOfRows();
-   }
- 
+
    public cboShowNumberOfRows: ObservableArray = new ObservableArray();
    public listPageIndex: number = 15;
  
@@ -210,7 +248,13 @@ export class OtherDeductionsComponent implements OnInit {
        }
      });
    }
- 
+   
+   async ngOnInit() {
+    await this.Get_userRights();
+    await this.createCboShowNumberOfRows();
+  }
+
+
    ngOnDestroy() {
      if (this._otherDeductionListSubscription !== null) this._otherDeductionListSubscription.unsubscribe();
    }
