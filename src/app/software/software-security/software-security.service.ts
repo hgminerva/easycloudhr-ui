@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AppSettings } from './../software-appsettings';
 
-export interface userModule {
-  Module: number,
+export interface UserModule {
+  Module: string,
   CanOpen: boolean,
   CanAdd: boolean,
   CanEdit: boolean,
@@ -48,6 +48,10 @@ export class SoftwareSecurityService {
         }
       }
     );
+  }
+
+  public async PageModuleRights(module: string){
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + "/api/security/user/right/module/detail/" + module, this.appSettings.defaultOptions);
   }
 
   public openModule(module: string): boolean {

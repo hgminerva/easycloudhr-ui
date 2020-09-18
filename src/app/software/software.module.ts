@@ -196,7 +196,7 @@ import { UserChangePasswordDialogComponent } from './shared/user-change-password
     EmployeeListPickDialogComponent,
     SnackBarTemplate,
     DecimalPipe,
-    DatePipe
+    DatePipe,
   ]
 })
 export class SoftwareModule { }
