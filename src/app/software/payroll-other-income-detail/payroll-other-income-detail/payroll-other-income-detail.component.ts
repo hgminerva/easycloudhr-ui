@@ -17,6 +17,7 @@ import { PayrollOtherIncomeLineModel } from './../payroll-other-income-line.mode
 import { PayrollOtherIncomeDetailService } from './../payroll-other-income-detail.service';
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { PayrollOtherIncomeLineDialogComponent } from '../payroll-other-income-line-dialog/payroll-other-income-line-dialog.component';
+import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 
 @Component({
   selector: 'app-payroll-other-income-detail',
@@ -33,13 +34,52 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
     public _matDialog: MatDialog,
     private datePipe: DatePipe,
     private decimalPipe: DecimalPipe,
-
+    private _softwareSecurityService: SoftwareSecurityService,
   ) { }
 
   async ngOnInit() {
-    await this.UserListData();
+    await this.Get_userRights();
   }
 
+  private _userRightsSubscription: any;
+
+  public _userRights: UserModule = {
+    Module: "",
+    CanOpen: false,
+    CanAdd: false,
+    CanEdit: false,
+    CanDelete: false,
+    CanLock: false,
+    CanUnlock: false,
+    CanPrint: false,
+  }
+
+  private async Get_userRights() {
+    this._userRightsSubscription = await (await this._softwareSecurityService.PageModuleRights("Payroll Other Income Detail")).subscribe(
+      (response: any) => {
+        let results = response;
+        if (results !== null) {
+          this._userRights.Module = results["Module"];
+          this._userRights.CanOpen = results["CanOpen"];
+          this._userRights.CanAdd = results["CanAdd"];
+          this._userRights.CanEdit = results["CanEdit"];
+          this._userRights.CanDelete = results["CanDelete"];
+          this._userRights.CanLock = results["CanLock"];
+          this._userRights.CanUnlock = results["CanUnlock"];
+          this._userRights.CanPrint = results["CanPrint"];
+        } 
+
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      },
+      error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      }
+    );
+
+    await this.UserListData();
+  }
+  
   public _isProgressBarHidden: boolean = false;
   public _isComponentsShown: boolean = true;
 
@@ -242,7 +282,11 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
       this._btnUnlockDisabled = !isDisable;
     }
 
-    this._isLocked = isDisable;
+    if (this._userRights.CanEdit === false) {
+      this._isLocked = true;
+    } else {
+      this._isLocked = isDisable;
+    }
     this._isProgressBarHidden = false;
   }
 
