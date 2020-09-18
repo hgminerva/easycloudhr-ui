@@ -10,6 +10,7 @@ import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
+import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 
 @Component({
   selector: 'app-employee-list',
@@ -23,21 +24,59 @@ export class EmployeeListComponent implements OnInit {
     private snackBarTemplate: SnackBarTemplate,
     private router: Router,
     public DeleteConfirmDialog: MatDialog,
-
+    private softwareSecurityService: SoftwareSecurityService,
   ) {
   }
 
-  async ngOnInit() {
-    await this.GetPayrollGroupDropdownListData();
-    await this.createCboShowNumberOfRows();
+  // ==================
+  //Security User Rights
+  // ===================
+  private _userRightsSubscription: any;
+
+  public userRights: UserModule = {
+    Module: "",
+    CanOpen: false,
+    CanAdd: false,
+    CanEdit: false,
+    CanDelete: false,
+    CanLock: false,
+    CanUnlock: false,
+    CanPrint: false,
   }
+
+  private async GetUserRights() {
+    this._userRightsSubscription = await (await this.softwareSecurityService.PageModuleRights("Employee List")).subscribe(
+      (response: any) => {
+        let results = response;
+        if (results !== null) {
+          this.userRights.Module = results["Module"];
+          this.userRights.CanOpen = results["CanOpen"];
+          this.userRights.CanAdd = results["CanAdd"];
+          this.userRights.CanEdit = results["CanEdit"];
+          this.userRights.CanDelete = results["CanDelete"];
+          this.userRights.CanLock = results["CanLock"];
+          this.userRights.CanUnlock = results["CanUnlock"];
+          this.userRights.CanPrint = results["CanPrint"];
+        } 
+
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      }
+    );
+
+    await this.GetPayrollGroupDropdownListData();
+  }
+
   // ========================
   // EmployeePayroll Dropdown
   // ========================
-
   public cboShowNumberOfRows: ObservableArray = new ObservableArray();
   public listPageIndex: number = 15;
-
+  
+ 
   public createCboShowNumberOfRows(): void {
     for (var i = 0; i <= 4; i++) {
       var rows = 0;
@@ -80,7 +119,6 @@ export class EmployeeListComponent implements OnInit {
   public filterPayrollGroup = '';
   public unauthorizedQueryCount: number = 0;
 
-
   private async GetPayrollGroupDropdownListData() {
     this.payrollGroupDropdownSubscription = await (await this.employeeListService.PayrollGroupList()).subscribe(
       response => {
@@ -105,7 +143,6 @@ export class EmployeeListComponent implements OnInit {
       }
     );
   }
-
 
   public payrollGroupSelectionChange() {
     this.GetEmployeeData();
@@ -269,7 +306,11 @@ export class EmployeeListComponent implements OnInit {
     }
     return new Blob([data], { type: 'text/csv;charset=utf-8;' });
   }
-
+  
+  async ngOnInit() {
+    await this.GetUserRights();
+    await this.createCboShowNumberOfRows();
+  }
 
   ngOnDestroy() {
     if (this.payrollGroupDropdownSubscription !== null) this.payrollGroupDropdownSubscription.unsubscribe();

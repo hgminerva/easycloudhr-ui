@@ -3,12 +3,12 @@
     <span>&nbsp;&nbsp; Employee List</span>
     <span class="spacer"></span>
     <button mat-flat-button color="accent" id="btnAddEmployee" [disabled]="btnAddDisabled" style="margin: 5px;"
-        (click)="btnCSVEmployeesListClick()">
+        (click)="btnCSVEmployeesListClick()" *ngIf="userRights.CanPrint">
         <mat-icon>get_app</mat-icon>
         CSV
     </button>
     <button mat-flat-button color="primary" id="btnAddEmployee" [disabled]="btnAddDisabled" style="margin: 5px;"
-        (click)="AddEmployeeDetail()">
+        (click)="AddEmployeeDetail()" *ngIf="userRights.CanAdd">
         <mat-icon>add</mat-icon>
         Add
     </button>
@@ -17,7 +17,7 @@
         Close
     </button>
 </mat-toolbar>
-<div class="software-container">
+<div class="software-container" [hidden]="!userRights.CanOpen">
     <div fxLayout="row" fxLayout.xs="column">
         <div fxFlex="20" style="padding: 5px;">
             <mat-form-field appearance="outline" style="width: 100%;">
@@ -37,7 +37,7 @@
             <wj-flex-grid #flexEmployees [itemsSource]="listEmployeeCollectionView" [selectionMode]="3"
                 [frozenColumns]="2">
                 <wj-flex-grid-filter></wj-flex-grid-filter>
-                <wj-flex-grid-column [isReadOnly]="true" [width]="90">
+                <wj-flex-grid-column [isReadOnly]="true" [width]="90" *ngIf="userRights.CanEdit">
                     <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                         <button mat-raised-button color="primary"
                             style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
@@ -47,7 +47,7 @@
                         </button>
                     </ng-template>
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [isReadOnly]="true" [width]="90">
+                <wj-flex-grid-column [isReadOnly]="true" [width]="90" *ngIf="userRights.CanDelete">
                     <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                         <button mat-raised-button color="warn"
                             style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"

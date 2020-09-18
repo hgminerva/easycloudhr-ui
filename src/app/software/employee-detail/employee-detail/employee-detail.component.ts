@@ -9,7 +9,7 @@ import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 
 import { EmployeeDetailService } from './../employee-detail.service';
 import { EmployeeModel, EmployeePayrollModel, EmployeeHRModel } from './../employee.model';
-import { SoftwareSecurityService } from '../../software-security/software-security.service';
+import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 import { EmployeeDetailEditNameDialogComponent } from '../employee-detail-edit-name-dialog/employee-detail-edit-name-dialog.component';
 import { EmployeeDetialLinkToUsernameDialogComponent } from '../employee-detial-link-to-username-dialog/employee-detial-link-to-username-dialog.component';
 import { EmployeeMemoModel } from './../employee-memo.model';
@@ -32,16 +32,51 @@ export class EmployeeDetailComponent implements OnInit {
     private softwareSecurityService: SoftwareSecurityService,
     private matDialog: MatDialog,
     private _decimalPipe: DecimalPipe,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
   ) {
   }
 
-  async ngOnInit() {
-    await this.GetZipCodeListData();
-    if (this.softwareSecurityService.openModule("Employee Detail") == true) {
-    }
+  private _userRightsSubscription: any;
 
-    this.userRightEmployeeDetail = this.softwareSecurityService.GetModuleRights("Employee Detail");
+  public userRights: UserModule = {
+    Module: "",
+    CanOpen: false,
+    CanAdd: false,
+    CanEdit: false,
+    CanDelete: false,
+    CanLock: false,
+    CanUnlock: false,
+    CanPrint: false,
+  }
+
+  async ngOnInit() {
+    await this.GetUserRights();
+  }
+
+  private async GetUserRights() {
+    this._userRightsSubscription = await (await this.softwareSecurityService.PageModuleRights("Employee Detail")).subscribe(
+      (response: any) => {
+        let results = response;
+        if (results !== null) {
+          this.userRights.Module = results["Module"];
+          this.userRights.CanOpen = results["CanOpen"];
+          this.userRights.CanAdd = results["CanAdd"];
+          this.userRights.CanEdit = results["CanEdit"];
+          this.userRights.CanDelete = results["CanDelete"];
+          this.userRights.CanLock = results["CanLock"];
+          this.userRights.CanUnlock = results["CanUnlock"];
+          this.userRights.CanPrint = results["CanPrint"];
+        }
+
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      }
+    );
+
+    await this.GetZipCodeListData();
   }
 
   public employeePayrollModel: EmployeePayrollModel = {
@@ -732,7 +767,11 @@ export class EmployeeDetailComponent implements OnInit {
       this.btnUnlockDisabled = !isDisabled;
     }
 
-    this.isLocked = isDisabled;
+    if (this.userRights.CanEdit === false) {
+      this.isLocked = true;
+    } else {
+      this.isLocked = isDisabled;
+    }
   }
 
   private disableButtons() {
