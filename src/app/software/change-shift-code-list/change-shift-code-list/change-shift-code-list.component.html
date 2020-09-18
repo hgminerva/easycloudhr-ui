@@ -2,7 +2,7 @@
     <img src="../../../../assets/menu-icons/change shift code.png" height="35" />
     <span>&nbsp;&nbsp; Change Shift List</span>
     <span class="spacer"></span>
-    <button mat-flat-button color="primary" style="margin: 5px;" [disabled]="_buttonDisabled"
+    <button mat-flat-button color="primary" style="margin: 5px;" [disabled]="_buttonDisabled" *ngIf="userRights.CanAdd"
         (click)="AddChangeShiftCode()">
         <mat-icon>add</mat-icon>
         Add
@@ -12,13 +12,14 @@
         Close
     </button>
 </mat-toolbar>
-<div class="software-container">
+<div class="software-container" [hidden]="!userRights.CanOpen">
     <div fxLayout="row" fxLayout.xs="column">
 
         <div fxFlex="20" style="padding: 5px;">
             <mat-form-field appearance="outline" style="width: 100%;">
                 <mat-label>Payroll Group</mat-label>
-                <mat-select [(ngModel)]="_filterPayrollGroup" (selectionChange)='PayrollGroupSelectionChange()'>
+                <mat-select [(ngModel)]="_filterPayrollGroup" 
+                            (selectionChange)='PayrollGroupSelectionChange()'>
                     <mat-option *ngFor="let payrollGroup of _payrollGroupListDropdown" [value]="payrollGroup.Value">
                         {{payrollGroup.Value}}
                     </mat-option>
@@ -34,7 +35,7 @@
             <wj-flex-grid #flexShiftCode [itemsSource]="_listChangeShiftCodeCollectionView" [selectionMode]="3"
                 [frozenColumns]="2">
                 <wj-flex-grid-filter></wj-flex-grid-filter>
-                <wj-flex-grid-column [isReadOnly]="true" [width]="90">
+                <wj-flex-grid-column [isReadOnly]="true" [width]="90" *ngIf="userRights.CanEdit">
                     <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                         <button mat-raised-button color="primary"
                             style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
@@ -44,7 +45,7 @@
                         </button>
                     </ng-template>
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [isReadOnly]="true" [width]="90">
+                <wj-flex-grid-column [isReadOnly]="true" [width]="90" *ngIf="userRights.CanDelete">
                     <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                         <button mat-raised-button color="warn"
                             style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"

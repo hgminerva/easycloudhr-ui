@@ -8,6 +8,7 @@ import { SnackBarTemplate } from '../../shared/snack-bar-template';
 
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { ChangeShiftCodeListService } from './../change-shift-code-list.service';
+import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 @Component({
   selector: 'app-change-shift-code-list',
   templateUrl: './change-shift-code-list.component.html',
@@ -21,12 +22,55 @@ export class ChangeShiftCodeListComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
     public _matDialog: MatDialog,
+    private softwareSecurityService: SoftwareSecurityService,
+
   ) {
   }
 
+  private _userRightsSubscription: any;
+
+  public userRights: UserModule = {
+    Module: "",
+    CanOpen: false,
+    CanAdd: false,
+    CanEdit: false,
+    CanDelete: false,
+    CanLock: false,
+    CanUnlock: false,
+    CanPrint: false,
+  }
+
+  public _isComponentsShown: boolean = false;
+
   async ngOnInit() {
-    await this.GetPayrollGroupDropdownListData();
+    await this.GetUserRights();
     await this.CreateCboShowNumberOfRows();
+  }
+
+  private async GetUserRights() {
+    this._userRightsSubscription = await (await this.softwareSecurityService.PageModuleRights("Change Shift List")).subscribe(
+      (response: any) => {
+        let results = response;
+        if (results !== null) {
+          this.userRights.Module = results["Module"];
+          this.userRights.CanOpen = results["CanOpen"];
+          this.userRights.CanAdd = results["CanAdd"];
+          this.userRights.CanEdit = results["CanEdit"];
+          this.userRights.CanDelete = results["CanDelete"];
+          this.userRights.CanLock = results["CanLock"];
+          this.userRights.CanUnlock = results["CanUnlock"];
+          this.userRights.CanPrint = results["CanPrint"];
+        }
+
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      },
+      error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      }
+    );
+
+    await this.GetPayrollGroupDropdownListData();
   }
 
   private _payrollGroupDropdownSubscription: any;
