@@ -23,8 +23,8 @@
 </mat-toolbar>
 <mat-progress-bar *ngIf="isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'" style="width: 100%;">
 </mat-progress-bar>
-<div class="software-container">
-    <div *ngIf="isComponentsShown">
+<div class="software-container" [hidden]="!userRights.CanOpen">
+    <div *ngIf="_isComponentsShown">
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="25" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">

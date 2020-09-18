@@ -10,6 +10,7 @@ import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { CompanyListService } from './../company-list.service'
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { CompanyDetailComponent } from '../../company-detail/company-detail/company-detail.component';
+import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 
 @Component({
   selector: 'app-company-list',
@@ -17,6 +18,31 @@ import { CompanyDetailComponent } from '../../company-detail/company-detail/comp
   styleUrls: ['./company-list.component.css']
 })
 export class CompanyListComponent implements OnInit {
+  // Constructor and overrides
+  constructor(private _companyListService: CompanyListService,
+    private _snackBar: MatSnackBar,
+    private _snackBarTemplate: SnackBarTemplate,
+    public _matDialogRef: MatDialog,
+    private softwareSecurityService: SoftwareSecurityService,
+    ) {
+  }
+   
+  private _userRightsSubscription: any;
+
+  public _userRights: UserModule = {
+    Module: "",
+    CanOpen: false,
+    CanAdd: false,
+    CanEdit: false,
+    CanDelete: false,
+    CanLock: false,
+    CanUnlock: false,
+    CanPrint: false,
+  }
+
+  // DOM declaration
+  @ViewChild('flexCompany') _flexCompany: wjcGrid.FlexGrid;
+
   // Class properties
   public _listCompanyObservableArray: ObservableArray = new ObservableArray();
   public _listCompanyCollectionView: CollectionView = new CollectionView(this._listCompanyObservableArray);
@@ -30,23 +56,35 @@ export class CompanyListComponent implements OnInit {
   private _deleteCompanySubscription: any;
 
   public _btnAddDisabled: boolean = false;
-
-  // DOM declaration
-  @ViewChild('flexCompany') _flexCompany: wjcGrid.FlexGrid;
-
-  // Constructor and overrides
-  constructor(private _companyListService: CompanyListService,
-    private _snackBar: MatSnackBar,
-    private _snackBarTemplate: SnackBarTemplate,
-    public _matDialogRef: MatDialog) {
-  }
-  async ngOnInit() {
-    await this.GetCompanyListData();
-    await this.createCboShowNumberOfRows();
-  }
-
+ 
   public cboShowNumberOfRows: ObservableArray = new ObservableArray();
   public listPageIndex: number = 15;
+  
+  private async GetUserRights() {
+    this._userRightsSubscription = await (await this.softwareSecurityService.PageModuleRights("Company List")).subscribe(
+      (response: any) => {
+        let results = response;
+        if (results !== null) {
+          this._userRights.Module = results["Module"];
+          this._userRights.CanOpen = results["CanOpen"];
+          this._userRights.CanAdd = results["CanAdd"];
+          this._userRights.CanEdit = results["CanEdit"];
+          this._userRights.CanDelete = results["CanDelete"];
+          this._userRights.CanLock = results["CanLock"];
+          this._userRights.CanUnlock = results["CanUnlock"];
+          this._userRights.CanPrint = results["CanPrint"];
+        } 
+
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      },
+      error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      }
+    );
+
+    await this.GetCompanyListData();
+  }
 
   public createCboShowNumberOfRows(): void {
     for (var i = 0; i <= 4; i++) {
@@ -208,6 +246,11 @@ export class CompanyListComponent implements OnInit {
         this.GetCompanyListData();
       }
     });
+  }
+    
+  async ngOnInit() {
+    await this.GetUserRights();
+    await this.createCboShowNumberOfRows();
   }
 
   ngOnDestroy() {

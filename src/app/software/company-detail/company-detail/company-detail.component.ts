@@ -6,6 +6,7 @@ import { SnackBarTemplate } from '../../shared/snack-bar-template';
 
 import { CompanyDetialService } from './../company-detial.service';
 import { CompanyModel } from "./../company.model";
+import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 
 @Component({
   selector: 'app-company-detail',
@@ -19,15 +20,24 @@ export class CompanyDetailComponent implements OnInit {
     private snackBarTemplate: SnackBarTemplate,
     private companyDetialService: CompanyDetialService,
     public _companyDetailDialogRef: MatDialogRef<CompanyDetailComponent>,
-    @Inject(MAT_DIALOG_DATA) public caseData: any
+    @Inject(MAT_DIALOG_DATA) public caseData: any,
+    private softwareSecurityService: SoftwareSecurityService,
   ) { }
 
   public title = '';
   public event = 'Close';
 
-  ngOnInit(): void {
-    this.title = this.caseData.objDialogTitle;
-    this.GetCompanyDetail(this.caseData.objCompanyId);
+  private _userRightsSubscription: any;
+
+  public userRights: UserModule = {
+    Module: "",
+    CanOpen: false,
+    CanAdd: false,
+    CanEdit: false,
+    CanDelete: false,
+    CanLock: false,
+    CanUnlock: false,
+    CanPrint: false,
   }
 
   public companyModel: CompanyModel = {
@@ -64,11 +74,36 @@ export class CompanyDetailComponent implements OnInit {
   public btnLockisabled: boolean = true;
   public btnUnlockDisabled: boolean = true;
 
-  public isComponentsShown: boolean = false;
+  public _isComponentsShown: boolean = false;
 
+  private async GetUserRights() {
+    this._userRightsSubscription = await (await this.softwareSecurityService.PageModuleRights("Company Detail")).subscribe(
+      (response: any) => {
+        let results = response;
+        if (results !== null) {
+          this.userRights.Module = results["Module"];
+          this.userRights.CanOpen = results["CanOpen"];
+          this.userRights.CanAdd = results["CanAdd"];
+          this.userRights.CanEdit = results["CanEdit"];
+          this.userRights.CanDelete = results["CanDelete"];
+          this.userRights.CanLock = results["CanLock"];
+          this.userRights.CanUnlock = results["CanUnlock"];
+          this.userRights.CanPrint = results["CanPrint"];
+        }
+        
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      }
+    );
+
+    await this.GetCompanyDetail(this.caseData.objCompanyId);
+  }
 
   private async GetCompanyDetail(id) {
-    this.isComponentsShown = false;
+    this._isComponentsShown = false;
     this.disableButtons();
     this.companyDetailSubscription = await (await this.companyDetialService.CompanyDetail(id)).subscribe(
       response => {
@@ -91,7 +126,7 @@ export class CompanyDetailComponent implements OnInit {
           this.companyModel.IsLocked = result["IsLocked"];
         }
         this.loadComponent(result["IsLocked"]);
-        this.isComponentsShown = true;
+        this._isComponentsShown = true;
         if (this.companyDetailSubscription !== null) this.companyDetailSubscription.unsubscribe();
       },
       error => {
@@ -100,7 +135,6 @@ export class CompanyDetailComponent implements OnInit {
       }
     );
   }
-
 
   public async SaveCompanyDetail() {
     this.disableButtons();
@@ -123,7 +157,6 @@ export class CompanyDetailComponent implements OnInit {
       );
     }
   }
-
 
   public async LockCompanyDetail() {
     this.disableButtons();
@@ -180,7 +213,12 @@ export class CompanyDetailComponent implements OnInit {
       this.btnUnlockDisabled = !isDisable;
     }
 
-    this.isLocked = isDisable;
+    if (this.userRights.CanEdit === false) {
+      this.isLocked = true;
+    } else {
+      this.isLocked = isDisable;
+    }
+
     this.isProgressBarHidden = false;
   }
 
@@ -193,5 +231,11 @@ export class CompanyDetailComponent implements OnInit {
 
   public Close(): void {
     this._companyDetailDialogRef.close({ event: this.event });
+  }
+
+
+  ngOnInit(): void {
+    this.title = this.caseData.objDialogTitle;
+    this.GetUserRights();
   }
 }
