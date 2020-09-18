@@ -17,6 +17,7 @@ import { DTRLineModel } from '../dtr-line.model';
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { DtrDetialDtrLineDetailDialogComponent } from '../dtr-detial-dtr-line-detail-dialog/dtr-detial-dtr-line-detail-dialog.component';
 import { DtrDetailDtrLineAddDialogComponent } from '../dtr-detail-dtr-line-add-dialog/dtr-detail-dtr-line-add-dialog.component';
+import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 
 @Component({
   selector: 'app-dtr-detail',
@@ -33,11 +34,51 @@ export class DTRDetailComponent implements OnInit {
     public _addDTRLinesatDialogRef: MatDialog,
     public _updateDTRLineDialogRef: MatDialog,
     public _deleteDTRLineDialogRef: MatDialog,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private _softwareSecurityService: SoftwareSecurityService,
   ) { }
 
   async ngOnInit() {
+    await this.GetUserRights();
+  }
+
+  private async GetUserRights() {
+    this._userRightsSubscription = await (await this._softwareSecurityService.PageModuleRights("DTR Detail")).subscribe(
+      (response: any) => {
+        let results = response;
+        if (results !== null) {
+          this.userRights.Module = results["Module"];
+          this.userRights.CanOpen = results["CanOpen"];
+          this.userRights.CanAdd = results["CanAdd"];
+          this.userRights.CanEdit = results["CanEdit"];
+          this.userRights.CanDelete = results["CanDelete"];
+          this.userRights.CanLock = results["CanLock"];
+          this.userRights.CanUnlock = results["CanUnlock"];
+          this.userRights.CanPrint = results["CanPrint"];
+        } 
+
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      },
+      error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      }
+    );
+
     await this.PayrollGroupListData();
+  }
+
+  private _userRightsSubscription: any;
+
+  public userRights: UserModule = {
+    Module: "",
+    CanOpen: false,
+    CanAdd: false,
+    CanEdit: false,
+    CanDelete: false,
+    CanLock: false,
+    CanUnlock: false,
+    CanPrint: false,
   }
 
   public _isProgressBarHidden: boolean = false;
@@ -381,7 +422,11 @@ export class DTRDetailComponent implements OnInit {
       this._btnUnlockDisabled = !isDisable;
     }
 
-    this._isLocked = isDisable;
+    if (this.userRights.CanEdit === false) {
+      this._isLocked = true;
+    } else {
+      this._isLocked = isDisable;
+    }
     this._isProgressBarHidden = false;
   }
 

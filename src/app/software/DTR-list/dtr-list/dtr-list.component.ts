@@ -10,6 +10,7 @@ import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { DTRListService } from './../dtr-list.service';
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { Router } from '@angular/router';
+import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 
 @Component({
   selector: 'app-dtr-list',
@@ -17,6 +18,17 @@ import { Router } from '@angular/router';
   styleUrls: ['./dtr-list.component.css']
 })
 export class DTRListComponent implements OnInit {
+
+    // Constructor and overrides
+    constructor(private _dTRListService: DTRListService,
+      public _DTRRegistrationlDialog: MatDialog,
+      private _snackBar: MatSnackBar,
+      private _snackBarTemplate: SnackBarTemplate,
+      public _matDialogRef: MatDialog,
+      private _router: Router,
+      private _softwareSecurityService: SoftwareSecurityService,) {
+    }
+  
   // Class properties
   public _listDTRObservableArray: ObservableArray = new ObservableArray();
   public _listDTRCollectionView: CollectionView = new CollectionView(this._listDTRObservableArray);
@@ -38,18 +50,51 @@ export class DTRListComponent implements OnInit {
   public _payrollGroupListDropdown: any = [];
   public _filterPayrollGroup = '';
 
-  // Constructor and overrides
-  constructor(private _dTRListService: DTRListService,
-    public _DTRRegistrationlDialog: MatDialog,
-    private _snackBar: MatSnackBar,
-    private _snackBarTemplate: SnackBarTemplate,
-    public _matDialogRef: MatDialog,
-    private _router: Router) {
+  private _userRightsSubscription: any;
+
+  // ===========
+  // User Rights
+  // ===========
+  public userRights: UserModule = {
+    Module: "",
+    CanOpen: false,
+    CanAdd: false,
+    CanEdit: false,
+    CanDelete: false,
+    CanLock: false,
+    CanUnlock: false,
+    CanPrint: false,
+  }
+
+  private async GetUserRights() {
+    this._userRightsSubscription = await (await this._softwareSecurityService.PageModuleRights("DTR List")).subscribe(
+      (response: any) => {
+        let results = response;
+        if (results !== null) {
+          this.userRights.Module = results["Module"];
+          this.userRights.CanOpen = results["CanOpen"];
+          this.userRights.CanAdd = results["CanAdd"];
+          this.userRights.CanEdit = results["CanEdit"];
+          this.userRights.CanDelete = results["CanDelete"];
+          this.userRights.CanLock = results["CanLock"];
+          this.userRights.CanUnlock = results["CanUnlock"];
+          this.userRights.CanPrint = results["CanPrint"];
+        } 
+
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      },
+      error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      }
+    );
+
+    await this.GetPayrollGroupDropdownListData();
   }
 
   ngOnInit(): void {
     this._isProgressBarHidden = true;
-    this.GetPayrollGroupDropdownListData();
+    this.GetUserRights();
     this.CreateCboShowNumberOfRows();
   }
   // ========================
