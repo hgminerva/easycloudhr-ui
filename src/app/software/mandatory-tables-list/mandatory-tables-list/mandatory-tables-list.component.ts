@@ -17,6 +17,7 @@ import { MandatoryBIR } from '../mandatory-bir.model';
 import { MandatoryHDMF } from '../mandatory-hdmf.model';
 import { MandatoryPHIC } from '../mandatory-phic.model';
 import { MandatorySSS } from '../mandatory-sss.model';
+import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 
 @Component({
   selector: 'app-mandatory-tables-list',
@@ -31,14 +32,53 @@ export class MandatoryTablesListComponent implements OnInit {
     private snackBar: MatSnackBar,
     private snackBarTemplate: SnackBarTemplate,
     public matDialog: MatDialog,
-
+    private _softwareSecurityService: SoftwareSecurityService,
   ) { }
 
-  ngOnInit() {
-    this.GetMandatoryBIRListData();
-    this.GetMandatoryPHICListData();
-    this.GetMandatoryHDMFListData();
-    this.GetMandatorySSSListData();
+  private _userRightsSubscription: any;
+
+  public _userRights: UserModule = {
+    Module: "",
+    CanOpen: false,
+    CanAdd: false,
+    CanEdit: false,
+    CanDelete: false,
+    CanLock: false,
+    CanUnlock: false,
+    CanPrint: false,
+  }
+
+  private async Get_userRights() {
+    this._userRightsSubscription = await (await this._softwareSecurityService.PageModuleRights("Mandatory")).subscribe(
+      (response: any) => {
+        let results = response;
+        if (results !== null) {
+          this._userRights.Module = results["Module"];
+          this._userRights.CanOpen = results["CanOpen"];
+          this._userRights.CanAdd = results["CanAdd"];
+          this._userRights.CanEdit = results["CanEdit"];
+          this._userRights.CanDelete = results["CanDelete"];
+          this._userRights.CanLock = results["CanLock"];
+          this._userRights.CanUnlock = results["CanUnlock"];
+          this._userRights.CanPrint = results["CanPrint"];
+        }
+
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      }
+    );
+
+    await this.GetMandatoryBIRListData();
+    await this.GetMandatoryPHICListData();
+    await this.GetMandatoryHDMFListData();
+    await this.GetMandatorySSSListData();
+  }
+
+  async ngOnInit() {
+    await this.Get_userRights();
   }
 
   public buttonDisabled: boolean = false;
@@ -450,7 +490,7 @@ export class MandatoryTablesListComponent implements OnInit {
   }
 
   public BtnAddMandatoryPHIC() {
-    
+
     let objMandatoryPHIC: MandatoryPHIC = {
       Id: 0,
       AmountStart: '0.00',

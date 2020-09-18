@@ -3,7 +3,7 @@
     <span>&nbsp;&nbsp; Mandatory Tables</span>
     <span class="spacer"></span>
     <button mat-flat-button color="primary" style="margin: 5px;" [disabled]="buttonDisabled"
-        (click)="AddMandatoryTable()">
+        (click)="AddMandatoryTable()" [hidden]="!_userRights.CanOpen">
         <mat-icon>add</mat-icon>
         Add
     </button>
@@ -12,7 +12,7 @@
         Close
     </button>
 </mat-toolbar>
-<div class="software-container">
+<div class="software-container" [hidden]="!_userRights.CanOpen">
     <div fxLayout="row" fxLayout.xs="column">
         <div fxFlex="100" style="margin: 5px;">
             <mat-tab-group #tabGroup (selectedTabChange)="activeTab()" style="max-height:100%;">
@@ -23,7 +23,7 @@
                     <wj-flex-grid #flexMandatoryBIR [itemsSource]="_listMandatoryBIRCollectionView" [selectionMode]="3"
                         [frozenColumns]="2">
                         <wj-flex-grid-filter></wj-flex-grid-filter>
-                        <wj-flex-grid-column [isReadOnly]="true" [width]="90">
+                        <wj-flex-grid-column [isReadOnly]="true" [width]="90" *ngIf="_userRights.CanEdit">
                             <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                                 <button mat-raised-button color="primary"
                                     style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
@@ -33,7 +33,7 @@
                                 </button>
                             </ng-template>
                         </wj-flex-grid-column>
-                        <wj-flex-grid-column [isReadOnly]="true" [width]="90">
+                        <wj-flex-grid-column [isReadOnly]="true" [width]="90" *ngIf="_userRights.CanDelete">
                             <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                                 <button mat-raised-button color="warn"
                                     style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
@@ -85,7 +85,7 @@
                     <wj-flex-grid #flexMandatoryHDMF [itemsSource]="_listMandatoryHDMFCollectionView"
                         [selectionMode]="3" [frozenColumns]="2">
                         <wj-flex-grid-filter></wj-flex-grid-filter>
-                        <wj-flex-grid-column [isReadOnly]="true" [width]="90">
+                        <wj-flex-grid-column [isReadOnly]="true" [width]="90" *ngIf="_userRights.CanEdit">
                             <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                                 <button mat-raised-button color="primary"
                                     style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
@@ -95,7 +95,7 @@
                                 </button>
                             </ng-template>
                         </wj-flex-grid-column>
-                        <wj-flex-grid-column [isReadOnly]="true" [width]="90">
+                        <wj-flex-grid-column [isReadOnly]="true" [width]="90" *ngIf="_userRights.CanDelete">
                             <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                                 <button mat-raised-button color="warn"
                                     style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
@@ -159,7 +159,7 @@
                     <wj-flex-grid #flexMandatoryPHIC [itemsSource]="_listMandatoryPHICCollectionView"
                         [selectionMode]="3" [frozenColumns]="2">
                         <wj-flex-grid-filter></wj-flex-grid-filter>
-                        <wj-flex-grid-column [isReadOnly]="true" [width]="90">
+                        <wj-flex-grid-column [isReadOnly]="true" [width]="90"  *ngIf="_userRights.CanEdit">
                             <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                                 <button mat-raised-button color="primary"
                                     style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
@@ -169,7 +169,7 @@
                                 </button>
                             </ng-template>
                         </wj-flex-grid-column>
-                        <wj-flex-grid-column [isReadOnly]="true" [width]="90">
+                        <wj-flex-grid-column [isReadOnly]="true" [width]="90"  *ngIf="_userRights.CanDelete">
                             <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                                 <button mat-raised-button color="warn"
                                     style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
@@ -225,7 +225,7 @@
                     <wj-flex-grid #flexMandatorySSS [itemsSource]="_listMandatorySSSCollectionView" [selectionMode]="3"
                         [frozenColumns]="2">
                         <wj-flex-grid-filter></wj-flex-grid-filter>
-                        <wj-flex-grid-column [isReadOnly]="true" [width]="90">
+                        <wj-flex-grid-column [isReadOnly]="true" [width]="90"  *ngIf="_userRights.CanEdit">
                             <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                                 <button mat-raised-button color="primary"
                                     style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
@@ -235,7 +235,7 @@
                                 </button>
                             </ng-template>
                         </wj-flex-grid-column>
-                        <wj-flex-grid-column [isReadOnly]="true" [width]="90">
+                        <wj-flex-grid-column [isReadOnly]="true" [width]="90"  *ngIf="_userRights.CanDelete">
                             <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                                 <button mat-raised-button color="warn"
                                     style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
