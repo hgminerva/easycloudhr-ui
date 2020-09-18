@@ -10,6 +10,7 @@ import { DecimalPipe } from '@angular/common';
 import { LoanModel } from '../loan.model';
 import { LoanListService } from '../loan-list.service';
 import { EmployeeListPickDialogComponent } from '../../shared/employee-list-pick-dialog/employee-list-pick-dialog.component';
+import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 
 @Component({
   selector: 'app-loan-detail-dialog',
@@ -26,7 +27,48 @@ export class LoanDetailDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public caseData: any,
     private decimalPipe: DecimalPipe,
     public _matDialog: MatDialog,
+    private _softwareSecurityService: SoftwareSecurityService,
   ) { }
+
+  
+  private _userRightsSubscription: any;
+
+  public _userRights: UserModule = {
+    Module: "",
+    CanOpen: false,
+    CanAdd: false,
+    CanEdit: false,
+    CanDelete: false,
+    CanLock: false,
+    CanUnlock: false,
+    CanPrint: false,
+  }
+
+  private async Get_userRights() {
+    this._userRightsSubscription = await (await this._softwareSecurityService.PageModuleRights("Loan Detail")).subscribe(
+      (response: any) => {
+        let results = response;
+        if (results !== null) {
+          this._userRights.Module = results["Module"];
+          this._userRights.CanOpen = results["CanOpen"];
+          this._userRights.CanAdd = results["CanAdd"];
+          this._userRights.CanEdit = results["CanEdit"];
+          this._userRights.CanDelete = results["CanDelete"];
+          this._userRights.CanLock = results["CanLock"];
+          this._userRights.CanUnlock = results["CanUnlock"];
+          this._userRights.CanPrint = results["CanPrint"];
+        } 
+
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      }
+    );
+
+    await this.GetDeductionListData();
+  }
 
   public title = '';
   public event = 'Close';
@@ -34,11 +76,6 @@ export class LoanDetailDialogComponent implements OnInit {
   public inputTypeLoanAmount = 'text';
   public inputTypePaidAmount = 'text';
   public inputTypeBalanceAmount = 'text';
-
-  ngOnInit(): void {
-    this.title = this.caseData.objDialogTitle;
-    this.GetDeductionListData();
-  }
 
   public _loanModel: LoanModel = {
     Id: 0,
@@ -307,7 +344,12 @@ export class LoanDetailDialogComponent implements OnInit {
       this.btnUnlockDisabled = !isDisable;
     }
 
-    this._isLocked = isDisable;
+    if (this._userRights.CanEdit === false) {
+      this._isLocked = true;
+    } else {
+      this._isLocked = isDisable;
+    }
+
     this.isProgressBarHidden = false;
   }
 
@@ -380,4 +422,11 @@ export class LoanDetailDialogComponent implements OnInit {
   }
 
   activeTab() { }
+
+  
+  ngOnInit(): void {
+    this.title = this.caseData.objDialogTitle;
+    this.Get_userRights();
+  }
+
 }

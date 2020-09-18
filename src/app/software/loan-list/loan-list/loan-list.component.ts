@@ -10,6 +10,7 @@ import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { LoanListService } from './../loan-list.service';
 import { LoanDetailDialogComponent } from '../loan-detail-dialog/loan-detail-dialog.component';
+import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 
 @Component({
   selector: 'app-loan-list',
@@ -18,6 +19,55 @@ import { LoanDetailDialogComponent } from '../loan-detail-dialog/loan-detail-dia
 })
 export class LoanListComponent implements OnInit {
 
+  
+  // Constructor and overrides
+  constructor(private _LoanListService: LoanListService,
+    private _snackBar: MatSnackBar,
+    private _snackBarTemplate: SnackBarTemplate,
+    public _matDialogRef: MatDialog,
+    private _softwareSecurityService: SoftwareSecurityService,
+    ) {
+  }
+
+  private _userRightsSubscription: any;
+
+  public _userRights: UserModule = {
+    Module: "",
+    CanOpen: false,
+    CanAdd: false,
+    CanEdit: false,
+    CanDelete: false,
+    CanLock: false,
+    CanUnlock: false,
+    CanPrint: false,
+  }
+
+  private async Get_userRights() {
+    this._userRightsSubscription = await (await this._softwareSecurityService.PageModuleRights("Loan List")).subscribe(
+      (response: any) => {
+        let results = response;
+        if (results !== null) {
+          this._userRights.Module = results["Module"];
+          this._userRights.CanOpen = results["CanOpen"];
+          this._userRights.CanAdd = results["CanAdd"];
+          this._userRights.CanEdit = results["CanEdit"];
+          this._userRights.CanDelete = results["CanDelete"];
+          this._userRights.CanLock = results["CanLock"];
+          this._userRights.CanUnlock = results["CanUnlock"];
+          this._userRights.CanPrint = results["CanPrint"];
+        } 
+
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      },
+      error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      }
+    );
+
+    await this.GetLoanListData();
+  }
+  
   // Class properties
   public _listLoanObservableArray: ObservableArray = new ObservableArray();
   public _listLoanCollectionView: CollectionView = new CollectionView(this._listLoanObservableArray);
@@ -35,19 +85,7 @@ export class LoanListComponent implements OnInit {
 
   public _btnAddDisabled: boolean = false;
 
-
-
-  // Constructor and overrides
-  constructor(private _LoanListService: LoanListService,
-    private _snackBar: MatSnackBar,
-    private _snackBarTemplate: SnackBarTemplate,
-    public _matDialogRef: MatDialog) {
-  }
-  async ngOnInit() {
-    await this.GetLoanListData();
-    await this.createCboShowNumberOfRows();
-  }
-
+ 
   public cboShowNumberOfRows: ObservableArray = new ObservableArray();
   public listPageIndex: number = 15;
 
@@ -207,6 +245,12 @@ export class LoanListComponent implements OnInit {
         this.GetLoanListData();
       }
     });
+  }
+
+  
+  async ngOnInit() {
+    await this.Get_userRights();
+    await this.createCboShowNumberOfRows();
   }
 
   ngOnDestroy() {
