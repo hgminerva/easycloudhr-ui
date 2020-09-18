@@ -3,17 +3,17 @@
     <span>&nbsp;&nbsp; Leave Application Detail</span>
     <span class="spacer"></span>
     <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="_btnSaveDisabled"
-        (click)="SaveLeaveApplicationDetail()">
+        (click)="SaveLeaveApplicationDetail()" *ngIf="_userRights.CanEdit">
         <mat-icon>save</mat-icon>
         Save
     </button>
     <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="_btnLockDisabled"
-        (click)="LockLeaveApplicationDetail()">
+        (click)="LockLeaveApplicationDetail()" *ngIf="_userRights.CanLock">
         <mat-icon>lock</mat-icon>
         Lock
     </button>
     <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="_btnUnlockDisabled"
-        (click)="UnlockLeaveApplicationDetail()">
+        (click)="UnlockLeaveApplicationDetail()" *ngIf="_userRights.CanUnlock">
         <mat-icon>lock_open</mat-icon>
         Unlock
     </button>
@@ -27,7 +27,7 @@
         Close
     </button>
 </mat-toolbar>
-<div class="software-container">
+<div class="software-container" [hidden]="!_userRights.CanOpen">
     <div [hidden]="_isComponentsHidden">
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="50" style="padding: 5px;">
@@ -107,7 +107,8 @@
                 <wj-flex-grid #flexLeaveApplicationLine [itemsSource]="_listLeaveApplicationLineCollectionView"
                     [selectionMode]="3" [frozenColumns]="2" [headersVisibility]="1">
                     <wj-flex-grid-filter></wj-flex-grid-filter>
-                    <wj-flex-grid-column [isReadOnly]="true" [width]="80" *ngIf="!_isLocked">
+                    <wj-flex-grid-column [isReadOnly]="true" [width]="80" *ngIf="_userRights.CanEdit"
+                        [hidden]="_isLocked">
                         <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                             <button mat-raised-button color="primary"
                                 style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
@@ -117,7 +118,8 @@
                             </button>
                         </ng-template>
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [isReadOnly]="true" [width]="80" *ngIf="!_isLocked">
+                    <wj-flex-grid-column [isReadOnly]="true" [width]="80" *ngIf="_userRights.CanDelete"
+                        [hidden]="_isLocked">
                         <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                             <button mat-raised-button color="warn"
                                 style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
@@ -145,7 +147,8 @@
             <mat-tab disabled style="background-color: transparent; ">
                 <ng-template mat-tab-label>
                     <button mat-raised-button color="primary" style="float: right; margin: 5px;"
-                        (click)="AddLeaveApplicationLine()" [disabled]="_btnAddLeaveApplicationLineDisabled">
+                        (click)="AddLeaveApplicationLine()" [disabled]="_btnAddLeaveApplicationLineDisabled"
+                        *ngIf="_userRights.CanAdd">
                         <mat-icon>add</mat-icon> ADD
                     </button><br>
                 </ng-template>
