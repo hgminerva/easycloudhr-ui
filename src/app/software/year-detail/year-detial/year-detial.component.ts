@@ -15,6 +15,7 @@ import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-
 import { YearDateDialogComponent } from '../year-date-dialog/year-date-dialog.component';
 import { DatePipe } from '@angular/common';
 import { YearDateAddToBranchesDialogComponent } from '../year-date-add-to-branches-dialog/year-date-add-to-branches-dialog.component';
+import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 
 @Component({
   selector: 'app-year-detial',
@@ -29,14 +30,54 @@ export class YearDetialComponent implements OnInit {
     private _snackBarTemplate: SnackBarTemplate,
     public YearDateDetailDialog: MatDialog,
     public deleteYearDateDetailDialog: MatDialog,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private _softwareSecurityService: SoftwareSecurityService,
   ) { }
+
+  private _userRightsSubscription: any;
+
+  public _userRights: UserModule = {
+    Module: "",
+    CanOpen: false,
+    CanAdd: false,
+    CanEdit: false,
+    CanDelete: false,
+    CanLock: false,
+    CanUnlock: false,
+    CanPrint: false,
+  }
+
+  private async Get_userRights() {
+    this._userRightsSubscription = await (await this._softwareSecurityService.PageModuleRights("Year Detail")).subscribe(
+      (response: any) => {
+        let results = response;
+        if (results !== null) {
+          this._userRights.Module = results["Module"];
+          this._userRights.CanOpen = results["CanOpen"];
+          this._userRights.CanAdd = results["CanAdd"];
+          this._userRights.CanEdit = results["CanEdit"];
+          this._userRights.CanDelete = results["CanDelete"];
+          this._userRights.CanLock = results["CanLock"];
+          this._userRights.CanUnlock = results["CanUnlock"];
+          this._userRights.CanPrint = results["CanPrint"];
+        } 
+
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      },
+      error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      }
+    );
+
+    await this.GetYearDetail();
+  }
 
   public title = '';
   public event = 'Close';
 
   ngOnInit(): void {
-    this.GetYearDetail();
+    this.Get_userRights();
   }
 
   public isDataLoaded: boolean = false;
@@ -225,7 +266,12 @@ export class YearDetialComponent implements OnInit {
       this._btnUnlockDisabled = !isDisable;
     }
 
-    this._isLocked = isDisable;
+    if (this._userRights.CanEdit === false) {
+      this._isLocked = true;
+    } else {
+      this._isLocked = isDisable;
+    }
+
     this.isProgressBarHidden = false;
   }
 
