@@ -13,6 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ShiftLineModel } from '../shift-code-line.model';
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { ShiftCodeDetialShiftLineComponent } from './../shift-code-detial-shift-line/shift-code-detial-shift-line.component';
+import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 
 @Component({
   selector: 'app-shift-code-detail',
@@ -27,18 +28,49 @@ export class ShiftCodeDetailComponent implements OnInit {
     private snackBarTemplate: SnackBarTemplate,
     public shiftLineDetailDialog: MatDialog,
     public deleteShiftLineDetailDialog: MatDialog,
-
-    // public _ShiftLineDetailDialogRef: MatDialogRef<ShiftCodeDetailComponent>,
-    // @Inject(MAT_DIALOG_DATA) public caseData: any
+    private _softwareSecurityService: SoftwareSecurityService,
   ) { }
 
   public title = '';
   public event = 'Close';
 
-  ngOnInit(): void {
-    this.GetShiftDetail();
-    // this.title = this.caseData.objDialogTitle;
-    // this.GetShiftDetail(this.caseData.objShiftCodeId);
+  private _userRightsSubscription: any;
+
+  public _userRights: UserModule = {
+    Module: "",
+    CanOpen: false,
+    CanAdd: false,
+    CanEdit: false,
+    CanDelete: false,
+    CanLock: false,
+    CanUnlock: false,
+    CanPrint: false,
+  }
+
+  private async Get_userRights() {
+    this._userRightsSubscription = await (await this._softwareSecurityService.PageModuleRights("Shift Detail")).subscribe(
+      (response: any) => {
+        let results = response;
+        if (results !== null) {
+          this._userRights.Module = results["Module"];
+          this._userRights.CanOpen = results["CanOpen"];
+          this._userRights.CanAdd = results["CanAdd"];
+          this._userRights.CanEdit = results["CanEdit"];
+          this._userRights.CanDelete = results["CanDelete"];
+          this._userRights.CanLock = results["CanLock"];
+          this._userRights.CanUnlock = results["CanUnlock"];
+          this._userRights.CanPrint = results["CanPrint"];
+        }
+
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      }
+    );
+
+    await this.GetShiftDetail();
   }
 
   public shiftModel: ShiftModel = {
@@ -199,9 +231,6 @@ export class ShiftCodeDetailComponent implements OnInit {
     }
   }
 
-  ngOnDestroy() {
-  }
-
   // ==================
   // Component Behavior
   // ==================
@@ -218,7 +247,12 @@ export class ShiftCodeDetailComponent implements OnInit {
       this.btnUnlockDisabled = !isDisable;
     }
 
-    this.isLocked = isDisable;
+    if (this._userRights.CanEdit === false) {
+      this.isLocked = true;
+    } else {
+      this.isLocked = isDisable;
+    }
+    
     this.isProgressBarHidden = false;
   }
 
@@ -229,12 +263,7 @@ export class ShiftCodeDetailComponent implements OnInit {
     this.isProgressBarHidden = true;
   }
 
-  // public Close(): void {
-  //   this._ShiftLineDetailDialogRef.close({ event: this.event });
-  // }
-
   // Class properties
-
   private async GetShiftLineListData() {
     this._listShiftLineObservableArray = new ObservableArray();
     this._listShiftLineCollectionView = new CollectionView(this._listShiftLineObservableArray);
@@ -386,4 +415,13 @@ export class ShiftCodeDetailComponent implements OnInit {
   }
 
   activeTab() { }
+
+  
+  ngOnInit(): void {
+    this.Get_userRights();
+  }
+
+  ngOnDestroy() {
+  }
+
 }

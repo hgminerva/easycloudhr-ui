@@ -3,19 +3,18 @@
     <span>&nbsp;&nbsp; Shift Code Detail</span>
     <span class="spacer"></span>
     <button mat-raised-button style="margin: 5px;" color="primary" (click)="SaveShiftDetail()"
-        [disabled]="btnSaveDisabled">
+        [disabled]="btnSaveDisabled" *ngIf="_userRights.CanEdit">
         <mat-icon>save</mat-icon>
         Save
     </button>
     <button mat-raised-button style="margin: 5px;" color="primary" (click)="LockShiftDetail()"
-        [disabled]="btnLockisabled">
+        [disabled]="btnLockisabled" *ngIf="_userRights.CanLock">
         <mat-icon>lock</mat-icon>
         Lock
     </button>
     <button mat-raised-button style="margin: 5px;" color="primary" (click)="UnlockShiftDetail()"
-        [disabled]="btnUnlockDisabled">
+        [disabled]="btnUnlockDisabled"  *ngIf="_userRights.CanUnlock">
         <mat-icon>lock_open</mat-icon>
-
         Unlock
     </button>
     <button mat-raised-button style="margin: 5px;" routerLink="/software/shift-code-list" color="warn">
@@ -25,7 +24,7 @@
 </mat-toolbar>
 <mat-progress-bar *ngIf="isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'" style="width: 100%;">
 </mat-progress-bar>
-<div class="software-container">
+<div class="software-container" [hidden]="!_userRights.CanOpen">
     <div [hidden]="!isComponentsShown">
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="50" style="padding: 5px;">
@@ -59,7 +58,7 @@
                 <wj-flex-grid #flexShiftLine [itemsSource]="_listShiftLineCollectionView" [selectionMode]="3"
                     [frozenColumns]="2" [headersVisibility]="1">
                     <wj-flex-grid-filter></wj-flex-grid-filter>
-                    <wj-flex-grid-column [isReadOnly]="true" [width]="80" *ngIf="!isLocked">
+                    <wj-flex-grid-column [isReadOnly]="true" [width]="80" *ngIf="_userRights.CanEdit" [hidden]="isLocked">
                         <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                             <button mat-raised-button color="primary"
                                 style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
