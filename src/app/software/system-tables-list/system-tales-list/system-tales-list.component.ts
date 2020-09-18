@@ -10,6 +10,7 @@ import { SystemTablesListService } from './../system-tables-list.service';
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { SystemTablesCodeTablesDetailComponent } from '../../system-tables-detail/system-tables-code-tables-detail/system-tables-code-tables-detail.component';
 import { SystemTablesTaxExemptionDetailComponent } from '../../system-tables-detail/system-tables-tax-exemption-detail/system-tables-tax-exemption-detail.component';
+import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 
 @Component({
   selector: 'app-system-tales-list',
@@ -24,12 +25,49 @@ export class SystemTalesListComponent implements OnInit {
     private snackBar: MatSnackBar,
     private snackBarTemplate: SnackBarTemplate,
     public matDialog: MatDialog,
+    private _softwareSecurityService: SoftwareSecurityService,
 
   ) { }
 
-  ngOnInit() {
-    this.GetCodeTablesListData();
-    this.GetTaxExemptionListData();
+  @ViewChild('tabGroup') tabGroup;
+
+  private _userRightsSubscription: any;
+
+  public _userRights: UserModule = {
+    Module: "",
+    CanOpen: false,
+    CanAdd: false,
+    CanEdit: false,
+    CanDelete: false,
+    CanLock: false,
+    CanUnlock: false,
+    CanPrint: false,
+  }
+
+  private async Get_userRights() {
+    this._userRightsSubscription = await (await this._softwareSecurityService.PageModuleRights("System Tables")).subscribe(
+      (response: any) => {
+        let results = response;
+        if (results !== null) {
+          this._userRights.Module = results["Module"];
+          this._userRights.CanOpen = results["CanOpen"];
+          this._userRights.CanAdd = results["CanAdd"];
+          this._userRights.CanEdit = results["CanEdit"];
+          this._userRights.CanDelete = results["CanDelete"];
+          this._userRights.CanLock = results["CanLock"];
+          this._userRights.CanUnlock = results["CanUnlock"];
+          this._userRights.CanPrint = results["CanPrint"];
+        } 
+
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      }
+    );
+
+    await this.GetCodeTablesListData();
   }
 
   // =============
@@ -362,8 +400,6 @@ export class SystemTalesListComponent implements OnInit {
       }
     });
   }
-
-  @ViewChild('tabGroup') tabGroup;
   
   public async BtnAddCodeTables() {
     if (this.tabGroup.selectedIndex == 0) {
@@ -373,5 +409,10 @@ export class SystemTalesListComponent implements OnInit {
     if (this.tabGroup.selectedIndex == 1) {
       this.Add_TaxExemption();
     }
+  }
+  
+  ngOnInit() {
+    this.Get_userRights();
+    this.GetTaxExemptionListData();
   }
 }
