@@ -36,7 +36,9 @@ export class UserDetailComponent implements OnInit {
   }
 
   private _userRightsSubscription: any;
-
+  public _canEdit: boolean = false;
+  public _canDelete: boolean = false;
+  
   public _userRights: UserModule = {
     Module: "",
     CanOpen: false,
@@ -61,7 +63,7 @@ export class UserDetailComponent implements OnInit {
           this._userRights.CanLock = results["CanLock"];
           this._userRights.CanUnlock = results["CanUnlock"];
           this._userRights.CanPrint = results["CanPrint"];
-        } 
+        }
 
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       },
@@ -127,7 +129,7 @@ export class UserDetailComponent implements OnInit {
 
   @ViewChild('tabGroup') tabGroup;
 
- 
+
   private async GetUserDetail() {
     if (this.isUserDetailLoaded == false) {
       this.isComponentsShown = false;
@@ -259,7 +261,20 @@ export class UserDetailComponent implements OnInit {
       this.btnUnlockDisabled = !isDisable;
     }
 
-    this.isLocked = isDisable;
+    if (this._userRights.CanEdit === false) {
+      this._canEdit = false;
+      this.isLocked = true;
+    } else {
+      this._canEdit = !isDisable;
+      this.isLocked = isDisable;
+    }
+
+    if (this._userRights.CanDelete === false) {
+      this._canDelete = false;
+    } else {
+      this._canDelete = !isDisable;
+    }
+
     this.isProgressBarHidden = false;
   }
 

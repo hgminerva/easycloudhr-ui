@@ -38,6 +38,8 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
   ) { }
 
   private _userRightsSubscription: any;
+  public _canEdit: boolean = false;
+  public _canDelete: boolean = false;
 
   public userRights: UserModule = {
     Module: "",
@@ -311,11 +313,19 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
     }
 
     if (this.userRights.CanEdit === false) {
+      this._canEdit = false;
       this._isLocked = true;
     } else {
+      this._canEdit = !isDisable;
       this._isLocked = isDisable;
     }
 
+    if (this.userRights.CanDelete === false) {
+      this._canDelete = false;
+    } else {
+      this._canDelete = !isDisable;
+    }
+    
     this._isProgressBarHidden = false;
   }
 

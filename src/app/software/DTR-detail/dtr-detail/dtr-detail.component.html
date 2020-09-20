@@ -18,7 +18,7 @@
         Unlock
     </button>
     <button mat-flat-button color="accent" id="btnAddEmployee" [disabled]="_btnUnlockDisabled" style="margin: 5px;"
-        (click)="btnCSVClick()"  *ngIf="userRights.CanPrint">
+        (click)="btnCSVClick()" *ngIf="userRights.CanPrint">
         <mat-icon>get_app</mat-icon>
         CSV
     </button>
@@ -32,7 +32,7 @@
 <div class="software-container" [hidden]="!userRights.CanOpen">
     <div [hidden]="_isComponentsShown">
         <div fxLayout="row" fxLayout.xs="column">
-            <div fxFlex="60" style="padding: 5px;">
+            <div fxFlex="50" style="padding: 5px;">
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="33" style="padding: 5px;margin-top: 3px;">
                         <h2 class="text_box"><b>{{_dTRModel.DTRNumber}}</b> </h2>
@@ -110,8 +110,10 @@
                     </div>
                 </div>
             </div>
-            <div fxFlex="60" style="padding: 5px;">
+            <div fxFlex="50" style="padding: 5px;">
+
                 <div fxLayout="row" fxLayout.xs="column">
+
                     <div fxFlex="33" style="padding: 5px;">
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Prepared By</mat-label>
@@ -122,6 +124,7 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
+
                     <div fxFlex="33" style="padding: 5px;">
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Checked By</mat-label>
@@ -153,10 +156,11 @@
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Remarks</mat-label>
                             <textarea matInput placeholder="AddrRemarksess" [(ngModel)]="_dTRModel.Remarks"
-                                [readonly]="_isLocked" rows="5" style="min-height: 102px;"></textarea>
+                                [readonly]="_isLocked" rows="5" style="min-height: 100px;"></textarea>
                         </mat-form-field>
                     </div>
                 </div>
+
             </div>
 
         </div>
@@ -169,7 +173,7 @@
                 <wj-flex-grid #flexDTRLine [itemsSource]="_listDTRLineCollectionView" [selectionMode]="3"
                     [frozenColumns]="2" [headersVisibility]="1">
                     <wj-flex-grid-filter></wj-flex-grid-filter>
-                    <wj-flex-grid-column [isReadOnly]="true" [width]="80" *ngIf="userRights.CanEdit" [hidden]="_isLocked">
+                    <wj-flex-grid-column [isReadOnly]="true" [width]="80" *ngIf="_canEdit">
                         <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                             <button mat-raised-button color="primary"
                                 style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
@@ -179,7 +183,7 @@
                             </button>
                         </ng-template>
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [isReadOnly]="true" [width]="80" *ngIf="userRights.CanDelete" [hidden]="_isLockeduser">
+                    <wj-flex-grid-column [isReadOnly]="true" [width]="80" *ngIf="_canDelete">
                         <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                             <button mat-raised-button color="warn"
                                 style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
@@ -267,6 +271,10 @@
             </mat-tab>
             <mat-tab disabled style="background-color: transparent; ">
                 <ng-template mat-tab-label>
+                    <button mat-raised-button color="accent" style="float: right; margin: 5px;"
+                        (click)="ImportDTRLogs()" [disabled]="_btnImportDTRLineDisabled" *ngIf="userRights.CanAdd">
+                        <mat-icon>publish</mat-icon> Import
+                    </button><br>
                     <button mat-raised-button color="primary" style="float: right; margin: 5px;"
                         (click)="AddDTRLineDialog()" [disabled]="_btnAddDTRLineDisabled" *ngIf="userRights.CanAdd">
                         <mat-icon>add</mat-icon> ADD

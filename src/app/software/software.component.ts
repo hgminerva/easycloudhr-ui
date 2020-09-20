@@ -69,8 +69,8 @@ export class SoftwareComponent implements OnInit {
   public moduleChangeShiftDetail: boolean = false;
   public moduleLeaveApplicationList: boolean = false;
   public moduleLeaveApplicationDetail: boolean = false;
-  public moduleOvertimeList: boolean = false;
-  public moduleOvertimeDetail: boolean = false;
+  public moduleOvertimeApplicationList: boolean = false;
+  public moduleOvertimeApplicationDetail: boolean = false;
 
   public modulePayroll: boolean = false; // Payroll
 
@@ -231,12 +231,12 @@ export class SoftwareComponent implements OnInit {
           this.moduleLeaveApplicationDetail = true;
         }
 
-        if (this.softwareSecurityService.openModule("Overtime List") == true) {
-          this.moduleOvertimeList = true;
+        if (this.softwareSecurityService.openModule("Overtime Application List") == true) {
+          this.moduleOvertimeApplicationList = true;
         }
 
-        if (this.softwareSecurityService.openModule("Overtime Detail") == true) {
-          this.moduleOvertimeDetail = true;
+        if (this.softwareSecurityService.openModule("Overtime Application Detail") == true) {
+          this.moduleOvertimeApplicationDetail = true;
         }
 
         if (this.softwareSecurityService.openModule("Payroll") == true) {

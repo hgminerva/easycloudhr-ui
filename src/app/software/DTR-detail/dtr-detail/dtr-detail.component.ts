@@ -11,6 +11,8 @@ import { MatSelectChange } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
 import { DatePipe } from '@angular/common';
 
+import * as XLSX from 'xlsx';
+
 import { DtrDetialService } from './../dtr-detial.service';
 import { DTRModel } from '../dtr-detial.model';
 import { DTRLineModel } from '../dtr-line.model';
@@ -18,6 +20,7 @@ import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-
 import { DtrDetialDtrLineDetailDialogComponent } from '../dtr-detial-dtr-line-detail-dialog/dtr-detial-dtr-line-detail-dialog.component';
 import { DtrDetailDtrLineAddDialogComponent } from '../dtr-detail-dtr-line-add-dialog/dtr-detail-dtr-line-add-dialog.component';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
+import { DtrDetailImportDtrLogsComponent } from '../dtr-detail-import-dtr-logs/dtr-detail-import-dtr-logs.component';
 
 @Component({
   selector: 'app-dtr-detail',
@@ -55,7 +58,7 @@ export class DTRDetailComponent implements OnInit {
           this.userRights.CanLock = results["CanLock"];
           this.userRights.CanUnlock = results["CanUnlock"];
           this.userRights.CanPrint = results["CanPrint"];
-        } 
+        }
 
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       },
@@ -69,6 +72,8 @@ export class DTRDetailComponent implements OnInit {
   }
 
   private _userRightsSubscription: any;
+  public _canEdit: boolean = false;
+  public _canDelete: boolean = false;
 
   public userRights: UserModule = {
     Module: "",
@@ -345,7 +350,6 @@ export class DTRDetailComponent implements OnInit {
     console.log(this._dTRModel.DateEnd);
   }
 
-
   public async SaveDTRDetail() {
     this.DisableButtons();
     if (this._isDataLoaded == true) {
@@ -423,10 +427,19 @@ export class DTRDetailComponent implements OnInit {
     }
 
     if (this.userRights.CanEdit === false) {
+      this._canEdit = false;
       this._isLocked = true;
     } else {
+      this._canEdit = !isDisable;
       this._isLocked = isDisable;
     }
+
+    if (this.userRights.CanDelete === false) {
+      this._canDelete = false;
+    } else {
+      this._canDelete = !isDisable;
+    }
+
     this._isProgressBarHidden = false;
   }
 
@@ -549,6 +562,25 @@ export class DTRDetailComponent implements OnInit {
     }
   }
 
+  public async UpdateDTRLine(id: number, objDTRLine: DTRLineModel) {
+    if (this._isDataLoaded == true) {
+      this._isDataLoaded = false;
+      this._saveDTRLineSubscription = await (await this._dtrDetialService.UpdateTRLine(id, objDTRLine)).subscribe(
+        response => {
+          this._isDataLoaded = true;
+          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Update Successfully");
+          this.GetDTRLineListData();
+          if (this._saveDTRLineSubscription != null) this._saveDTRLineSubscription.unsubscribe();
+        },
+        error => {
+          this._isDataLoaded = true;
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this._saveDTRLineSubscription != null) this._saveDTRLineSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
   public ComfirmDeleteDTRLine(): void {
     let currentDTRLine = this._listDTRLineCollectionView.currentItem;
     const matDialogRef = this._deleteDTRLineDialogRef.open(DeleteDialogBoxComponent, {
@@ -566,7 +598,6 @@ export class DTRDetailComponent implements OnInit {
       }
     });
   }
-
 
   public async AddDTRLineDialog() {
     const matDialogRef = this._addDTRLinesatDialogRef.open(DtrDetailDtrLineAddDialogComponent, {
@@ -606,28 +637,6 @@ export class DTRDetailComponent implements OnInit {
     });
   }
 
-  ngOnDestroy() {
-  }
-
-  public async UpdateDTRLine(id: number, objDTRLine: DTRLineModel) {
-    if (this._isDataLoaded == true) {
-      this._isDataLoaded = false;
-      this._saveDTRLineSubscription = await (await this._dtrDetialService.UpdateTRLine(id, objDTRLine)).subscribe(
-        response => {
-          this._isDataLoaded = true;
-          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Update Successfully");
-          this.GetDTRLineListData();
-          if (this._saveDTRLineSubscription != null) this._saveDTRLineSubscription.unsubscribe();
-        },
-        error => {
-          this._isDataLoaded = true;
-          this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
-          if (this._saveDTRLineSubscription != null) this._saveDTRLineSubscription.unsubscribe();
-        }
-      );
-    }
-  }
-
   selectedCheckedByUser(event: MatSelectChange) {
     const selectedData = {
       text: (event.source.selected as MatOption).viewValue,
@@ -646,6 +655,25 @@ export class DTRDetailComponent implements OnInit {
 
     this._dTRModel.ApprovedByUserId = event.source.value;
     this._dTRModel.ApprovedByUser = (event.source.selected as MatOption).viewValue;
+  }
+
+  public ImportDTRLogs() {
+    if (this._dTRLineListSubscription !== null) this._dTRLineListSubscription.unsubscribe();
+
+    const matDialogRef = this._updateDTRLineDialogRef.open(DtrDetailImportDtrLogsComponent, {
+      width: '1300px',
+      data: {
+        objDialogTitle: 'Import DTR Logs',
+        objDTRData: this._dTRModel,
+      },
+      disableClose: true
+    });
+
+    matDialogRef.afterClosed().subscribe((result: any) => {
+      if (result.event !== 'Close') {
+        this.GetDTRLineListData();
+      }
+    });
   }
 
   public btnCSVClick(): void {
@@ -723,5 +751,7 @@ export class DTRDetailComponent implements OnInit {
     }
     return new Blob([data], { type: 'text/csv;charset=utf-8;' });
   }
-
+  
+  ngOnDestroy() {
+  }
 }

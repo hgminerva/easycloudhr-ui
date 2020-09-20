@@ -78,8 +78,7 @@
                         <wj-flex-grid #flexUserModule [itemsSource]="listUserModuleCollectionView" [selectionMode]="3"
                             [frozenColumns]="2">
                             <wj-flex-grid-filter></wj-flex-grid-filter>
-                            <wj-flex-grid-column [isReadOnly]="true" [width]="90" [hidden]="_isLocked"
-                                *ngIf="_userRights.CanEdit">
+                            <wj-flex-grid-column [isReadOnly]="true" [width]="90" *ngIf="!isLocked">
                                 <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                                     <button mat-raised-button color="primary"
                                         style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
@@ -88,8 +87,7 @@
                                     </button>
                                 </ng-template>
                             </wj-flex-grid-column>
-                            <wj-flex-grid-column [isReadOnly]="true" [width]="90" [hidden]="_isLocked"
-                                *ngIf="_userRights.CanDelete">
+                            <wj-flex-grid-column [isReadOnly]="true" [width]="90" *ngIf="!isLocked">
                                 <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                                     <button mat-raised-button color="warn"
                                         style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
@@ -152,8 +150,7 @@
                         <wj-flex-grid #flexUserPayrollGroup [itemsSource]="listUserPayrollGroupCollectionView"
                             [selectionMode]="3" [frozenColumns]="2">
                             <wj-flex-grid-filter></wj-flex-grid-filter>
-                            <wj-flex-grid-column [isReadOnly]="true" [width]="90" [hidden]="_isLocked"
-                                *ngIf="_userRights.CanEdit">
+                            <wj-flex-grid-column [isReadOnly]="true" [width]="90" *ngIf="_canEdit">
                                 <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                                     <button mat-raised-button color="primary"
                                         style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
@@ -163,8 +160,7 @@
                                     </button>
                                 </ng-template>
                             </wj-flex-grid-column>
-                            <wj-flex-grid-column [isReadOnly]="true" [width]="90" [hidden]="_isLocked"
-                                *ngIf="_userRights.CanDelete">
+                            <wj-flex-grid-column [isReadOnly]="true" [width]="90" *ngIf="_canDelete">
                                 <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                                     <button mat-raised-button color="warn"
                                         style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"

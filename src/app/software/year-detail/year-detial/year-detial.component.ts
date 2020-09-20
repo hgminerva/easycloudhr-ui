@@ -35,6 +35,8 @@ export class YearDetialComponent implements OnInit {
   ) { }
 
   private _userRightsSubscription: any;
+  public _canEdit: boolean = false;
+  public _canDelete: boolean = false;
 
   public _userRights: UserModule = {
     Module: "",
@@ -266,12 +268,20 @@ export class YearDetialComponent implements OnInit {
       this._btnUnlockDisabled = !isDisable;
     }
 
-    if (this._userRights.CanEdit === false) {
+     if (this._userRights.CanEdit === false) {
+      this._canEdit = false;
       this._isLocked = true;
     } else {
+      this._canEdit = !isDisable;
       this._isLocked = isDisable;
     }
 
+    if (this._userRights.CanDelete === false) {
+      this._canDelete = false;
+    } else {
+      this._canDelete = !isDisable;
+    }
+    
     this.isProgressBarHidden = false;
   }
 

@@ -37,6 +37,8 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   private _userRightsSubscription: any;
+  public _canEdit: boolean = false;
+  public _canDelete: boolean = false;
 
   public userRights: UserModule = {
     Module: "",
@@ -768,9 +770,17 @@ export class EmployeeDetailComponent implements OnInit {
     }
 
     if (this.userRights.CanEdit === false) {
+      this._canEdit = false;
       this.isLocked = true;
     } else {
+      this._canEdit = !isDisabled;
       this.isLocked = isDisabled;
+    }
+
+    if (this.userRights.CanDelete === false) {
+      this._canDelete = false;
+    } else {
+      this._canDelete = !isDisabled;
     }
   }
 

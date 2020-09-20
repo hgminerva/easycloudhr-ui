@@ -39,6 +39,8 @@ export class PayrollOtherDeductionDetailComponent implements OnInit {
   ) { }
 
   private _userRightsSubscription: any;
+  public _canEdit: boolean = false;
+  public _canDelete: boolean = false;
 
   public _userRights: UserModule = {
     Module: "",
@@ -64,7 +66,7 @@ export class PayrollOtherDeductionDetailComponent implements OnInit {
           this._userRights.CanLock = results["CanLock"];
           this._userRights.CanUnlock = results["CanUnlock"];
           this._userRights.CanPrint = results["CanPrint"];
-        } 
+        }
 
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       },
@@ -300,7 +302,20 @@ export class PayrollOtherDeductionDetailComponent implements OnInit {
       this._btnUnlockDisabled = !isDisable;
     }
 
-    this._isLocked = isDisable;
+    if (this._userRights.CanEdit === false) {
+      this._canEdit = false;
+      this._isLocked = true;
+    } else {
+      this._canEdit = !isDisable;
+      this._isLocked = isDisable;
+    }
+
+    if (this._userRights.CanDelete === false) {
+      this._canDelete = false;
+    } else {
+      this._canDelete = !isDisable;
+    }
+    
     this._isProgressBarHidden = false;
   }
 

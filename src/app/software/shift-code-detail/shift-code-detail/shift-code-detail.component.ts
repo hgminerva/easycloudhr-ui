@@ -35,6 +35,7 @@ export class ShiftCodeDetailComponent implements OnInit {
   public event = 'Close';
 
   private _userRightsSubscription: any;
+  public _canEdit: boolean = false;
 
   public _userRights: UserModule = {
     Module: "",
@@ -247,9 +248,11 @@ export class ShiftCodeDetailComponent implements OnInit {
       this.btnUnlockDisabled = !isDisable;
     }
 
-    if (this._userRights.CanEdit === false) {
+     if (this._userRights.CanEdit === false) {
+      this._canEdit = false;
       this.isLocked = true;
     } else {
+      this._canEdit = !isDisable;
       this.isLocked = isDisable;
     }
     
