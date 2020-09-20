@@ -99,6 +99,7 @@ import { PortalEmployeePayrollDialogComponent } from './portal-employee/portal-e
 import { PortalEmployeePdfDialogComponent } from './portal-employee/portal-employee-pdf-dialog/portal-employee-pdf-dialog.component';
 import { YearDateAddToBranchesDialogComponent } from './year-detail/year-date-add-to-branches-dialog/year-date-add-to-branches-dialog.component';
 import { UserChangePasswordDialogComponent } from './shared/user-change-password-dialog/user-change-password-dialog.component';
+import { DtrDetailImportDtrLogsComponent } from './DTR-detail/dtr-detail-import-dtr-logs/dtr-detail-import-dtr-logs.component';
 
 @NgModule({
   declarations: [
@@ -177,6 +178,7 @@ import { UserChangePasswordDialogComponent } from './shared/user-change-password
     PortalEmployeePdfDialogComponent,
     YearDateAddToBranchesDialogComponent,
     UserChangePasswordDialogComponent,
+    DtrDetailImportDtrLogsComponent,
   ],
   imports: [
     CommonModule,

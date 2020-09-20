@@ -22,7 +22,6 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
     public _matDialogRef: MatDialogRef<DtrDetialDtrLineDetailDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public _caseData: any,
     private _decimalPipe: DecimalPipe
-
   ) { }
 
   async ngOnInit() {
