@@ -1,5 +1,15 @@
-<p>dtr-detail-import-dtr-logs works!</p>
-<input type="file" accept="image/*" #file (change)="onFileChange($event)">
-<button mat-raised-button color="accent" style="float: right; margin: 5px;" (click)="file.click()">
-    <mat-icon>publish</mat-icon> Import
-</button><br>
+<h3 mat-dialog-title>
+    Import DTR Logs
+</h3>
+<div mat-dialog-content style="max-height: 40x;">
+    <input type="file" accept="image/*" #file (change)="onFileChange($event)">
+    <button mat-raised-button color="accent" style="float: right; margin: 5px;" (click)="file.click()">
+        <mat-icon>publish</mat-icon> Import
+    </button>
+</div>
+<div mat-dialog-actions align="right">
+    <button mat-flat-button mat-dialog-close style="margin: 5px;" color="warn" (click)="Close()">
+        <mat-icon>close</mat-icon>
+        Cancel
+    </button>
+</div>
