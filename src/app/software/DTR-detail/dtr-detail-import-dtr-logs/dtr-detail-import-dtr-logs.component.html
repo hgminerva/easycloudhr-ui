@@ -6,6 +6,109 @@
     <button mat-raised-button color="accent" style="float: right; margin: 5px;" (click)="file.click()">
         <mat-icon>publish</mat-icon> Import
     </button>
+    <div fxLayout="row" fxLayout.xs="column">
+        <mat-progress-bar *ngIf="_isDTRLineProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'">
+        </mat-progress-bar>
+
+        <wj-flex-grid #flexDTRLine [itemsSource]="_listDTRLineCollectionView" [selectionMode]="3"
+            [frozenColumns]="2" [headersVisibility]="1">
+            <wj-flex-grid-filter></wj-flex-grid-filter>
+            <!-- <wj-flex-grid-column [isReadOnly]="true" [width]="80" *ngIf="_canEdit">
+                <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
+                    <button mat-raised-button color="primary"
+                        style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
+                        (click)="EditDTRLine()" id="btnEditDTRLine">
+                        <mat-icon>edit</mat-icon>
+                        Edit
+                    </button>
+                </ng-template>
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [isReadOnly]="true" [width]="80" *ngIf="_canDelete">
+                <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
+                    <button mat-raised-button color="warn"
+                        style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
+                        (click)="ComfirmDeleteDTRLine()">
+                        <mat-icon>delete</mat-icon>
+                        Delete
+                    </button>
+                </ng-template>
+            </wj-flex-grid-column> -->
+            <wj-flex-grid-column [header]="'Branch'" [binding]="'Branch'" [isReadOnly]="true" [width]="100">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'Employee'" [binding]="'Employee'" [isReadOnly]="true" [width]="200">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'Date'" [binding]="'DTRDate'" [isReadOnly]="true" [width]="80">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'Type'" [binding]="'DateType'" [isReadOnly]="true" [width]="80">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'RD'" [binding]="'IsRestDay'" [isReadOnly]="true" [width]="30">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'Shift'" [binding]="'Shift'" [isReadOnly]="true" [width]="80">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'IN1'" [binding]="'TimeIn1'" [isReadOnly]="true" [width]="75">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'OUT1'" [binding]="'TimeOut1'" [isReadOnly]="true" [width]="75">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'IN2'" [binding]="'TimeIn2'" [isReadOnly]="true" [width]="75">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'OUT2'" [binding]="'TimeOut2'" [isReadOnly]="true" [width]="75">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'OL'" [binding]="'IsOnLeave'" [isReadOnly]="true" [width]="30">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'HOL'" [binding]="'IsOnLeaveHalfDay'" [isReadOnly]="true"
+                [width]="30">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'OB'" [binding]="'IsOnOfficialBusiness'" [isReadOnly]="true"
+                [width]="30">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'HOB'" [binding]="'IsOnOfficialBusinessHalfDay'" [isReadOnly]="true"
+                [width]="30">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'A'" [binding]="'IsAbsent'" [isReadOnly]="true" [width]="30">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'HA'" [binding]="'IsAbsentHalfDay'" [isReadOnly]="true" [width]="30">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'Remarks'" [binding]="'Remarks'" [isReadOnly]="true" [width]="150">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'HRS'" [binding]="'NumberOfHoursWorked'" [isReadOnly]="true"
+                [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'OT'" [binding]="'OvertimeHours'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'ND'" [binding]="'NightDifferentialHours'" [isReadOnly]="true"
+                [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'LH'" [binding]="'LateHours'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'UT'" [binding]="'UndertimeHours'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'DP'" [binding]="'DailyPay'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'PP'" [binding]="'PremiumPay'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'HP'" [binding]="'HolidayPay'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'OP'" [binding]="'OvertimePay'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'COLA'" [binding]="'COLA'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'AA'" [binding]="'AdditionalAllowance'" [isReadOnly]="true"
+                [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'LD'" [binding]="'LateDeduction'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'LD'" [binding]="'LateDeduction'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'UD'" [binding]="'UndertimeDeduction'" [isReadOnly]="true"
+                [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'AD'" [binding]="'AbsentDeduction'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+            <wj-flex-grid-column [header]="'NP'" [binding]="'DailyNetPay'" [isReadOnly]="true" [width]="70">
+            </wj-flex-grid-column>
+
+        </wj-flex-grid>
+    </div>
 </div>
 <div mat-dialog-actions align="right">
     <button mat-flat-button mat-dialog-close style="margin: 5px;" color="warn" (click)="Close()">

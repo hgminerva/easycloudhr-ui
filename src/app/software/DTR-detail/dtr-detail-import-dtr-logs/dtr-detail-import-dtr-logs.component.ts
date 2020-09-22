@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
@@ -7,6 +7,7 @@ import { DatePipe, DecimalPipe } from '@angular/common';
 import * as XLSX from 'xlsx';
 import { Subject } from 'rxjs';
 import { CollectionView, ObservableArray } from '@grapecity/wijmo';
+import * as wjcGrid from '@grapecity/wijmo.grid';
 
 import { DtrDetailImportDtrLogsService } from './dtr-detail-import-dtr-logs.service';
 
@@ -38,8 +39,8 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
     return Math.abs(Math.round(diff));
   }
 
-  fillLeadingZeroes(number: string, length: number) {
-    let result = number;
+  fillLeadingZeroes(number: number, length: number) {
+    let result = number.toString();
     let pad = length - result.length;
     while (pad > 0) { result = '0' + result; pad--; }
 
@@ -71,11 +72,11 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    let dt1 = new Date("October 13, 2014 08:11:00");
-    let dt2 = new Date("October 13, 2014 08:11:05");
+    let dt1 = new Date("9/5/2020 5:10:00 PM");
+    let dt2 = new Date("9/5/2020 5:00: PM");
 
-    console.log("dt1: ", dt1);
-    console.log("dt2: ", dt2);
+    console.log(dt1 < dt2);
+    console.log("dt2: ", dt2.getHours(), dt2.getMinutes(), this.fillLeadingZeroes(dt2.getSeconds(), 2));
 
     console.log("Test: ", this.diff_minutes(dt1, dt2));
     this.GetDTREmployeeDetail();
@@ -93,6 +94,16 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
   public file: File;
   public arrayBuffer: any;
   public fileList: any
+
+  // Class properties
+  public _listDTRLineObservableArray: ObservableArray = new ObservableArray();
+  public _listDTRLineCollectionView: CollectionView = new CollectionView(this._listDTRLineObservableArray);
+  public _listPageIndex: number = 15;
+
+  public _isDTRLineProgressBarHidden = false;
+  public _isDTRLineDataLoaded: boolean = false;
+
+  @ViewChild('flexDTRLine') flexDTRLine: wjcGrid.FlexGrid;
 
   // Upload DTR File Logs
 
@@ -122,14 +133,24 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
       // Format date logs to MM/dd/yyyy
       for (var i = 0; i < dtrFileUpload["length"]; i++) {
 
+        // const [day, month, year, hr, min, sec, ampm] = dtrFileUpload[i].Att_Time.split(/\W+/).filter(x => x.length);
+        // let _dateLog = month + '/' + day + '/' + year;
+        // let _timeLog = hr + ':' + min + ':' + sec + ' ' + ampm;
+
+        // employeesDTRLogs.push({
+        //   BiometricId: dtrFileUpload[i].EmployeeName,
+        //   Date: _dateLog,
+        //   Time: new Date(_dateLog + ' ' + _timeLog)
+        // });
+
         const [day, month, year, hr, min, sec, ampm] = dtrFileUpload[i].Att_Time.split(/\W+/).filter(x => x.length);
         let _dateLog = month + '/' + day + '/' + year;
         let _timeLog = hr + ':' + min + ':' + sec + ' ' + ampm;
 
         employeesDTRLogs.push({
-          BiometricId: dtrFileUpload[i].Name,
-          Date: _dateLog,
-          Time: _dateLog + ' ' + _timeLog
+          BiometricId: dtrFileUpload[i].EmployeeName,
+          Date: dtrFileUpload[i].Att_Time,
+          Time: new Date(dtrFileUpload[i].Att_Time)
         });
 
       }
@@ -144,22 +165,30 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
   public async CreateDtrLines() {
     try {
 
+      this._listDTRLineObservableArray = new ObservableArray();
+      this._listDTRLineCollectionView = new CollectionView(this._listDTRLineObservableArray);
+      this._listDTRLineCollectionView.pageSize = 15;
+      this._listDTRLineCollectionView.trackChanges = true;
+      await this._listDTRLineCollectionView.refresh();
+      await this.flexDTRLine.refresh();
+
       let employeeList = this._employeeList;
       let employeesDTRLogs = new ObservableArray();
 
       let shiftLineList = this._shiftLineList;
       let changeShiftLineList = this._changeShiftList;
-      console.log(" Logs: ", this._dtrLogsUploadedData);
+      // console.log(" Logs: ", this._dtrLogsUploadedData);
 
-      for (var employeeIndex = 0; employeeIndex < this._employeeList["length"]; employeeIndex++) {
+      let employeesDTRLineLogs = new ObservableArray();
 
-        let employeesDTRLineLogs = new ObservableArray();
-        console.log("BiometricId: ", this._employeeList[employeeIndex].BiometricIdNumber);
+      for (var employeeIndex = 0; employeeIndex < employeeList["length"]; employeeIndex++) {
+
+        // console.log("BiometricId: ", this._employeeList[employeeIndex].BiometricIdNumber);
 
         let employeeDateLogs = this._dtrLogsUploadedData.filter(x => x.BiometricId == this._employeeList[employeeIndex].BiometricIdNumber);
         // let employeeDateLogs = this._dtrLogsUploadedData.filter(x => x.BiometricId === "0436");
 
-        console.log("Fire");
+        // console.log("Fire");
 
         // DTR Start Date and End Date
         let startDate = new Date(this._caseData.objDTRData.DateStart);
@@ -169,57 +198,92 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
 
         for (var date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
 
-          let dayLogs = employeeDateLogs.filter(x => x.Date === this.datePipe.transform(date, 'MM/dd/yyyy'));
-          if (employeeDateLogs["length"] > 0) {
-            console.log(date, " Logs: ", employeeDateLogs["length"]);
-          }
+          let SIN1, SOUT1, SIN2, SOUT2;
+          let DIN1, DOUT1, DIN2, DOUT2;
 
-          let timeIn1, timeOut1, timeIn2, timeOut2;
           let dateLog;
           let dateType = "REGULAR";
-
 
           // Date Type
           let yearDate = this._yearDateList.filter(x => x.YearId == this._caseData.objDTRData.YearId && x.YearDate == this.datePipe.transform(date, 'MM/dd/yyyy'));
           // console.log("yearDate: ", yearDate);
-          if (yearDate != 0) {
+
+          if (yearDate["length"] != 0) {
             dateType = yearDate[0].DateType;
           }
 
-          let changeShift = changeShiftLineList.filter(x => x.CSId == this._employeeList[employeeIndex].DefaultShiftId && x.EmployeeId == this._employeeList[employeeIndex].Id);
+          // Change Shift
+          let changeShift = changeShiftLineList.filter(x => x.CSId == this._caseData.objDTRData.CSId == this._employeeList[employeeIndex].Id && x.ShiftDate == this.datePipe.transform(date, 'MM/dd/yyyy'));
           // console.log("changeShift: ", changeShift);
-          if (changeShift != 0) {
+
+          if (changeShift["length"] != 0) {
             shiftId = changeShift[0].ShiftId;
           }
 
           // Employee Shift
-          let shift = shiftLineList.filter(x => x.ShiftId == shiftId && x.EmployeeId == this._employeeList[employeeIndex].Id && x.ShiftDate == date.getDay());
-          if (shift != 0) {
-            timeIn1 = shift[0].TimeIn1;
-            timeOut1 = shift[0].TimeOut1;
-            timeIn2 = shift[0].TimeIn2;
-            timeOut2 = shift[0].TimeOut2;
+          var days = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
+          let numberofSwipes = 4;
+
+          let shift = shiftLineList.filter(x => x.ShiftId == shiftId && x.ShiftDate == days[date.getDay()]);
+          // console.log("shift: ", shift);
+
+          if (shift["length"] != 0) {
+
+            if (shift[0].TimeOut1 === '' && shift[0].TimeIn2 === '') {
+              numberofSwipes = 2
+            }
+
+            SIN1 = new Date(date + ' ' + shift[0].TimeIn1);
+            SOUT1 = new Date(date + ' ' + shift[0].TimeOut1);
+            SIN2 = new Date(date + ' ' + shift[0].TimeIn2);
+            SOUT2 = new Date(date + ' ' + shift[0].TimeOut2);
           }
 
+          let dayLogs = employeeDateLogs.filter(x => this.datePipe.transform(x.Date, 'MM/dd/yyyy') === this.datePipe.transform(date, 'MM/dd/yyyy'));
+
+          // console.log(" numberofSwipes ", numberofSwipes);
+          // console.log(" length ", dayLogs["length"]);
 
           if (dayLogs["length"] > 0) {
 
             dateLog = this.datePipe.transform(date, 'MM/dd/yyyy');
 
-            if (dayLogs["length"] == 2) {
-              timeIn1 = await dayLogs[0].Time;
-              timeOut2 = await dayLogs[1].Time;
+            if (numberofSwipes == 2) {
+
+              DIN1 = dayLogs[0].Time;
+              DOUT1 = '';
+              DIN2 = '';
+              DOUT2 = '';
+
+              if (dayLogs[0].Time >= SOUT2) {
+
+                DIN1 = '';
+
+                DOUT2 = dayLogs[0].Time;
+
+              }
+              else {
+
+                DIN1 = dayLogs[0].Time;
+
+              }
+
+              for (var i = 1; i < dayLogs["length"]; i++) {
+
+                DOUT2 = dayLogs[i].Time;
+
+              }
+
+              // console.log(" numberofSwipes ", numberofSwipes);
+
+            }
+            else {
+
+              // console.log(" numberofSwipes ", numberofSwipes);
+
             }
 
-            if (dayLogs["length"] == 3) {
-              for (var i = 0; i < dayLogs["length"]; i++) {
-                let nextIndex = ++i;
-                if (nextIndex < dayLogs["length"]) {
-                  let timeInterval = this.diff_minutes(dayLogs[i].Time, dayLogs[nextIndex].Time);
-                  console.log("timeInterval ", timeInterval);
-                }
-              }
-            }
+            // console.log(date, " Logs ", dateLog);
 
             employeesDTRLineLogs.push({
               DTRId: this._caseData.objDTRData.Id,
@@ -229,10 +293,10 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
               IsRestDay: false,
               ShiftId: shiftId,
               Branch: this._employeeList[employeeIndex].Branch,
-              TimeIn1: timeIn1,
-              TimeOut1: timeOut1,
-              TimeIn2: timeIn2,
-              TimeOut2: timeOut2,
+              TimeIn1: DIN1,
+              TimeOut1: DOUT1,
+              TimeIn2: DIN2,
+              TimeOut2: DOUT2,
 
               IsOnLeave: false,
               IsOnLeaveHalfDay: false,
@@ -265,8 +329,17 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
 
         }
 
-
       }
+
+      this._listDTRLineObservableArray = employeesDTRLineLogs;
+      this._listDTRLineCollectionView = new CollectionView(this._listDTRLineObservableArray);
+      this._listDTRLineCollectionView.pageSize = 15;
+      this._listDTRLineCollectionView.trackChanges = true;
+      this._listDTRLineCollectionView.refresh();
+      this.flexDTRLine.refresh();
+
+      console.log(date, " Logs: ", employeesDTRLineLogs);
+
     }
     catch (e) {
       console.error(e);
@@ -284,17 +357,12 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
           this._yearDateList = result["YearDateList"];
           this._shiftLineList = result["ShiftLineList"];
           this._changeShiftList = result["ChangeShiftineList"];
-          console.log("Employee: ", this._employeeList);
-          // console.log("Year: ", this._yearDateList);
-          // console.log("Shift: ", this._shiftLineList);
-          // console.log("Change Shift: ", this._changeShiftList);
         }
       }
     );
   }
 
   public Close(): void {
-    // this.DefaultValues();
     this._matDialogRef.close({ event: 'Close' });
   }
 
