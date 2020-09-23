@@ -167,6 +167,7 @@
 
         <mat-tab-group #tabGroup (selectedTabChange)="activeTab()" style="max-height:100%;" class="detail-tab">
             <mat-tab label="DTR Line">
+                <br>
                 <mat-progress-bar *ngIf="_isDTRLineProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'">
                 </mat-progress-bar>
 

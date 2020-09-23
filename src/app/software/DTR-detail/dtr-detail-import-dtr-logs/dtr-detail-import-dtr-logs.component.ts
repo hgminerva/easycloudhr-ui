@@ -10,6 +10,8 @@ import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 import * as wjcGrid from '@grapecity/wijmo.grid';
 
 import { DtrDetailImportDtrLogsService } from './dtr-detail-import-dtr-logs.service';
+import { DTRLogs } from './../dtr-line.model';
+import { analyzeAndValidateNgModules } from '@angular/compiler';
 
 @Component({
   selector: 'app-dtr-detail-import-dtr-logs',
@@ -28,67 +30,14 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
     private datePipe: DatePipe,
   ) { }
 
-
-  diff_minutes(dt2, dt1) {
-    let time1 = new Date(dt1);
-    let time2 = new Date(dt2);
-    var diff = (time2.getTime() - time1.getTime()) / (1000 * 60);
-    // diff /= 60;
-    console.log("diff: ", diff);
-
-    return Math.abs(Math.round(diff));
-  }
-
-  fillLeadingZeroes(number: number, length: number) {
-    let result = number.toString();
-    let pad = length - result.length;
-    while (pad > 0) { result = '0' + result; pad--; }
-
-    return result;
-  }
-
-  convertTime(time12h) {
-
-    if (time12h == '') {
-      return '';
-    }
-
-    const [time, modifier] = time12h.split(' ');
-
-    let [hours, minutes] = time.split(':');
-
-    if (hours === '12') {
-      hours = '00';
-    }
-
-    if (modifier === 'PM') {
-      hours = parseInt(hours, 10) + 12;
-    }
-
-    let hrs = this.fillLeadingZeroes(hours, 2);
-    let mins = this.fillLeadingZeroes(minutes, 2);
-
-    return `${hrs}:${mins}`;
-  }
-
-  async ngOnInit() {
-    let dt1 = new Date("9/5/2020 5:10:00 PM");
-    let dt2 = new Date("9/5/2020 5:00: PM");
-
-    console.log(dt1 < dt2);
-    console.log("dt2: ", dt2.getHours(), dt2.getMinutes(), this.fillLeadingZeroes(dt2.getSeconds(), 2));
-
-    console.log("Test: ", this.diff_minutes(dt1, dt2));
-    this.GetDTREmployeeDetail();
-  }
-
+  // DTR Logs Data List
   private _newDTRLines: any;
   private _employeeList: any;
   private _yearDateList: any;
   private _shiftLineList: any;
   private _changeShiftList: any;
 
-  data: [][];
+  // Upload DTR File Logs
   private _dtrLogsUploadedData: any;
 
   public file: File;
@@ -105,10 +54,55 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
 
   @ViewChild('flexDTRLine') flexDTRLine: wjcGrid.FlexGrid;
 
-  // Upload DTR File Logs
+
+  // DTR Log Post Properties
+  public dtrEmployeeDetailSubscription: any;
+
+  private postDTRLogsSubscription: any;
+  private counter = 0;
+  public isPostButtonHidden: boolean = true;
+
+  // Row Number List Drop Down
+  public _createCboShowNumberOfRows: ObservableArray = new ObservableArray();
+
+  public CreateCboShowNumberOfRows(): void {
+    for (var i = 0; i <= 4; i++) {
+      var rows = 0;
+      var rowsString = "";
+      if (i == 0) {
+        rows = 10;
+        rowsString = "Show 10";
+      } else if (i == 1) {
+        rows = 50;
+        rowsString = "Show 50";
+      } else if (i == 2) {
+        rows = 100;
+        rowsString = "Show 100";
+      } else if (i == 3) {
+        rows = 150;
+        rowsString = "Show 150";
+      } else {
+        rows = 200;
+        rowsString = "Show 200";
+      }
+
+      this._createCboShowNumberOfRows.push({
+        rowNumber: rows,
+        rowString: rowsString
+      });
+    }
+
+    this.GetDTREmployeeDetail();
+  }
+
+  public CboShowNumberOfRowsOnSelectedIndexChanged(): void {
+    this._listDTRLineCollectionView.pageSize = this._listPageIndex;
+    this._listDTRLineCollectionView.refresh();
+    this._listDTRLineCollectionView.refresh();
+  }
 
   onFileChange(evt: any) {
-
+    this._isDTRLineProgressBarHidden = true;
     let dtrFileUpload: any;
     this.file = evt.target.files[0];
     let fileReader = new FileReader();
@@ -132,24 +126,13 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
       let employeesDTRLogs = new ObservableArray();
       // Format date logs to MM/dd/yyyy
       for (var i = 0; i < dtrFileUpload["length"]; i++) {
-
-        // const [day, month, year, hr, min, sec, ampm] = dtrFileUpload[i].Att_Time.split(/\W+/).filter(x => x.length);
-        // let _dateLog = month + '/' + day + '/' + year;
-        // let _timeLog = hr + ':' + min + ':' + sec + ' ' + ampm;
-
-        // employeesDTRLogs.push({
-        //   BiometricId: dtrFileUpload[i].EmployeeName,
-        //   Date: _dateLog,
-        //   Time: new Date(_dateLog + ' ' + _timeLog)
-        // });
-
         const [day, month, year, hr, min, sec, ampm] = dtrFileUpload[i].Att_Time.split(/\W+/).filter(x => x.length);
         let _dateLog = month + '/' + day + '/' + year;
         let _timeLog = hr + ':' + min + ':' + sec + ' ' + ampm;
 
         employeesDTRLogs.push({
           BiometricId: dtrFileUpload[i].EmployeeName,
-          Date: dtrFileUpload[i].Att_Time,
+          Date: new Date(dtrFileUpload[i].Att_Time),
           Time: new Date(dtrFileUpload[i].Att_Time)
         });
 
@@ -162,208 +145,357 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
 
   }
 
-  public async CreateDtrLines() {
+  public CreateDtrLines() {
     try {
 
       this._listDTRLineObservableArray = new ObservableArray();
       this._listDTRLineCollectionView = new CollectionView(this._listDTRLineObservableArray);
       this._listDTRLineCollectionView.pageSize = 15;
       this._listDTRLineCollectionView.trackChanges = true;
-      await this._listDTRLineCollectionView.refresh();
-      await this.flexDTRLine.refresh();
+      this._listDTRLineCollectionView.refresh();
+      this.flexDTRLine.refresh();
 
       let employeeList = this._employeeList;
-      let employeesDTRLogs = new ObservableArray();
-
       let shiftLineList = this._shiftLineList;
       let changeShiftLineList = this._changeShiftList;
-      // console.log(" Logs: ", this._dtrLogsUploadedData);
 
       let employeesDTRLineLogs = new ObservableArray();
 
+      // Loop to Employees List
       for (var employeeIndex = 0; employeeIndex < employeeList["length"]; employeeIndex++) {
 
-        // console.log("BiometricId: ", this._employeeList[employeeIndex].BiometricIdNumber);
-
+        // Filter Uploaded DTR Logs BiometricIdNumber
         let employeeDateLogs = this._dtrLogsUploadedData.filter(x => x.BiometricId == this._employeeList[employeeIndex].BiometricIdNumber);
-        // let employeeDateLogs = this._dtrLogsUploadedData.filter(x => x.BiometricId === "0436");
 
-        // console.log("Fire");
+        if (employeeDateLogs["length"] > 0) {
 
-        // DTR Start Date and End Date
-        let startDate = new Date(this._caseData.objDTRData.DateStart);
-        let endDate = new Date(this._caseData.objDTRData.DateEnd);
+          // DTR Start Date and End Date
+          let startDate = new Date(this._caseData.objDTRData.DateStart);
+          let endDate = new Date(this._caseData.objDTRData.DateEnd);
 
-        let shiftId = this._employeeList[employeeIndex].DefaultShiftId;
+          let shiftId = this._employeeList[employeeIndex].DefaultShiftId;
 
-        for (var date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
+          for (var date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
 
-          let SIN1, SOUT1, SIN2, SOUT2;
-          let DIN1, DOUT1, DIN2, DOUT2;
+            let SIN1, SOUT1, SIN2, SOUT2;
+            let DIN1, DOUT1, DIN2, DOUT2;
 
-          let dateLog;
-          let dateType = "REGULAR";
+            let isRestDay = false;
+            let dateLog;
+            let dateType = "REGULAR";
 
-          // Date Type
-          let yearDate = this._yearDateList.filter(x => x.YearId == this._caseData.objDTRData.YearId && x.YearDate == this.datePipe.transform(date, 'MM/dd/yyyy'));
-          // console.log("yearDate: ", yearDate);
+            // Date Type
+            let yearDate = this._yearDateList.filter(x => x.YearId == this._caseData.objDTRData.YearId && x.YearDate == this.datePipe.transform(date, 'MM/dd/yyyy'));
 
-          if (yearDate["length"] != 0) {
-            dateType = yearDate[0].DateType;
-          }
-
-          // Change Shift
-          let changeShift = changeShiftLineList.filter(x => x.CSId == this._caseData.objDTRData.CSId == this._employeeList[employeeIndex].Id && x.ShiftDate == this.datePipe.transform(date, 'MM/dd/yyyy'));
-          // console.log("changeShift: ", changeShift);
-
-          if (changeShift["length"] != 0) {
-            shiftId = changeShift[0].ShiftId;
-          }
-
-          // Employee Shift
-          var days = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
-          let numberofSwipes = 4;
-
-          let shift = shiftLineList.filter(x => x.ShiftId == shiftId && x.ShiftDate == days[date.getDay()]);
-          // console.log("shift: ", shift);
-
-          if (shift["length"] != 0) {
-
-            if (shift[0].TimeOut1 === '' && shift[0].TimeIn2 === '') {
-              numberofSwipes = 2
+            if (yearDate["length"] != 0) {
+              dateType = yearDate[0].DateType;
             }
 
-            SIN1 = new Date(date + ' ' + shift[0].TimeIn1);
-            SOUT1 = new Date(date + ' ' + shift[0].TimeOut1);
-            SIN2 = new Date(date + ' ' + shift[0].TimeIn2);
-            SOUT2 = new Date(date + ' ' + shift[0].TimeOut2);
-          }
+            // Change Shift
+            let changeShift = changeShiftLineList.filter(x => x.CSId == this._caseData.objDTRData.CSId == this._employeeList[employeeIndex].Id && x.ShiftDate == this.datePipe.transform(date, 'MM/dd/yyyy'));
 
-          let dayLogs = employeeDateLogs.filter(x => this.datePipe.transform(x.Date, 'MM/dd/yyyy') === this.datePipe.transform(date, 'MM/dd/yyyy'));
+            if (changeShift["length"] != 0) {
+              shiftId = changeShift[0].ShiftId;
+            }
 
-          // console.log(" numberofSwipes ", numberofSwipes);
-          // console.log(" length ", dayLogs["length"]);
+            // Employee Shift
+            var days = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
+            let numberofSwipes = 4;
 
-          if (dayLogs["length"] > 0) {
+            let shift = shiftLineList.filter(x => x.ShiftId == shiftId && x.ShiftDate == days[date.getDay()]);
 
-            dateLog = this.datePipe.transform(date, 'MM/dd/yyyy');
+            if (shift["length"] != 0) {
 
-            if (numberofSwipes == 2) {
+              if (shift[0].TimeOut1 === '' && shift[0].TimeIn2 === '') {
+                numberofSwipes = 2
+              }
 
-              DIN1 = dayLogs[0].Time;
-              DOUT1 = '';
-              DIN2 = '';
-              DOUT2 = '';
+              isRestDay = shift[0].IsRestDay;
 
-              if (dayLogs[0].Time >= SOUT2) {
+              let dateString = this.datePipe.transform(date, 'MM/dd/yyyy');
+              SIN1 = new Date(dateString + ' ' + shift[0].TimeIn1);
+              SOUT1 = new Date(dateString + ' ' + shift[0].TimeOut1);
+              SIN2 = new Date(dateString + ' ' + shift[0].TimeIn2);
+              SOUT2 = new Date(dateString + ' ' + shift[0].TimeOut2);
 
-                DIN1 = '';
+            }
 
-                DOUT2 = dayLogs[0].Time;
+            let dayLogs = employeeDateLogs.filter(x => this.datePipe.transform(x.Date, 'MM/dd/yyyy') === this.datePipe.transform(date, 'MM/dd/yyyy'));
+            console.log(this.datePipe.transform(employeeDateLogs[0].Date, 'MM/dd/yyyy'), this.datePipe.transform(date, 'MM/dd/yyyy'));
+
+            if (dayLogs["length"] > 0) {
+
+              dateLog = this.datePipe.transform(date, 'MM/dd/yyyy');
+
+              if (numberofSwipes == 2) {
+
+                // 2 Swipes
+
+                let timelog1 = this.convert24HrTo12Hr(dayLogs[0].Time);
+
+                DIN1 = timelog1;
+                DOUT1 = '';
+                DIN2 = '';
+                DOUT2 = '';
+
+                if (dayLogs[0].Time >= SOUT2) {
+
+                  DIN1 = '';
+
+                  DOUT2 = timelog1;
+
+                }
+
+                for (var i = 1; i < dayLogs["length"]; i++) {
+                  let timelog2 = this.convert24HrTo12Hr(dayLogs[1].Time);
+                  DOUT2 = timelog2;
+                }
 
               }
               else {
 
-                DIN1 = dayLogs[0].Time;
+                // 4 Swipes
+
+                let timelog1 = this.convert24HrTo12Hr(dayLogs[0].Time);
+
+                DIN1 = timelog1;
+                DOUT1 = '';
+                DIN2 = '';
+                DOUT2 = '';
+
+                if (dayLogs[0].Time >= SOUT1) {
+
+                  DIN1 = '';
+
+                  DOUT1 = timelog1;
+
+                }
+
+                if (dayLogs[0].Time >= SIN2) {
+
+                  DIN1 = '';
+
+                  DIN2 = timelog1;
+
+                }
+
+                if (dayLogs[0].Time >= SOUT2) {
+
+                  DIN1 = '';
+
+                  DOUT2 = timelog1;
+
+                }
+
+                for (var i = 1; i < dayLogs["length"]; i++) {
+
+                  let timelog = this.convert24HrTo12Hr(dayLogs[1].Time);
+
+                  if (dayLogs[0].Time >= SOUT1) {
+
+                    if (dayLogs[0].Time >= SIN2) {
+
+                      if (dayLogs[0].Time >= SOUT2) {
+
+                        if (dayLogs[0].Time >= SOUT2) {
+
+                          DOUT2 = timelog;
+
+                        }
+
+                      } else {
+
+                        DIN2 = timelog;
+
+                      }
+
+                    } else {
+
+                      DOUT1 = timelog;
+
+                    }
+
+                  }
+
+                }
 
               }
 
-              for (var i = 1; i < dayLogs["length"]; i++) {
+              employeesDTRLineLogs.push({
+                DTRId: this._caseData.objDTRData.Id,
+                EmployeeId: this._employeeList[employeeIndex].Id,
+                Employee: this._employeeList[employeeIndex].FullName,
+                DTRDate: dateLog,
+                DateType: dateType,
+                IsRestDay: isRestDay,
+                ShiftId: shiftId,
+                Branch: this._employeeList[employeeIndex].Branch,
+                TimeIn1: DIN1,
+                TimeOut1: DOUT1,
+                TimeIn2: DIN2,
+                TimeOut2: DOUT2,
 
-                DOUT2 = dayLogs[i].Time;
+                IsOnLeave: false,
+                IsOnLeaveHalfDay: false,
+                IsOnOfficialBusiness: false,
+                IsOnOfficialBusinessHalfDay: false,
+                IsAbsent: false,
+                IsAbsentHalfDay: false,
 
-              }
+                NumberOfHoursWorked: 0,
+                OvertimeHours: 0,
+                NightDifferentialHours: 0,
+                LateHours: 0,
+                UndertimeHours: 0,
 
-              // console.log(" numberofSwipes ", numberofSwipes);
+                DailyPay: 0,
+                PremiumPay: 0,
+                HolidayPay: 0,
+                OvertimePay: 0,
+                NightDifferentialPay: 0,
+                COLA: 0,
+                AdditionalAllowance: 0,
+                LateDeduction: 0,
+                UndertimeDeduction: 0,
+                AbsentDeduction: 0,
+                DailyNetPay: 0,
 
+                Remarks: "NA"
+              });
             }
-            else {
 
-              // console.log(" numberofSwipes ", numberofSwipes);
-
-            }
-
-            // console.log(date, " Logs ", dateLog);
-
-            employeesDTRLineLogs.push({
-              DTRId: this._caseData.objDTRData.Id,
-              EmployeeId: this._employeeList[employeeIndex].Id,
-              DTRDate: dateLog,
-              DateType: dateType,
-              IsRestDay: false,
-              ShiftId: shiftId,
-              Branch: this._employeeList[employeeIndex].Branch,
-              TimeIn1: DIN1,
-              TimeOut1: DOUT1,
-              TimeIn2: DIN2,
-              TimeOut2: DOUT2,
-
-              IsOnLeave: false,
-              IsOnLeaveHalfDay: false,
-              IsOnOfficialBusiness: false,
-              IsOnOfficialBusinessHalfDay: false,
-              IsAbsent: false,
-              IsAbsentHalfDay: false,
-
-              NumberOfHoursWorked: 0,
-              OvertimeHours: 0,
-              NightDifferentialHours: 0,
-              LateHours: 0,
-              UndertimeHours: 0,
-
-              DailyPay: 0,
-              PremiumPay: 0,
-              HolidayPay: 0,
-              OvertimePay: 0,
-              NightDifferentialPay: 0,
-              COLA: 0,
-              AdditionalAllowance: 0,
-              LateDeduction: 0,
-              UndertimeDeduction: 0,
-              AbsentDeduction: 0,
-              DailyNetPay: 0,
-
-              Remarks: "NA"
-            });
           }
-
         }
-
       }
 
-      this._listDTRLineObservableArray = employeesDTRLineLogs;
-      this._listDTRLineCollectionView = new CollectionView(this._listDTRLineObservableArray);
-      this._listDTRLineCollectionView.pageSize = 15;
-      this._listDTRLineCollectionView.trackChanges = true;
-      this._listDTRLineCollectionView.refresh();
-      this.flexDTRLine.refresh();
-
-      console.log(date, " Logs: ", employeesDTRLineLogs);
+      this._newDTRLines = employeesDTRLineLogs;
+      this.isPostButtonHidden = this._newDTRLines["length"] == 0 ? true : false;
+      this.ShowDTRLogs(employeesDTRLineLogs);
 
     }
     catch (e) {
       console.error(e);
     }
+
   }
 
-  public dtrEmployeeDetailSubscription: any;
+  public async ShowDTRLogs(employeesDTRLineLogs: ObservableArray) {
+
+    this._listDTRLineObservableArray = await employeesDTRLineLogs;
+    this._listDTRLineCollectionView = await new CollectionView(this._listDTRLineObservableArray);
+    this._listDTRLineCollectionView.pageSize = 10;
+    this._listDTRLineCollectionView.trackChanges = true;
+    this._listDTRLineCollectionView.refresh();
+    this.flexDTRLine.refresh();
+    this._isDTRLineProgressBarHidden = false;
+
+  }
 
   private async GetDTREmployeeDetail() {
+
     this.dtrEmployeeDetailSubscription = (await this._dtrDetailImportDtrLogsService.DTRLineEmployeeDetail(this._caseData.objDTRData.Id, this._caseData.objDTRData.PayrollGroup)).subscribe(
       data => {
         let result = data;
         if (result !== null) {
+
           this._employeeList = result["EmployeeList"];
           this._yearDateList = result["YearDateList"];
           this._shiftLineList = result["ShiftLineList"];
           this._changeShiftList = result["ChangeShiftineList"];
+
         }
+        if (this.dtrEmployeeDetailSubscription != null) this.dtrEmployeeDetailSubscription.unsubscribe();
+      },
+      error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
+        if (this.dtrEmployeeDetailSubscription != null) this.dtrEmployeeDetailSubscription.unsubscribe();
       }
     );
+
+  }
+
+  public async PostDTRLogs() {
+
+    this._isDTRLineProgressBarHidden = true;
+
+    let employeeList = this._employeeList;
+
+    let objDTRLogs: DTRLogs = {
+      DailyTimeRecord: this._caseData.objDTRData,
+      DailyTimeRecordLineList: [{}]
+    };
+
+    for (var employeeIndex = 0; employeeIndex < employeeList["length"]; employeeIndex++) {
+
+      var employeeDtrLog = this._newDTRLines.filter(e => e.EmployeeId == employeeList[employeeIndex].Id);
+      objDTRLogs.DailyTimeRecord = this._caseData.objDTRData;
+
+      if (employeeDtrLog["length"] > 0) {
+
+        this.counter += employeeDtrLog["length"];
+
+        objDTRLogs.DailyTimeRecordLineList = employeeDtrLog;
+
+        await this.PostEmployeeLogs(objDTRLogs, employeeDtrLog[0].Employee);
+      }
+
+    }
+  }
+
+  private async PostEmployeeLogs(DTRLogs: DTRLogs, employee: string) {
+
+    this.postDTRLogsSubscription = (await this._dtrDetailImportDtrLogsService.PostDTRLogs(DTRLogs)).subscribe(
+      data => {
+
+        console.log("Employee: ", employee);
+        let result = data;
+
+        if (this.counter === this._newDTRLines["length"]) {
+          this._isDTRLineProgressBarHidden = false;
+          this._matDialogRef.close({ event: 'Post' });
+        }
+
+        if (this.postDTRLogsSubscription != null) this.postDTRLogsSubscription.unsubscribe();
+      },
+      error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
+        if (this.postDTRLogsSubscription != null) this.postDTRLogsSubscription.unsubscribe();
+      }
+    );
+
   }
 
   public Close(): void {
     this._matDialogRef.close({ event: 'Close' });
+  }
+
+  fillLeadingZeroes(number: number, length: number) {
+    let result = number.toString();
+    let pad = length - result.length;
+    while (pad > 0) { result = '0' + result; pad--; }
+
+    return result;
+  }
+
+  convert24HrTo12Hr(time: Date) {
+    let hours = time.getHours();
+    let minutes = time.getMinutes();
+
+    let AMPM = hours < 12 ? 'AM' : 'PM';
+    let newHours = hours % 12 || 12;
+
+    return `${this.fillLeadingZeroes(newHours, 2)}:${this.fillLeadingZeroes(minutes, 2)} ${AMPM}`;
+  }
+
+  async ngOnInit() {
+    let dt1 = new Date("9/5/2020 11:32 AM");
+    let dt2 = new Date("9/5/2020 5:00 PM");
+
+    console.log(dt1 >= dt2);
+    console.log("dt2: ", dt2.getHours(), dt2.getMinutes(), this.fillLeadingZeroes(dt2.getSeconds(), 2));
+
+    console.log("Test: ", this.convert24HrTo12Hr(dt1));
+    this.CreateCboShowNumberOfRows();
   }
 
 }

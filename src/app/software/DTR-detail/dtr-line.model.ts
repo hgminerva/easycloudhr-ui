@@ -52,4 +52,9 @@ export class DTRLines {
     TimeOut2: string;
 }
 
+export class DTRLogs {
+    DailyTimeRecord: DTRModel;
+    DailyTimeRecordLineList: any;
+}
+
 
