@@ -625,8 +625,8 @@ export class EmployeeDetailComponent implements OnInit {
             this.employeeModel.EmployeeHR.DateRegular = result["EmployeeHR"].DateRegular;
             this.employeeModel.EmployeeHR.DateResigned = result["EmployeeHR"].DateResigned;
             this.UIDateHired = new Date(result["EmployeeHR"].DateHired);
-            this.UIDateRegular = new Date(result["EmployeeHR"].DateHired);
-            this.UIDateResigned = new Date(result["EmployeeHR"].DateHired);
+            this.UIDateRegular = result["EmployeeHR"].DateRegular == result["EmployeeHR"].DateHired || result["EmployeeHR"].DateRegular < result["EmployeeHR"].DateHired ? null : new Date(result["EmployeeHR"].DateRegular);
+            this.UIDateResigned = result["EmployeeHR"].DateResigned == result["EmployeeHR"].DateHired || result["EmployeeHR"].DateResigned < result["EmployeeHR"].DateHired ? null : new Date(result["EmployeeHR"].DateResigned);;
           } else {
             this.employeeModel.EmployeeHR = this.employeeHRModel;
             this.snackBarTemplate.snackBarError(this.snackBar, "Employee HR Null");
