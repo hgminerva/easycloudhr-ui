@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 import * as wjcGrid from '@grapecity/wijmo.grid';
+import * as wjcCore from '@grapecity/wijmo';
 
 import { UserDetailService } from '../user-detail.service';
 import { UserModel } from '../user.model'
@@ -335,6 +336,21 @@ export class UserDetailComponent implements OnInit {
     );
   }
 
+  userModuleGridClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'button-edit')) {
+      if (this._userRights.CanEdit) {
+        this.EditUserModule();
+      }
+
+    }
+
+    if (wjcCore.hasClass(e.target, 'button-delete')) {
+      if (this._userRights.CanDelete) {
+        this.ComfirmDeleteUserModule();
+      }
+    }
+  }
+
   public async DeleteUserModule() {
     if (this.isDataLoaded == true) {
       this.isDataLoaded = false;
@@ -461,6 +477,21 @@ export class UserDetailComponent implements OnInit {
         if (this.UserPayrollGroupListSubscription !== null) this.UserPayrollGroupListSubscription.unsubscribe();
       }
     );
+  }
+
+  userPayrollGroupGridClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'button-edit')) {
+      if (this._userRights.CanEdit) {
+        this.EditUserPayrollGroup();
+      }
+
+    }
+
+    if (wjcCore.hasClass(e.target, 'button-delete')) {
+      if (this._userRights.CanDelete) {
+        this.ComfirmDeleteUserPayrollGroup();
+      }
+    }
   }
 
   public async DeleteUserPayrollGroup() {

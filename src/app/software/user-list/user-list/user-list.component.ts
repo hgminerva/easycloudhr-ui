@@ -155,6 +155,15 @@ export class UserListComponent implements OnInit {
       }
     );
   }
+  
+  gridClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'button-edit')) {
+      if (this._userRights.CanEdit) {
+        this.EditUser();
+      }
+
+    }
+  }
 
 
   public btnAddUsers(): void {
