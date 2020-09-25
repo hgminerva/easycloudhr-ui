@@ -100,6 +100,7 @@ import { PortalEmployeePdfDialogComponent } from './portal-employee/portal-emplo
 import { YearDateAddToBranchesDialogComponent } from './year-detail/year-date-add-to-branches-dialog/year-date-add-to-branches-dialog.component';
 import { UserChangePasswordDialogComponent } from './shared/user-change-password-dialog/user-change-password-dialog.component';
 import { DtrDetailImportDtrLogsComponent } from './DTR-detail/dtr-detail-import-dtr-logs/dtr-detail-import-dtr-logs.component';
+import { GenericDropdownDialogComponent } from './shared/generic-dropdown-dialog/generic-dropdown-dialog.component';
 
 @NgModule({
   declarations: [
@@ -179,6 +180,7 @@ import { DtrDetailImportDtrLogsComponent } from './DTR-detail/dtr-detail-import-
     YearDateAddToBranchesDialogComponent,
     UserChangePasswordDialogComponent,
     DtrDetailImportDtrLogsComponent,
+    GenericDropdownDialogComponent,
   ],
   imports: [
     CommonModule,
