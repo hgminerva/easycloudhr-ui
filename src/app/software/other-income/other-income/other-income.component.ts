@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
+import * as wjcCore from '@grapecity/wijmo';
 import * as wjcGrid from '@grapecity/wijmo.grid';
 import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 
@@ -163,6 +163,21 @@ export class OtherIncomeComponent implements OnInit {
     );
   }
 
+  gridClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'button-edit')) {
+      if (this._userRights.CanEdit) {
+        this.EditOtherIncome();
+      }
+
+    }
+
+    if (wjcCore.hasClass(e.target, 'button-delete')) {
+      if (this._userRights.CanDelete) {
+        this.ComfirmDeleteOtherIncome();
+      }
+    }
+  }
+
   public async AddOtherIncome() {
     this._btnAddDisabled = true;
     if (this._isDataLoaded == true) {
@@ -219,7 +234,7 @@ export class OtherIncomeComponent implements OnInit {
       width: '500px',
       data: {
         objDialogTitle: "Delete OtherIncome",
-        objComfirmationMessage: ` Delete this ${currentOtherIncome.OtherIncome}?`,
+        objComfirmationMessage: ` Delete this ${currentOtherIncome.OtherIncomeCode}?`,
       },
       disableClose: true
     });
