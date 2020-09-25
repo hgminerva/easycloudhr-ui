@@ -44,9 +44,10 @@ export class OtherDeductionDetailDialogComponent implements OnInit {
   }
 
   private async Get_userRights() {
-    this._userRightsSubscription = await (await this._softwareSecurityService.PageModuleRights("Overtime List")).subscribe(
+    this._userRightsSubscription = await (await this._softwareSecurityService.PageModuleRights("Other Deduction")).subscribe(
       (response: any) => {
         let results = response;
+        console.log(response);
         if (results !== null) {
           this._userRights.Module = results["Module"];
           this._userRights.CanOpen = results["CanOpen"];
