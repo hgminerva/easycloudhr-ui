@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
+import * as wjcCore from '@grapecity/wijmo';
 import * as wjcGrid from '@grapecity/wijmo.grid';
 import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 
@@ -370,6 +370,24 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
         if (this._changeShiftLineListSubscription !== null) this._changeShiftLineListSubscription.unsubscribe();
       }
     );
+  }
+
+  gridClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'button-edit')) {
+
+      if (this.userRights.CanEdit) {
+        this.EditChangeShiftLine();
+      }
+
+    }
+
+    if (wjcCore.hasClass(e.target, 'button-delete')) {
+
+      if (this.userRights.CanDelete) {
+        this.ComfirmDeleteChangeShiftLine();
+      }
+      
+    }
   }
 
   public AddChangeShiftLine() {

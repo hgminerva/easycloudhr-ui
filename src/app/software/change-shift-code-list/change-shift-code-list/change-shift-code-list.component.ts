@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as wjcGrid from '@grapecity/wijmo.grid';
+import * as wjcCore from '@grapecity/wijmo';
+
 import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -41,6 +43,21 @@ export class ChangeShiftCodeListComponent implements OnInit {
   }
 
   public _isComponentsShown: boolean = false;
+
+  gridClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'button-edit')) {
+      if (this.userRights.CanEdit) {
+        this.EditChangeShiftCode();
+      }
+
+    }
+
+    if (wjcCore.hasClass(e.target, 'button-delete')) {
+      if (this.userRights.CanDelete) {
+        this.ComfirmDeleteChangeShiftCode();
+      }
+    }
+  }
 
   async ngOnInit() {
     await this.GetUserRights();
