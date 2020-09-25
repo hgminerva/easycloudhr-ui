@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
+import * as wjcCore from '@grapecity/wijmo';
 import * as wjcGrid from '@grapecity/wijmo.grid';
 import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 
@@ -364,6 +364,22 @@ export class PayrollOtherDeductionDetailComponent implements OnInit {
       }
     );
   }
+
+  gridClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'button-edit')) {
+      if (this._userRights.CanEdit) {
+        this.EditPayrollOtherDeductionLine();
+      }
+
+    }
+
+    if (wjcCore.hasClass(e.target, 'button-delete')) {
+      if (this._userRights.CanDelete) {
+        this.ComfirmDeletePayrollOtherDeductionLine();
+      }
+    }
+  }
+ 
 
   private Sum(data: any[]) {
     var total = 0
