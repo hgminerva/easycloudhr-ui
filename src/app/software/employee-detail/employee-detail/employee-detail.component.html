@@ -192,12 +192,8 @@
                             <div fxFlex="50" style="padding: 5px;">
                                 <mat-form-field appearance="outline" style="width: 100%;">
                                     <mat-label>City</mat-label>
-                                    <mat-select [(ngModel)]="employeeModel.CityId">
-                                        <mat-option *ngFor="let city of cityListDropdown" [disabled]="isLocked"
-                                            [value]="city.Id">
-                                            {{city.Value}}
-                                        </mat-option>
-                                    </mat-select>
+                                    <input type="text" [(ngModel)]="employeeModel.City" matInput readonly>
+                                    <mat-icon matSuffix (click)="PickCity()">keyboard_arrow_down</mat-icon>
                                 </mat-form-field>
                             </div>
                             <div fxFlex="50" style="padding: 5px;">
@@ -688,25 +684,23 @@
                 <mat-progress-bar *ngIf="_isEmployeeMemoProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'">
                 </mat-progress-bar>
                 <wj-flex-grid #flexEmployeeMemo [itemsSource]="_listEmployeeMemoCollectionView" [selectionMode]="3"
-                    [frozenColumns]="2">
+                    [frozenColumns]="2" #Grid (click)="gridClick(Grid, $event)">
                     <wj-flex-grid-filter></wj-flex-grid-filter>
-                    <wj-flex-grid-column [isReadOnly]="true" [width]="90" *ngIf="_canEdit">
+                    <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="90" *ngIf="_canEdit">
                         <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
-                            <button mat-raised-button color="primary"
-                                style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
-                                (click)="EditEmployeeMemo()" id="btnEditTaxExempt">
-                                <mat-icon>edit</mat-icon>
-                                Edit
+                            <button mat-raised-button class="button-edit" color="primary"
+                                style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
+                                <mat-icon class="button-edit">edit</mat-icon>
+                                <span class="button-edit">Edit</span>
                             </button>
                         </ng-template>
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [isReadOnly]="true" [width]="90" *ngIf="_canDelete">
+                    <wj-flex-grid-column [header]="'Delete'" [isReadOnly]="true" [width]="90" *ngIf="_canDelete">
                         <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
-                            <button mat-raised-button color="warn"
-                                style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
-                                (click)="ComfirmDeleteEmployeeMemo()" id="btnDeleteEmployeeMemo">
-                                <mat-icon>delete</mat-icon>
-                                Delete
+                            <button mat-raised-button class="button-delete" color="warn"
+                                style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
+                                <mat-icon class="button-delete">delete</mat-icon>
+                                <span class="button-delete">Delete</span>
                             </button>
                         </ng-template>
                     </wj-flex-grid-column>

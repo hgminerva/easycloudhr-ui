@@ -10,6 +10,7 @@ export class EmployeeModel {
     FullName: string;
     Address: string;
     CityId: number;
+    City: string;
     ZipCode: string;
     ContactNumber: string;
     ContactMobileNumber: string;

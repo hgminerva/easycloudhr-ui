@@ -5,6 +5,7 @@ import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DecimalPipe, DatePipe } from '@angular/common';
 import * as wjcGrid from '@grapecity/wijmo.grid';
+import * as wjcCore from '@grapecity/wijmo';
 import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 
 import { EmployeeDetailService } from './../employee-detail.service';
@@ -15,6 +16,7 @@ import { EmployeeDetialLinkToUsernameDialogComponent } from '../employee-detial-
 import { EmployeeMemoModel } from './../employee-memo.model';
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { EmployeeDetailEmployeeMemoComponent } from '../employee-detail-employee-memo/employee-detail-employee-memo.component';
+import { GenericDropdownDialogComponent } from '../../shared/generic-dropdown-dialog/generic-dropdown-dialog.component';
 @Component({
   selector: 'app-employee-detail',
   templateUrl: './employee-detail.component.html',
@@ -140,6 +142,7 @@ export class EmployeeDetailComponent implements OnInit {
     FullName: '',
     Address: '',
     CityId: 0,
+    City: '',
     ZipCode: '',
     ContactNumber: '',
     ContactMobileNumber: '',
@@ -378,7 +381,7 @@ export class EmployeeDetailComponent implements OnInit {
     this.religionDropdownSubscription = await (await this.employeeDetailService.ReligionList()).subscribe(
       response => {
         this.religionListDropdown = response;
-        this.GetEmployeeDetail();
+        this.GetPayrollTypeDropdownListData();
         if (this.religionDropdownSubscription !== null) this.religionDropdownSubscription.unsubscribe();
       },
       error => {
@@ -538,6 +541,11 @@ export class EmployeeDetailComponent implements OnInit {
     this.shiftDropdownSubscription = await (await this.employeeDetailService.ShiftList()).subscribe(
       response => {
         this.shiftDropdown = response;
+
+        setTimeout(() => {
+          this.GetEmployeeDetail();
+        }, 500);
+
         if (this.shiftDropdownSubscription !== null) this.shiftDropdownSubscription.unsubscribe();
       },
       error => {
@@ -573,6 +581,7 @@ export class EmployeeDetailComponent implements OnInit {
           this.employeeModel.FullName = result["FullName"];
           this.employeeModel.Address = result["Address"];
           this.employeeModel.CityId = result["CityId"];
+          this.employeeModel.City = result["City"];
           this.employeeModel.ZipCode = result["ZipCode"];
           this.employeeModel.ContactNumber = result["ContactNumber"];
           this.employeeModel.ContactMobileNumber = result["ContactMobileNumber"];
@@ -645,8 +654,6 @@ export class EmployeeDetailComponent implements OnInit {
         if (this.employeeDetailSubscription !== null) this.employeeDetailSubscription.unsubscribe();
       }
     );
-
-    await this.GetPayrollTypeDropdownListData();
   }
 
   public GetUIDateOfBirth() {
@@ -829,6 +836,24 @@ export class EmployeeDetailComponent implements OnInit {
       if (data.event == "Link") {
         this.employeeModel.UserId = data.UserId;
         this.employeeModel.Username = data.Username;
+      }
+    });
+  }
+
+  public PickCity() {
+    const matDialogRef = this.matDialog.open(GenericDropdownDialogComponent, {
+      width: '900px',
+      height: '500',
+      data: {
+        objDialogTitle: "Cities",
+      },
+      disableClose: true
+    });
+
+    matDialogRef.afterClosed().subscribe(data => {
+      if (data.event == "Pick") {
+        this.employeeModel.CityId = data.Value.Id;
+        this.employeeModel.City = data.Value.Value;
       }
     });
   }
@@ -1160,6 +1185,21 @@ export class EmployeeDetailComponent implements OnInit {
     );
 
     await this.GetChangeHistoryListData();
+  }
+
+  gridClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'button-edit')) {
+      if (this.userRights.CanEdit) {
+        this.EditEmployeeMemo();
+      }
+
+    }
+
+    if (wjcCore.hasClass(e.target, 'button-delete')) {
+      if (this.userRights.CanDelete) {
+        this.ComfirmDeleteEmployeeMemo();
+      }
+    }
   }
 
   public BtnAddEmployeeMemo() {

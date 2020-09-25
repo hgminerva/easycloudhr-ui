@@ -57,7 +57,7 @@ export class EmployeeListComponent implements OnInit {
           this.userRights.CanLock = results["CanLock"];
           this.userRights.CanUnlock = results["CanUnlock"];
           this.userRights.CanPrint = results["CanPrint"];
-        } 
+        }
 
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       },
@@ -75,8 +75,8 @@ export class EmployeeListComponent implements OnInit {
   // ========================
   public cboShowNumberOfRows: ObservableArray = new ObservableArray();
   public listPageIndex: number = 15;
-  
- 
+
+
   public createCboShowNumberOfRows(): void {
     for (var i = 0; i <= 4; i++) {
       var rows = 0;
@@ -199,6 +199,21 @@ export class EmployeeListComponent implements OnInit {
     );
   }
 
+  gridClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'button-edit')) {
+      if (this.userRights.CanEdit) {
+        this.EditEmployeeDetail();
+      }
+
+    }
+
+    if (wjcCore.hasClass(e.target, 'button-delete')) {
+      if (this.userRights.CanDelete) {
+        this.ComfirmDeleteEmployee();
+      }
+    }
+  }
+
   public async AddEmployeeDetail() {
     this.btnAddDisabled = true;
     if (this.isDataLoaded == true) {
@@ -306,7 +321,7 @@ export class EmployeeListComponent implements OnInit {
     }
     return new Blob([data], { type: 'text/csv;charset=utf-8;' });
   }
-  
+
   async ngOnInit() {
     await this.GetUserRights();
     await this.createCboShowNumberOfRows();
