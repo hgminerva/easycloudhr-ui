@@ -21,25 +21,25 @@
                         [mode]="'indeterminate'">
                     </mat-progress-bar>
                     <wj-flex-grid #flexMandatoryBIR [itemsSource]="_listMandatoryBIRCollectionView" [selectionMode]="3"
-                        [frozenColumns]="2">
+                        [frozenColumns]="2" #BIRGrid (click)="birGridClick(BIRGrid, $event)">
                         <wj-flex-grid-filter></wj-flex-grid-filter>
-                        <wj-flex-grid-column [isReadOnly]="true" [width]="90" *ngIf="_userRights.CanEdit">
+                        <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="90"
+                            *ngIf="_userRights.CanEdit">
                             <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
-                                <button mat-raised-button color="primary"
-                                    style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
-                                    (click)="EditMandatoryBIR()" id="btnEditTaxExempt">
-                                    <mat-icon>edit</mat-icon>
-                                    Edit
+                                <button mat-raised-button class="bir-button-edit" color="primary"
+                                    style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
+                                    <mat-icon class="bir-button-edit">edit</mat-icon>
+                                    <span class="bir-button-edit">Edit</span>
                                 </button>
                             </ng-template>
                         </wj-flex-grid-column>
-                        <wj-flex-grid-column [isReadOnly]="true" [width]="90" *ngIf="_userRights.CanDelete">
+                        <wj-flex-grid-column [header]="'Delete'" [isReadOnly]="true" [width]="90"
+                            *ngIf="_userRights.CanDelete">
                             <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
-                                <button mat-raised-button color="warn"
-                                    style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
-                                    (click)="ComfirmDeleteMandatoryBIR()" id="btnDeleteMandatoryBIR">
-                                    <mat-icon>delete</mat-icon>
-                                    Delete
+                                <button mat-raised-button class="bir-button-delete" color="warn"
+                                    style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
+                                    <mat-icon class="bir-button-delete">delete</mat-icon>
+                                    <span class="bir-button-delete">Delete</span>
                                 </button>
                             </ng-template>
                         </wj-flex-grid-column>
@@ -83,25 +83,25 @@
                         [mode]="'indeterminate'">
                     </mat-progress-bar>
                     <wj-flex-grid #flexMandatoryHDMF [itemsSource]="_listMandatoryHDMFCollectionView"
-                        [selectionMode]="3" [frozenColumns]="2">
+                        [selectionMode]="3" [frozenColumns]="2" #HDMFGrid (click)="hdmfGridClick(HDMFGrid, $event)">
                         <wj-flex-grid-filter></wj-flex-grid-filter>
-                        <wj-flex-grid-column [isReadOnly]="true" [width]="90" *ngIf="_userRights.CanEdit">
+                        <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="90"
+                            *ngIf="_userRights.CanEdit">
                             <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
-                                <button mat-raised-button color="primary"
-                                    style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
-                                    (click)="EditMandatoryHDMF()" id="btnEditMandatoryHDMF">
-                                    <mat-icon>edit</mat-icon>
-                                    Edit
+                                <button mat-raised-button class="hdmf-button-edit" color="primary"
+                                    style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
+                                    <mat-icon class="hdmf-button-edit">edit</mat-icon>
+                                    <span class="hdmf-button-edit">Edit</span>
                                 </button>
                             </ng-template>
                         </wj-flex-grid-column>
-                        <wj-flex-grid-column [isReadOnly]="true" [width]="90" *ngIf="_userRights.CanDelete">
+                        <wj-flex-grid-column [header]="'Delete'" [isReadOnly]="true" [width]="90"
+                            *ngIf="_userRights.CanDelete">
                             <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
-                                <button mat-raised-button color="warn"
-                                    style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
-                                    (click)="ComfirmDeleteMandatoryHDMF()" id="btnDeleteMandatoryHDMF">
-                                    <mat-icon>delete</mat-icon>
-                                    Delete
+                                <button mat-raised-button class="hdmf-button-delete" color="warn"
+                                    style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
+                                    <mat-icon class="hdmf-button-delete">delete</mat-icon>
+                                    <span class="hdmf-button-delete">Delete</span>
                                 </button>
                             </ng-template>
                         </wj-flex-grid-column>
@@ -157,25 +157,25 @@
                         [mode]="'indeterminate'">
                     </mat-progress-bar>
                     <wj-flex-grid #flexMandatoryPHIC [itemsSource]="_listMandatoryPHICCollectionView"
-                        [selectionMode]="3" [frozenColumns]="2">
+                        [selectionMode]="3" [frozenColumns]="2" #PHICGrid (click)="phicGridClick(PHICGrid, $event)">
                         <wj-flex-grid-filter></wj-flex-grid-filter>
-                        <wj-flex-grid-column [isReadOnly]="true" [width]="90"  *ngIf="_userRights.CanEdit">
+                        <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="90"
+                            *ngIf="_userRights.CanEdit">
                             <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
-                                <button mat-raised-button color="primary"
-                                    style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
-                                    (click)="EditMandatoryPHIC()" id="btnEditMandatoryPHIC">
-                                    <mat-icon>edit</mat-icon>
-                                    Edit
+                                <button mat-raised-button class="phic-button-edit" color="primary"
+                                    style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
+                                    <mat-icon class="phic-button-edit">edit</mat-icon>
+                                    <span class="phic-button-edit">Edit</span>
                                 </button>
                             </ng-template>
                         </wj-flex-grid-column>
-                        <wj-flex-grid-column [isReadOnly]="true" [width]="90"  *ngIf="_userRights.CanDelete">
+                        <wj-flex-grid-column [header]="'Delete'" [isReadOnly]="true" [width]="90"
+                            *ngIf="_userRights.CanDelete">
                             <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
-                                <button mat-raised-button color="warn"
-                                    style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
-                                    (click)="ComfirmDeleteMandatoryPHIC()" id="btnDeleteMandatoryPHIC">
-                                    <mat-icon>delete</mat-icon>
-                                    Delete
+                                <button mat-raised-button class="phic-button-delete" color="warn"
+                                    style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
+                                    <mat-icon class="phic-button-delete">delete</mat-icon>
+                                    <span class="phic-button-delete">Delete</span>
                                 </button>
                             </ng-template>
                         </wj-flex-grid-column>
@@ -223,25 +223,25 @@
                         [mode]="'indeterminate'">
                     </mat-progress-bar>
                     <wj-flex-grid #flexMandatorySSS [itemsSource]="_listMandatorySSSCollectionView" [selectionMode]="3"
-                        [frozenColumns]="2">
+                        [frozenColumns]="2"  #SSSGrid (click)="sssGridClick(SSSGrid, $event)">
                         <wj-flex-grid-filter></wj-flex-grid-filter>
-                        <wj-flex-grid-column [isReadOnly]="true" [width]="90"  *ngIf="_userRights.CanEdit">
+                        <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="90"
+                            *ngIf="_userRights.CanEdit">
                             <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
-                                <button mat-raised-button color="primary"
-                                    style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
-                                    (click)="EditMandatorySSS()" id="btnEditMandatorySSS">
-                                    <mat-icon>edit</mat-icon>
-                                    Edit
+                                <button mat-raised-button class="sss-button-edit" color="primary"
+                                    style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
+                                    <mat-icon class="sss-button-edit">edit</mat-icon>
+                                    <span class="sss-button-edit">Edit</span>
                                 </button>
                             </ng-template>
                         </wj-flex-grid-column>
-                        <wj-flex-grid-column [isReadOnly]="true" [width]="90"  *ngIf="_userRights.CanDelete">
+                        <wj-flex-grid-column [header]="'Delete'" [isReadOnly]="true" [width]="90"
+                            *ngIf="_userRights.CanDelete">
                             <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
-                                <button mat-raised-button color="warn"
-                                    style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
-                                    (click)="ComfirmDeleteMandatorySSS()" id="btnDeleteMandatorySSS">
-                                    <mat-icon>delete</mat-icon>
-                                    Delete
+                                <button mat-raised-button class="sss-button-delete" color="warn"
+                                    style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
+                                    <mat-icon class="sss-button-delete">delete</mat-icon>
+                                    <span class="sss-button-delete">Delete</span>
                                 </button>
                             </ng-template>
                         </wj-flex-grid-column>

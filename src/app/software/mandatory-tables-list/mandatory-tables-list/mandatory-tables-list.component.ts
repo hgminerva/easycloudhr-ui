@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as wjcGrid from '@grapecity/wijmo.grid';
+import * as wjcCore from '@grapecity/wijmo';
 import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -128,6 +129,21 @@ export class MandatoryTablesListComponent implements OnInit {
         if (this._mandatoryBIRListSubscription !== null) this._mandatoryBIRListSubscription.unsubscribe();
       }
     );
+  }
+
+  birGridClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'bir-button-edit')) {
+      if (this._userRights.CanEdit) {
+        this.EditMandatoryBIR();
+      }
+
+    }
+
+    if (wjcCore.hasClass(e.target, 'bir-button-delete')) {
+      if (this._userRights.CanDelete) {
+        this.ComfirmDeleteMandatoryBIR();
+      }
+    }
   }
 
   public BtnAddMandatoryBIR() {
@@ -306,6 +322,21 @@ export class MandatoryTablesListComponent implements OnInit {
     );
   }
 
+  hdmfGridClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'hdmf-button-edit')) {
+      if (this._userRights.CanEdit) {
+        this.EditMandatoryHDMF();
+      }
+
+    }
+
+    if (wjcCore.hasClass(e.target, 'hdmf-button-delete')) {
+      if (this._userRights.CanDelete) {
+        this.ComfirmDeleteMandatoryHDMF();
+      }
+    }
+  }
+
   public BtnAddMandatoryHDMF() {
 
     let objMandatoryHDMF: any = {
@@ -370,7 +401,7 @@ export class MandatoryTablesListComponent implements OnInit {
     }
   }
 
-  public async DeleteMandatoryHDMFs() {
+  public async DeleteMandatoryHDMF() {
     if (this.isMandatoryHDMFDataLoaded == true) {
       this.isMandatoryHDMFDataLoaded = false;
       let currentMandatoryHDMFs = this._listMandatoryHDMFCollectionView.currentItem;
@@ -405,7 +436,7 @@ export class MandatoryTablesListComponent implements OnInit {
 
     matDialogRef.afterClosed().subscribe(result => {
       if (result.message == "Yes") {
-        this.DeleteMandatoryHDMFs();
+        this.DeleteMandatoryHDMF();
       }
     });
   }
@@ -487,6 +518,21 @@ export class MandatoryTablesListComponent implements OnInit {
         if (this._mandatoryPHICTablesListSubscription !== null) this._mandatoryPHICTablesListSubscription.unsubscribe();
       }
     );
+  }
+
+  phicGridClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'phic-button-edit')) {
+      if (this._userRights.CanEdit) {
+        this.EditMandatoryPHIC();
+      }
+
+    }
+
+    if (wjcCore.hasClass(e.target, 'phic-button-delete')) {
+      if (this._userRights.CanDelete) {
+        this.ComfirmDeleteMandatoryPHIC();
+      }
+    }
   }
 
   public BtnAddMandatoryPHIC() {
@@ -678,6 +724,21 @@ export class MandatoryTablesListComponent implements OnInit {
         if (this._mandatorySSSListSubscription !== null) this._mandatorySSSListSubscription.unsubscribe();
       }
     );
+  }
+
+  sssGridClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'sss-button-edit')) {
+      if (this._userRights.CanEdit) {
+        this.EditMandatorySSS();
+      }
+
+    }
+
+    if (wjcCore.hasClass(e.target, 'sss-button-delete')) {
+      if (this._userRights.CanDelete) {
+        this.ComfirmDeleteMandatorySSS();
+      }
+    }
   }
 
   public BtnAddMandatorySSS() {
