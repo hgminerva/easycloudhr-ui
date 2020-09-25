@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
+import * as wjcCore from '@grapecity/wijmo';
 import * as wjcGrid from '@grapecity/wijmo.grid';
 import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 
@@ -369,6 +369,22 @@ export class LeaveApplicationDetailComponent implements OnInit {
       }
     );
   }
+
+  gridClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'button-edit')) {
+      if (this._userRights.CanEdit) {
+        this.EditLeaveApplicationLine();
+      }
+
+    }
+
+    if (wjcCore.hasClass(e.target, 'button-delete')) {
+      if (this._userRights.CanDelete) {
+        this.ComfirmDeleteLeaveApplicationLine();
+      }
+    }
+  }
+ 
 
   public AddLeaveApplicationLine() {
     this.DetailLeaveApplicationLine(this._leaveApplicationLineModel, "Add Leave Application Line");
