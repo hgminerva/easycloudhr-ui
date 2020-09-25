@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
+import * as wjcCore from '@grapecity/wijmo';
 import * as wjcGrid from '@grapecity/wijmo.grid';
 import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 
@@ -17,6 +17,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
 import { DatePipe } from '@angular/common';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
+
 @Component({
   selector: 'app-overtime-application-detail',
   templateUrl: './overtime-application-detail.component.html',
@@ -364,6 +365,21 @@ export class OvertimeApplicationDetailComponent implements OnInit {
         if (this._overtimeApplicationLineSubscription !== null) this._overtimeApplicationLineSubscription.unsubscribe();
       }
     );
+  }
+
+  gridClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'button-edit')) {
+      if (this._userRights.CanEdit) {
+        this.EditOvertimeApplicationLine();
+      }
+
+    }
+
+    if (wjcCore.hasClass(e.target, 'button-delete')) {
+      if (this._userRights.CanDelete) {
+        this.ComfirmDeleteOvertimeApplicationLine();
+      }
+    }
   }
 
   public AddOvertimeApplicationLine() {

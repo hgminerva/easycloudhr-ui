@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as wjcGrid from '@grapecity/wijmo.grid';
+import * as wjcCore from '@grapecity/wijmo';
 import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -8,6 +9,7 @@ import { SnackBarTemplate } from '../../shared/snack-bar-template';
 
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { OvertimeApplicationListService} from './../overtime-application-list.service';
+import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 @Component({
   selector: 'app-overtime-application-list',
   templateUrl: './overtime-application-list.component.html',
@@ -21,12 +23,53 @@ export class OvertimeApplicationListComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
     public _matDialog: MatDialog,
+    private _softwareSecurityService: SoftwareSecurityService,
+
   ) {
   }
 
   async ngOnInit() {
-    await this.GetPayrollGroupDropdownListData();
+    await this.Get_userRights();
     await this.CreateCboShowNumberOfRows();
+  }
+
+  private _userRightsSubscription: any;
+
+  public _userRights: UserModule = {
+    Module: "",
+    CanOpen: false,
+    CanAdd: false,
+    CanEdit: false,
+    CanDelete: false,
+    CanLock: false,
+    CanUnlock: false,
+    CanPrint: false,
+  }
+
+  private async Get_userRights() {
+    this._userRightsSubscription = await (await this._softwareSecurityService.PageModuleRights("Other Income")).subscribe(
+      (response: any) => {
+        let results = response;
+        if (results !== null) {
+          this._userRights.Module = results["Module"];
+          this._userRights.CanOpen = results["CanOpen"];
+          this._userRights.CanAdd = results["CanAdd"];
+          this._userRights.CanEdit = results["CanEdit"];
+          this._userRights.CanDelete = results["CanDelete"];
+          this._userRights.CanLock = results["CanLock"];
+          this._userRights.CanUnlock = results["CanUnlock"];
+          this._userRights.CanPrint = results["CanPrint"];
+        } 
+
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      },
+      error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+      }
+    );
+
+    await this.GetPayrollGroupDropdownListData();
   }
 
   private _payrollGroupDropdownSubscription: any;
@@ -147,6 +190,21 @@ export class OvertimeApplicationListComponent implements OnInit {
         }
       }
     );
+  }
+
+  gridClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'button-edit')) {
+      if (this._userRights.CanEdit) {
+        this.EditOvertimeApplication();
+      }
+
+    }
+
+    if (wjcCore.hasClass(e.target, 'button-delete')) {
+      if (this._userRights.CanDelete) {
+        this.ComfirmDeleteOvertimeApplication();
+      }
+    }
   }
 
   public async AddOvertimeApplication() {
