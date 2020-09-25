@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
+import * as wjcCore from '@grapecity/wijmo';
 import * as wjcGrid from '@grapecity/wijmo.grid';
 import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 
@@ -50,14 +50,14 @@ export class DTRDetailComponent implements OnInit {
       (response: any) => {
         let results = response;
         if (results !== null) {
-          this.userRights.Module = results["Module"];
-          this.userRights.CanOpen = results["CanOpen"];
-          this.userRights.CanAdd = results["CanAdd"];
-          this.userRights.CanEdit = results["CanEdit"];
-          this.userRights.CanDelete = results["CanDelete"];
-          this.userRights.CanLock = results["CanLock"];
-          this.userRights.CanUnlock = results["CanUnlock"];
-          this.userRights.CanPrint = results["CanPrint"];
+          this._userRights.Module = results["Module"];
+          this._userRights.CanOpen = results["CanOpen"];
+          this._userRights.CanAdd = results["CanAdd"];
+          this._userRights.CanEdit = results["CanEdit"];
+          this._userRights.CanDelete = results["CanDelete"];
+          this._userRights.CanLock = results["CanLock"];
+          this._userRights.CanUnlock = results["CanUnlock"];
+          this._userRights.CanPrint = results["CanPrint"];
         }
 
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
@@ -75,7 +75,7 @@ export class DTRDetailComponent implements OnInit {
   public _canEdit: boolean = false;
   public _canDelete: boolean = false;
 
-  public userRights: UserModule = {
+  public _userRights: UserModule = {
     Module: "",
     CanOpen: false,
     CanAdd: false,
@@ -313,7 +313,6 @@ export class DTRDetailComponent implements OnInit {
     this._dTRDetailSubscription = await (await this._dtrDetialService.DTRDetail(id)).subscribe(
       (response: any) => {
         let result = response;
-        console.log(response);
         if (result != null) {
           this._dTRModel = result;
           this.UIDTRDate = new Date(result["DTRDate"]);
@@ -337,17 +336,14 @@ export class DTRDetailComponent implements OnInit {
 
   public GetUIDATEDTRDate() {
     this._dTRModel.DTRDate = this.datePipe.transform(this.UIDTRDate, 'yyyy-MM-dd');
-    console.log(this._dTRModel.DTRDate);
   }
 
   public GetUIDATEDateStart() {
     this._dTRModel.DateStart = this.datePipe.transform(this.UIDateStart, 'yyyy-MM-dd');
-    console.log(this._dTRModel.DateStart);
   }
 
   public GetUIDATEDateEnd() {
     this._dTRModel.DateEnd = this.datePipe.transform(this.UIDateEnd, 'yyyy-MM-dd');
-    console.log(this._dTRModel.DateEnd);
   }
 
   public async SaveDTRDetail() {
@@ -426,7 +422,7 @@ export class DTRDetailComponent implements OnInit {
       this._btnUnlockDisabled = !isDisable;
     }
 
-    if (this.userRights.CanEdit === false) {
+    if (this._userRights.CanEdit === false) {
       this._canEdit = false;
       this._isLocked = true;
     } else {
@@ -434,7 +430,7 @@ export class DTRDetailComponent implements OnInit {
       this._isLocked = isDisable;
     }
 
-    if (this.userRights.CanDelete === false) {
+    if (this._userRights.CanDelete === false) {
       this._canDelete = false;
     } else {
       this._canDelete = !isDisable;
@@ -484,6 +480,21 @@ export class DTRDetailComponent implements OnInit {
         if (this._dTRLineListSubscription !== null) this._dTRLineListSubscription.unsubscribe();
       }
     );
+  }
+
+
+  gridClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'button-edit')) {
+      if (this._userRights.CanEdit) {
+        this.EditDTRLine();
+      }
+    }
+
+    if (wjcCore.hasClass(e.target, 'button-delete')) {
+      if (this._userRights.CanDelete) {
+        this.ComfirmDeleteDTRLine();
+      }
+    }
   }
 
   public AddDTRLine() {
@@ -561,6 +572,7 @@ export class DTRDetailComponent implements OnInit {
       );
     }
   }
+
 
   public async UpdateDTRLine(id: number, objDTRLine: DTRLineModel) {
     if (this._isDataLoaded == true) {
@@ -751,7 +763,7 @@ export class DTRDetailComponent implements OnInit {
     }
     return new Blob([data], { type: 'text/csv;charset=utf-8;' });
   }
-  
+
   ngOnDestroy() {
   }
 }

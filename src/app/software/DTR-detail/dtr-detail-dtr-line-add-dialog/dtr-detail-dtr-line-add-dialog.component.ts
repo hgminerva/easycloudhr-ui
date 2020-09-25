@@ -28,7 +28,7 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
   ) { }
 
   public _dTRLines: DTRLines = {
-    DailyTimeRecordModel: new DTRModel,
+    DailyTimeRecord: new DTRModel,
     EmployeeList: [],
     UseEmployeeDefaultShift: false,
     StartDate: '',
@@ -292,8 +292,7 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
 
   public Save(): void {
     this._dTRLines.EmployeeList = this.flexEmployees.selectedItems;
-    this._dTRLines.DailyTimeRecordModel = this._dTRModel;
-    console.log(this.flexEmployees.selectedItems);
+    this._dTRLines.DailyTimeRecord = this._dTRModel;
     this.SaveDTRLine();
   }
 

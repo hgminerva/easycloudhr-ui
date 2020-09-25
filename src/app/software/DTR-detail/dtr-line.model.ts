@@ -41,7 +41,7 @@ export class DTRLineModel {
 }
 
 export class DTRLines {
-    DailyTimeRecordModel: DTRModel;
+    DailyTimeRecord: DTRModel;
     EmployeeList: any;
     UseEmployeeDefaultShift: boolean;
     StartDate: string;

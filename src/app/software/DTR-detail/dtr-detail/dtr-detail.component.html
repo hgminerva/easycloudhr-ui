@@ -3,22 +3,22 @@
     <span>&nbsp;&nbsp; DTR Detail</span>
     <span class="spacer"></span>
     <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="_btnSaveDisabled"
-        (click)="SaveDTRDetail()" *ngIf="userRights.CanEdit">
+        (click)="SaveDTRDetail()" *ngIf="_userRights.CanEdit">
         <mat-icon>save</mat-icon>
         Save
     </button>
     <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="_btnLockisabled"
-        (click)="LockDTRDetail()" *ngIf="userRights.CanLock">
+        (click)="LockDTRDetail()" *ngIf="_userRights.CanLock">
         <mat-icon>lock</mat-icon>
         Lock
     </button>
     <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="_btnUnlockDisabled"
-        (click)="UnlockDTRDetail()" *ngIf="userRights.CanUnlock">
+        (click)="UnlockDTRDetail()" *ngIf="_userRights.CanUnlock">
         <mat-icon>lock_open</mat-icon>
         Unlock
     </button>
     <button mat-flat-button color="accent" id="btnAddEmployee" [disabled]="_btnUnlockDisabled" style="margin: 5px;"
-        (click)="btnCSVClick()" *ngIf="userRights.CanPrint">
+        (click)="btnCSVClick()" *ngIf="_userRights.CanPrint">
         <mat-icon>get_app</mat-icon>
         CSV
     </button>
@@ -29,7 +29,7 @@
 </mat-toolbar>
 <mat-progress-bar *ngIf="_isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'" style="width: 100%;">
 </mat-progress-bar>
-<div class="software-container" [hidden]="!userRights.CanOpen">
+<div class="software-container" [hidden]="!_userRights.CanOpen">
     <div [hidden]="_isComponentsShown">
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="50" style="padding: 5px;">
@@ -172,25 +172,24 @@
                 </mat-progress-bar>
 
                 <wj-flex-grid #flexDTRLine [itemsSource]="_listDTRLineCollectionView" [selectionMode]="3"
-                    [frozenColumns]="2" [headersVisibility]="1">
+                    [frozenColumns]="2" [headersVisibility]="1" #Grid (click)="gridClick(Grid, $event)">
                     <wj-flex-grid-filter></wj-flex-grid-filter>
-                    <wj-flex-grid-column [isReadOnly]="true" [width]="80" *ngIf="_canEdit">
+                    <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="90" *ngIf="_canEdit">
                         <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
-                            <button mat-raised-button color="primary"
-                                style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
-                                (click)="EditDTRLine()" id="btnEditDTRLine">
-                                <mat-icon>edit</mat-icon>
-                                Edit
+                            <button mat-raised-button class="button-edit" color="primary"
+                                style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
+                                <mat-icon class="button-edit">edit</mat-icon>
+                                <span class="button-edit">Edit</span>
                             </button>
                         </ng-template>
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [isReadOnly]="true" [width]="80" *ngIf="_canDelete">
+                    <wj-flex-grid-column [header]="'Delete'" [isReadOnly]="true" [width]="90"
+                        *ngIf="_canDelete">
                         <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
-                            <button mat-raised-button color="warn"
-                                style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
-                                (click)="ComfirmDeleteDTRLine()">
-                                <mat-icon>delete</mat-icon>
-                                Delete
+                            <button mat-raised-button class="button-delete" color="warn"
+                                style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
+                                <mat-icon class="button-delete">delete</mat-icon>
+                                <span class="button-delete">Delete</span>
                             </button>
                         </ng-template>
                     </wj-flex-grid-column>
@@ -273,11 +272,11 @@
             <mat-tab disabled style="background-color: transparent; ">
                 <ng-template mat-tab-label>
                     <button mat-raised-button color="accent" style="float: right; margin: 5px;"
-                        (click)="ImportDTRLogs()" [disabled]="_btnImportDTRLineDisabled" *ngIf="userRights.CanAdd">
+                        (click)="ImportDTRLogs()" [disabled]="_btnImportDTRLineDisabled" *ngIf="_userRights.CanAdd">
                         <mat-icon>publish</mat-icon> Import
                     </button><br>
                     <button mat-raised-button color="primary" style="float: right; margin: 5px;"
-                        (click)="AddDTRLineDialog()" [disabled]="_btnAddDTRLineDisabled" *ngIf="userRights.CanAdd">
+                        (click)="AddDTRLineDialog()" [disabled]="_btnAddDTRLineDisabled" *ngIf="_userRights.CanAdd">
                         <mat-icon>add</mat-icon> ADD
                     </button><br>
                 </ng-template>

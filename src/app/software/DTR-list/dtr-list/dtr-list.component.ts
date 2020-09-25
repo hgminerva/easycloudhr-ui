@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
+import * as wjcCore from '@grapecity/wijmo';
 import * as wjcGrid from '@grapecity/wijmo.grid';
 import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 
@@ -55,7 +55,7 @@ export class DTRListComponent implements OnInit {
   // ===========
   // User Rights
   // ===========
-  public userRights: UserModule = {
+  public _userRights: UserModule = {
     Module: "",
     CanOpen: false,
     CanAdd: false,
@@ -71,14 +71,14 @@ export class DTRListComponent implements OnInit {
       (response: any) => {
         let results = response;
         if (results !== null) {
-          this.userRights.Module = results["Module"];
-          this.userRights.CanOpen = results["CanOpen"];
-          this.userRights.CanAdd = results["CanAdd"];
-          this.userRights.CanEdit = results["CanEdit"];
-          this.userRights.CanDelete = results["CanDelete"];
-          this.userRights.CanLock = results["CanLock"];
-          this.userRights.CanUnlock = results["CanUnlock"];
-          this.userRights.CanPrint = results["CanPrint"];
+          this._userRights.Module = results["Module"];
+          this._userRights.CanOpen = results["CanOpen"];
+          this._userRights.CanAdd = results["CanAdd"];
+          this._userRights.CanEdit = results["CanEdit"];
+          this._userRights.CanDelete = results["CanDelete"];
+          this._userRights.CanLock = results["CanLock"];
+          this._userRights.CanUnlock = results["CanUnlock"];
+          this._userRights.CanPrint = results["CanPrint"];
         } 
 
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
@@ -200,6 +200,21 @@ export class DTRListComponent implements OnInit {
     }
     catch (e) {
       console.log(e);
+    }
+  }
+
+  gridClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'button-edit')) {
+      if (this._userRights.CanEdit) {
+        this.EditDTR();
+      }
+
+    }
+
+    if (wjcCore.hasClass(e.target, 'button-delete')) {
+      if (this._userRights.CanDelete) {
+        this.ComfirmDeleteDTR();
+      }
     }
   }
 

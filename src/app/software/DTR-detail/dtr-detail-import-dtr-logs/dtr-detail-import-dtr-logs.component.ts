@@ -126,10 +126,6 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
       let employeesDTRLogs = new ObservableArray();
       // Format date logs to MM/dd/yyyy
       for (var i = 0; i < dtrFileUpload["length"]; i++) {
-        const [day, month, year, hr, min, sec, ampm] = dtrFileUpload[i].Att_Time.split(/\W+/).filter(x => x.length);
-        let _dateLog = month + '/' + day + '/' + year;
-        let _timeLog = hr + ':' + min + ':' + sec + ' ' + ampm;
-
         employeesDTRLogs.push({
           BiometricId: dtrFileUpload[i].EmployeeName,
           Date: new Date(dtrFileUpload[i].Att_Time),
