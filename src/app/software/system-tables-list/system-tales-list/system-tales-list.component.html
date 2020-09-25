@@ -21,25 +21,23 @@
                         [mode]="'indeterminate'">
                     </mat-progress-bar>
                     <wj-flex-grid #flexCodeTables [itemsSource]="listCodeTablesCollectionView" [selectionMode]="3"
-                        [frozenColumns]="2">
+                        [frozenColumns]="2" #CodeTablesGrid (click)="codeTablesGridClick(CodeTablesGrid, $event)">
                         <wj-flex-grid-filter></wj-flex-grid-filter>
-                        <wj-flex-grid-column [isReadOnly]="true" [width]="90" *ngIf="_userRights.CanEdit">
+                        <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="90" *ngIf="_userRights.CanEdit">
                             <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
-                                <button mat-raised-button color="primary"
-                                    style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
-                                    (click)="EditCodeTable()" id="btnEditCodeTable">
-                                    <mat-icon>edit</mat-icon>
-                                    Edit
+                                <button mat-raised-button class="ct-button-edit" color="primary"
+                                    style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
+                                    <mat-icon class="ct-button-edit">edit</mat-icon>
+                                    <span class="ct-button-edit">Edit</span>
                                 </button>
                             </ng-template>
                         </wj-flex-grid-column>
-                        <wj-flex-grid-column [isReadOnly]="true" [width]="90" *ngIf="_userRights.CanDelete">
+                        <wj-flex-grid-column [header]="'Delete'" [isReadOnly]="true" [width]="90" *ngIf="_userRights.CanDelete">
                             <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
-                                <button mat-raised-button color="warn"
-                                    style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
-                                    (click)="ComfirmDeleteCodeTable()" id="btnDeleteCodeTable">
-                                    <mat-icon>delete</mat-icon>
-                                    Delete
+                                <button mat-raised-button class="ct-button-delete" color="warn"
+                                    style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
+                                    <mat-icon class="ct-button-delete">delete</mat-icon>
+                                    <span class="ct-button-delete">Delete</span>
                                 </button>
                             </ng-template>
                         </wj-flex-grid-column>
@@ -79,23 +77,23 @@
                         [mode]="'indeterminate'">
                     </mat-progress-bar>
                     <wj-flex-grid #flexTaxExemption [itemsSource]="listTaxExemptionCollectionView" [selectionMode]="3"
-                        [frozenColumns]="2">
+                        [frozenColumns]="2" #TaxExemptionGrid (click)="taxExemptionGridClick(TaxExemptionGrid, $event)">
                         <wj-flex-grid-filter></wj-flex-grid-filter>
-                        <wj-flex-grid-column [isReadOnly]="true" [width]="90"  *ngIf="_userRights.CanEdit">
-                            <ng-template wjFlexGridCellTemplate [cellType]="'Cell'" >
-                                <button mat-raised-button color="primary"
-                                    style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
-                                    (click)="EditTaxExemption()" id="btnEditTaxExempt">
-                                    <mat-icon>edit</mat-icon>Edit
+                        <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="90" *ngIf="_userRights.CanEdit">
+                            <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
+                                <button mat-raised-button class="te-button-edit" color="primary"
+                                    style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
+                                    <mat-icon class="te-button-edit">edit</mat-icon>
+                                    <span class="te-button-edit">Edit</span>
                                 </button>
                             </ng-template>
                         </wj-flex-grid-column>
-                        <wj-flex-grid-column [isReadOnly]="true" [width]="90"  *ngIf="_userRights.CanDelete">
+                        <wj-flex-grid-column [header]="'Delete'" [isReadOnly]="true" [width]="90" *ngIf="_userRights.CanDelete">
                             <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
-                                <button mat-raised-button color="warn"
-                                    style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;"
-                                    (click)="ComfirmDeleteTaxExemption()">
-                                    <mat-icon>delete</mat-icon>Delete
+                                <button mat-raised-button class="te-button-delete" color="warn"
+                                    style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
+                                    <mat-icon class="te-button-delete">delete</mat-icon>
+                                    <span class="te-button-delete">Delete</span>
                                 </button>
                             </ng-template>
                         </wj-flex-grid-column>

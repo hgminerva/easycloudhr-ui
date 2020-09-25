@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as wjcGrid from '@grapecity/wijmo.grid';
+import * as wjcCore from '@grapecity/wijmo';
 import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -115,6 +116,21 @@ export class SystemTalesListComponent implements OnInit {
         if (this.codeTableCodeTablesListSubscription !== null) this.codeTableCodeTablesListSubscription.unsubscribe();
       }
     );
+  }
+
+  codeTablesGridClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'ct-button-edit')) {
+      if (this._userRights.CanEdit) {
+        this.EditCodeTable();
+      }
+
+    }
+
+    if (wjcCore.hasClass(e.target, 'ct-button-delete')) {
+      if (this._userRights.CanDelete) {
+        this.ComfirmDeleteCodeTable();
+      }
+    }
   }
 
   public AddCodeTable() {
@@ -284,6 +300,21 @@ export class SystemTalesListComponent implements OnInit {
         if (this.taxExemptionListSubscription !== null) this.taxExemptionListSubscription.unsubscribe();
       }
     );
+  }
+
+  taxExemptionGridClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'te-button-edit')) {
+      if (this._userRights.CanEdit) {
+        this.EditTaxExemption();
+      }
+
+    }
+
+    if (wjcCore.hasClass(e.target, 'te-button-delete')) {
+      if (this._userRights.CanDelete) {
+        this.ComfirmDeleteTaxExemption();
+      }
+    }
   }
 
   public async AddTaxExemption(objTaxExemption: any) {
