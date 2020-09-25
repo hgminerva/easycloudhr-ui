@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
+import * as wjcCore from '@grapecity/wijmo';
 import * as wjcGrid from '@grapecity/wijmo.grid';
 import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 
@@ -24,9 +24,9 @@ export class CompanyListComponent implements OnInit {
     private _snackBarTemplate: SnackBarTemplate,
     public _matDialogRef: MatDialog,
     private softwareSecurityService: SoftwareSecurityService,
-    ) {
+  ) {
   }
-   
+
   private _userRightsSubscription: any;
 
   public _userRights: UserModule = {
@@ -56,10 +56,10 @@ export class CompanyListComponent implements OnInit {
   private _deleteCompanySubscription: any;
 
   public _btnAddDisabled: boolean = false;
- 
+
   public cboShowNumberOfRows: ObservableArray = new ObservableArray();
   public listPageIndex: number = 15;
-  
+
   private async GetUserRights() {
     this._userRightsSubscription = await (await this.softwareSecurityService.PageModuleRights("Company List")).subscribe(
       (response: any) => {
@@ -73,7 +73,7 @@ export class CompanyListComponent implements OnInit {
           this._userRights.CanLock = results["CanLock"];
           this._userRights.CanUnlock = results["CanUnlock"];
           this._userRights.CanPrint = results["CanPrint"];
-        } 
+        }
 
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       },
@@ -162,6 +162,21 @@ export class CompanyListComponent implements OnInit {
     );
   }
 
+  gridClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'button-edit')) {
+      if (this._userRights.CanEdit) {
+        this.EditCompany();
+      }
+
+    }
+
+    if (wjcCore.hasClass(e.target, 'button-delete')) {
+      if (this._userRights.CanDelete) {
+        this.ComfirmDeleteCompany();
+      }
+    }
+  }
+
   public async AddCompany() {
     this._btnAddDisabled = true;
     if (this._isDataLoaded == true) {
@@ -247,7 +262,7 @@ export class CompanyListComponent implements OnInit {
       }
     });
   }
-    
+
   async ngOnInit() {
     await this.GetUserRights();
     await this.createCboShowNumberOfRows();
