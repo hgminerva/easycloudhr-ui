@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-
+import * as wjcCore from '@grapecity/wijmo';
 import * as wjcGrid from '@grapecity/wijmo.grid';
 import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 
@@ -235,27 +235,27 @@ export class ShiftCodeDetailComponent implements OnInit {
   // ==================
   // Component Behavior
   // ==================
-  private loadComponent(isDisable) {
-    if (isDisable == true) {
-      this._btnAddShiftLineDisabled = isDisable;
-      this.btnSaveDisabled = isDisable;
-      this.btnLockisabled = isDisable;
-      this.btnUnlockDisabled = !isDisable;
+  private loadComponent(isDisabled) {
+    if (isDisabled == true) {
+      this._btnAddShiftLineDisabled = isDisabled;
+      this.btnSaveDisabled = isDisabled;
+      this.btnLockisabled = isDisabled;
+      this.btnUnlockDisabled = !isDisabled;
     } else {
-      this._btnAddShiftLineDisabled = isDisable;
-      this.btnSaveDisabled = isDisable;
-      this.btnLockisabled = isDisable;
-      this.btnUnlockDisabled = !isDisable;
+      this._btnAddShiftLineDisabled = isDisabled;
+      this.btnSaveDisabled = isDisabled;
+      this.btnLockisabled = isDisabled;
+      this.btnUnlockDisabled = !isDisabled;
     }
 
-     if (this._userRights.CanEdit === false) {
+    if (this._userRights.CanEdit == false) {
       this._canEdit = false;
       this.isLocked = true;
     } else {
-      this._canEdit = !isDisable;
-      this.isLocked = isDisable;
+      this._canEdit = !isDisabled;
+      this.isLocked = isDisabled;
     }
-    
+
     this.isProgressBarHidden = false;
   }
 
@@ -301,6 +301,21 @@ export class ShiftCodeDetailComponent implements OnInit {
         if (this._shiftLineListSubscription !== null) this._shiftLineListSubscription.unsubscribe();
       }
     );
+  }
+
+  gridClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'button-edit')) {
+      if (this._userRights.CanEdit) {
+        this.EditShiftLine();
+      }
+
+    }
+
+    if (wjcCore.hasClass(e.target, 'button-delete')) {
+      if (this._userRights.CanDelete) {
+        this.ComfirmDeleteShiftLine();
+      }
+    }
   }
 
   public async AddShiftLine(objShiftline: ShiftLineModel) {
@@ -419,7 +434,7 @@ export class ShiftCodeDetailComponent implements OnInit {
 
   activeTab() { }
 
-  
+
   ngOnInit(): void {
     this.Get_userRights();
   }
