@@ -18,6 +18,7 @@ import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-
 import { PayrollLineDetailDialogComponent } from '../payroll-line-detail-dialog/payroll-line-detail-dialog.component';
 import { PayrollDetailComputeConfirmDialogComponent } from './payroll-detail-compute-confirm-dialog/payroll-detail-compute-confirm-dialog.component';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
+import { PdfDialogComponent } from '../../shared/pdf-dialog/pdf-dialog.component';
 
 @Component({
   selector: 'app-payroll-detail',
@@ -39,7 +40,7 @@ export class PayrollDetailComponent implements OnInit {
   private _userRightsSubscription: any;
   public _canEdit: boolean = false;
   public _canDelete: boolean = false;
-  
+
   public _userRights: UserModule = {
     Module: "",
     CanOpen: false,
@@ -598,6 +599,22 @@ export class PayrollDetailComponent implements OnInit {
     });
   }
 
+  public btnPrintWorkSheetClick(): void {
+    const userRegistrationlDialogRef = this._matDialogRef.open(PdfDialogComponent, {
+      width: '1000px',
+      data: {
+        objDialogTitle: "Payroll",
+        objData: { EmployeeId: 0, TransactionId: this._payrollModel.Id }
+      },
+      disableClose: true
+    });
+
+    userRegistrationlDialogRef.afterClosed().subscribe(result => {
+      if (result.message == "Yes") {
+      }
+    });
+  }
+
 
   selectedCheckedByUser(event: MatSelectChange) {
     const selectedData = {
@@ -695,7 +712,7 @@ export class PayrollDetailComponent implements OnInit {
     return new Blob([data], { type: 'text/csv;charset=utf-8;' });
   }
 
-  
+
   async ngOnInit() {
     await this.Get_userRights();
   }

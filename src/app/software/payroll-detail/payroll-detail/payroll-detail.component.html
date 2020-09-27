@@ -2,6 +2,11 @@
     <img src="../../../../assets/menu-icons/payroll.png" height="35" />
     <span>&nbsp;&nbsp; Payroll Detail</span>
     <span class="spacer"></span>
+    <button mat-flat-button color="accent" id="btnAddCSV" [disabled]="!_isLocked" style="margin: 5px;"
+        (click)="btnPrintWorkSheetClick()" *ngIf="_userRights.CanPrint">
+        <mat-icon>get_app</mat-icon>
+        Print Worksheet
+    </button>
     <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="_btnSaveDisabled"
         (click)="SavePayrollDetail()" *ngIf="_userRights.CanEdit">
         <mat-icon>save</mat-icon>
@@ -253,13 +258,13 @@
             </mat-tab>
             <mat-tab disabled style="background-color: transparent; ">
                 <ng-template mat-tab-label>
+
                     <button mat-raised-button color="primary" style="float: right; margin: 5px;"
-                        (click)="ComfirmComputePayroll()" [disabled]="_btnDownloadDTRDisabled"
-                        *ngIf="_userRights.CanEdit">
-                        <mat-icon>get_app</mat-icon> DTR
+                        (click)="ComfirmComputePayroll()" [disabled]="_isLocked" *ngIf="_userRights.CanAdd">
+                        <mat-icon>get_app</mat-icon> Download DTR
                     </button>
                     <button mat-raised-button color="primary" style="float: right; margin: 5px;"
-                        (click)="AddPayrollLine()" [disabled]="_btnAddPayrollLineDisabled" *ngIf="_userRights.CanAdd">
+                        (click)="AddPayrollLine()" [disabled]="_isLocked" *ngIf="_userRights.CanAdd">
                         <mat-icon>add</mat-icon> ADD
                     </button>
                 </ng-template>
