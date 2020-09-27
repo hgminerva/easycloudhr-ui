@@ -2,6 +2,8 @@ import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import * as wjcGrid from '@grapecity/wijmo.grid';
 import { CollectionView, ObservableArray } from '@grapecity/wijmo';
+import * as wjcCore from '@grapecity/wijmo';
+
 import { PortalEmployeeService } from '../portal-employee.service';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -33,6 +35,8 @@ export class PortalEmployeeOvertimeApplicationDialogComponent implements OnInit 
   public overtimeApplication: any;
   public _isComponentHidden: boolean = true;
   public _btnAddOvertimeApplicationLineDisabled: boolean = false;
+  public _editButtonDisabled: boolean = true;
+  public _deleteButtonDisabled: boolean = true;
 
   // OT Application
   public _listOvertimeApplicationLineObservableArray: ObservableArray = new ObservableArray();
@@ -67,7 +71,8 @@ export class PortalEmployeeOvertimeApplicationDialogComponent implements OnInit 
         let result = response;
         if (result != null) {
           this.overtimeApplication = result;
-          this._btnAddOvertimeApplicationLineDisabled = result["IsLocked"];
+          console.log(result);
+          this.loadComponent(result["IsLocked"]);
         }
 
         this.GetOvertimeApplicationLineListData();
@@ -117,6 +122,8 @@ export class PortalEmployeeOvertimeApplicationDialogComponent implements OnInit 
     );
   }
 
+
+
   public Close(): void {
     this._dialogRef.close({ event: 'Close' });
   }
@@ -164,6 +171,26 @@ export class PortalEmployeeOvertimeApplicationDialogComponent implements OnInit 
         }
       );
     }
+  }
+
+  EditOvertimeApplicationLine() { }
+  ComfirmDeleteOvertimeApplicationLine() { }
+
+
+  gridClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'button-edit')) {
+      this.EditOvertimeApplicationLine();
+    }
+
+    if (wjcCore.hasClass(e.target, 'button-delete')) {
+      this.ComfirmDeleteOvertimeApplicationLine();
+    }
+  }
+  
+  private loadComponent(isDisable) {
+    this._btnAddOvertimeApplicationLineDisabled = isDisable;
+    this._editButtonDisabled = isDisable;
+    this._deleteButtonDisabled = isDisable;
   }
 
 }
