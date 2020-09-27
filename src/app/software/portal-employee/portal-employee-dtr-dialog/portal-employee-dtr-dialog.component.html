@@ -2,6 +2,10 @@
     <mat-toolbar>
         <span>{{title}}</span>
         <span class="spacer"></span>
+        <button mat-flat-button style="margin: 5px;" color="accent" (click)="Print()">
+            <mat-icon>print</mat-icon>
+            Print
+        </button>
         <button mat-flat-button mat-dialog-close style="margin: 5px;" color="warn" (click)="Close()">
             <mat-icon>close</mat-icon>
             Close

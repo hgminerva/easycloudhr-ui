@@ -5,6 +5,7 @@ import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 import { PortalEmployeeService } from '../portal-employee.service';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { PdfDialogComponent } from '../../shared/pdf-dialog/pdf-dialog.component';
 
 @Component({
   selector: 'app-portal-employee-dtr-dialog',
@@ -79,6 +80,22 @@ export class PortalEmployeeDtrDialogComponent implements OnInit {
         if (this._DTRLineSubscription !== null) this._DTRLineSubscription.unsubscribe();
       }
     );
+  }
+
+  public async Print() {
+    const matDialogRef = this._matDialog.open(PdfDialogComponent, {
+      width: '900px',
+      data: {
+        objDialogTitle: "DTR",
+        objData: { EmployeeId: this.caseData.objDataEmployeeId, TransactionId: this.caseData.objDataDTR.Id }
+      },
+      disableClose: true
+    });
+
+    matDialogRef.afterClosed().subscribe(result => {
+      if (result.message == "Yes") {
+      }
+    });
   }
 
   public Close(): void {
