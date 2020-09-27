@@ -272,11 +272,15 @@
             <mat-tab disabled style="background-color: transparent; ">
                 <ng-template mat-tab-label>
                     <button mat-raised-button color="accent" style="float: right; margin: 5px;"
-                        (click)="ImportDTRLogs()" [disabled]="_btnImportDTRLineDisabled" *ngIf="_userRights.CanAdd">
+                        (click)="ImportDTRLogs()" [disabled]="_isLocked" *ngIf="_userRights.CanAdd">
                         <mat-icon>publish</mat-icon> Import
                     </button><br>
                     <button mat-raised-button color="primary" style="float: right; margin: 5px;"
-                        (click)="AddDTRLineDialog()" [disabled]="_btnAddDTRLineDisabled" *ngIf="_userRights.CanAdd">
+                        (click)="ComputeAllDTRLines()" [disabled]="_isLocked" *ngIf="_userRights.CanAdd">
+                        <mat-icon>calculate</mat-icon> Compute
+                    </button><br>
+                    <button mat-raised-button color="primary" style="float: right; margin: 5px;"
+                        (click)="AddDTRLineDialog()" [disabled]="_isLocked" *ngIf="_userRights.CanAdd">
                         <mat-icon>add</mat-icon> ADD
                     </button><br>
                 </ng-template>

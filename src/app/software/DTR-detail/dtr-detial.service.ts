@@ -74,6 +74,10 @@ export class DtrDetialService {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/dtr/line/compute/' + id, this.appSettings.defaultOptions);
   }
 
+  public async ComputeAllDTRLines(dtrId: number) {
+    return await this.httpClient.put(this.appSettings.defaultAPIURLHost + '/api/dtr/line/compute/all/' + dtrId, "", this.appSettings.defaultOptions);
+  }
+
   public async DeleteDTRLine(id: number) {
     return await this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/api/dtr/line/delete/' + id, this.appSettings.defaultOptions);
   }

@@ -202,6 +202,8 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
     this._dTRLineModel.AbsentDeduction = this._decimalPipe.transform(this._caseData.objDTRLine.AbsentDeduction, "1.2-2");
     this._dTRLineModel.DailyNetPay = this._decimalPipe.transform(this._caseData.objDTRLine.DailyNetPay, "1.2-2");
     this._isComponentsHidden = false;
+
+    console.log(this._dTRLineModel);
   }
 
   public async ComputeDTRLine() {

@@ -593,6 +593,34 @@ export class DTRDetailComponent implements OnInit {
     }
   }
 
+  private _computeDTRLinesSubscription: any;
+
+  public async ComputeAllDTRLines() {
+    console.log("ComputeAllDTRLines");
+    if (this._isDataLoaded == true) {
+      this._isDataLoaded = false;
+      this._isDTRLineProgressBarHidden = true;
+
+      this._computeDTRLinesSubscription = await (await this._dtrDetialService.ComputeAllDTRLines(this._dTRModel.Id)).subscribe(
+        response => {
+          this._isDataLoaded = true;
+          this._isDTRLineProgressBarHidden = false;
+
+          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Compute Successfully");
+          this.GetDTRLineListData();
+          if (this._computeDTRLinesSubscription != null) this._computeDTRLinesSubscription.unsubscribe();
+        },
+        error => {
+          this._isDataLoaded = true;
+          this._isDTRLineProgressBarHidden = false;
+
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this._computeDTRLinesSubscription != null) this._computeDTRLinesSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
   public ComfirmDeleteDTRLine(): void {
     let currentDTRLine = this._listDTRLineCollectionView.currentItem;
     const matDialogRef = this._deleteDTRLineDialogRef.open(DeleteDialogBoxComponent, {

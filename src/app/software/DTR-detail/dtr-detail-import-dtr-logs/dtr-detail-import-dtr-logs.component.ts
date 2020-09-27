@@ -177,7 +177,7 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
             let DIN1, DOUT1, DIN2, DOUT2;
 
             let isRestDay = false;
-            let dateLog;
+            let dateLog = this.datePipe.transform(date, 'MM/dd/yyyy');
             let dateType = "REGULAR";
 
             // Date Type
@@ -220,8 +220,6 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
             console.log(this.datePipe.transform(employeeDateLogs[0].Date, 'MM/dd/yyyy'), this.datePipe.transform(date, 'MM/dd/yyyy'));
 
             if (dayLogs["length"] > 0) {
-
-              dateLog = this.datePipe.transform(date, 'MM/dd/yyyy');
 
               if (numberofSwipes == 2) {
 
@@ -330,6 +328,49 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
                 TimeOut1: DOUT1,
                 TimeIn2: DIN2,
                 TimeOut2: DOUT2,
+
+                IsOnLeave: false,
+                IsOnLeaveHalfDay: false,
+                IsOnOfficialBusiness: false,
+                IsOnOfficialBusinessHalfDay: false,
+                IsAbsent: false,
+                IsAbsentHalfDay: false,
+
+                NumberOfHoursWorked: 0,
+                OvertimeHours: 0,
+                NightDifferentialHours: 0,
+                LateHours: 0,
+                UndertimeHours: 0,
+
+                DailyPay: 0,
+                PremiumPay: 0,
+                HolidayPay: 0,
+                OvertimePay: 0,
+                NightDifferentialPay: 0,
+                COLA: 0,
+                AdditionalAllowance: 0,
+                LateDeduction: 0,
+                UndertimeDeduction: 0,
+                AbsentDeduction: 0,
+                DailyNetPay: 0,
+
+                Remarks: "NA"
+              });
+            }
+            else{
+              employeesDTRLineLogs.push({
+                DTRId: this._caseData.objDTRData.Id,
+                EmployeeId: this._employeeList[employeeIndex].Id,
+                Employee: this._employeeList[employeeIndex].FullName,
+                DTRDate: dateLog,
+                DateType: dateType,
+                IsRestDay: isRestDay,
+                ShiftId: shiftId,
+                Branch: this._employeeList[employeeIndex].Branch,
+                TimeIn1: '',
+                TimeOut1: '',
+                TimeIn2: '',
+                TimeOut2: '',
 
                 IsOnLeave: false,
                 IsOnLeaveHalfDay: false,
