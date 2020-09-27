@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
+import * as wjcCore from '@grapecity/wijmo';
 import * as wjcGrid from '@grapecity/wijmo.grid';
 import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 
@@ -329,25 +329,78 @@ export class PortalEmployeeComponent implements OnInit {
     await this.GetYearDTRDropdownListData();
   }
 
-  public async ViewLeaveApplication() {
-    let currentLeaveApplication = this._listLeaveApplicationCollectionView.currentItem;
-    const matDialogRef = this._matDialog.open(PortalEmployeeLeaveApplicationDialogComponent, {
-      width: '900px',
+  public async leaveApplicationridClick(s, e) {
+    let currentItem = this._listLeaveApplicationCollectionView.currentItem;
+
+    if (currentItem.IsLocked == false) {
+      
+      if (wjcCore.hasClass(e.target, 'la-button-edit')) {
+        await this.EditLeaveApplication();
+      }
+
+      if (wjcCore.hasClass(e.target, 'la-button-delete')) {
+        await this.ComfirmDeleteLeaveApplication();
+      }
+
+    }
+
+  }
+
+  public AddLeaveApplication() {
+
+    let _leaveApplicationLine: any = {
+      Id: 0,
+      LAId: 0,
+      EmployeeId: 0,
+      Employee: '',
+      LADate: '',
+      IsHalfDay: false,
+      IsWithPay: false,
+      Remarks: ''
+    }
+
+    this.LeaveApplicationLineDetail(_leaveApplicationLine);
+
+  }
+
+  public EditLeaveApplication() {
+    let currentLA = this._listLeaveApplicationCollectionView.currentItem;
+
+    let _leaveApplicationLine: any = {
+      Id: currentLA.Id,
+      LAId: currentLA.LAId,
+      EmployeeId: currentLA.EmployeeId,
+      Employee: currentLA.Employee,
+      LADate: currentLA.LADate,
+      IsHalfDay: currentLA.IsHalfDay,
+      IsWithPay: currentLA.IsWithPay,
+      Remarks: currentLA.Remarks,
+    }
+
+    this.LeaveApplicationLineDetail(_leaveApplicationLine);
+  }
+
+
+  public LeaveApplicationLineDetail(_leaveApplicationLine: any) {
+    const dialogRef = this._matDialog.open(PortalEmployeeLeaveApplicationDialogComponent, {
+      width: '600px',
       data: {
-        objDialogTitle: "Leave Application",
-        objDataLAApplication: currentLeaveApplication,
-        objDataEmployeeId: this._portalEmployeeModel.Id,
+        objDialogTitle: "Overtime Application",
+        objData: _leaveApplicationLine,
+        objYearId: this._currentYearIdLA
       },
       disableClose: true
     });
 
-    matDialogRef.afterClosed().subscribe(result => {
-      if (result.message == "Yes") {
-        this.GetLeaveApplicationListData();
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.event !== 'Close') {
       }
     });
   }
 
+  public ComfirmDeleteLeaveApplication() {
+
+  }
   // ===
   // DTR 
   // ===

@@ -16,7 +16,7 @@
         </mat-progress-bar>
 
         <wj-flex-grid #flexPayrollLine [itemsSource]="_listPayrollLineCollectionView" [selectionMode]="3"
-            [frozenColumns]="2" [headersVisibility]="1">
+            [frozenColumns]="1" [headersVisibility]="1">
             <wj-flex-grid-filter></wj-flex-grid-filter>
             <wj-flex-grid-column [isReadOnly]="true" [width]="90">
                 <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
@@ -26,8 +26,8 @@
                     </button>
                 </ng-template>
             </wj-flex-grid-column>
-            <wj-flex-grid-column [header]="'Employee'" [binding]="'Employee'" [isReadOnly]="true" [width]="200">
-            </wj-flex-grid-column>
+            <!-- <wj-flex-grid-column [header]="'Employee'" [binding]="'Employee'" [isReadOnly]="true" [width]="200">
+            </wj-flex-grid-column> -->
             <wj-flex-grid-column [header]="'Payroll Rate'" [binding]="'PayrollRate'" [isReadOnly]="true" [width]="150">
             </wj-flex-grid-column>
             <wj-flex-grid-column [header]="'Total Daily Pay'" [binding]="'TotalDailyPay'" [isReadOnly]="true"

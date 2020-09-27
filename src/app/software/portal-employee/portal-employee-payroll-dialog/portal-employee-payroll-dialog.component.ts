@@ -5,7 +5,7 @@ import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 import { PortalEmployeeService } from '../portal-employee.service';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { PortalEmployeePdfDialogComponent } from '../portal-employee-pdf-dialog/portal-employee-pdf-dialog.component';
+import { PdfDialogComponent } from '../../shared/pdf-dialog/pdf-dialog.component';
 
 @Component({
   selector: 'app-portal-employee-payroll-dialog',
@@ -86,12 +86,11 @@ export class PortalEmployeePayrollDialogComponent implements OnInit {
 
   public async Print() {
     let currentPayrollLine = this._listPayrollLineCollectionView.currentItem;
-    const matDialogRef = this._matDialog.open(PortalEmployeePdfDialogComponent, {
+    const matDialogRef = this._matDialog.open(PdfDialogComponent, {
       width: '900px',
       data: {
-        objDialogTitle: "Leave Application",
-        objDataEmployeeId: this.caseData.objDataEmployeeId,
-        objDataPayrollLineId: currentPayrollLine.Id
+        objDialogTitle: "Payslip",
+        objData: { EmployeeId: this.caseData.objDataEmployeeId, TransactionId: currentPayrollLine.Id }
       },
       disableClose: true
     });

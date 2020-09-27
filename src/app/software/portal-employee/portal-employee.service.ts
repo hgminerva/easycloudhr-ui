@@ -61,6 +61,10 @@ export class PortalEmployeeService {
   // ======================
   // Leave Application Line
   // ======================
+  public async LeaveApplicationDropdownList(yearId: number) {
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/portal/employee/leave/application/dropdown/list/' + yearId , this.appSettings.defaultOptions);
+  }
+
   public async LeaveApplicationLineList(employeeId: number, leaveApplicationId: number) {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/portal/employee/leave/application/line/list/' + employeeId + '/' + leaveApplicationId, this.appSettings.defaultOptions);
   }
