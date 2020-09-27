@@ -89,7 +89,6 @@ import { PortalEmployeeComponent } from './portal-employee/portal-employee/porta
 import { EmployeeDetailEmployeeMemoComponent } from './employee-detail/employee-detail-employee-memo/employee-detail-employee-memo.component';
 import { PayrollDetailComputeConfirmDialogComponent } from './payroll-detail/payroll-detail/payroll-detail-compute-confirm-dialog/payroll-detail-compute-confirm-dialog.component';
 import { PortalEmployeeLeaveApplicationDialogComponent } from './portal-employee/portal-employee-leave-application-dialog/portal-employee-leave-application-dialog.component';
-import { PortalEmployeeLeaveApplicationLineAddDialogComponent } from './portal-employee/portal-employee-leave-application-dialog/portal-employee-leave-application-line-add-dialog/portal-employee-leave-application-line-add-dialog.component';
 import { PortalEmployeeOvertimeApplicationDialogComponent } from './portal-employee/portal-employee-overtime-application-dialog/portal-employee-overtime-application-dialog.component';
 import { PortalEmployeeOvertimeApplicationLineAddDialogComponent } from './portal-employee/portal-employee-overtime-application-dialog/portal-employee-overtime-application-line-add-dialog/portal-employee-overtime-application-line-add-dialog.component';
 import { PortalEmployeeLoanDialogComponent } from './portal-employee/portal-employee-loan-dialog/portal-employee-loan-dialog.component';
@@ -101,6 +100,7 @@ import { YearDateAddToBranchesDialogComponent } from './year-detail/year-date-ad
 import { UserChangePasswordDialogComponent } from './shared/user-change-password-dialog/user-change-password-dialog.component';
 import { DtrDetailImportDtrLogsComponent } from './DTR-detail/dtr-detail-import-dtr-logs/dtr-detail-import-dtr-logs.component';
 import { GenericDropdownDialogComponent } from './shared/generic-dropdown-dialog/generic-dropdown-dialog.component';
+import { PdfDialogComponent } from './shared/pdf-dialog/pdf-dialog.component';
 
 @NgModule({
   declarations: [
@@ -169,7 +169,6 @@ import { GenericDropdownDialogComponent } from './shared/generic-dropdown-dialog
     EmployeeDetailEmployeeMemoComponent,
     PayrollDetailComputeConfirmDialogComponent,
     PortalEmployeeLeaveApplicationDialogComponent,
-    PortalEmployeeLeaveApplicationLineAddDialogComponent,
     PortalEmployeeOvertimeApplicationDialogComponent,
     PortalEmployeeOvertimeApplicationLineAddDialogComponent,
     PortalEmployeeLoanDialogComponent,
@@ -181,6 +180,7 @@ import { GenericDropdownDialogComponent } from './shared/generic-dropdown-dialog
     UserChangePasswordDialogComponent,
     DtrDetailImportDtrLogsComponent,
     GenericDropdownDialogComponent,
+    PdfDialogComponent,
   ],
   imports: [
     CommonModule,
