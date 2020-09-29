@@ -11,6 +11,7 @@ import { OtherIncomeService } from './../other-income.service';
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { OtherIncodeDetailDialogComponent } from './../other-incode-detail-dialog/other-incode-detail-dialog.component';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-other-income',
@@ -25,6 +26,7 @@ export class OtherIncomeComponent implements OnInit {
     private _snackBarTemplate: SnackBarTemplate,
     public _matDialogRef: MatDialog,
     private _softwareSecurityService: SoftwareSecurityService,
+    private _router: Router,
     ) {
   }
 
@@ -60,6 +62,10 @@ export class OtherIncomeComponent implements OnInit {
       },
       error => {
         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+
+        if (error.status == "401") {
+          this._router.navigate(['/security/login']);
+        }
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       }
     );
@@ -152,13 +158,8 @@ export class OtherIncomeComponent implements OnInit {
         if (this._otherIncomeListSubscription != null) this._otherIncomeListSubscription.unsubscribe();
       },
       error => {
-        if (error.status == "401") {
-          location.reload();
-        } else {
-          this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + " Status Code: " + error.status);
-          if (this._otherIncomeListSubscription != null) this._otherIncomeListSubscription.unsubscribe();
-
-        }
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + " Status Code: " + error.status);
+        if (this._otherIncomeListSubscription != null) this._otherIncomeListSubscription.unsubscribe();
       }
     );
   }

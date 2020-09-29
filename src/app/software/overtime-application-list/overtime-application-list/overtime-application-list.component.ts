@@ -65,6 +65,10 @@ export class OvertimeApplicationListComponent implements OnInit {
       },
       error => {
         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+
+        if (error.status == "401") {
+          this.router.navigate(['/security/login']);
+        }
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       }
     );
@@ -140,11 +144,7 @@ export class OvertimeApplicationListComponent implements OnInit {
         if (this._payrollGroupDropdownSubscription !== null) this._payrollGroupDropdownSubscription.unsubscribe();
       },
       error => {
-        if (error.status == "401") {
-          location.reload();
-        } else {
-          this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + " Status Code: " + error.status);
-        }
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + " Status Code: " + error.status);
       }
     );
   }

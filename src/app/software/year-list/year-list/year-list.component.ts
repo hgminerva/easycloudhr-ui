@@ -27,7 +27,7 @@ export class YearListComponent implements OnInit {
     private _snackBarTemplate: SnackBarTemplate,
     public _matDialogRef: MatDialog,
     private _softwareSecurityService: SoftwareSecurityService,
-    ) {
+  ) {
   }
 
   private _userRightsSubscription: any;
@@ -56,12 +56,16 @@ export class YearListComponent implements OnInit {
           this._userRights.CanLock = results["CanLock"];
           this._userRights.CanUnlock = results["CanUnlock"];
           this._userRights.CanPrint = results["CanPrint"];
-        } 
+        }
 
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       },
       error => {
         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+
+        if (error.status == "401") {
+          this._router.navigate(['/security/login']);
+        }
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       }
     );
@@ -152,13 +156,8 @@ export class YearListComponent implements OnInit {
         if (this._yearListSubscription != null) this._yearListSubscription.unsubscribe();
       },
       error => {
-        if (error.status == "401") {
-          location.reload();
-        } else {
-          this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + " Status Code: " + error.status);
-          if (this._yearListSubscription != null) this._yearListSubscription.unsubscribe();
-
-        }
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + " Status Code: " + error.status);
+        if (this._yearListSubscription != null) this._yearListSubscription.unsubscribe();
       }
     );
   }
@@ -263,7 +262,7 @@ export class YearListComponent implements OnInit {
       }
     });
   }
-  
+
   async ngOnInit() {
     await this.Get_userRights();
     await this.createCboShowNumberOfRows();

@@ -83,7 +83,10 @@ export class ChangeShiftCodeListComponent implements OnInit {
       },
       error => {
         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
+
+        if (error.status == "401") {
+          this.router.navigate(['/security/login']);
+        }
       }
     );
 
@@ -158,11 +161,8 @@ export class ChangeShiftCodeListComponent implements OnInit {
         if (this._payrollGroupDropdownSubscription !== null) this._payrollGroupDropdownSubscription.unsubscribe();
       },
       error => {
-        if (error.status == "401") {
-          location.reload();
-        } else {
-          this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + " Status Code: " + error.status);
-        }
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + " Status Code: " + error.status);
+        if (this._payrollGroupDropdownSubscription !== null) this._payrollGroupDropdownSubscription.unsubscribe();
       }
     );
   }
@@ -201,12 +201,8 @@ export class ChangeShiftCodeListComponent implements OnInit {
       },
       error => {
         this._isProgressBarHidden = false;
-        if (error.status == "401") {
-          location.reload();
-        } else {
-          this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + " Status Code: " + error.status);
-          if (this._changeShiftCodeListSubscription != null) this._changeShiftCodeListSubscription.unsubscribe();
-        }
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + " Status Code: " + error.status);
+        if (this._changeShiftCodeListSubscription != null) this._changeShiftCodeListSubscription.unsubscribe();
       }
     );
   }

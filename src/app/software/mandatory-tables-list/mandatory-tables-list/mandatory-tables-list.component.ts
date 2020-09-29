@@ -68,6 +68,10 @@ export class MandatoryTablesListComponent implements OnInit {
       },
       error => {
         this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+
+        if (error.status == "401") {
+          this.router.navigate(['/security/login']);
+        }
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       }
     );

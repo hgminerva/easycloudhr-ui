@@ -11,6 +11,7 @@ import { CompanyListService } from './../company-list.service'
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { CompanyDetailComponent } from '../../company-detail/company-detail/company-detail.component';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-company-list',
@@ -24,6 +25,8 @@ export class CompanyListComponent implements OnInit {
     private _snackBarTemplate: SnackBarTemplate,
     public _matDialogRef: MatDialog,
     private softwareSecurityService: SoftwareSecurityService,
+    private _router: Router,
+
   ) {
   }
 
@@ -79,6 +82,10 @@ export class CompanyListComponent implements OnInit {
       },
       error => {
         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+
+        if (error.status == "401") {
+          this._router.navigate(['/security/login']);
+        }
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       }
     );
@@ -151,13 +158,8 @@ export class CompanyListComponent implements OnInit {
         if (this._companyListSubscription != null) this._companyListSubscription.unsubscribe();
       },
       error => {
-        if (error.status == "401") {
-          location.reload();
-        } else {
-          this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + " Status Code: " + error.status);
-          if (this._companyListSubscription != null) this._companyListSubscription.unsubscribe();
-
-        }
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + " Status Code: " + error.status);
+        if (this._companyListSubscription != null) this._companyListSubscription.unsubscribe();
       }
     );
   }

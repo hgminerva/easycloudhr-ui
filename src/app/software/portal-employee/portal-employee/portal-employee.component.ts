@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -32,7 +32,8 @@ export class PortalEmployeeComponent implements OnInit {
     private _portalEmployeeService: PortalEmployeeService,
     public _matDialog: MatDialog,
     private softwareSecurityService: SoftwareSecurityService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private _router: Router,
   ) { }
 
   public moduleEmployeePortalOnly: boolean = false;
@@ -132,12 +133,13 @@ export class PortalEmployeeComponent implements OnInit {
         if (this._employeeDetailSubscription !== null) this._employeeDetailSubscription.unsubscribe();
       },
       error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+
         if (error.status == "401") {
-          location.reload();
-        } else {
-          this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + " Status Code: " + error.status);
-          if (this._employeeDetailSubscription != null) this._employeeDetailSubscription.unsubscribe();
+          this._router.navigate(['/security/login']);
         }
+        if (this._employeeDetailSubscription != null) this._employeeDetailSubscription.unsubscribe();
+
       }
     );
   }
@@ -757,13 +759,8 @@ export class PortalEmployeeComponent implements OnInit {
         if (this._loanListSubscription != null) this._loanListSubscription.unsubscribe();
       },
       error => {
-        if (error.status == "401") {
-          location.reload();
-        } else {
-          this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + " Status Code: " + error.status);
-          if (this._loanListSubscription != null) this._loanListSubscription.unsubscribe();
-
-        }
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + " Status Code: " + error.status);
+        if (this._loanListSubscription != null) this._loanListSubscription.unsubscribe();
       }
     );
   }

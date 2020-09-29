@@ -12,6 +12,7 @@ import { OtherDeductionDetailDialogComponent } from '../other-deduction-detail-d
 
 import { OtherDeductionsService } from './../other-deductions.service';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-other-deductions',
@@ -26,6 +27,7 @@ export class OtherDeductionsComponent implements OnInit {
     private _snackBarTemplate: SnackBarTemplate,
     public _matDialogRef: MatDialog,
     private _softwareSecurityService: SoftwareSecurityService,
+    private _router: Router,
   ) {
   }
 
@@ -66,6 +68,10 @@ export class OtherDeductionsComponent implements OnInit {
       },
       error => {
         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+
+        if (error.status == "401") {
+          this._router.navigate(['/security/login']);
+        }
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       }
     );
@@ -158,13 +164,8 @@ export class OtherDeductionsComponent implements OnInit {
         if (this._otherDeductionListSubscription != null) this._otherDeductionListSubscription.unsubscribe();
       },
       error => {
-        if (error.status == "401") {
-          location.reload();
-        } else {
-          this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + " Status Code: " + error.status);
-          if (this._otherDeductionListSubscription != null) this._otherDeductionListSubscription.unsubscribe();
-
-        }
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + " Status Code: " + error.status);
+        if (this._otherDeductionListSubscription != null) this._otherDeductionListSubscription.unsubscribe();
       }
     );
   }

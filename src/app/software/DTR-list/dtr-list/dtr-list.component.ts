@@ -19,16 +19,16 @@ import { SoftwareSecurityService, UserModule } from '../../software-security/sof
 })
 export class DTRListComponent implements OnInit {
 
-    // Constructor and overrides
-    constructor(private _dTRListService: DTRListService,
-      public _DTRRegistrationlDialog: MatDialog,
-      private _snackBar: MatSnackBar,
-      private _snackBarTemplate: SnackBarTemplate,
-      public _matDialogRef: MatDialog,
-      private _router: Router,
-      private _softwareSecurityService: SoftwareSecurityService,) {
-    }
-  
+  // Constructor and overrides
+  constructor(private _dTRListService: DTRListService,
+    public _DTRRegistrationlDialog: MatDialog,
+    private _snackBar: MatSnackBar,
+    private _snackBarTemplate: SnackBarTemplate,
+    public _matDialogRef: MatDialog,
+    private _router: Router,
+    private _softwareSecurityService: SoftwareSecurityService,) {
+  }
+
   // Class properties
   public _listDTRObservableArray: ObservableArray = new ObservableArray();
   public _listDTRCollectionView: CollectionView = new CollectionView(this._listDTRObservableArray);
@@ -79,12 +79,17 @@ export class DTRListComponent implements OnInit {
           this._userRights.CanLock = results["CanLock"];
           this._userRights.CanUnlock = results["CanUnlock"];
           this._userRights.CanPrint = results["CanPrint"];
-        } 
+        }
 
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       },
       error => {
         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+
+        if (error.status == "401") {
+          this._router.navigate(['/security/login']);
+        }
+        
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       }
     );
@@ -152,11 +157,7 @@ export class DTRListComponent implements OnInit {
         if (this._payrollGroupDropdownSubscription !== null) this._payrollGroupDropdownSubscription.unsubscribe();
       },
       error => {
-        if (error.status == "401") {
-          location.reload();
-        } else {
-          this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + " Status Code: " + error.status);
-        }
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + " Status Code: " + error.status);
       }
     );
   }

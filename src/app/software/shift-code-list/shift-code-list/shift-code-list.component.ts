@@ -55,12 +55,16 @@ export class ShiftCodeListComponent implements OnInit {
           this._userRights.CanLock = results["CanLock"];
           this._userRights.CanUnlock = results["CanUnlock"];
           this._userRights.CanPrint = results["CanPrint"];
-        } 
+        }
 
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       },
       error => {
         this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+
+        if (error.status == "401") {
+          this.router.navigate(['/security/login']);
+        }
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       }
     );
@@ -147,12 +151,8 @@ export class ShiftCodeListComponent implements OnInit {
         if (this.shiftCodeListSubscription != null) this.shiftCodeListSubscription.unsubscribe();
       },
       error => {
-        if (error.status == "401") {
-          location.reload();
-        } else {
-          this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + " Status Code: " + error.status);
-          if (this.shiftCodeListSubscription != null) this.shiftCodeListSubscription.unsubscribe();
-        }
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + " Status Code: " + error.status);
+        if (this.shiftCodeListSubscription != null) this.shiftCodeListSubscription.unsubscribe();
       }
     );
   }
@@ -258,7 +258,7 @@ export class ShiftCodeListComponent implements OnInit {
       }
     });
   }
-    
+
   async ngOnInit() {
     await this.Get_userRights();
     await this.CreateCboShowNumberOfRows();

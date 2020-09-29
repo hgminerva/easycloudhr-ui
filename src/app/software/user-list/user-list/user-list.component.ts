@@ -54,12 +54,16 @@ export class UserListComponent implements OnInit {
           this._userRights.CanLock = results["CanLock"];
           this._userRights.CanUnlock = results["CanUnlock"];
           this._userRights.CanPrint = results["CanPrint"];
-        } 
+        }
 
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       },
       error => {
         this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+
+        if (error.status == "401") {
+          this.router.navigate(['/security/login']);
+        }
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       }
     );
@@ -146,16 +150,12 @@ export class UserListComponent implements OnInit {
         if (this.userListSubscription != null) this.userListSubscription.unsubscribe();
       },
       error => {
-        if (error.status == "401") {
-          location.reload();
-        } else {
-          this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + " Status Code: " + error.status);
-          if (this.userListSubscription != null) this.userListSubscription.unsubscribe();
-        }
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + " Status Code: " + error.status);
+        if (this.userListSubscription != null) this.userListSubscription.unsubscribe();
       }
     );
   }
-  
+
   gridClick(s, e) {
     if (wjcCore.hasClass(e.target, 'button-edit')) {
       if (this._userRights.CanEdit) {
