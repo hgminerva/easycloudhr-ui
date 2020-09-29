@@ -29,7 +29,7 @@ export class PortalEmployeeService {
 
   // OvertimeApplication LINE
   public async OvertimeApplicationList(employeeId: number, yearId: number) {
-    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/portal/employee/overtime/application/list/' + employeeId + '/' + yearId, this.appSettings.defaultOptions);
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/portal/employee/overtime/application/line/list/' + employeeId + '/' + yearId, this.appSettings.defaultOptions);
   }
 
   public async OvertimeApplicationDetail(id: number) {
@@ -37,6 +37,10 @@ export class PortalEmployeeService {
   }
 
   // overtimeApplication LINE
+  public async OvertimeApplicationDropdownList(yearId: number) {
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/portal/employee/overtime/application/dropdown/list/' + yearId , this.appSettings.defaultOptions);
+  }
+
   public async OvertimeApplicationLineList(employeeId: number, ovartimeApplicationId: number) {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/portal/employee/overtime/application/line/list/' + employeeId + '/' + ovartimeApplicationId, this.appSettings.defaultOptions);
   }
@@ -45,7 +49,13 @@ export class PortalEmployeeService {
     return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/portal/employee/overtime/application/line/create', JSON.stringify(objovertimeApplicationLine), this.appSettings.defaultOptions);
   }
 
+  public async UpdateOvertimeApplicationLine(id: number, objOvertimeApplicationLine: any) {
+    return await this.httpClient.put(this.appSettings.defaultAPIURLHost + '/api/portal/employee/overtime/application/line/update/' + id, JSON.stringify(objOvertimeApplicationLine), this.appSettings.defaultOptions);
+  }
 
+  public async DeleteOvertimeApplicationLine(id: any) {
+    return await this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/api/portal/employee/overtime/application/line/delete/' + id, this.appSettings.defaultOptions);
+  }
   // =================
   // Leave Application
   // =================
@@ -69,10 +79,17 @@ export class PortalEmployeeService {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/portal/employee/leave/application/line/list/' + employeeId + '/' + leaveApplicationId, this.appSettings.defaultOptions);
   }
 
-  public async AddLeaveApplicationLine(objovertimeApplicationLine: any) {
-    return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/portal/employee/leave/application/line/create', JSON.stringify(objovertimeApplicationLine), this.appSettings.defaultOptions);
+  public async AddLeaveApplicationLine(objLeaveApplicationLine: any) {
+    return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/portal/employee/leave/application/line/create', JSON.stringify(objLeaveApplicationLine), this.appSettings.defaultOptions);
   }
 
+  public async UpdateLeaveApplicationLine(id: number, objLeaveApplicationLine: any) {
+    return await this.httpClient.put(this.appSettings.defaultAPIURLHost + '/api/portal/employee/leave/application/line/update/' + id, JSON.stringify(objLeaveApplicationLine), this.appSettings.defaultOptions);
+  }
+
+  public async DeleteLeaveApplicationLine(laId: any) {
+    return await this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/api/portal/employee/leave/application/line/delete/' + laId, this.appSettings.defaultOptions);
+  }
 
 
   // DTR 

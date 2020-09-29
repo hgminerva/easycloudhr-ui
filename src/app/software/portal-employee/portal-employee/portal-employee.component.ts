@@ -16,6 +16,8 @@ import { PortalEmployeeDtrDialogComponent } from '../portal-employee-dtr-dialog/
 import { PortalEmployeePayrollDialogComponent } from '../portal-employee-payroll-dialog/portal-employee-payroll-dialog.component';
 import { UserChangePasswordDialogComponent } from '../../shared/user-change-password-dialog/user-change-password-dialog.component';
 import { SoftwareSecurityService } from '../../software-security/software-security.service';
+import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-portal-employee',
@@ -29,8 +31,8 @@ export class PortalEmployeeComponent implements OnInit {
     private _snackBarTemplate: SnackBarTemplate,
     private _portalEmployeeService: PortalEmployeeService,
     public _matDialog: MatDialog,
-    private softwareSecurityService: SoftwareSecurityService
-
+    private softwareSecurityService: SoftwareSecurityService,
+    private datePipe: DatePipe
   ) { }
 
   public moduleEmployeePortalOnly: boolean = false;
@@ -155,7 +157,6 @@ export class PortalEmployeeComponent implements OnInit {
     this._yearOTListSubscription = await (await this._portalEmployeeService.YearList()).subscribe(
       response => {
         this._yearOTListDropdownList = response;
-        this._currentYearIdOT = response[0].Id;
         this.GetCurrentOTYear();
         if (this._yearOTListSubscription !== null) this._yearOTListSubscription.unsubscribe();
       },
@@ -170,6 +171,8 @@ export class PortalEmployeeComponent implements OnInit {
     this._yearOTCurrentSubscription = await (await this._portalEmployeeService.CurrentYear()).subscribe(
       (result: any) => {
         this._currentYearIdOT = result;
+        console.log(this._currentYearIdOT);
+        this.GetOvertimeApplicationListData();
         if (this._yearOTCurrentSubscription !== null) this._yearOTCurrentSubscription.unsubscribe();
       },
       error => {
@@ -177,11 +180,6 @@ export class PortalEmployeeComponent implements OnInit {
         if (this._yearOTCurrentSubscription !== null) this._yearOTCurrentSubscription.unsubscribe();
       }
     );
-
-    await this.GetOvertimeApplicationListData();
-    // await this.GetLeaveApplicationListData();
-    // await this.GetDTRListData();
-    // await this.GetPayrollListData();
   }
 
   activeTab() { }
@@ -197,7 +195,6 @@ export class PortalEmployeeComponent implements OnInit {
 
     this._isOvertimeApplicationProgressBarHidden = true;
 
-    console.log(this._portalEmployeeModel.Id);
     this._overtimeApplicationSubscription = await (await this._portalEmployeeService.OvertimeApplicationList(this._portalEmployeeModel.Id, this._currentYearIdOT)).subscribe(
       (response: any) => {
         if (response["length"] > 0) {
@@ -223,23 +220,111 @@ export class PortalEmployeeComponent implements OnInit {
     this.GetYearLADropdownListData();
   }
 
-  public async ViewOvertimeApplication() {
-    let currentOvertimeApplication = this._listOvertimeApplicationCollectionView.currentItem;
-    const userRegistrationlDialogRef = this._matDialog.open(PortalEmployeeOvertimeApplicationDialogComponent, {
-      width: '900px',
+  public async overtimeApplicationGridClick(s, e) {
+    let currentItem = this._listOvertimeApplicationCollectionView.currentItem;
+
+    if (currentItem.IsLocked == false) {
+
+      if (wjcCore.hasClass(e.target, 'ot-button-edit')) {
+        await this.EditOvertimeApplication();
+      }
+
+      if (wjcCore.hasClass(e.target, 'ot-button-delete')) {
+        await this.ComfirmDeleteOvertimeApplication();
+      }
+
+    }
+
+  }
+
+  public RemoveComma(value: string): string {
+    return value.toString().replace(/,/g, '');
+  }
+
+
+  public AddOvertimeApplication() {
+
+    let _overtimeApplicationLine: any = {
+      Id: 0,
+      OTId: 0,
+      EmployeeId: this._portalEmployeeModel.Id,
+      Employee: '',
+      OTDate: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
+      OTHours: '0',
+      Remarks: ''
+    }
+
+    this.OvertimeApplicationLineDetail(_overtimeApplicationLine);
+  }
+
+  public EditOvertimeApplication() {
+    let currentOT = this._listOvertimeApplicationCollectionView.currentItem;
+
+    let _leaveApplicationLine: any = {
+      Id: currentOT.LineId,
+      OTId: currentOT.LAId,
+      EmployeeId: currentOT.EmployeeId,
+      Employee: currentOT.Employee,
+      OTDate: currentOT.LineOTDate,
+      OTHours: this.RemoveComma(currentOT.OTHours),
+      Remarks: currentOT.Remarks,
+    }
+
+    this.OvertimeApplicationLineDetail(_leaveApplicationLine);
+  }
+
+  public OvertimeApplicationLineDetail(_leaveApplicationLine: any) {
+    const dialogRef = this._matDialog.open(PortalEmployeeOvertimeApplicationDialogComponent, {
+      width: '600px',
       data: {
         objDialogTitle: "Overtime Application",
-        objDataOTApplication: currentOvertimeApplication,
-        objDataEmployeeId: this._portalEmployeeModel.Id,
+        objData: _leaveApplicationLine,
+        objYearId: this._currentYearIdLA
+      },
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.event !== 'Close') {
+        this.GetOvertimeApplicationListData();
+      }
+    });
+  }
+
+  public ComfirmDeleteOvertimeApplication(): void {
+    let currentOT = this._listOvertimeApplicationCollectionView.currentItem;
+    const userRegistrationlDialogRef = this._matDialog.open(DeleteDialogBoxComponent, {
+      width: '500px',
+      data: {
+        objDialogTitle: "",
+        objComfirmationMessage: `Delete ${currentOT.OTNumber}?`,
       },
       disableClose: true
     });
 
     userRegistrationlDialogRef.afterClosed().subscribe(result => {
       if (result.message == "Yes") {
-        this.GetOvertimeApplicationListData();
+        this.DeleteOvertimeApplication();
       }
     });
+  }
+
+  private deleteOvertimeApplicationSubscription: any;
+
+  private async DeleteOvertimeApplication() {
+    let currentOT = this._listOvertimeApplicationCollectionView.currentItem;
+
+    this.deleteOvertimeApplicationSubscription = (await this._portalEmployeeService.DeleteOvertimeApplicationLine(currentOT.LineId)).subscribe(
+      response => {
+        this.GetOvertimeApplicationListData();
+        if (this.deleteOvertimeApplicationSubscription !== null) this.deleteOvertimeApplicationSubscription.unsubscribe();
+      },
+      error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        if (this.deleteOvertimeApplicationSubscription !== null) this.deleteOvertimeApplicationSubscription.unsubscribe();
+      }
+    );
+
   }
 
   // =================
@@ -333,7 +418,7 @@ export class PortalEmployeeComponent implements OnInit {
     let currentItem = this._listLeaveApplicationCollectionView.currentItem;
 
     if (currentItem.IsLocked == false) {
-      
+
       if (wjcCore.hasClass(e.target, 'la-button-edit')) {
         await this.EditLeaveApplication();
       }
@@ -351,9 +436,9 @@ export class PortalEmployeeComponent implements OnInit {
     let _leaveApplicationLine: any = {
       Id: 0,
       LAId: 0,
-      EmployeeId: 0,
+      EmployeeId: this._portalEmployeeModel.Id,
       Employee: '',
-      LADate: '',
+      LADate: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
       IsHalfDay: false,
       IsWithPay: false,
       Remarks: ''
@@ -365,13 +450,13 @@ export class PortalEmployeeComponent implements OnInit {
 
   public EditLeaveApplication() {
     let currentLA = this._listLeaveApplicationCollectionView.currentItem;
-
+    console.log(currentLA);
     let _leaveApplicationLine: any = {
-      Id: currentLA.Id,
+      Id: currentLA.LineId,
       LAId: currentLA.LAId,
       EmployeeId: currentLA.EmployeeId,
       Employee: currentLA.Employee,
-      LADate: currentLA.LADate,
+      LADate: currentLA.LineLADate,
       IsHalfDay: currentLA.IsHalfDay,
       IsWithPay: currentLA.IsWithPay,
       Remarks: currentLA.Remarks,
@@ -394,13 +479,47 @@ export class PortalEmployeeComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result.event !== 'Close') {
+        this.GetLeaveApplicationListData();
       }
     });
   }
 
-  public ComfirmDeleteLeaveApplication() {
+  public ComfirmDeleteLeaveApplication(): void {
+    let currentLA = this._listLeaveApplicationCollectionView.currentItem;
+    const userRegistrationlDialogRef = this._matDialog.open(DeleteDialogBoxComponent, {
+      width: '500px',
+      data: {
+        objDialogTitle: "Delete Change Shift",
+        objComfirmationMessage: `Delete ${currentLA.LANumber}?`,
+      },
+      disableClose: true
+    });
+
+    userRegistrationlDialogRef.afterClosed().subscribe(result => {
+      if (result.message == "Yes") {
+        this.DeleteLeaveApplication();
+      }
+    });
+  }
+
+  private deleteLeaveApplicationSubscription: any;
+
+  private async DeleteLeaveApplication() {
+    let currentLA = this._listLeaveApplicationCollectionView.currentItem;
+
+    this.deleteLeaveApplicationSubscription = (await this._portalEmployeeService.DeleteLeaveApplicationLine(currentLA.LineId)).subscribe(
+      response => {
+        this.GetLeaveApplicationListData();
+        if (this.deleteLeaveApplicationSubscription !== null) this.deleteLeaveApplicationSubscription.unsubscribe();
+      },
+      error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        if (this.deleteLeaveApplicationSubscription !== null) this.deleteLeaveApplicationSubscription.unsubscribe();
+      }
+    );
 
   }
+
   // ===
   // DTR 
   // ===

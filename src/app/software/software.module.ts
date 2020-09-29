@@ -90,12 +90,10 @@ import { EmployeeDetailEmployeeMemoComponent } from './employee-detail/employee-
 import { PayrollDetailComputeConfirmDialogComponent } from './payroll-detail/payroll-detail/payroll-detail-compute-confirm-dialog/payroll-detail-compute-confirm-dialog.component';
 import { PortalEmployeeLeaveApplicationDialogComponent } from './portal-employee/portal-employee-leave-application-dialog/portal-employee-leave-application-dialog.component';
 import { PortalEmployeeOvertimeApplicationDialogComponent } from './portal-employee/portal-employee-overtime-application-dialog/portal-employee-overtime-application-dialog.component';
-import { PortalEmployeeOvertimeApplicationLineAddDialogComponent } from './portal-employee/portal-employee-overtime-application-dialog/portal-employee-overtime-application-line-add-dialog/portal-employee-overtime-application-line-add-dialog.component';
 import { PortalEmployeeLoanDialogComponent } from './portal-employee/portal-employee-loan-dialog/portal-employee-loan-dialog.component';
 import { PortalEmployeeDtrDialogComponent } from './portal-employee/portal-employee-dtr-dialog/portal-employee-dtr-dialog.component';
 import { PortalEmployeeDtrLineDialogComponent } from './portal-employee/portal-employee-dtr-dialog/portal-employee-dtr-line-dialog/portal-employee-dtr-line-dialog.component';
 import { PortalEmployeePayrollDialogComponent } from './portal-employee/portal-employee-payroll-dialog/portal-employee-payroll-dialog.component';
-import { PortalEmployeePdfDialogComponent } from './portal-employee/portal-employee-pdf-dialog/portal-employee-pdf-dialog.component';
 import { YearDateAddToBranchesDialogComponent } from './year-detail/year-date-add-to-branches-dialog/year-date-add-to-branches-dialog.component';
 import { UserChangePasswordDialogComponent } from './shared/user-change-password-dialog/user-change-password-dialog.component';
 import { DtrDetailImportDtrLogsComponent } from './DTR-detail/dtr-detail-import-dtr-logs/dtr-detail-import-dtr-logs.component';
@@ -170,12 +168,10 @@ import { PdfDialogComponent } from './shared/pdf-dialog/pdf-dialog.component';
     PayrollDetailComputeConfirmDialogComponent,
     PortalEmployeeLeaveApplicationDialogComponent,
     PortalEmployeeOvertimeApplicationDialogComponent,
-    PortalEmployeeOvertimeApplicationLineAddDialogComponent,
     PortalEmployeeLoanDialogComponent,
     PortalEmployeeDtrDialogComponent,
     PortalEmployeeDtrLineDialogComponent,
     PortalEmployeePayrollDialogComponent,
-    PortalEmployeePdfDialogComponent,
     YearDateAddToBranchesDialogComponent,
     UserChangePasswordDialogComponent,
     DtrDetailImportDtrLogsComponent,

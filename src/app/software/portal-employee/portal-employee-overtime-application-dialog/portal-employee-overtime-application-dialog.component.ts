@@ -1,13 +1,9 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import * as wjcGrid from '@grapecity/wijmo.grid';
-import { CollectionView, ObservableArray } from '@grapecity/wijmo';
-import * as wjcCore from '@grapecity/wijmo';
-
-import { PortalEmployeeService } from '../portal-employee.service';
-import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { PortalEmployeeOvertimeApplicationLineAddDialogComponent } from './portal-employee-overtime-application-line-add-dialog/portal-employee-overtime-application-line-add-dialog.component';
+import { DecimalPipe, DatePipe } from '@angular/common';
+import { SnackBarTemplate } from 'src/app/software/shared/snack-bar-template';
+import { PortalEmployeeService } from '../portal-employee.service';
 
 @Component({
   selector: 'app-portal-employee-overtime-application-dialog',
@@ -17,180 +13,140 @@ import { PortalEmployeeOvertimeApplicationLineAddDialogComponent } from './porta
 export class PortalEmployeeOvertimeApplicationDialogComponent implements OnInit {
 
   constructor(
-    public _dialogRef: MatDialogRef<PortalEmployeeOvertimeApplicationDialogComponent>,
+    public dialogRef: MatDialogRef<PortalEmployeeOvertimeApplicationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public caseData: any,
-    public _matDialog: MatDialog,
     private _portalEmployeeService: PortalEmployeeService,
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
+    public _matDialog: MatDialog,
+    private decimalPipe: DecimalPipe,
+    private datePipe: DatePipe
   ) { }
 
+  public isComponentHidden: boolean = false;
   public title = '';
+
+  public _overtimeApplicationDropdownListSubscription: any;
+  public _overtimeApplicationDropdownList: any;
+
+  public _overtimeApplicationLineModel: any = {
+    Id: 0,
+    OTId: 0,
+    EmployeeId: 0,
+    Employee: '',
+    OTDate: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
+    OTHours: '00.0',
+    Remarks: ''
+  }
+
+  public inputTypeOTHours = 'text';
+  public UIOTDate = new Date();
 
   ngOnInit(): void {
     this.title = this.caseData.objDialogTitle;
-    this.LoadOvertimeApplication();
+    this.LeaveApplicationDropdownList();
   }
 
-  public overtimeApplication: any;
-  public _isComponentHidden: boolean = true;
-  public _btnAddOvertimeApplicationLineDisabled: boolean = false;
-  public _editButtonDisabled: boolean = true;
-  public _deleteButtonDisabled: boolean = true;
+  private async LeaveApplicationDropdownList() {
+    this._overtimeApplicationDropdownListSubscription = await (await this._portalEmployeeService.OvertimeApplicationDropdownList(this.caseData.objYearId)).subscribe(
+      (result: any) => {
+        this._overtimeApplicationDropdownList = result;
+        this._overtimeApplicationLineModel.OTId = result[0].Id;
+        if (this._overtimeApplicationDropdownListSubscription !== null) this._overtimeApplicationDropdownListSubscription.unsubscribe();
+      },
+      error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        if (this._overtimeApplicationDropdownListSubscription !== null) this._overtimeApplicationDropdownListSubscription.unsubscribe();
+      }
+    );
 
-  // OT Application
-  public _listOvertimeApplicationLineObservableArray: ObservableArray = new ObservableArray();
-  public _listOvertimeApplicationLineCollectionView: CollectionView = new CollectionView(this._listOvertimeApplicationLineObservableArray);
-  public _listOvertimeApplicationLinePageIndex: number = 15;
+    this.loadOvertimeApplicationLineDetail();
 
-  public _isOvertimeApplicationLineProgressBarHidden = false;
-  public _isOvertimeApplicationLineDataLoaded: boolean = false;
+  }
 
-  private _overtimeApplicationLineSubscription: any;
-  private _addOvertimeApplicationDetailSubscription: any;
+  private loadOvertimeApplicationLineDetail() {
 
-  @ViewChild('flexOvertimeApplicationLine') flexOvertimeApplicationLine: wjcGrid.FlexGrid;
+    this._overtimeApplicationLineModel.Id = this.caseData.objData.Id;
+    this._overtimeApplicationLineModel.OTId = this.caseData.objData.OTId;
+    this._overtimeApplicationLineModel.EmployeeId = this.caseData.objData.EmployeeId;
+    this._overtimeApplicationLineModel.OTDate = this.caseData.objData.OTDate;
+    this._overtimeApplicationLineModel.OTHours = this.decimalPipe.transform(this.caseData.objData.OTHours, "1.2-2");
+    this._overtimeApplicationLineModel.Remarks = this.caseData.objData.Remarks;
 
-  private LoadOvertimeApplication() {
+    if (this._overtimeApplicationLineModel.Id != 0) {
+      this.UIOTDate = new Date(this.caseData.objData.OTDate);
+    }
 
-    this.overtimeApplication = this.caseData.objDataOTApplication;
-    console.log("OT: ", this.overtimeApplication);
+    console.log(this.caseData.objData.OTDate);
 
     setTimeout(() => {
-      this.GetOvertimeApplicationDetail();
-    }, 100);
-
+      this.isComponentHidden = false;
+    }, 300);
   }
 
-  public _overtimeApplicationDetailSubscription: any;
-
-  private async GetOvertimeApplicationDetail() {
-    this._isComponentHidden = true;
-    this._overtimeApplicationDetailSubscription = await (await this._portalEmployeeService.OvertimeApplicationDetail(this.caseData.objDataOTApplication.Id)).subscribe(
-      (response: any) => {
-        let result = response;
-        if (result != null) {
-          this.overtimeApplication = result;
-          console.log(result);
-          this.loadComponent(result["IsLocked"]);
-        }
-
-        this.GetOvertimeApplicationLineListData();
-        this._isComponentHidden = false;
-        if (this._overtimeApplicationDetailSubscription !== null) this._overtimeApplicationDetailSubscription.unsubscribe();
-      },
-      error => {
-        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this._overtimeApplicationDetailSubscription !== null) this._overtimeApplicationDetailSubscription.unsubscribe();
-      }
-    );
+  public GetUIDATEOTDate() {
+    this._overtimeApplicationLineModel.OTDate = this.datePipe.transform(this.UIOTDate, 'yyyy-MM-dd');
+    console.log(this._overtimeApplicationLineModel.OTDate);
   }
-
-  private async GetOvertimeApplicationLineListData() {
-
-    this._listOvertimeApplicationLineObservableArray = new ObservableArray();
-    this._listOvertimeApplicationLineCollectionView = new CollectionView(this._listOvertimeApplicationLineObservableArray);
-    this._listOvertimeApplicationLineCollectionView.pageSize = 15;
-    this._listOvertimeApplicationLineCollectionView.trackChanges = true;
-    await this._listOvertimeApplicationLineCollectionView.refresh();
-    await this.flexOvertimeApplicationLine.refresh();
-
-    this._isOvertimeApplicationLineProgressBarHidden = true;
-
-    this._overtimeApplicationLineSubscription = await (await this._portalEmployeeService.OvertimeApplicationLineList(this.caseData.objDataEmployeeId, this.caseData.objDataOTApplication.Id)).subscribe(
-      (response: any) => {
-        if (response["length"] > 0) {
-          this._listOvertimeApplicationLineObservableArray = response;
-          this._listOvertimeApplicationLineCollectionView = new CollectionView(this._listOvertimeApplicationLineObservableArray);
-          this._listOvertimeApplicationLineCollectionView.pageSize = 15;
-          this._listOvertimeApplicationLineCollectionView.trackChanges = true;
-          this._listOvertimeApplicationLineCollectionView.refresh();
-          this.flexOvertimeApplicationLine.refresh();
-        }
-
-        this._isOvertimeApplicationLineDataLoaded = true;
-        this._isOvertimeApplicationLineProgressBarHidden = false;
-        this._isComponentHidden = false;
-
-        if (this._overtimeApplicationLineSubscription !== null) this._overtimeApplicationLineSubscription.unsubscribe();
-      },
-      error => {
-        this._isOvertimeApplicationLineProgressBarHidden = false;
-        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this._overtimeApplicationLineSubscription !== null) this._overtimeApplicationLineSubscription.unsubscribe();
-      }
-    );
-  }
-
-
 
   public Close(): void {
-    this._dialogRef.close({ event: 'Close' });
+    this.dialogRef.close({ event: 'Close' });
+  }
+
+  OTHoursFormatValue() {
+    this.inputTypeOTHours = 'text';
+
+    if (this._overtimeApplicationLineModel.OTHours == '') {
+      this._overtimeApplicationLineModel.OTHours = this.decimalPipe.transform(0, "1.2-2");
+    } else {
+      this._overtimeApplicationLineModel.OTHours = this.decimalPipe.transform(this._overtimeApplicationLineModel.OTHours, "1.2-2");
+    }
+  }
+
+  OTHoursToNumberType() {
+    this._overtimeApplicationLineModel.OTHours = this.RemoveComma(this._overtimeApplicationLineModel.OTHours);
+    this.inputTypeOTHours = 'number';
   }
 
   public async Save() {
-    // if (this._payrollOtherIncomeLineModel.EmployeeId != 0) {
-    //   await this._dialogRef.close({ event: this.title, data: this._payrollOtherIncomeLineModel });
-    // } else {
-    //   this._snackBarTemplate.snackBarError(this._snackBar, "Choose employee!");
-    // }
+    if (this._overtimeApplicationLineModel.EmployeeId != 0) {
+      await this.dialogRef.close({ event: 'Save', data: this._overtimeApplicationLineModel });
+    } else {
+      this._snackBarTemplate.snackBarError(this._snackBar, "Choose employee!");
+    }
   }
 
-  public async AddOvertimeApplicationLine() {
-    const dialogRef = this._matDialog.open(PortalEmployeeOvertimeApplicationLineAddDialogComponent, {
-      width: '600px',
-      data: {
-        objDialogTitle: "Overtime Application",
-        objDataOTId: this.overtimeApplication.Id,
-        objDataEmployeeId: this.caseData.objDataEmployeeId,
-      },
-      disableClose: true
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result.event !== 'Close') {
-        this.AddOvertimeApplicationDetail(result.data);
-      }
-    });
+  public RemoveComma(value: string): string {
+    return value.toString().replace(/,/g, '');
   }
 
-  public async AddOvertimeApplicationDetail(overtimeApplicationLine: any) {
-    if (this._isOvertimeApplicationLineDataLoaded == true) {
-      this._isOvertimeApplicationLineDataLoaded = false;
-      this._addOvertimeApplicationDetailSubscription = (await this._portalEmployeeService.AddOvertimeApplicationLine(overtimeApplicationLine)).subscribe(
+  public saveLeaveApplicationSubscription: any;
+
+  public async SaveOvertimeApplication() {
+
+    if (this._overtimeApplicationLineModel.Id == 0) {
+      this.saveLeaveApplicationSubscription = (await this._portalEmployeeService.AddOvertimeApplicationLine(this._overtimeApplicationLineModel)).subscribe(
         response => {
-          this.GetOvertimeApplicationLineListData();
-          this._isOvertimeApplicationLineDataLoaded = true;
-          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Save Successfully.");
-          if (this._addOvertimeApplicationDetailSubscription !== null) this._addOvertimeApplicationDetailSubscription.unsubscribe();
+          this.Save();
+          if (this.saveLeaveApplicationSubscription !== null) this.saveLeaveApplicationSubscription.unsubscribe();
         },
         error => {
-          this._isOvertimeApplicationLineDataLoaded = true;
           this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-          if (this._addOvertimeApplicationDetailSubscription !== null) this._addOvertimeApplicationDetailSubscription.unsubscribe();
+          if (this.saveLeaveApplicationSubscription !== null) this.saveLeaveApplicationSubscription.unsubscribe();
+        }
+      );
+    }
+    else {
+      this.saveLeaveApplicationSubscription = (await this._portalEmployeeService.UpdateOvertimeApplicationLine(this._overtimeApplicationLineModel.Id, this._overtimeApplicationLineModel)).subscribe(
+        response => {
+          this.Save();
+          if (this.saveLeaveApplicationSubscription !== null) this.saveLeaveApplicationSubscription.unsubscribe();
+        },
+        error => {
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+          if (this.saveLeaveApplicationSubscription !== null) this.saveLeaveApplicationSubscription.unsubscribe();
         }
       );
     }
   }
-
-  EditOvertimeApplicationLine() { }
-  ComfirmDeleteOvertimeApplicationLine() { }
-
-
-  gridClick(s, e) {
-    if (wjcCore.hasClass(e.target, 'button-edit')) {
-      this.EditOvertimeApplicationLine();
-    }
-
-    if (wjcCore.hasClass(e.target, 'button-delete')) {
-      this.ComfirmDeleteOvertimeApplicationLine();
-    }
-  }
-  
-  private loadComponent(isDisable) {
-    this._btnAddOvertimeApplicationLineDisabled = isDisable;
-    this._editButtonDisabled = isDisable;
-    this._deleteButtonDisabled = isDisable;
-  }
-
 }

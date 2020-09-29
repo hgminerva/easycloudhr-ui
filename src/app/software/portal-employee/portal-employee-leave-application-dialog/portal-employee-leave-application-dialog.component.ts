@@ -67,27 +67,23 @@ export class PortalEmployeeLeaveApplicationDialogComponent implements OnInit {
 
   private loadLeaveApplicationLineDetail() {
 
-    if (this.caseData.objData.Id != 0) {
-      this._leaveApplicationLine.LAId = this.caseData.objData.LAId;
-      this._leaveApplicationLine.Id = this.caseData.objData.Id;
-      this._leaveApplicationLine.EmployeeId = this.caseData.objData.EmployeeId;
-      this._leaveApplicationLine.Employee = this.caseData.objData.Employee;
-      this._leaveApplicationLine.LADate = this.caseData.objData.LADate;
-      this._leaveApplicationLine.IsHalfDay = this.caseData.objData.IsHalfDay;
-      this._leaveApplicationLine.IsWithPay = this.caseData.objData.IsWithPay;
-      this._leaveApplicationLine.Remarks = this.caseData.objData.Remarks;
-    } else {
+    this._leaveApplicationLine.Id = this.caseData.objData.Id;
+    this._leaveApplicationLine.EmployeeId = this.caseData.objData.EmployeeId;
+    this._leaveApplicationLine.LAId = this.caseData.objData.LAId;
+    this._leaveApplicationLine.Employee = this.caseData.objData.Employee;
+    this._leaveApplicationLine.LADate = this.caseData.objData.LADate;
+    this._leaveApplicationLine.IsHalfDay = this.caseData.objData.IsHalfDay;
+    this._leaveApplicationLine.IsWithPay = this.caseData.objData.IsWithPay;
+    this._leaveApplicationLine.Remarks = this.caseData.objData.Remarks;
+
+    if (this.caseData.objData.Id == 0) {
       this.UILADate = new Date(this.caseData.objData.LADate);
-      this.UILADate = new Date();
     }
 
     setTimeout(() => {
       this.isComponentHidden = false;
     }, 100);
-  }
-
-  public Close(): void {
-    this.dialogRef.close({ event: 'Close' });
+    
   }
 
   public GetUIDATELADate() {
@@ -95,7 +91,43 @@ export class PortalEmployeeLeaveApplicationDialogComponent implements OnInit {
     console.log(this._leaveApplicationLine.LADate);
   }
 
-  public async Save() {
-    await this.dialogRef.close({ event: this.title, data: this._leaveApplicationLine });
+  public saveLeaveApplicationSubscription: any;
+
+  public async SaveLeaveApplication() {
+
+    console.log(this._leaveApplicationLine);
+
+    if (this._leaveApplicationLine.Id == 0) {
+      this.saveLeaveApplicationSubscription = (await this._portalEmployeeService.AddLeaveApplicationLine(this._leaveApplicationLine)).subscribe(
+        response => {
+          this.Save();
+          if (this.saveLeaveApplicationSubscription !== null) this.saveLeaveApplicationSubscription.unsubscribe();
+        },
+        error => {
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+          if (this.saveLeaveApplicationSubscription !== null) this.saveLeaveApplicationSubscription.unsubscribe();
+        }
+      );
+    }
+    else {
+      this.saveLeaveApplicationSubscription = (await this._portalEmployeeService.UpdateLeaveApplicationLine(this._leaveApplicationLine.Id, this._leaveApplicationLine)).subscribe(
+        response => {
+          this.Save();
+          if (this.saveLeaveApplicationSubscription !== null) this.saveLeaveApplicationSubscription.unsubscribe();
+        },
+        error => {
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+          if (this.saveLeaveApplicationSubscription !== null) this.saveLeaveApplicationSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
+  public Save() {
+    this.dialogRef.close({ event: this.title, data: this._leaveApplicationLine });
+  }
+
+  public Close(): void {
+    this.dialogRef.close({ event: 'Close' });
   }
 }
