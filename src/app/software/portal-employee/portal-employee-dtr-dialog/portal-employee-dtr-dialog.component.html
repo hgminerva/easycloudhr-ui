@@ -2,6 +2,10 @@
     <mat-toolbar>
         <span>{{title}}</span>
         <span class="spacer"></span>
+        <button mat-flat-button style="margin: 5px;" color="accent" (click)="btnCSVListClick()">
+            <mat-icon>get_app</mat-icon>
+            CSV
+        </button>
         <button mat-flat-button style="margin: 5px;" color="accent" (click)="Print()">
             <mat-icon>print</mat-icon>
             Print

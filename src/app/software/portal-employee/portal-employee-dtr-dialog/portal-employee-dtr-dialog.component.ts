@@ -6,6 +6,7 @@ import { PortalEmployeeService } from '../portal-employee.service';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PdfDialogComponent } from '../../shared/pdf-dialog/pdf-dialog.component';
+import { SharedService } from '../../shared/shared.service';
 
 @Component({
   selector: 'app-portal-employee-dtr-dialog',
@@ -21,6 +22,7 @@ export class PortalEmployeeDtrDialogComponent implements OnInit {
     private _portalEmployeeService: PortalEmployeeService,
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
+    private _sharedService: SharedService
   ) { }
 
   public title = '';
@@ -100,5 +102,9 @@ export class PortalEmployeeDtrDialogComponent implements OnInit {
 
   public Close(): void {
     this._dialogRef.close({ event: 'Close' });
+  }
+
+  public btnCSVListClick() {
+    this._sharedService.generateCSV(this._listDTRLineCollectionView, "DTR Logs", "dtr-list.csv");
   }
 }

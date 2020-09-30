@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
+import { SharedService } from '../../shared/shared.service';
 
 @Component({
   selector: 'app-employee-list',
@@ -25,6 +26,7 @@ export class EmployeeListComponent implements OnInit {
     private router: Router,
     public DeleteConfirmDialog: MatDialog,
     private softwareSecurityService: SoftwareSecurityService,
+    private _sharedService: SharedService
   ) {
   }
 
@@ -275,51 +277,7 @@ export class EmployeeListComponent implements OnInit {
   }
 
   public btnCSVEmployeesListClick(): void {
-    var fileName = "";
-
-    fileName = "employees-list.csv";
-
-    var csvData = this.generateCSV();
-    var csvURL = window.URL.createObjectURL(csvData);
-    var tempLink = document.createElement('a');
-
-    tempLink.href = csvURL;
-    tempLink.setAttribute('download', fileName);
-    tempLink.click();
-  }
-
-  public generateCSV(): Blob {
-    var data = "";
-    var collection;
-    var fileName = "";
-
-    data = 'Employees List' + '\r\n\n';
-    collection = this.listEmployeeCollectionView;
-    fileName = "employees-list.csv";
-
-    if (data != "") {
-      var label = '';
-      for (var s in collection.items[0]) {
-        label += s + ',';
-      }
-      label = label.slice(0, -1);
-
-      data += label + '\r\n';
-
-      collection.moveToFirstPage();
-      for (var p = 0; p < collection.pageCount; p++) {
-        for (var i = 0; i < collection.items.length; i++) {
-          var row = '';
-          for (var s in collection.items[i]) {
-            row += '"' + collection.items[i][s] + '",';
-          }
-          row.slice(0, row.length - 1);
-          data += row + '\r\n';
-        }
-        collection.moveToNextPage();
-      }
-    }
-    return new Blob([data], { type: 'text/csv;charset=utf-8;' });
+    this._sharedService.generateCSV(this.listEmployeeCollectionView, "Employees List", "employees-list.csv");
   }
 
   async ngOnInit() {
