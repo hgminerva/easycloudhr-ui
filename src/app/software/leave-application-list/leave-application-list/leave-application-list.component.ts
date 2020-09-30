@@ -54,7 +54,7 @@ export class LeaveApplicationListComponent implements OnInit {
           this._userRights.CanLock = results["CanLock"];
           this._userRights.CanUnlock = results["CanUnlock"];
           this._userRights.CanPrint = results["CanPrint"];
-        } 
+        }
 
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       },
@@ -62,7 +62,7 @@ export class LeaveApplicationListComponent implements OnInit {
         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
 
         if (error.status == "401") {
-          this.router.navigate(['/security/login']);
+          this._softwareSecurityService.logOut();
         }
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       }

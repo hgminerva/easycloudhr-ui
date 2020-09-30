@@ -27,7 +27,7 @@ export class PayrollListComponent implements OnInit {
     public _matDialogRef: MatDialog,
     private _router: Router,
     private _softwareSecurityService: SoftwareSecurityService,
-    ) {
+  ) {
   }
 
   private _userRightsSubscription: any;
@@ -56,7 +56,7 @@ export class PayrollListComponent implements OnInit {
           this._userRights.CanLock = results["CanLock"];
           this._userRights.CanUnlock = results["CanUnlock"];
           this._userRights.CanPrint = results["CanPrint"];
-        } 
+        }
 
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       },
@@ -64,7 +64,7 @@ export class PayrollListComponent implements OnInit {
         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
 
         if (error.status == "401") {
-          this._router.navigate(['/security/login']);
+          this._softwareSecurityService.logOut();
         }
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       }
@@ -278,7 +278,7 @@ export class PayrollListComponent implements OnInit {
       }
     });
   }
-  
+
   ngOnInit(): void {
     this._isProgressBarHidden = true;
     this.Get_userRights();

@@ -87,7 +87,7 @@ export class DTRListComponent implements OnInit {
         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
 
         if (error.status == "401") {
-          this._router.navigate(['/security/login']);
+          this._softwareSecurityService.logOut();
         }
         
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();

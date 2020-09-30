@@ -19,7 +19,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./other-income.component.css']
 })
 export class OtherIncomeComponent implements OnInit {
-  
+
   // Constructor and overrides
   constructor(private _otherIncomeService: OtherIncomeService,
     private _snackBar: MatSnackBar,
@@ -27,7 +27,7 @@ export class OtherIncomeComponent implements OnInit {
     public _matDialogRef: MatDialog,
     private _softwareSecurityService: SoftwareSecurityService,
     private _router: Router,
-    ) {
+  ) {
   }
 
   private _userRightsSubscription: any;
@@ -56,7 +56,7 @@ export class OtherIncomeComponent implements OnInit {
           this._userRights.CanLock = results["CanLock"];
           this._userRights.CanUnlock = results["CanUnlock"];
           this._userRights.CanPrint = results["CanPrint"];
-        } 
+        }
 
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       },
@@ -64,7 +64,7 @@ export class OtherIncomeComponent implements OnInit {
         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
 
         if (error.status == "401") {
-          this._router.navigate(['/security/login']);
+          this._softwareSecurityService.logOut();
         }
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       }
@@ -72,7 +72,7 @@ export class OtherIncomeComponent implements OnInit {
 
     await this.GetOtherIncomeListData();
   }
-  
+
   // Class properties
   public _listOtherIncomeObservableArray: ObservableArray = new ObservableArray();
   public _listOtherIncomeCollectionView: CollectionView = new CollectionView(this._listOtherIncomeObservableArray);
@@ -263,7 +263,7 @@ export class OtherIncomeComponent implements OnInit {
       }
     });
   }
-  
+
   async ngOnInit() {
     await this.Get_userRights();
     await this.createCboShowNumberOfRows();

@@ -8,7 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 
 import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
-import { OvertimeApplicationListService} from './../overtime-application-list.service';
+import { OvertimeApplicationListService } from './../overtime-application-list.service';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 @Component({
   selector: 'app-overtime-application-list',
@@ -59,7 +59,7 @@ export class OvertimeApplicationListComponent implements OnInit {
           this._userRights.CanLock = results["CanLock"];
           this._userRights.CanUnlock = results["CanUnlock"];
           this._userRights.CanPrint = results["CanPrint"];
-        } 
+        }
 
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       },
@@ -67,7 +67,7 @@ export class OvertimeApplicationListComponent implements OnInit {
         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
 
         if (error.status == "401") {
-          this.router.navigate(['/security/login']);
+          this._softwareSecurityService.logOut();
         }
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       }

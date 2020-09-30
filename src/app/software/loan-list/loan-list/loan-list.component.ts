@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
 })
 export class LoanListComponent implements OnInit {
 
-  
+
   // Constructor and overrides
   constructor(private _LoanListService: LoanListService,
     private _snackBar: MatSnackBar,
@@ -28,7 +28,7 @@ export class LoanListComponent implements OnInit {
     public _matDialogRef: MatDialog,
     private _softwareSecurityService: SoftwareSecurityService,
     private _router: Router,
-    ) {
+  ) {
   }
 
   private _userRightsSubscription: any;
@@ -57,7 +57,7 @@ export class LoanListComponent implements OnInit {
           this._userRights.CanLock = results["CanLock"];
           this._userRights.CanUnlock = results["CanUnlock"];
           this._userRights.CanPrint = results["CanPrint"];
-        } 
+        }
 
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       },
@@ -65,7 +65,7 @@ export class LoanListComponent implements OnInit {
         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
 
         if (error.status == "401") {
-          this._router.navigate(['/security/login']);
+          this._softwareSecurityService.logOut();
         }
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       }
@@ -73,7 +73,7 @@ export class LoanListComponent implements OnInit {
 
     await this.GetLoanListData();
   }
-  
+
   // Class properties
   public _listLoanObservableArray: ObservableArray = new ObservableArray();
   public _listLoanCollectionView: CollectionView = new CollectionView(this._listLoanObservableArray);
@@ -91,7 +91,7 @@ export class LoanListComponent implements OnInit {
 
   public _btnAddDisabled: boolean = false;
 
- 
+
   public cboShowNumberOfRows: ObservableArray = new ObservableArray();
   public listPageIndex: number = 15;
 
@@ -268,7 +268,7 @@ export class LoanListComponent implements OnInit {
     });
   }
 
-  
+
   async ngOnInit() {
     await this.Get_userRights();
     await this.createCboShowNumberOfRows();

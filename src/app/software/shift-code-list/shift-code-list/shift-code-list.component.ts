@@ -63,7 +63,7 @@ export class ShiftCodeListComponent implements OnInit {
         this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
 
         if (error.status == "401") {
-          this.router.navigate(['/security/login']);
+          this._softwareSecurityService.logOut();
         }
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       }

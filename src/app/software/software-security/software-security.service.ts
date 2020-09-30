@@ -141,4 +141,17 @@ export class SoftwareSecurityService {
     }
     return openFlag;
   }
+
+  
+  public logOut(): void {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('expires_in');
+    localStorage.removeItem('token_type');
+    localStorage.removeItem('username');
+    localStorage.removeItem('userRights');
+
+    setTimeout(() => {
+        location.reload();
+    }, 500);
+}
 }
