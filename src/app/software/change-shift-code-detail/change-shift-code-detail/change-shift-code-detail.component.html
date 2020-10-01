@@ -5,26 +5,26 @@
 
     <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="_btnSaveDisabled"
         *ngIf="userRights.CanEdit" (click)="SaveChangeShiftCodeDetail()">
-        <mat-icon>save</mat-icon>
+        <!-- <mat-icon>save</mat-icon> -->
         Save
     </button>
     <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="_btnLockisabled"
         *ngIf="userRights.CanLock" (click)="LockchangeShiftCodeDetail()">
-        <mat-icon>lock</mat-icon>
+        <!-- <mat-icon>lock</mat-icon> -->
         Lock
     </button>
     <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="_btnUnlockDisabled"
         *ngIf="userRights.CanUnlock" (click)="UnlockchangeShiftCodeDetail()">
-        <mat-icon>lock_open</mat-icon>
+        <!-- <mat-icon>lock_open</mat-icon> -->
         Unlock
     </button>
     <button mat-flat-button color="accent" id="btnAddEmployee" [disabled]="_btnUnlockDisabled" style="margin: 5px;"
         *ngIf="userRights.CanPrint" (click)="btnCSVClick()">
-        <mat-icon>get_app</mat-icon>
+        <!-- <mat-icon>get_app</mat-icon> -->
         CSV
     </button>
     <button mat-flat-button style="margin-right: 5px;" routerLink="/software/change-shift-code-list" color="warn">
-        <mat-icon>close</mat-icon>
+        <!-- <mat-icon>close</mat-icon> -->
         Close
     </button>
 </mat-toolbar>
@@ -117,7 +117,7 @@
                         <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                             <button mat-raised-button class="button-edit" color="primary"
                                 style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
-                                <mat-icon class="button-edit">edit</mat-icon>
+                                <!-- <mat-icon class="button-edit">edit</mat-icon> -->
                                 <span class="button-edit">Edit</span>
                             </button>
                         </ng-template>
@@ -127,7 +127,7 @@
                         <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                             <button mat-raised-button class="button-delete" color="warn"
                                 style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
-                                <mat-icon class="button-delete">delete</mat-icon>
+                                <!-- <mat-icon class="button-delete">delete</mat-icon> -->
                                 <span class="button-delete">Delete</span>
                             </button>
                         </ng-template>
@@ -170,7 +170,8 @@
                 <ng-template mat-tab-label *ngIf="userRights.CanAdd">
                     <button mat-raised-button color="primary" style="float: right; margin: 5px;"
                         (click)="AddChangeShiftLine()" [disabled]="_btnAddChangeShiftLineDisabled">
-                        <mat-icon>add</mat-icon> ADD
+                        <!-- <mat-icon>add</mat-icon> -->
+                         ADD
                     </button><br>
                 </ng-template>
             </mat-tab>

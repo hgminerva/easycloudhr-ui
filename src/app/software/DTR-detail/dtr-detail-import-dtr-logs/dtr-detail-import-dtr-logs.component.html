@@ -71,13 +71,15 @@
     <input type="file" #file (change)="onFileChange($event)" multiple="false" hidden>
     <button mat-raised-button color="accent" style="float: right; margin: 5px;" (click)="PostDTRLogs()"
         [disabled]="isPostButtonHidden">
-        <mat-icon>post_add</mat-icon> Post
+        <!-- <mat-icon>post_add</mat-icon>  -->
+        Post
     </button>
     <button mat-raised-button color="accent" style="float: right; margin: 5px;" (click)="file.click()">
-        <mat-icon>publish</mat-icon> Import
+        <!-- <mat-icon>publish</mat-icon>  -->
+        Import
     </button>
     <button mat-flat-button mat-dialog-close style="margin: 5px;" color="warn" (click)="Close()">
-        <mat-icon>close</mat-icon>
+        <!-- <mat-icon>close</mat-icon> -->
         Cancel
     </button>
 </div>

@@ -4,10 +4,11 @@
     <span class="spacer"></span>
     <button mat-raised-button color="primary" (click)="btnAddUsers()" style="float: right; margin: 5px;"
         *ngIf="_userRights.CanAdd">
-        <mat-icon>add</mat-icon> Add
+        <!-- <mat-icon>add</mat-icon>  -->
+        Add
     </button>
     <button mat-raised-button style="margin: 5px;" routerLink="/software" color="warn">
-        <mat-icon>close</mat-icon>
+        <!-- <mat-icon>close</mat-icon> -->
         Close
     </button>
 </mat-toolbar>
@@ -24,7 +25,7 @@
                     <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                         <button mat-raised-button class="button-edit" color="primary"
                             style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
-                            <mat-icon class="button-edit">edit</mat-icon>
+                            <!-- <mat-icon class="button-edit">edit</mat-icon> -->
                             <span class="button-edit">Edit</span>
                         </button>
                     </ng-template>
