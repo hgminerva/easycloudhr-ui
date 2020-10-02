@@ -9,9 +9,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 import { SharedService } from '../../shared/shared.service';
+import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
 @Component({
   selector: 'app-employee-list',
@@ -259,7 +259,7 @@ export class EmployeeListComponent implements OnInit {
   public ComfirmDeleteEmployee(): void {
     let currentEmployee = this.listEmployeeCollectionView.currentItem;
 
-    const userRegistrationlDialogRef = this.DeleteConfirmDialog.open(DeleteDialogBoxComponent, {
+    const userRegistrationlDialogRef = this.DeleteConfirmDialog.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete Employee",

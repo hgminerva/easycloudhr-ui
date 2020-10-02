@@ -8,9 +8,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 
 import { ShiftCodeListService } from './../shift-code-list.service';
-import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { ShiftCodeDetailComponent } from '../../shift-code-detail/shift-code-detail/shift-code-detail.component';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
+import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
 @Component({
   selector: 'app-shift-code-list',
@@ -226,7 +226,7 @@ export class ShiftCodeListComponent implements OnInit {
 
   public ComfirmDeleteShiftCode(): void {
     let currentShiftCode = this.listShiftCodeCollectionView.currentItem;
-    const userRegistrationlDialogRef = this._matDialog.open(DeleteDialogBoxComponent, {
+    const userRegistrationlDialogRef = this._matDialog.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete Shift",

@@ -14,9 +14,9 @@ import { SoftwareSecurityService, UserModule } from '../../software-security/sof
 import { EmployeeDetailEditNameDialogComponent } from '../employee-detail-edit-name-dialog/employee-detail-edit-name-dialog.component';
 import { EmployeeDetialLinkToUsernameDialogComponent } from '../employee-detial-link-to-username-dialog/employee-detial-link-to-username-dialog.component';
 import { EmployeeMemoModel } from './../employee-memo.model';
-import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { EmployeeDetailEmployeeMemoComponent } from '../employee-detail-employee-memo/employee-detail-employee-memo.component';
 import { GenericDropdownDialogComponent } from '../../shared/generic-dropdown-dialog/generic-dropdown-dialog.component';
+import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 @Component({
   selector: 'app-employee-detail',
   templateUrl: './employee-detail.component.html',
@@ -1290,7 +1290,7 @@ export class EmployeeDetailComponent implements OnInit {
 
   public ComfirmDeleteEmployeeMemo(): void {
     let currentEmployeeMemoModel = this._listEmployeeMemoCollectionView.currentItem;
-    const matDialogRef = this.matDialog.open(DeleteDialogBoxComponent, {
+    const matDialogRef = this.matDialog.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "",

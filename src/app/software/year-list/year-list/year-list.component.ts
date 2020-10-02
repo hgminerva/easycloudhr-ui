@@ -8,10 +8,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 
 import { YearListService } from './../year-list.service';
-import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { YearDetialComponent } from '../../year-detail/year-detial/year-detial.component';
 import { Router } from '@angular/router';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
+import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
 @Component({
   selector: 'app-year-list',
@@ -229,7 +229,7 @@ export class YearListComponent implements OnInit {
 
   public ComfirmDeleteYear(): void {
     let currentYear = this._listYearCollectionView.currentItem;
-    const userRegistrationlDialogRef = this._matDialogRef.open(DeleteDialogBoxComponent, {
+    const userRegistrationlDialogRef = this._matDialogRef.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete Year",

@@ -49,7 +49,7 @@ import { DTRListComponent } from './DTR-list/DTR-list/DTR-list.component';
 import { DTRDetailComponent } from './DTR-detail/DTR-detail/DTR-detail.component';
 import { UserRegistrationDialogComponent } from './user-list/user-registration-dialog/user-registration-dialog.component';
 import { SnackBarTemplate } from './shared/snack-bar-template';
-import { DeleteDialogBoxComponent } from './shared/delete-dialog-box/delete-dialog-box.component';
+// import { DeleteDialogBoxComponent } from './shared/delete-dialog-box/delete-dialog-box.component';
 import { SystemTalesListComponent } from './system-tables-list/system-tales-list/system-tales-list.component';
 import { SystemTablesTaxExemptionDetailComponent } from './system-tables-detail/system-tables-tax-exemption-detail/system-tables-tax-exemption-detail.component';
 import { SystemTablesCodeTablesDetailComponent } from './system-tables-detail/system-tables-code-tables-detail/system-tables-code-tables-detail.component';
@@ -87,7 +87,6 @@ import { MandatoryTablesDetailMandatoryPhicDetailComponent } from './mandatory-t
 import { MandatoryTablesDetailMandatorySssDetailComponent } from './mandatory-tables-detail/mandatory-tables-detail-mandatory-sss-detail/mandatory-tables-detail-mandatory-sss-detail.component';
 import { PortalEmployeeComponent } from './portal-employee/portal-employee/portal-employee.component';
 import { EmployeeDetailEmployeeMemoComponent } from './employee-detail/employee-detail-employee-memo/employee-detail-employee-memo.component';
-import { PayrollDetailComputeConfirmDialogComponent } from './payroll-detail/payroll-detail/payroll-detail-compute-confirm-dialog/payroll-detail-compute-confirm-dialog.component';
 import { PortalEmployeeLeaveApplicationDialogComponent } from './portal-employee/portal-employee-leave-application-dialog/portal-employee-leave-application-dialog.component';
 import { PortalEmployeeOvertimeApplicationDialogComponent } from './portal-employee/portal-employee-overtime-application-dialog/portal-employee-overtime-application-dialog.component';
 import { PortalEmployeeLoanDialogComponent } from './portal-employee/portal-employee-loan-dialog/portal-employee-loan-dialog.component';
@@ -99,6 +98,7 @@ import { UserChangePasswordDialogComponent } from './shared/user-change-password
 import { DtrDetailImportDtrLogsComponent } from './DTR-detail/dtr-detail-import-dtr-logs/dtr-detail-import-dtr-logs.component';
 import { GenericDropdownDialogComponent } from './shared/generic-dropdown-dialog/generic-dropdown-dialog.component';
 import { PdfDialogComponent } from './shared/pdf-dialog/pdf-dialog.component';
+import { ComfirmMassageDialogComponent } from './shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
 @NgModule({
   declarations: [
@@ -127,7 +127,7 @@ import { PdfDialogComponent } from './shared/pdf-dialog/pdf-dialog.component';
     DTRListComponent,
     DTRDetailComponent,
     UserRegistrationDialogComponent,
-    DeleteDialogBoxComponent,
+    // DeleteDialogBoxComponent,
     SystemTalesListComponent,
     SystemTablesTaxExemptionDetailComponent,
     SystemTablesCodeTablesDetailComponent,
@@ -165,7 +165,6 @@ import { PdfDialogComponent } from './shared/pdf-dialog/pdf-dialog.component';
     MandatoryTablesDetailMandatorySssDetailComponent,
     PortalEmployeeComponent,
     EmployeeDetailEmployeeMemoComponent,
-    PayrollDetailComputeConfirmDialogComponent,
     PortalEmployeeLeaveApplicationDialogComponent,
     PortalEmployeeOvertimeApplicationDialogComponent,
     PortalEmployeeLoanDialogComponent,
@@ -177,6 +176,7 @@ import { PdfDialogComponent } from './shared/pdf-dialog/pdf-dialog.component';
     DtrDetailImportDtrLogsComponent,
     GenericDropdownDialogComponent,
     PdfDialogComponent,
+    ComfirmMassageDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -192,7 +192,7 @@ import { PdfDialogComponent } from './shared/pdf-dialog/pdf-dialog.component';
   providers: [
     SoftwareRoutingActivate,
     UserRegistrationDialogComponent,
-    DeleteDialogBoxComponent,
+    ComfirmMassageDialogComponent,
     EmployeeListPickDialogComponent,
     SnackBarTemplate,
     DecimalPipe,

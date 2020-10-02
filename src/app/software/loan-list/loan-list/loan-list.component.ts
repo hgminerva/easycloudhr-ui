@@ -7,11 +7,11 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 
-import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { LoanListService } from './../loan-list.service';
 import { LoanDetailDialogComponent } from '../loan-detail-dialog/loan-detail-dialog.component';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 import { Router } from '@angular/router';
+import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
 @Component({
   selector: 'app-loan-list',
@@ -235,7 +235,7 @@ export class LoanListComponent implements OnInit {
 
   public ComfirmDeleteLoan(): void {
     let currentLoan = this._listLoanCollectionView.currentItem;
-    const userRegistrationlDialogRef = this._matDialogRef.open(DeleteDialogBoxComponent, {
+    const userRegistrationlDialogRef = this._matDialogRef.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete Loan",

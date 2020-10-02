@@ -8,10 +8,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 
 import { SystemTablesListService } from './../system-tables-list.service';
-import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { SystemTablesCodeTablesDetailComponent } from '../../system-tables-detail/system-tables-code-tables-detail/system-tables-code-tables-detail.component';
 import { SystemTablesTaxExemptionDetailComponent } from '../../system-tables-detail/system-tables-tax-exemption-detail/system-tables-tax-exemption-detail.component';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
+import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
 @Component({
   selector: 'app-system-tales-list',
@@ -214,7 +214,7 @@ export class SystemTalesListComponent implements OnInit {
 
   public ComfirmDeleteCodeTable(): void {
     let currentCodeTable = this.listCodeTablesCollectionView.currentItem;
-    const matDialogRef = this.matDialog.open(DeleteDialogBoxComponent, {
+    const matDialogRef = this.matDialog.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete Tables Code",
@@ -400,7 +400,7 @@ export class SystemTalesListComponent implements OnInit {
   public ComfirmDeleteTaxExemption(): void {
     let currentTaxExemption = this.listTaxExemptionCollectionView.currentItem;
 
-    const matDialogRef = this.matDialog.open(DeleteDialogBoxComponent, {
+    const matDialogRef = this.matDialog.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete Tax Exemption",

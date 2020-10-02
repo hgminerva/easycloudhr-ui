@@ -8,7 +8,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 
 import { LeaveApplicationDetailService } from './../leave-application-detail.service';
 import { LeaveApplicationModel } from '../leave-application.model';
@@ -18,6 +17,7 @@ import { MatOption } from '@angular/material/core';
 import { MatSelectChange } from '@angular/material/select';
 import { DatePipe } from '@angular/common';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
+import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
 @Component({
   selector: 'app-leave-application-detail',
@@ -420,7 +420,7 @@ export class LeaveApplicationDetailComponent implements OnInit {
 
   public ComfirmDeleteLeaveApplicationLine(): void {
     let currentLeaveApplicationLine = this._listLeaveApplicationLineCollectionView.currentItem;
-    const matDialogRef = this._matDialog.open(DeleteDialogBoxComponent, {
+    const matDialogRef = this._matDialog.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete LeaveApplicationLine",

@@ -16,8 +16,8 @@ import { PortalEmployeeDtrDialogComponent } from '../portal-employee-dtr-dialog/
 import { PortalEmployeePayrollDialogComponent } from '../portal-employee-payroll-dialog/portal-employee-payroll-dialog.component';
 import { UserChangePasswordDialogComponent } from '../../shared/user-change-password-dialog/user-change-password-dialog.component';
 import { SoftwareSecurityService } from '../../software-security/software-security.service';
-import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { DatePipe } from '@angular/common';
+import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
 @Component({
   selector: 'app-portal-employee',
@@ -295,7 +295,7 @@ export class PortalEmployeeComponent implements OnInit {
 
   public ComfirmDeleteOvertimeApplication(): void {
     let currentOT = this._listOvertimeApplicationCollectionView.currentItem;
-    const userRegistrationlDialogRef = this._matDialog.open(DeleteDialogBoxComponent, {
+    const userRegistrationlDialogRef = this._matDialog.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "",
@@ -488,7 +488,7 @@ export class PortalEmployeeComponent implements OnInit {
 
   public ComfirmDeleteLeaveApplication(): void {
     let currentLA = this._listLeaveApplicationCollectionView.currentItem;
-    const userRegistrationlDialogRef = this._matDialog.open(DeleteDialogBoxComponent, {
+    const userRegistrationlDialogRef = this._matDialog.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete Change Shift",

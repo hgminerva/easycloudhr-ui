@@ -7,9 +7,9 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 
-import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { OvertimeApplicationListService } from './../overtime-application-list.service';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
+import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 @Component({
   selector: 'app-overtime-application-list',
   templateUrl: './overtime-application-list.component.html',
@@ -258,7 +258,7 @@ export class OvertimeApplicationListComponent implements OnInit {
 
   public ComfirmDeleteOvertimeApplication(): void {
     let currentChangeShiftCode = this._listOvertimeApplicationCollectionView.currentItem;
-    const userRegistrationlDialogRef = this._matDialog.open(DeleteDialogBoxComponent, {
+    const userRegistrationlDialogRef = this._matDialog.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete Change Shift",

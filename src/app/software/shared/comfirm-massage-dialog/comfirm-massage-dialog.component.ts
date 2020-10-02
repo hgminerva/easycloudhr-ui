@@ -2,14 +2,14 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-delete-dialog-box',
-  templateUrl: './delete-dialog-box.component.html',
-  styleUrls: ['./delete-dialog-box.component.css']
+  selector: 'app-comfirm-massage-dialog',
+  templateUrl: './comfirm-massage-dialog.component.html',
+  styleUrls: ['./comfirm-massage-dialog.component.css']
 })
-export class DeleteDialogBoxComponent implements OnInit {
+export class ComfirmMassageDialogComponent implements OnInit {
 
   constructor(
-    public comfirmMessageDialogRef: MatDialogRef<DeleteDialogBoxComponent>,
+    public comfirmMessageDialogRef: MatDialogRef<ComfirmMassageDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public caseData: any
   ) { }
 

@@ -11,11 +11,11 @@ import { ActivatedRoute } from '@angular/router';
 import { YearModel } from './../year.model';
 import { YearDateModel } from './../year-date.model';
 import { YearDetialService } from './../year-detial.service';
-import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { YearDateDialogComponent } from '../year-date-dialog/year-date-dialog.component';
 import { DatePipe } from '@angular/common';
 import { YearDateAddToBranchesDialogComponent } from '../year-date-add-to-branches-dialog/year-date-add-to-branches-dialog.component';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
+import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
 @Component({
   selector: 'app-year-detial',
@@ -423,7 +423,7 @@ export class YearDetialComponent implements OnInit {
 
   public ComfirmDeleteYearDate(): void {
     let currentYearDate = this._listYearDateCollectionView.currentItem;
-    const userRegistrationlDialogRef = this.deleteYearDateDetailDialog.open(DeleteDialogBoxComponent, {
+    const userRegistrationlDialogRef = this.deleteYearDateDetailDialog.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete Year Date",

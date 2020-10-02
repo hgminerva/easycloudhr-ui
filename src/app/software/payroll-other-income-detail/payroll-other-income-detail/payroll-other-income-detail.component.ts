@@ -15,9 +15,9 @@ import { DatePipe, DecimalPipe } from '@angular/common';
 import { PayrollOtherIncomeModel } from './../payroll-other-income.model';
 import { PayrollOtherIncomeLineModel } from './../payroll-other-income-line.model';
 import { PayrollOtherIncomeDetailService } from './../payroll-other-income-detail.service';
-import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { PayrollOtherIncomeLineDialogComponent } from '../payroll-other-income-line-dialog/payroll-other-income-line-dialog.component';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
+import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
 @Component({
   selector: 'app-payroll-other-income-detail',
@@ -403,7 +403,7 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
 
   public ComfirmDeletePayrollOtherIncomeLine(): void {
     let currentPayrollOtherIncomeLine = this._listPayrollOtherIncomeLineCollectionView.currentItem;
-    const matDialogRef = this._matDialog.open(DeleteDialogBoxComponent, {
+    const matDialogRef = this._matDialog.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "",

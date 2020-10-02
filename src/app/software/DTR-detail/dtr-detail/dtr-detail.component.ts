@@ -16,11 +16,11 @@ import * as XLSX from 'xlsx';
 import { DtrDetialService } from './../dtr-detial.service';
 import { DTRModel } from '../dtr-detial.model';
 import { DTRLineModel } from '../dtr-line.model';
-import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { DtrDetialDtrLineDetailDialogComponent } from '../dtr-detial-dtr-line-detail-dialog/dtr-detial-dtr-line-detail-dialog.component';
 import { DtrDetailDtrLineAddDialogComponent } from '../dtr-detail-dtr-line-add-dialog/dtr-detail-dtr-line-add-dialog.component';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 import { DtrDetailImportDtrLogsComponent } from '../dtr-detail-import-dtr-logs/dtr-detail-import-dtr-logs.component';
+import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
 @Component({
   selector: 'app-dtr-detail',
@@ -623,7 +623,7 @@ export class DTRDetailComponent implements OnInit {
 
   public ComfirmDeleteDTRLine(): void {
     let currentDTRLine = this._listDTRLineCollectionView.currentItem;
-    const matDialogRef = this._deleteDTRLineDialogRef.open(DeleteDialogBoxComponent, {
+    const matDialogRef = this._deleteDTRLineDialogRef.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete DTRLine",

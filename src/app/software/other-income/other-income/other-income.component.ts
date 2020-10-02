@@ -8,10 +8,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 
 import { OtherIncomeService } from './../other-income.service';
-import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { OtherIncodeDetailDialogComponent } from './../other-incode-detail-dialog/other-incode-detail-dialog.component';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 import { Router } from '@angular/router';
+import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
 @Component({
   selector: 'app-other-income',
@@ -231,7 +231,7 @@ export class OtherIncomeComponent implements OnInit {
 
   public ComfirmDeleteOtherIncome(): void {
     let currentOtherIncome = this._listOtherIncomeCollectionView.currentItem;
-    const userRegistrationlDialogRef = this._matDialogRef.open(DeleteDialogBoxComponent, {
+    const userRegistrationlDialogRef = this._matDialogRef.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete OtherIncome",

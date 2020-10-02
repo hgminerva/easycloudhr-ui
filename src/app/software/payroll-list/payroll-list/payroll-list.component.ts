@@ -8,9 +8,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { Router } from '@angular/router';
 
-import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { PayrollListService } from './../payroll-list.service';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
+import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
 
 @Component({
@@ -263,7 +263,7 @@ export class PayrollListComponent implements OnInit {
 
   public ComfirmDeletePayroll(): void {
     let currentPayroll = this._listPayrollCollectionView.currentItem;
-    const userRegistrationlDialogRef = this._matDialogRef.open(DeleteDialogBoxComponent, {
+    const userRegistrationlDialogRef = this._matDialogRef.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete Payroll",

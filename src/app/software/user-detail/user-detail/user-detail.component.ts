@@ -10,7 +10,6 @@ import { UserDetailService } from '../user-detail.service';
 import { UserModel } from '../user.model'
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { UserDetailUserModuleDialogComponent } from '../user-detail-user-module-dialog/user-detail-user-module-dialog.component';
 import { UserModuleModel } from '../user-module.model';
 import { UserPayrollGroupModel } from '../user-payroll-group.model';
@@ -18,6 +17,7 @@ import { UserDetailUserPayrollGroupDialogComponent } from '../user-detail-user-p
 
 import { UserChangePasswordDialogComponent } from '../../shared/user-change-password-dialog/user-change-password-dialog.component';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
+import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
 @Component({
   selector: 'app-user-detail',
@@ -403,7 +403,7 @@ export class UserDetailComponent implements OnInit {
   public ComfirmDeleteUserModule(): void {
     let currentUserModule = this.listUserModuleCollectionView.currentItem;
 
-    const userRegistrationlDialogRef = this.matDialog.open(DeleteDialogBoxComponent, {
+    const userRegistrationlDialogRef = this.matDialog.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete User Right",
@@ -544,7 +544,7 @@ export class UserDetailComponent implements OnInit {
 
   public ComfirmDeleteUserPayrollGroup(): void {
     let currentUserPayrollGroup = this.listUserPayrollGroupCollectionView.currentItem;
-    const userRegistrationlDialogRef = this.matDialog.open(DeleteDialogBoxComponent, {
+    const userRegistrationlDialogRef = this.matDialog.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete Payroll Group",

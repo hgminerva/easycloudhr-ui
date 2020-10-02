@@ -7,9 +7,9 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 
-import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { LeaveApplicationListService } from './../leave-application-list.service';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
+import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
 @Component({
   selector: 'app-leave-application-list',
@@ -258,7 +258,7 @@ export class LeaveApplicationListComponent implements OnInit {
 
   public ComfirmDeleteLeaveApplication(): void {
     let currentLeaveApplication = this._listLeaveApplicationCollectionView.currentItem;
-    const userRegistrationlDialogRef = this._matDialog.open(DeleteDialogBoxComponent, {
+    const userRegistrationlDialogRef = this._matDialog.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete Change Shift",

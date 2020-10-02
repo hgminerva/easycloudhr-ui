@@ -8,7 +8,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { OvertimeApplicationDetailService } from './../overtime-application-detail.service';
 import { OvertimeApplicationModel } from '../overtime-application.model';
 import { OvertimeApplicationLineModel } from '../overtime-application-line.model';
@@ -17,6 +16,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
 import { DatePipe } from '@angular/common';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
+import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
 @Component({
   selector: 'app-overtime-application-detail',
@@ -416,7 +416,7 @@ export class OvertimeApplicationDetailComponent implements OnInit {
 
   public ComfirmDeleteOvertimeApplicationLine(): void {
     let currentOvertimeApplicationLine = this._listOvertimeApplicationLineCollectionView.currentItem;
-    const matDialogRef = this._matDialog.open(DeleteDialogBoxComponent, {
+    const matDialogRef = this._matDialog.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete OvertimeApplicationLine",

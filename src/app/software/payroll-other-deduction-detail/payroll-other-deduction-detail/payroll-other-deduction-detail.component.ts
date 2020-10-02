@@ -15,9 +15,9 @@ import { DatePipe, DecimalPipe } from '@angular/common';
 import { PayrollOtherDeductionModel } from './../payroll-other-deduction.model';
 import { PayrollOtherDeductionLineModel } from './../payroll-other-deduction-line.model';
 import { PayrollOtherDeductionDetailService } from './../payroll-other-deduction-detail.service'
-import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { PayrollOtherDeductionLineDialogComponent } from '../payroll-other-deduction-line-dialog/payroll-other-deduction-line-dialog.component';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
+import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
 @Component({
   selector: 'app-payroll-other-deduction-detail',
@@ -423,7 +423,7 @@ export class PayrollOtherDeductionDetailComponent implements OnInit {
 
   public ComfirmDeletePayrollOtherDeductionLine(): void {
     let currentPayrollOtherDeductionLine = this._listPayrollOtherDeductionLineCollectionView.currentItem;
-    const matDialogRef = this._matDialog.open(DeleteDialogBoxComponent, {
+    const matDialogRef = this._matDialog.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "",

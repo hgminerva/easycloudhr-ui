@@ -7,12 +7,12 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 
-import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { OtherDeductionDetailDialogComponent } from '../other-deduction-detail-dialog/other-deduction-detail-dialog.component';
 
 import { OtherDeductionsService } from './../other-deductions.service';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 import { Router } from '@angular/router';
+import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
 @Component({
   selector: 'app-other-deductions',
@@ -237,7 +237,7 @@ export class OtherDeductionsComponent implements OnInit {
 
   public ComfirmDeleteOtherDeduction(): void {
     let currentOtherDeduction = this._listOtherDeductionCollectionView.currentItem;
-    const userRegistrationlDialogRef = this._matDialogRef.open(DeleteDialogBoxComponent, {
+    const userRegistrationlDialogRef = this._matDialogRef.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete OtherDeduction",

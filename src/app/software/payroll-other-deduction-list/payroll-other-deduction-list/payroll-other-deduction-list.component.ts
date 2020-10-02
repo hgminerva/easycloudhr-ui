@@ -7,9 +7,9 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 
-import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { PayrollOtherDeductionListService } from './../payroll-other-deduction-list.service';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
+import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
 @Component({
   selector: 'app-payroll-other-deduction-list',
@@ -252,7 +252,7 @@ export class PayrollOtherDeductionListComponent implements OnInit {
 
   public ComfirmDeletePayrollOtherDeduction(): void {
     let currentPayrollOtherDeduction = this._listPayrollOtherDeductionCollectionView.currentItem;
-    const userRegistrationlDialogRef = this._matDialog.open(DeleteDialogBoxComponent, {
+    const userRegistrationlDialogRef = this._matDialog.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete Payroll Other Deduction",

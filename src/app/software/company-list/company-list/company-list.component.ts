@@ -8,10 +8,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 
 import { CompanyListService } from './../company-list.service'
-import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { CompanyDetailComponent } from '../../company-detail/company-detail/company-detail.component';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 import { Router } from '@angular/router';
+import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
 @Component({
   selector: 'app-company-list',
@@ -231,7 +231,7 @@ export class CompanyListComponent implements OnInit {
 
   public ComfirmDeleteCompany(): void {
     let currentCompany = this._listCompanyCollectionView.currentItem;
-    const userRegistrationlDialogRef = this._matDialogRef.open(DeleteDialogBoxComponent, {
+    const userRegistrationlDialogRef = this._matDialogRef.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete Company",

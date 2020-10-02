@@ -2,33 +2,34 @@
     <img src="../../../../assets/menu-icons/payroll.png" height="35" />
     <span>&nbsp;&nbsp; Payroll Detail</span>
     <span class="spacer"></span>
-    <button mat-flat-button color="accent" id="btnAddCSV" [disabled]="!_isLocked" style="margin: 5px;"
-        (click)="btnPrintWorkSheetClick()" *ngIf="_userRights.CanPrint">
-        <mat-icon>get_app</mat-icon>
-        Print Worksheet
-    </button>
+
     <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="_btnSaveDisabled"
         (click)="SavePayrollDetail()" *ngIf="_userRights.CanEdit">
-        <mat-icon>save</mat-icon>
+        <!-- <mat-icon>save</mat-icon> -->
         Save
     </button>
     <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="_btnLockisabled"
         (click)="LockPayrollDetail()" *ngIf="_userRights.CanLock">
-        <mat-icon>lock</mat-icon>
+        <!-- <mat-icon>lock</mat-icon> -->
         Lock
     </button>
     <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="_btnUnlockDisabled"
         (click)="UnlockPayrollDetail()" *ngIf="_userRights.CanUnlock">
-        <mat-icon>lock_open</mat-icon>
+        <!-- <mat-icon>lock_open</mat-icon> -->
         Unlock
+    </button>
+    <button mat-flat-button color="accent" id="btnAddCSV" [disabled]="!_isLocked" style="margin: 5px;"
+        (click)="btnPrintWorkSheetClick()" *ngIf="_userRights.CanPrint">
+        <!-- <mat-icon>get_app</mat-icon> -->
+        Print Worksheet
     </button>
     <button mat-flat-button color="accent" id="btnAddCSV" [disabled]="_btnUnlockDisabled" style="margin: 5px;"
         (click)="btnCSVClick()">
-        <mat-icon>get_app</mat-icon>
+        <!-- <mat-icon>get_app</mat-icon> -->
         CSV
     </button>
     <button mat-flat-button style="margin-right: 5px;" routerLink="/software/payroll-list" color="warn">
-        <mat-icon>close</mat-icon>
+        <!-- <mat-icon>close</mat-icon> -->
         Close
     </button>
 </mat-toolbar>
@@ -177,7 +178,7 @@
                         <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                             <button mat-raised-button class="button-edit" color="primary"
                                 style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
-                                <mat-icon class="button-edit">edit</mat-icon>
+                                <!-- <mat-icon class="button-edit">edit</mat-icon> -->
                                 <span class="button-edit">Edit</span>
                             </button>
                         </ng-template>
@@ -186,7 +187,7 @@
                         <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                             <button mat-raised-button class="button-delete" color="warn"
                                 style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
-                                <mat-icon class="button-delete">delete</mat-icon>
+                                <!-- <mat-icon class="button-delete">delete</mat-icon> -->
                                 <span class="button-delete">Delete</span>
                             </button>
                         </ng-template>
@@ -261,11 +262,13 @@
 
                     <button mat-raised-button color="primary" style="float: right; margin: 5px;"
                         (click)="ComfirmComputePayroll()" [disabled]="_isLocked" *ngIf="_userRights.CanAdd">
-                        <mat-icon>get_app</mat-icon> Download DTR
+                        <!-- <mat-icon>get_app</mat-icon>  -->
+                        Download DTR
                     </button>
                     <button mat-raised-button color="primary" style="float: right; margin: 5px;"
                         (click)="AddPayrollLine()" [disabled]="_isLocked" *ngIf="_userRights.CanAdd">
-                        <mat-icon>add</mat-icon> ADD
+                        <!-- <mat-icon>add</mat-icon>  -->
+                        ADD
                     </button>
                 </ng-template>
             </mat-tab>

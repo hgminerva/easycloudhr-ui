@@ -8,7 +8,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 
 import { MandatoryTablesService } from './../mandatory-tables.service';
-import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { MandatoryTablesDetailMandatoryBirDetailComponent } from '../../mandatory-tables-detail/mandatory-tables-detail-mandatory-bir-detail/mandatory-tables-detail-mandatory-bir-detail.component';
 import { MandatoryTablesDetailMandatoryHdmfDetailComponent } from '../../mandatory-tables-detail/mandatory-tables-detail-mandatory-hdmf-detail/mandatory-tables-detail-mandatory-hdmf-detail.component';
 import { MandatoryTablesDetailMandatoryPhicDetailComponent } from '../../mandatory-tables-detail/mandatory-tables-detail-mandatory-phic-detail/mandatory-tables-detail-mandatory-phic-detail.component';
@@ -19,6 +18,7 @@ import { MandatoryHDMF } from '../mandatory-hdmf.model';
 import { MandatoryPHIC } from '../mandatory-phic.model';
 import { MandatorySSS } from '../mandatory-sss.model';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
+import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
 @Component({
   selector: 'app-mandatory-tables-list',
@@ -234,7 +234,7 @@ export class MandatoryTablesListComponent implements OnInit {
 
   public ComfirmDeleteMandatoryBIR(): void {
     let currentMandatoryBIR = this._listMandatoryBIRCollectionView.currentItem;
-    const matDialogRef = this.matDialog.open(DeleteDialogBoxComponent, {
+    const matDialogRef = this.matDialog.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "",
@@ -429,7 +429,7 @@ export class MandatoryTablesListComponent implements OnInit {
 
   public ComfirmDeleteMandatoryHDMF(): void {
     let currentMandatoryHDMF = this._listMandatoryHDMFCollectionView.currentItem;
-    const matDialogRef = this.matDialog.open(DeleteDialogBoxComponent, {
+    const matDialogRef = this.matDialog.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "",
@@ -636,7 +636,7 @@ export class MandatoryTablesListComponent implements OnInit {
 
   public ComfirmDeleteMandatoryPHIC(): void {
     let currentMandatoryPHIC = this._listMandatoryPHICCollectionView.currentItem;
-    const matDialogRef = this.matDialog.open(DeleteDialogBoxComponent, {
+    const matDialogRef = this.matDialog.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "",
@@ -843,7 +843,7 @@ export class MandatoryTablesListComponent implements OnInit {
 
   public ComfirmDeleteMandatorySSS(): void {
     let currentMandatorySSS = this._listMandatorySSSCollectionView.currentItem;
-    const matDialogRef = this.matDialog.open(DeleteDialogBoxComponent, {
+    const matDialogRef = this.matDialog.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "",

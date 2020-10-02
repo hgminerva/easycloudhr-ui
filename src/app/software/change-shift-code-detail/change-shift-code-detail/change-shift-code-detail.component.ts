@@ -15,9 +15,10 @@ import { DatePipe } from '@angular/common';
 import { ChangeShiftCodeDetailService } from './../change-shift-code-detail.service';
 import { ChangeShiftModel } from '../change-shift-code.model';
 import { ChangeShiftLineModel } from '../change-shift-code-line.model';
-import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
+
 import { ChangeShiftCodeLineDetailComponent } from './../change-shift-code-line-detail/change-shift-code-line-detail.component';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
+import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
 @Component({
   selector: 'app-change-shift-code-detail',
@@ -424,7 +425,7 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
 
   public ComfirmDeleteChangeShiftLine(): void {
     let currentChangeShiftLine = this._listChangeShiftLineCollectionView.currentItem;
-    const matDialogRef = this._matDialog.open(DeleteDialogBoxComponent, {
+    const matDialogRef = this._matDialog.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "",

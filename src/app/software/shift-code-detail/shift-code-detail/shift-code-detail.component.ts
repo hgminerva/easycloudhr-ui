@@ -11,9 +11,9 @@ import { ShiftModel } from './../shift-code-model';
 import { ShiftCodeDetailService } from './../shift-code-detail.service';
 import { ActivatedRoute } from '@angular/router';
 import { ShiftLineModel } from '../shift-code-line.model';
-import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { ShiftCodeDetialShiftLineComponent } from './../shift-code-detial-shift-line/shift-code-detial-shift-line.component';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
+import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
 @Component({
   selector: 'app-shift-code-detail',
@@ -394,7 +394,7 @@ export class ShiftCodeDetailComponent implements OnInit {
 
   public ComfirmDeleteShiftLine(): void {
     let currentShiftLine = this._listShiftLineCollectionView.currentItem;
-    const userRegistrationlDialogRef = this.deleteShiftLineDetailDialog.open(DeleteDialogBoxComponent, {
+    const userRegistrationlDialogRef = this.deleteShiftLineDetailDialog.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete ShiftLine",

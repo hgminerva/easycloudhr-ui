@@ -14,11 +14,10 @@ import { DatePipe } from '@angular/common';
 import { PayrollDetailService } from './../payroll-detail.service';
 import { PayrollModel } from './../payroll.model';
 import { PayrollLineModel } from './../payroll-line.model';
-import { DeleteDialogBoxComponent } from '../../shared/delete-dialog-box/delete-dialog-box.component';
 import { PayrollLineDetailDialogComponent } from '../payroll-line-detail-dialog/payroll-line-detail-dialog.component';
-import { PayrollDetailComputeConfirmDialogComponent } from './payroll-detail-compute-confirm-dialog/payroll-detail-compute-confirm-dialog.component';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 import { PdfDialogComponent } from '../../shared/pdf-dialog/pdf-dialog.component';
+import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
 @Component({
   selector: 'app-payroll-detail',
@@ -524,7 +523,7 @@ export class PayrollDetailComponent implements OnInit {
 
   public ComfirmDeletePayrollLine(): void {
     let currentPayrollLine = this._listPayrollLineCollectionView.currentItem;
-    const matDialogRef = this._matDialogRef.open(DeleteDialogBoxComponent, {
+    const matDialogRef = this._matDialogRef.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Delete PayrollLine",
@@ -583,7 +582,7 @@ export class PayrollDetailComponent implements OnInit {
   }
 
   public ComfirmComputePayroll(): void {
-    const userRegistrationlDialogRef = this._matDialogRef.open(PayrollDetailComputeConfirmDialogComponent, {
+    const userRegistrationlDialogRef = this._matDialogRef.open(ComfirmMassageDialogComponent, {
       width: '500px',
       data: {
         objDialogTitle: "Compute",
