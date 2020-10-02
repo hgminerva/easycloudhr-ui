@@ -21,6 +21,7 @@ import { DtrDetailDtrLineAddDialogComponent } from '../dtr-detail-dtr-line-add-d
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 import { DtrDetailImportDtrLogsComponent } from '../dtr-detail-import-dtr-logs/dtr-detail-import-dtr-logs.component';
 import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
+import { SharedService } from '../../shared/shared.service';
 
 @Component({
   selector: 'app-dtr-detail',
@@ -39,6 +40,7 @@ export class DTRDetailComponent implements OnInit {
     public _deleteDTRLineDialogRef: MatDialog,
     private datePipe: DatePipe,
     private _softwareSecurityService: SoftwareSecurityService,
+    private _sharedService: SharedService
   ) { }
 
   async ngOnInit() {
@@ -716,80 +718,8 @@ export class DTRDetailComponent implements OnInit {
     });
   }
 
-  public btnCSVClick(): void {
-    var fileName = "";
-
-    fileName = "dtr.csv";
-
-    var csvData = this.generateCSV();
-    var csvURL = window.URL.createObjectURL(csvData);
-    var tempLink = document.createElement('a');
-
-    tempLink.href = csvURL;
-    tempLink.setAttribute('download', fileName);
-    tempLink.click();
-  }
-
-  public generateCSV(): Blob {
-    var data = "";
-    var collection;
-    var fileName = "";
-
-    data = 'Daily Time Record' + '\r\n\n';
-    collection = this._listDTRLineCollectionView;
-    fileName = "dtr.csv";
-
-    if (data != "") {
-      var label = '"' + 'DTR ID' + '",'
-        + '"' + 'LANumber' + '",'
-        + '"' + 'LADate' + '",'
-        + '"' + 'PayrollGroup' + '",'
-        + '"' + 'Year' + '",'
-        + '"' + 'DateStart' + '",'
-        + '"' + 'Year' + '",'
-        + '"' + 'DateEnd' + '",'
-        + '"' + 'OT' + '",'
-        + '"' + 'LA' + '",'
-        + '"' + 'CS' + '",'
-        + '"' + 'Remarks' + '",'
-        + '"' + 'PreparedByUser' + '",'
-        + '"' + 'CheckedByUser' + '",'
-        + '"' + 'ApprovedByUser' + '",';
-      for (var s in collection.items[0]) {
-        label += s + ',';
-      }
-      label = label.slice(0, -1);
-
-      data += label + '\r\n';
-
-      collection.moveToFirstPage();
-      for (var p = 0; p < collection.pageCount; p++) {
-        for (var i = 0; i < collection.items.length; i++) {
-          var row = '"' + this._dTRModel.Id + '",'
-            + '"' + this._dTRModel.DTRNumber + '",'
-            + '"' + this._dTRModel.DTRDate + '",'
-            + '"' + this._dTRModel.PayrollGroup + '",'
-            + '"' + this._dTRModel.Year + '",'
-            + '"' + this._dTRModel.DateStart + '",'
-            + '"' + this._dTRModel.DateEnd + '",'
-            + '"' + this._dTRModel.OT + '",'
-            + '"' + this._dTRModel.LA + '",'
-            + '"' + this._dTRModel.CS + '",'
-            + '"' + this._dTRModel.Remarks + '",'
-            + '"' + this._dTRModel.PreparedByUser + '",'
-            + '"' + this._dTRModel.CheckedByUser + '",'
-            + '"' + this._dTRModel.ApprovedByUser + '",';
-
-          for (var s in collection.items[i]) {
-            row += '"' + collection.items[i][s] + '",';
-          }
-          row.slice(0, row.length - 1);
-          data += row + '\r\n';
-        }
-        collection.moveToNextPage();
-      }
-    }
-    return new Blob([data], { type: 'text/csv;charset=utf-8;' });
+  public btnCSVClick() {
+    this._sharedService.generateCSV(this._listDTRLineCollectionView, "Daily Time Records", "dtr-list.csv");
   }
 
   ngOnDestroy() {

@@ -18,6 +18,7 @@ import { PayrollLineDetailDialogComponent } from '../payroll-line-detail-dialog/
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 import { PdfDialogComponent } from '../../shared/pdf-dialog/pdf-dialog.component';
 import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
+import { SharedService } from '../../shared/shared.service';
 
 @Component({
   selector: 'app-payroll-detail',
@@ -34,6 +35,7 @@ export class PayrollDetailComponent implements OnInit {
     public _matDialogRef: MatDialog,
     private datePipe: DatePipe,
     private _softwareSecurityService: SoftwareSecurityService,
+    private _sharedService: SharedService
   ) { }
 
   private _userRightsSubscription: any;
@@ -635,82 +637,9 @@ export class PayrollDetailComponent implements OnInit {
     this._payrollModel.ApprovedByUser = (event.source.selected as MatOption).viewValue;
   }
 
-  public btnCSVClick(): void {
-    var fileName = "";
-
-    fileName = "Payroll.csv";
-
-    var csvData = this.generateCSV();
-    var csvURL = window.URL.createObjectURL(csvData);
-    var tempLink = document.createElement('a');
-
-    tempLink.href = csvURL;
-    tempLink.setAttribute('download', fileName);
-    tempLink.click();
+  public btnCSVClick() {
+    this._sharedService.generateCSV(this._listPayrollLineCollectionView, "Payroll List", "payroll.csv");
   }
-
-  public generateCSV(): Blob {
-    var data = "";
-    var collection;
-    var fileName = "";
-
-    data = 'Daily Time Record' + '\r\n\n';
-    collection = this._listPayrollLineCollectionView;
-    fileName = "Payroll.csv";
-
-    if (data != "") {
-      var label = '"' + 'Payroll ID' + '",'
-        + '"' + 'LANumber' + '",'
-        + '"' + 'LADate' + '",'
-        + '"' + 'PayrollGroup' + '",'
-        + '"' + 'Year' + '",'
-        + '"' + 'QuarterNumber' + '",'
-        + '"' + 'Year' + '",'
-        + '"' + 'MonthNumber' + '",'
-        + '"' + 'Payroll' + '",'
-        + '"' + 'LA' + '",'
-        + '"' + 'CS' + '",'
-        + '"' + 'Remarks' + '",'
-        + '"' + 'PreparedByUser' + '",'
-        + '"' + 'CheckedByUser' + '",'
-        + '"' + 'ApprovedByUser' + '",';
-      for (var s in collection.items[0]) {
-        label += s + ',';
-      }
-      label = label.slice(0, -1);
-
-      data += label + '\r\n';
-
-      collection.moveToFirstPage();
-      for (var p = 0; p < collection.pageCount; p++) {
-        for (var i = 0; i < collection.items.length; i++) {
-          var row = '"' + this._payrollModel.Id + '",'
-            + '"' + this._payrollModel.PAYNumber + '",'
-            + '"' + this._payrollModel.PAYDate + '",'
-            + '"' + this._payrollModel.PayrollGroup + '",'
-            + '"' + this._payrollModel.Year + '",'
-            + '"' + this._payrollModel.QuarterNumber + '",'
-            + '"' + this._payrollModel.MonthNumber + '",'
-            // + '"' + this._payrollModel.Payroll + '",'
-            // + '"' + this._payrollModel.LA + '",'
-            // + '"' + this._payrollModel.CS + '",'
-            + '"' + this._payrollModel.Remarks + '",'
-            + '"' + this._payrollModel.PreparedByUser + '",'
-            + '"' + this._payrollModel.CheckedByUser + '",'
-            + '"' + this._payrollModel.ApprovedByUser + '",';
-
-          for (var s in collection.items[i]) {
-            row += '"' + collection.items[i][s] + '",';
-          }
-          row.slice(0, row.length - 1);
-          data += row + '\r\n';
-        }
-        collection.moveToNextPage();
-      }
-    }
-    return new Blob([data], { type: 'text/csv;charset=utf-8;' });
-  }
-
 
   async ngOnInit() {
     await this.Get_userRights();
