@@ -91,7 +91,6 @@ import { PortalEmployeeLeaveApplicationDialogComponent } from './portal-employee
 import { PortalEmployeeOvertimeApplicationDialogComponent } from './portal-employee/portal-employee-overtime-application-dialog/portal-employee-overtime-application-dialog.component';
 import { PortalEmployeeLoanDialogComponent } from './portal-employee/portal-employee-loan-dialog/portal-employee-loan-dialog.component';
 import { PortalEmployeeDtrDialogComponent } from './portal-employee/portal-employee-dtr-dialog/portal-employee-dtr-dialog.component';
-import { PortalEmployeeDtrLineDialogComponent } from './portal-employee/portal-employee-dtr-dialog/portal-employee-dtr-line-dialog/portal-employee-dtr-line-dialog.component';
 import { PortalEmployeePayrollDialogComponent } from './portal-employee/portal-employee-payroll-dialog/portal-employee-payroll-dialog.component';
 import { YearDateAddToBranchesDialogComponent } from './year-detail/year-date-add-to-branches-dialog/year-date-add-to-branches-dialog.component';
 import { UserChangePasswordDialogComponent } from './shared/user-change-password-dialog/user-change-password-dialog.component';
@@ -169,7 +168,6 @@ import { ComfirmMassageDialogComponent } from './shared/comfirm-massage-dialog/c
     PortalEmployeeOvertimeApplicationDialogComponent,
     PortalEmployeeLoanDialogComponent,
     PortalEmployeeDtrDialogComponent,
-    PortalEmployeeDtrLineDialogComponent,
     PortalEmployeePayrollDialogComponent,
     YearDateAddToBranchesDialogComponent,
     UserChangePasswordDialogComponent,
