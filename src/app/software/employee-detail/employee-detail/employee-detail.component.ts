@@ -610,6 +610,8 @@ export class EmployeeDetailComponent implements OnInit {
           this.employeeModel.IsLocked = result["IsLocked"];
           if (result["EmployeePayroll"] !== null) {
             this.employeeModel.EmployeePayroll = result["EmployeePayroll"];
+            this.employeeModel.EmployeePayroll.TaxTable = result["EmployeePayroll"].TaxTable;
+            console.log(this.employeeModel.EmployeePayroll.TaxTable);
             this.employeeModel.EmployeePayroll.PayrollRate = this._decimalPipe.transform(result["EmployeePayroll"].PayrollRate, "1.2-2");
             this.employeeModel.EmployeePayroll.MonthlyRate = this._decimalPipe.transform(result["EmployeePayroll"].MonthlyRate, "1.2-2");
             this.employeeModel.EmployeePayroll.DailyRate = this._decimalPipe.transform(result["EmployeePayroll"].DailyRate, "1.2-2");

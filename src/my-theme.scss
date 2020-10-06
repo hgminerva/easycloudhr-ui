@@ -1,13 +1,77 @@
-@import "~@angular/material/theming";
-// Plus imports for other components in your app.
+// @import "~@angular/material/theming";
+// // Plus imports for other components in your app.
 
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
+// // Include the common styles for Angular Material. We include this here so that you only
+// // have to load a single css file for Angular Material in your app.
+// // Be sure that you only ever include this mixin once!
+// @include mat-core();
+
+// // Microsoft Color Pallete: Main Pallete
+// $microsoft-violet-pallete: (
+//     Main: #742774,
+//     Light: #EEE5EE,
+//     Dark: #440E44,
+//     contrast: (
+//         Main: #f5f5f5,
+//         Light: #000,
+//         Dark: #fff,
+//     ),
+// );
+
+// $microsoft-green-pallete: (
+//     Main: #7fba00,
+//     Light: #d9eab3,
+//     Dark: #4f9400,
+//     contrast: (
+//         Main: #fff,
+//         Light: #fff,
+//         Dark: #fff,
+//     ),
+// );
+
+// $microsoft-orange-pallete: (
+//     Main: #f25022,
+//     Light: #fbcbbd,
+//     Dark: #e8270c,
+//     contrast: (
+//         Main: #fff,
+//         Light: #fff,
+//         Dark: #fff,
+//     ),
+// );
+
+// // Define the palettes for your theme using the Material Design palettes available in palette.scss
+// // (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// // hue. Available color palettes: https://material.io/design/color/
+// $my-theme-primary: mat-palette($microsoft-violet-pallete, Main, Light, Dark);
+// $my-theme-accent: mat-palette($microsoft-green-pallete, Main, Light, Dark);
+
+// // The warn palette is optional (defaults to red).
+// $my-theme-warn: mat-palette($microsoft-orange-pallete, Main, Light, Dark);
+
+// // Create the theme object. A theme consists of configurations for individual
+// // theming systems such as `color` or `typography`.
+// $my-theme: mat-light-theme(
+//     (
+//         color: (
+//             primary: $my-theme-primary,
+//             accent: $my-theme-accent,
+//             warn: $my-theme-warn,
+//         ),
+//     )
+// );
+
+// // Include theme styles for core and each component used in your app.
+// // Alternatively, you can import and @include the theme mixins for each component
+// // that you are using.
+// @include angular-material-theme($my-theme);
+
+@import '~@angular/material/theming';
+
 @include mat-core();
 
-// Microsoft Color Pallete: Main Pallete
-$microsoft-violet-pallete: (
+// The rest of this is like a normal theme.scss file. The only difference being that we use create-wonky-theme instead of mat-light-theme
+$primary-pallete: (
     Main: #742774,
     Light: #EEE5EE,
     Dark: #440E44,
@@ -18,7 +82,7 @@ $microsoft-violet-pallete: (
     ),
 );
 
-$microsoft-green-pallete: (
+$accent-pallete: (
     Main: #7fba00,
     Light: #d9eab3,
     Dark: #4f9400,
@@ -26,10 +90,10 @@ $microsoft-green-pallete: (
         Main: #fff,
         Light: #fff,
         Dark: #fff,
-    ),
+    )
 );
 
-$microsoft-orange-pallete: (
+$warn-pallete: (
     Main: #f25022,
     Light: #fbcbbd,
     Dark: #e8270c,
@@ -37,31 +101,65 @@ $microsoft-orange-pallete: (
         Main: #fff,
         Light: #fff,
         Dark: #fff,
-    ),
-);
-
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
-$my-theme-primary: mat-palette($microsoft-violet-pallete, Main, Light, Dark);
-$my-theme-accent: mat-palette($microsoft-green-pallete, Main, Light, Dark);
-
-// The warn palette is optional (defaults to red).
-$my-theme-warn: mat-palette($microsoft-orange-pallete, Main, Light, Dark);
-
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as `color` or `typography`.
-$my-theme: mat-light-theme(
-    (
-        color: (
-            primary: $my-theme-primary,
-            accent: $my-theme-accent,
-            warn: $my-theme-warn,
-        ),
     )
 );
 
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include angular-material-theme($my-theme);
+$default-theme-primary: mat-palette($primary-pallete, Main, Light, Dark);
+$default-theme-accent: mat-palette($accent-pallete, Main, Light, Dark);
+$default-theme-warn: mat-palette($warn-pallete, Main, Light, Dark);
+$default-theme-background: (
+    status-bar: black,
+    app-bar:    map_get($mat-grey, 900),
+    background: #303030,
+    hover:      rgba(white, 0.04), // TODO(kara): check style with Material Design UX
+    card:       #363636, // map_get($mat-grey, 800),
+    dialog:     #363636, //map_get($mat-grey, 800),
+    disabled-button: rgba(white, 0.12),
+    raised-button: map-get($mat-grey, 800),
+    focused-button: $light-focused,
+    selected-button: map_get($mat-grey, 900),
+    selected-disabled-button: map_get($mat-grey, 800),
+    disabled-button-toggle: black,
+    unselected-chip: map_get($mat-grey, 700),
+    disabled-list-option: black,
+    tooltip: map_get($mat-grey, 700),
+);
+$default-theme-foreground: (
+    base:              white,
+    divider:           $light-dividers,
+    dividers:          $light-dividers,
+    disabled:          $light-disabled-text,
+    disabled-button:   rgba(white, 0.3),
+    disabled-text:     $light-disabled-text,
+    elevation:         black,
+    hint-text:         $light-disabled-text,
+    secondary-text:    $light-secondary-text,
+    icon:              white,
+    icons:             white,
+    text:              white,
+    slider-min:        white,
+    slider-off:        rgba(white, 0.3),
+    slider-off-active: rgba(white, 0.3),
+);
+
+// instead of creating a theme with mat-light-theme like a sane person, we will create our own theme-creating function that lets us apply our own foreground and background palettes.
+@function configured-theme($primary, $accent, $warn: mat-palette($mat-red)) {
+    @return (
+        primary: $primary,
+        accent: $accent,
+        warn: $warn,
+        is-dark: false,
+        foreground: $default-theme-foreground,
+        background: $default-theme-background
+    );
+}
+
+$default-theme: configured-theme($default-theme-primary, $default-theme-accent, $default-theme-warn);
+
+@include angular-material-theme($default-theme);
+
+$default-typography: mat-typography-config(
+  $font-family: 'Segoe UI Light'
+);
+
+@include mat-core($default-typography);

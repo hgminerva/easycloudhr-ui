@@ -2,15 +2,15 @@
     <img src="../../../../assets/menu-icons/employees.png" height="35" />
     <span>&nbsp;&nbsp; Employee List</span>
     <span class="spacer"></span>
-    <button mat-flat-button color="accent" id="btnAddEmployee" [disabled]="btnAddDisabled" style="margin: 5px;"
-        (click)="btnCSVEmployeesListClick()" *ngIf="userRights.CanPrint">
-        <!-- <mat-icon>get_app</mat-icon> -->
-        CSV
-    </button>
     <button mat-flat-button color="primary" id="btnAddEmployee" [disabled]="btnAddDisabled" style="margin: 5px;"
         (click)="AddEmployeeDetail()" *ngIf="userRights.CanAdd">
         <!-- <mat-icon>add</mat-icon> -->
         Add
+    </button>
+    <button mat-flat-button color="accent" id="btnAddEmployee" [disabled]="btnAddDisabled" style="margin: 5px;"
+        (click)="btnCSVEmployeesListClick()" *ngIf="userRights.CanPrint">
+        <!-- <mat-icon>get_app</mat-icon> -->
+        CSV
     </button>
     <button mat-raised-button style="margin: 5px;" routerLink="/software" color="warn">
         <!-- <mat-icon>close</mat-icon> -->

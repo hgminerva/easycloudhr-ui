@@ -19,11 +19,12 @@
             <mat-accordion>
 
                 <div style="width: 100%; text-align: center;padding: 50px 0; ">
-                    <img src="../../assets/logo/gateway-only.png" height="30" />
+                    <!-- <img src="../../assets/logo/gateway-only.png" height="30" /> -->
+                    <img src="../../assets/logo/gateway-only-white.png" height="30" />
                 </div>
 
                 <mat-expansion-panel hideToggle class="mat-elevation-z0"
-                    style="border-bottom: 1px solid #e0e0e0;border-top: 1px solid #e0e0e0; ">
+                    style="border-bottom: 1px solid #585858;border-top: 1px solid #585858; ">
                     <mat-expansion-panel-header routerLink="/software" #dashboardPanelHeader *ngIf="moduleDashBoard"
                         (click)="dashboardPanelHeader._toggle()">
                         <mat-panel-title>
@@ -37,7 +38,7 @@
                     </mat-expansion-panel-header>
                 </mat-expansion-panel>
 
-                <mat-expansion-panel class="mat-elevation-z0" style="border-bottom: 1px solid #e0e0e0;"
+                <mat-expansion-panel class="mat-elevation-z0" style="border-bottom: 1px solid #585858;"
                     *ngIf="moduleSetup">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
@@ -126,7 +127,7 @@
                     </mat-nav-list>
                 </mat-expansion-panel>
 
-                <mat-expansion-panel class="mat-elevation-z0" style="border-bottom: 1px solid #e0e0e0;"
+                <mat-expansion-panel class="mat-elevation-z0" style="border-bottom: 1px solid #585858;"
                     *ngIf="moduleDTR">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
@@ -184,7 +185,7 @@
                     </mat-nav-list>
                 </mat-expansion-panel>
 
-                <mat-expansion-panel class="mat-elevation-z0" style="border-bottom: 1px solid #e0e0e0;"
+                <mat-expansion-panel class="mat-elevation-z0" style="border-bottom: 1px solid #585858;"
                     *ngIf="modulePayroll">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
@@ -243,7 +244,7 @@
                     </mat-nav-list>
                 </mat-expansion-panel>
 
-                <mat-expansion-panel class="mat-elevation-z0" style="border-bottom: 1px solid #e0e0e0;"
+                <mat-expansion-panel class="mat-elevation-z0" style="border-bottom: 1px solid #585858;"
                     *ngIf="moduleReports">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
@@ -316,7 +317,7 @@
                     </mat-nav-list>
                 </mat-expansion-panel>
 
-                <mat-expansion-panel class="mat-elevation-z0" style="border-bottom: 1px solid #e0e0e0;"
+                <mat-expansion-panel class="mat-elevation-z0" style="border-bottom: 1px solid #585858;"
                     *ngIf="modulePortal">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
@@ -341,7 +342,7 @@
 
                     </mat-nav-list>
                 </mat-expansion-panel>
-                <mat-expansion-panel class="mat-elevation-z0" style="border-bottom: 1px solid #e0e0e0;"
+                <mat-expansion-panel class="mat-elevation-z0" style="border-bottom: 1px solid #585858;"
                     *ngIf="moduleSettings">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
@@ -375,7 +376,7 @@
                 </mat-expansion-panel>
 
                 <mat-expansion-panel style="pointer-events: none;" class="mat-elevation-z0"
-                    style="border-bottom: 1px solid #e0e0e0;" *ngIf="moduleSecurity">
+                    style="border-bottom: 1px solid #585858;" *ngIf="moduleSecurity">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
                             <mat-icon>security</mat-icon>
@@ -407,7 +408,7 @@
                     </mat-nav-list>
                 </mat-expansion-panel>
 
-                <mat-expansion-panel hideToggle class="mat-elevation-z0" style="border-bottom: 1px solid #e0e0e0;">
+                <mat-expansion-panel hideToggle class="mat-elevation-z0" style="border-bottom: 1px solid #585858;">
                     <mat-expansion-panel-header #logoutPanelHeader (click)="logOut()">
                         <mat-panel-title>
                             <mat-icon>power_settings_new</mat-icon>

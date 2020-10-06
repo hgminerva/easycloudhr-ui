@@ -52,7 +52,7 @@
                     <div fxFlex="50" style="padding: 5px;">
                         <div fxLayout="row" fxLayout.xs="column">
                             <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Employee Code</mat-label>
                                     <input matInput placeholder="Full Name" [(ngModel)]="employeeModel.EmployeeCode"
                                         [readonly]="isLocked">
@@ -74,7 +74,7 @@
                         </div>
                         <div fxLayout="row" fxLayout.xs="column">
                             <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Position</mat-label>
                                     <mat-select [(ngModel)]="employeeModel.EmployeeHR.Position">
                                         <mat-option *ngFor="let position of positionListDropdown" [disabled]="isLocked"
@@ -85,7 +85,7 @@
                                 </mat-form-field>
                             </div>
                             <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Payroll Group</mat-label>
                                     <mat-select [(ngModel)]="employeeModel.EmployeePayroll.PayrollGroup">
                                         <mat-option *ngFor="let payrollGroup of payrollGroupListDropdown"
@@ -98,14 +98,14 @@
                         </div>
                         <div fxLayout="row" fxLayout.xs="column">
                             <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Contact Tel No.</mat-label>
                                     <input matInput placeholder="Contact No." [(ngModel)]="employeeModel.ContactNumber"
                                         [readonly]="isLocked">
                                 </mat-form-field>
                             </div>
                             <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Contact Mobile No.</mat-label>
                                     <input matInput placeholder="Contact Mobile No."
                                         [(ngModel)]="employeeModel.ContactMobileNumber" [readonly]="isLocked">
@@ -117,14 +117,14 @@
                     <div fxFlex="50" style="padding: 5px;">
                         <div fxLayout="row" fxLayout.xs="column">
                             <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>ID Number</mat-label>
                                     <input matInput placeholder="Full Name" [(ngModel)]="employeeModel.IdNumber"
                                         [readonly]="isLocked">
                                 </mat-form-field>
                             </div>
                             <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Biometric ID Number</mat-label>
                                     <input matInput placeholder="Full Name"
                                         [(ngModel)]="employeeModel.BiometricIdNumber" [readonly]="isLocked">
@@ -133,7 +133,7 @@
                         </div>
                         <div fxLayout="row" fxLayout.xs="column">
                             <div fxFlex="100" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;" readonly>
+                                <mat-form-field appearance="fill" style="width: 100%;" readonly>
                                     <mat-label>Company</mat-label>
                                     <mat-select [(ngModel)]="employeeModel.CompanyId">
                                         <mat-option *ngFor="let company of companyListDropdown" [value]="company.Id"
@@ -146,7 +146,7 @@
                         </div>
                         <div fxLayout="row" fxLayout.xs="column">
                             <div fxFlex="100" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Branch</mat-label>
                                     <mat-select [(ngModel)]="employeeModel.EmployeeHR.Branch">
                                         <mat-option *ngFor="let branch of branchListDropdown" [disabled]="isLocked"
@@ -181,7 +181,7 @@
                     <div fxFlex="50" style="padding: 5px;">
                         <div fxLayout="row" fxLayout.xs="column">
                             <div fxFlex="100" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Address</mat-label>
                                     <textarea matInput placeholder="Address" [(ngModel)]="employeeModel.Address"
                                         [readonly]="isLocked" rows="1"></textarea>
@@ -190,14 +190,14 @@
                         </div>
                         <div fxLayout="row" fxLayout.xs="column">
                             <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>City</mat-label>
                                     <input type="text" [(ngModel)]="employeeModel.City" matInput readonly>
                                     <mat-icon matSuffix (click)="PickCity()">keyboard_arrow_down</mat-icon>
                                 </mat-form-field>
                             </div>
                             <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Zip Code</mat-label>
                                     <mat-select [(ngModel)]="employeeModel.ZipCode">
                                         <mat-option *ngFor="let zipCode of zipCodeListDropdown" [disabled]="isLocked"
@@ -210,7 +210,7 @@
                         </div>
                         <div fxLayout="row" fxLayout.xs="column">
                             <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Date Of Birth</mat-label>
                                     <input matInput [matDatepicker]="datePickerUIDateOfBirth"
                                         [(ngModel)]="UIDateOfBirth" [readonly]="isLocked"
@@ -222,7 +222,7 @@
                                 </mat-form-field>
                             </div>
                             <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Place Of Birth</mat-label>
                                     <input matInput placeholder="Place Of Birth"
                                         [(ngModel)]="employeeModel.PlaceOfBirth" [readonly]="isLocked">
@@ -231,7 +231,7 @@
                         </div>
                         <div fxLayout="row" fxLayout.xs="column">
                             <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Religion</mat-label>
                                     <mat-select [(ngModel)]="employeeModel.Religion">
                                         <mat-option *ngFor="let religion of religionListDropdown" [disabled]="isLocked"
@@ -242,7 +242,7 @@
                                 </mat-form-field>
                             </div>
                             <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Email Address</mat-label>
                                     <input matInput placeholder="Email Address" [(ngModel)]="employeeModel.EmailAddress"
                                         [readonly]="isLocked">
@@ -253,7 +253,7 @@
                     <div fxFlex="50" style="padding: 5px;">
                         <div fxLayout="row" fxLayout.xs="column">
                             <div fxFlex="33" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Civil Status</mat-label>
                                     <mat-select [(ngModel)]="employeeModel.CivilStatus">
                                         <mat-option *ngFor="let civilStatus of civilStatusListDropdown"
@@ -264,7 +264,7 @@
                                 </mat-form-field>
                             </div>
                             <div fxFlex="33" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Sex</mat-label>
                                     <mat-select [(ngModel)]="employeeModel.Sex">
                                         <mat-option *ngFor="let gender of genderListDropdown" [disabled]="isLocked"
@@ -275,7 +275,7 @@
                                 </mat-form-field>
                             </div>
                             <div fxFlex="34" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Citizenship</mat-label>
                                     <mat-select [(ngModel)]="employeeModel.Citizenship">
                                         <mat-option *ngFor="let citizenship of citizenshipListDropdown"
@@ -289,7 +289,7 @@
                         <div fxLayout="row" fxLayout.xs="column">
 
                             <div fxFlex="33" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Height (cm)</mat-label>
                                     <input type="{{inputTypeHeight}}" matInput placeholder="Contact No."
                                         style="text-align:right;" [(ngModel)]="employeeModel.Height"
@@ -298,7 +298,7 @@
                                 </mat-form-field>
                             </div>
                             <div fxFlex="33" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Weight (kg)</mat-label>
                                     <input type="{{inputTypeWeight}}" matInput placeholder="Civil Status"
                                         style="text-align:right;" [(ngModel)]="employeeModel.Weight"
@@ -307,7 +307,7 @@
                                 </mat-form-field>
                             </div>
                             <div fxFlex="34" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;" readonly disabled>
+                                <mat-form-field appearance="fill" style="width: 100%;" readonly disabled>
                                     <mat-label>BloodType</mat-label>
                                     <mat-select [(ngModel)]="employeeModel.BloodType">
                                         <mat-option *ngFor="let gender of bloodTypeListDropdown" [disabled]="isLocked"
@@ -320,7 +320,7 @@
                         </div>
                         <div fxLayout="row" fxLayout.xs="column">
                             <div fxFlex="100" style="margin: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Remarks</mat-label>
                                     <textarea matInput placeholder="Remarks" [(ngModel)]="employeeModel.Remarks"
                                         [readonly]="isLocked" rows="5" style="min-height: 102px;"> </textarea>
@@ -336,7 +336,7 @@
                     <div fxFlex="50" style="padding: 5px;">
                         <div fxLayout="row" fxLayout.xs="column">
                             <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Payroll Type</mat-label>
                                     <mat-select [(ngModel)]="employeeModel.EmployeePayroll.PayrollType">
                                         <mat-option *ngFor="let payrollType of payrollTypeListDropdown"
@@ -347,7 +347,7 @@
                                 </mat-form-field>
                             </div>
                             <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Hourly Rate</mat-label>
                                     <input type="text" matInput placeholder="0.00" style="text-align:right;"
                                         [(ngModel)]="employeeModel.EmployeePayroll.HourlyRate" [readonly]="isLocked"
@@ -358,7 +358,7 @@
                         </div>
                         <div fxLayout="row" fxLayout.xs="column">
                             <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Monthly Rate</mat-label>
                                     <input type="{{inputTypeMonthlyRate}}" matInput placeholder="0.00"
                                         style="text-align:right;"
@@ -368,7 +368,7 @@
                                 </mat-form-field>
                             </div>
                             <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Late Hourly Rate</mat-label>
                                     <input type="{{inputTypeHourlyRate}}" matInput placeholder="0.00"
                                         style="text-align:right;"
@@ -382,7 +382,7 @@
 
                         <div fxLayout="row" fxLayout.xs="column">
                             <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Payroll Rate</mat-label>
                                     <input type="{{inputTypePayrollRate}}" matInput placeholder="0.00"
                                         [readonly]="isLocked" style="text-align:right;"
@@ -392,7 +392,7 @@
                                 </mat-form-field>
                             </div>
                             <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Under timeHourly Rate</mat-label>
                                     <input type="{{inputTypeUndertimeHourlyRate}}" matInput placeholder="0.00"
                                         [(ngModel)]="employeeModel.EmployeePayroll.UndertimeHourlyRate"
@@ -404,7 +404,7 @@
                         </div>
                         <div fxLayout="row" fxLayout.xs="column">
                             <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Daily Rate</mat-label>
                                     <input type="{{inputTypeDailyRate}}" matInput placeholder="0.00"
                                         style="text-align:right;" [(ngModel)]="employeeModel.EmployeePayroll.DailyRate"
@@ -413,7 +413,7 @@
                                 </mat-form-field>
                             </div>
                             <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Overtime Hourly Rate</mat-label>
                                     <input type="{{inputTypeOvertimeHourlyRate}}" matInput placeholder="0.00"
                                         ui-number-mask="2" style="text-align:right;"
@@ -426,7 +426,7 @@
                         </div>
                         <div fxLayout="row" fxLayout.xs="column">
                             <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Absent Daily Rate</mat-label>
                                     <input type="{{inputTypeAbsentDailyRate}}" matInput placeholder="0.00"
                                         style="text-align:right;"
@@ -437,7 +437,7 @@
 
                             </div>
                             <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Night Differential Rate</mat-label>
                                     <input type="{{inputTypeNightDifferentialRate}}" matInput placeholder="0.00"
                                         style="text-align:right;"
@@ -452,7 +452,7 @@
                     <div fxFlex="50" style="padding: 5px;">
                         <div fxLayout="row" fxLayout.xs="column">
                             <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>ATMA ccount No.</mat-label>
                                     <input matInput placeholder="ATMA ccount No."
                                         [(ngModel)]="employeeModel.EmployeePayroll.ATMAccountNumber"
@@ -460,7 +460,7 @@
                                 </mat-form-field>
                             </div>
                             <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Cost Of Living Allowance</mat-label>
                                     <input type="{{inputTypeCostOfLivingAllowance}}" matInput placeholder="0.00"
                                         style="text-align:right;"
@@ -473,21 +473,21 @@
 
                         <div fxLayout="row" fxLayout.xs="column">
                             <div fxFlex="33" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>SSSNumber</mat-label>
                                     <input matInput placeholder="SSSNumber"
                                         [(ngModel)]="employeeModel.EmployeePayroll.SSSNumber" [readonly]="isLocked">
                                 </mat-form-field>
                             </div>
                             <div fxFlex="33" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>HDMFNumber</mat-label>
                                     <input matInput placeholder="HDMFNumber"
                                         [(ngModel)]="employeeModel.EmployeePayroll.HDMFNumber" [readonly]="isLocked">
                                 </mat-form-field>
                             </div>
                             <div fxFlex="34" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>TIN</mat-label>
                                     <input matInput placeholder="TIN" [(ngModel)]="employeeModel.EmployeePayroll.TIN"
                                         [readonly]="isLocked">
@@ -496,7 +496,7 @@
                         </div>
                         <div fxLayout="row" fxLayout.xs="column">
                             <div fxFlex="33" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>SSS Computation Type</mat-label>
                                     <mat-select [(ngModel)]="employeeModel.EmployeePayroll.SSSComputationType">
                                         <mat-option *ngFor="let sssComputation of sssComputationListDropdown"
@@ -507,7 +507,7 @@
                                 </mat-form-field>
                             </div>
                             <div fxFlex="33" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>HDMF Computation Type</mat-label>
                                     <mat-select [(ngModel)]="employeeModel.EmployeePayroll.HDMFComputationType">
                                         <mat-option *ngFor="let hdmfCompution of hdmfComputationListDropdown"
@@ -518,40 +518,7 @@
                                 </mat-form-field>
                             </div>
                             <div fxFlex="34" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
-                                    <mat-label>Tax Table</mat-label>
-                                    <mat-select [(ngModel)]="employeeModel.EmployeePayroll.TaxTable">
-                                        <mat-option *ngFor="let taxTable of taxTableListDropdown" [disabled]="isLocked"
-                                            [value]="taxTable.Value">
-                                            {{taxTable.Value}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                        <div fxLayout="row" fxLayout.xs="column">
-                            <div fxFlex="33" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
-                                    <mat-label>SSS Add On Amount</mat-label>
-                                    <input type="{{inputTypeSSSAddOnAmount}}" matInput placeholder="0.00"
-                                        style="text-align:right;"
-                                        [(ngModel)]="employeeModel.EmployeePayroll.SSSAddOnAmount" [readonly]="isLocked"
-                                        (focus)="SSSAddOnAmountToNumberTypeFocus()"
-                                        (focusout)="SSSAddOnAmountFormatValueFocusOut()">
-                                </mat-form-field>
-                            </div>
-                            <div fxFlex="33" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
-                                    <mat-label>HDMF Add On Amount</mat-label>
-                                    <input type="{{inputTypeHDMFAddOnAmount}}" matInput placeholder="0.00"
-                                        style="text-align:right;"
-                                        [(ngModel)]="employeeModel.EmployeePayroll.HDMFAddOnAmount"
-                                        [readonly]="isLocked" (focus)="HDMFAddOnAmountToNumberTypeFocus()"
-                                        (focusout)="HDMFAddOnAmountFormatValueFocusOut()">
-                                </mat-form-field>
-                            </div>
-                            <div fxFlex="34" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Tax Exemption</mat-label>
                                     <mat-select [(ngModel)]="employeeModel.EmployeePayroll.TaxExemptionId">
                                         <mat-option *ngFor="let taxExemption of taxExemptionListDropdown"
@@ -564,7 +531,40 @@
                         </div>
                         <div fxLayout="row" fxLayout.xs="column">
                             <div fxFlex="33" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
+                                    <mat-label>SSS Add On Amount</mat-label>
+                                    <input type="{{inputTypeSSSAddOnAmount}}" matInput placeholder="0.00"
+                                        style="text-align:right;"
+                                        [(ngModel)]="employeeModel.EmployeePayroll.SSSAddOnAmount" [readonly]="isLocked"
+                                        (focus)="SSSAddOnAmountToNumberTypeFocus()"
+                                        (focusout)="SSSAddOnAmountFormatValueFocusOut()">
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="33" style="padding: 5px;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
+                                    <mat-label>HDMF Add On Amount</mat-label>
+                                    <input type="{{inputTypeHDMFAddOnAmount}}" matInput placeholder="0.00"
+                                        style="text-align:right;"
+                                        [(ngModel)]="employeeModel.EmployeePayroll.HDMFAddOnAmount"
+                                        [readonly]="isLocked" (focus)="HDMFAddOnAmountToNumberTypeFocus()"
+                                        (focusout)="HDMFAddOnAmountFormatValueFocusOut()">
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="34" style="padding: 5px;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
+                                    <mat-label>Tax Table</mat-label>
+                                    <mat-select [(ngModel)]="employeeModel.EmployeePayroll.TaxTable">
+                                        <mat-option *ngFor="let taxTable of taxTableListDropdown" [disabled]="isLocked"
+                                            [value]="taxTable.Value">
+                                            {{taxTable.Value}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxLayout="row" fxLayout.xs="column">
+                            <div fxFlex="33" style="padding: 5px;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Additional Allowance</mat-label>
                                     <input type="{{inputTypeAdditionalAllowance}}" matInput placeholder="0.00"
                                         style="text-align:right;"
@@ -574,7 +574,7 @@
                                 </mat-form-field>
                             </div>
                             <div fxFlex="33" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>PHICNumber</mat-label>
                                     <input matInput placeholder="PHICNumber"
                                         [(ngModel)]="employeeModel.EmployeePayroll.PHICNumber" [readonly]="isLocked">
@@ -602,7 +602,7 @@
                     <div fxFlex="50" style="padding: 5px;">
                         <div fxLayout="row" fxLayout.xs="column">
                             <div fxFlex="100" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;" readonly disabled>
+                                <mat-form-field appearance="fill" style="width: 100%;" readonly disabled>
                                     <mat-label>Shift Code</mat-label>
                                     <mat-select [(ngModel)]="employeeModel.EmployeeHR.DefaultShiftId">
                                         <mat-option *ngFor="let shift of shiftDropdown" [disabled]="isLocked"
@@ -615,7 +615,7 @@
                         </div>
                         <div fxLayout="row" fxLayout.xs="column">
                             <div fxFlex="33" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Date Hired</mat-label>
                                     <input matInput [matDatepicker]="datePickerUIDateHired" [(ngModel)]="UIDateHired"
                                         [readonly]="isLocked" (dateInput)="GetUIDateHired()">
@@ -626,7 +626,7 @@
                                 </mat-form-field>
                             </div>
                             <div fxFlex="33" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Date Regular</mat-label>
                                     <input matInput [matDatepicker]="datePickerUIDateRegular"
                                         [(ngModel)]="UIDateRegular" [readonly]="isLocked"
@@ -638,7 +638,7 @@
                                 </mat-form-field>
                             </div>
                             <div fxFlex="34" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Date Resigned</mat-label>
                                     <input matInput [matDatepicker]="datePickerUIDateResigned"
                                         [(ngModel)]="UIDateResigned" [readonly]="isLocked"
@@ -652,7 +652,7 @@
                         </div>
                         <div fxLayout="row" fxLayout.xs="column">
                             <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Division</mat-label>
                                     <mat-select [(ngModel)]="employeeModel.EmployeeHR.Division">
                                         <mat-option *ngFor="let division of divisionListDropdown" [disabled]="isLocked"
@@ -663,7 +663,7 @@
                                 </mat-form-field>
                             </div>
                             <div fxFlex="50" style="padding: 5px;">
-                                <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-form-field appearance="fill" style="width: 100%;">
                                     <mat-label>Department</mat-label>
                                     <mat-select [(ngModel)]="employeeModel.EmployeeHR.Department">
                                         <mat-option *ngFor="let  department of departmentListDropdown"
