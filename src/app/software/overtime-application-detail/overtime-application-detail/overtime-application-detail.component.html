@@ -45,7 +45,7 @@
                 </div>
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="25" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>Date</mat-label>
                             <input matInput [matDatepicker]="datePickerOTDate" [(ngModel)]="UIOTDate"
                                 (dateInput)="GetUIDATEOTDate()" [readonly]="_isLocked">
@@ -55,7 +55,7 @@
                         </mat-form-field>
                     </div>
                     <div fxFlex="25" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>Prepared By</mat-label>
                             <mat-select [(ngModel)]="_overtimeApplicationModel.PreparedByUserId" disabled>
                                 <mat-option *ngFor="let user of _userListDropdown" [value]="user.Id">
@@ -65,7 +65,7 @@
                         </mat-form-field>
                     </div>
                     <div fxFlex="25" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>Checked By</mat-label>
                             <mat-select [(ngModel)]="_overtimeApplicationModel.CheckedByUserId"
                                 (selectionChange)="selectedCheckedByUser($event)">
@@ -77,7 +77,7 @@
                         </mat-form-field>
                     </div>
                     <div fxFlex="25" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>Approved By</mat-label>
                             <mat-select [(ngModel)]="_overtimeApplicationModel.ApprovedByUserId"
                                 (selectionChange)="selectedApprovedByUser($event)">
@@ -93,7 +93,7 @@
             <div fxFlex="50s" style="padding: 5px;">
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="100" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>Remarks</mat-label>
                             <textarea matInput placeholder="AddrRemarksess"
                                 [(ngModel)]="_overtimeApplicationModel.Remarks" [readonly]="_isLocked" rows="5"

@@ -28,19 +28,19 @@
     <div [hidden]="!_isComponentsShown">
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="20" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>YearCode</mat-label>
                     <input matInput placeholder="Full Name" [(ngModel)]="_yearModel.YearCode" readonly>
                 </mat-form-field>
             </div>
             <div fxFlex="20" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Year</mat-label>
                     <input matInput placeholder="Full Name" [(ngModel)]="_yearModel.Year" [readonly]="_isLocked">
                 </mat-form-field>
             </div>
             <div fxFlex="20" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>DateStart</mat-label>
                     <input matInput [matDatepicker]="datePickerDateStart" [(ngModel)]="UIDateStart"
                         (dateInput)="GetUIDATEDateStart()" [readonly]="_isLocked">
@@ -50,7 +50,7 @@
                 </mat-form-field>
             </div>
             <div fxFlex="20" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>DateEnd</mat-label>
                     <input matInput [matDatepicker]="datePickerDateEnd" [(ngModel)]="UIDateEnd"
                         (dateInput)="GetUIDATEDateEnd()" [readonly]="_isLocked">

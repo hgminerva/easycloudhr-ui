@@ -7,7 +7,7 @@
         <br>
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="33" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Date</mat-label>
                     <input matInput [matDatepicker]="datePickerYearDate" [(ngModel)]="UIYearDate" (dateInput)="GetUIDATEYearDate()">
                     <mat-datepicker-toggle matSuffix [for]="datePickerYearDate">
@@ -16,7 +16,7 @@
                 </mat-form-field>
             </div>
             <div fxFlex="33" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Branch</mat-label>
                     <mat-select [(ngModel)]="_yearDateModel.Branch">
                         <mat-option *ngFor="let branch of _branchListDropdown" [value]="branch.Value">
@@ -26,7 +26,7 @@
                 </mat-form-field>
             </div>
             <div fxFlex="34" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Date Type</mat-label>
                     <mat-select [(ngModel)]="_yearDateModel.DateType">
                         <mat-option *ngFor="let dateType of _dateTypeListDropdown" [value]="dateType.Value">
@@ -38,7 +38,7 @@
         </div>
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="100" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Remarks</mat-label>
                     <textarea matInput placeholder="Remarks" [(ngModel)]="_yearDateModel.Remarks" rows="5"
                         style="min-height: 102px;"></textarea>

@@ -52,7 +52,7 @@
                 </div>
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="25" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>Date</mat-label>
                             <input matInput [matDatepicker]="datePickerPayrollDate" [(ngModel)]="UIPAYDate"
                                 (dateInput)="GetUIDATEPAYDate()" [readonly]="_isLocked">
@@ -63,19 +63,19 @@
 
                     </div>
                     <div fxFlex="25" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>Quarter No.</mat-label>
                             <input matInput [(ngModel)]="_payrollModel.QuarterNumber" [readonly]="_isLocked">
                         </mat-form-field>
                     </div>
                     <div fxFlex="25" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>Month No.</mat-label>
                             <input matInput [(ngModel)]="_payrollModel.MonthNumber" [readonly]="_isLocked">
                         </mat-form-field>
                     </div>
                     <div fxFlex="25" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>Week No.</mat-label>
                             <input matInput [(ngModel)]="_payrollModel.WeekNumber" [readonly]="_isLocked">
                         </mat-form-field>
@@ -83,7 +83,7 @@
                 </div>
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="33" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>DTR</mat-label>
                             <mat-select [(ngModel)]="_payrollModel.DTRId">
                                 <mat-option *ngFor="let dTR of _dTRListDropdown" [disabled]="_isLocked"
@@ -94,7 +94,7 @@
                         </mat-form-field>
                     </div>
                     <div fxFlex="33" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>Payroll Other Income</mat-label>
                             <mat-select [(ngModel)]="_payrollModel.PIId">
                                 <mat-option *ngFor="let payrollOtherIncome of _payrollOtherIncomeListDropdown"
@@ -105,7 +105,7 @@
                         </mat-form-field>
                     </div>
                     <div fxFlex="34" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>Payroll Other Deduction</mat-label>
                             <mat-select [(ngModel)]="_payrollModel.PDId">
                                 <mat-option *ngFor="let payrollOtherDeduction of _payrollOtherDeductionListDropdown"
@@ -120,7 +120,7 @@
             <div fxFlex="50" style="padding: 5px;">
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="33" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>Prepared By</mat-label>
                             <mat-select [(ngModel)]="_payrollModel.PreparedByUserId" disabled>
                                 <mat-option *ngFor="let user of _userListDropdown" [value]="user.Id">
@@ -130,7 +130,7 @@
                         </mat-form-field>
                     </div>
                     <div fxFlex="33" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>Checked By</mat-label>
                             <mat-select [(ngModel)]="_payrollModel.CheckedByUserId"
                                 (selectionChange)="selectedCheckedByUser($event)">
@@ -142,7 +142,7 @@
                         </mat-form-field>
                     </div>
                     <div fxFlex="34" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>Approved By</mat-label>
                             <mat-select [(ngModel)]="_payrollModel.ApprovedByUserId"
                                 (selectionChange)="selectedApprovedByUser($event)">
@@ -156,7 +156,7 @@
                 </div>
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="100" style="padding: 0px 5px 5px 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>Remarks</mat-label>
                             <textarea matInput placeholder="AddrRemarksess" [(ngModel)]="_payrollModel.Remarks"
                                 [readonly]="_isLocked" rows="5" style="min-height: 102px;"></textarea>

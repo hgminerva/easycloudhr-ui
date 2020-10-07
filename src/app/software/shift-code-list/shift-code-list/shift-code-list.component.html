@@ -78,7 +78,7 @@
             </div>
         </div>
         <div fxFlex="15" style="padding: 5px;">
-            <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-form-field appearance="fill" style="width: 100%;">
                 <mat-label>Row</mat-label>
                 <mat-select [(ngModel)]="listPageIndex" (selectionChange)='CboShowNumberOfRowsOnSelectedIndexChanged()'>
                     <mat-option *ngFor="let rowSize of _createCboShowNumberOfRows" [value]="rowSize.rowNumber">

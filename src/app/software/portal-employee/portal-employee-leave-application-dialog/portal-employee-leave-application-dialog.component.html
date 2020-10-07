@@ -7,7 +7,7 @@
         <br>
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="25" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Payroll Group</mat-label>
                     <mat-select [(ngModel)]="this._leaveApplicationLine.LAId">
                         <mat-option *ngFor="let leaveApplication of leaveApplicationDropdownList"
@@ -18,7 +18,7 @@
                 </mat-form-field>
             </div>
             <div fxFlex="25" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Date</mat-label>
                     <input matInput [matDatepicker]="datePickerLADate" [(ngModel)]="UILADate"
                         (dateInput)="GetUIDATELADate()">
@@ -46,7 +46,7 @@
         </div>
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="100" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Remarks</mat-label>
                     <textarea matInput placeholder="Remarks" [(ngModel)]="_leaveApplicationLine.Remarks" rows="5"
                         style="min-height: 102px;"></textarea>

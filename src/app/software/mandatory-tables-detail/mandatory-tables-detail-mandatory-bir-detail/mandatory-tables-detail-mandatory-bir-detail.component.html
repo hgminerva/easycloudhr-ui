@@ -6,7 +6,7 @@
     <div class="dialog-body">
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="50" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Amount Start</mat-label>
                     <input type="{{inputTypeAmountStart}}" matInput placeholder="0.00"
                         [(ngModel)]="_mandatoryBIR.AmountStart" autocomplete="off" style="text-align:right;"
@@ -14,7 +14,7 @@
                 </mat-form-field>
             </div>
             <div fxFlex="50" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>AmountEnd</mat-label>
                     <input type="{{inputTypeAmountEnd}}" matInput placeholder="0.00"
                         [(ngModel)]="_mandatoryBIR.AmountEnd" autocomplete="off" style="text-align:right;"
@@ -24,7 +24,7 @@
         </div>
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="50" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Employee Tax Percentage</mat-label>
                     <input type="{{inputTypeEmployeeTaxPercentage}}" matInput placeholder="0.00"
                         [(ngModel)]="_mandatoryBIR.EmployeeTaxPercentage" autocomplete="off" style="text-align:right;"
@@ -32,7 +32,7 @@
                 </mat-form-field>
             </div>
             <div fxFlex="50" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Employee Additional Amount</mat-label>
                     <input type="{{inputTypeEmployeeAdditionalAmount}}" matInput placeholder="0.00"
                         [(ngModel)]="_mandatoryBIR.EmployeeAdditionalAmount" autocomplete="off"

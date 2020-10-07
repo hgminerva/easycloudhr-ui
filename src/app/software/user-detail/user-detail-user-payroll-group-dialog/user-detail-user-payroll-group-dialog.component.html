@@ -6,7 +6,7 @@
     <div class="dialog-body">
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="100" style="margin: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Payroll Group</mat-label>
                     <mat-select [(ngModel)]="UserPayrollGroupModel.PayrollGroup">
                         <mat-option *ngFor="let payroolGroup of payrollGroupListDropdown" [value]="payroolGroup.Value">

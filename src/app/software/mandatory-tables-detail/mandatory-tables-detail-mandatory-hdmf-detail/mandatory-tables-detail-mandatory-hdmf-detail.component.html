@@ -6,7 +6,7 @@
     <div class="dialog-body">
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="50" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Amount Start</mat-label>
                     <input type="{{inputTypeAmountStart}}" style="text-align:right;" matInput placeholder="0.00"
                         [(ngModel)]="_mandatoryHDMF.AmountStart" autocomplete="off"
@@ -14,7 +14,7 @@
                 </mat-form-field>
             </div>
             <div fxFlex="50" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Amount End</mat-label>
                     <input type="{{inputTypeAmountEnd}}" style="text-align:right;" matInput placeholder="0.00"
                         [(ngModel)]="_mandatoryHDMF.AmountEnd" autocomplete="off" (focusout)="AmountEndFormatValue()"
@@ -24,7 +24,7 @@
         </div>
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="50" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Employee Contribution Percentage</mat-label>
                     <input type="{{inputTypeEmployeeContributionPercentage}}" style="text-align:right;" matInput
                         placeholder="0.00" [(ngModel)]="_mandatoryHDMF.EmployeeContributionPercentage"
@@ -33,7 +33,7 @@
                 </mat-form-field>
             </div>
             <div fxFlex="50" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Employer Contribution Percentage</mat-label>
                     <input type="{{inputTypeEmployerContributionPercentage}}" style="text-align:right;" matInput
                         placeholder="0.00" [(ngModel)]="_mandatoryHDMF.EmployerContributionPercentage"
@@ -44,7 +44,7 @@
         </div>
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="50" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Employee Contribution Value</mat-label>
                     <input type="{{inputTypeEmployeeContributionValue}}" style="text-align:right;" matInput
                         placeholder="0.00" [(ngModel)]="_mandatoryHDMF.EmployeeContributionValue" autocomplete="off"
@@ -53,7 +53,7 @@
                 </mat-form-field>
             </div>
             <div fxFlex="50" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Employer Contribution Value</mat-label>
                     <input type="{{inputTypeEmployerContributionValue }}" style="text-align:right;" matInput
                         placeholder="0.00" [(ngModel)]="_mandatoryHDMF.EmployerContributionValue" autocomplete="off"
@@ -64,7 +64,7 @@
         </div>
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="100" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Remarks</mat-label>
                     <textarea matInput placeholder="Remarks" [(ngModel)]="_mandatoryHDMF.Remarks" rows="6"></textarea>
                 </mat-form-field>

@@ -6,7 +6,7 @@
     <div class="dialog-body">
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="100" style="margin: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;" readonly>
+                <mat-form-field appearance="fill" style="width: 100%;" readonly>
                     <mat-label>Module</mat-label>
                     <mat-select [(ngModel)]="userModuleModel.ModuleId">
                         <mat-option *ngFor="let sysModule of sysModuleListDropdown" [value]="sysModule.Id">

@@ -28,21 +28,21 @@
     <div *ngIf="isComponentsShown">
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="25" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>OtherDeductionCode</mat-label>
                     <input matInput placeholder="Other Income Code"
                         [(ngModel)]="_otherDeductionModel.OtherDeductionCode" readonly>
                 </mat-form-field>
             </div>
             <div fxFlex="50" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>OtherDeduction</mat-label>
                     <input matInput placeholder="Other Income" [(ngModel)]="_otherDeductionModel.OtherDeduction"
                         [readonly]="isLocked">
                 </mat-form-field>
             </div>
             <div fxFlex="25" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Amount</mat-label>
                     <input matInput placeholder="0.00" style="text-align:right;"
                         [(ngModel)]="_otherDeductionModel.DefaultAmount" (keypress)="restrictNumeric($event)"

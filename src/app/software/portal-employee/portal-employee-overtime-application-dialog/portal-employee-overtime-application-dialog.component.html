@@ -7,7 +7,7 @@
         <br>
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="33" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Payroll Group</mat-label>
                     <mat-select [(ngModel)]="_overtimeApplicationLineModel.OTId">
                         <mat-option *ngFor="let overtimeApplication of _overtimeApplicationDropdownList"
@@ -18,7 +18,7 @@
                 </mat-form-field>
             </div>
             <div fxFlex="33" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Date</mat-label>
                     <input matInput [matDatepicker]="datePickerOTDate" [(ngModel)]="this.UIOTDate"
                         (dateInput)="GetUIDATEOTDate()">
@@ -28,7 +28,7 @@
                 </mat-form-field>
             </div>
             <div fxFlex="34" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>OT Hours</mat-label>
                     <input type="{{inputTypeOTHours}}" matInput placeholder="0.00" style="text-align:right;"
                         autocomplete="off" [(ngModel)]="_overtimeApplicationLineModel.OTHours"
@@ -38,7 +38,7 @@
         </div>
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="100" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Remarks</mat-label>
                     <textarea matInput placeholder="Remarks" [(ngModel)]="_overtimeApplicationLineModel.Remarks"
                         rows="5" style="min-height: 102px;"></textarea>

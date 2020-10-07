@@ -28,13 +28,13 @@
     <div [hidden]="!isComponentsShown">
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="50" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>ShiftCode</mat-label>
                     <input matInput placeholder="Full Name" [(ngModel)]="shiftModel.ShiftCode" readonly>
                 </mat-form-field>
             </div>
             <div fxFlex="50" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Shift</mat-label>
                     <input matInput placeholder="Full Name" [(ngModel)]="shiftModel.Shift" [readonly]="isLocked">
                 </mat-form-field>
@@ -42,7 +42,7 @@
         </div>
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="100" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Particulars</mat-label>
                     <textarea matInput placeholder="Full Name" [(ngModel)]="shiftModel.Particulars"
                         [readonly]="isLocked" rows="5" style="min-height: 102px;"></textarea>

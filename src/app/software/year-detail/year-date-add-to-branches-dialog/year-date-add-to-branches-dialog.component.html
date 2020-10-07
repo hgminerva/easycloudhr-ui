@@ -7,7 +7,7 @@
         <br>
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="50" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Date</mat-label>
                     <input matInput [matDatepicker]="datePickerYearDate" [(ngModel)]="UIYearDate"
                         (dateInput)="GetUIDATEYearDate()">
@@ -17,7 +17,7 @@
                 </mat-form-field>
             </div>
             <div fxFlex="50" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Date Type</mat-label>
                     <mat-select [(ngModel)]="_yearDateLines.DateType" [disabled]="disableComponentOnInsert">
                         <mat-option *ngFor="let dateType of _dateTypeListDropdown" [value]="dateType.Value">
@@ -49,7 +49,7 @@
         </div>
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="100" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Remarks</mat-label>
                     <textarea matInput placeholder="Remarks" [(ngModel)]="_yearDateLines.Remarks" rows="5"
                         [disabled]="disableComponentOnInsert" style="min-height: 75px;"></textarea>

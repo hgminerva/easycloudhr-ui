@@ -46,7 +46,7 @@
                 </div>
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="33" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>Date</mat-label>
                             <input matInput [matDatepicker]="datePickerDTRDate" [(ngModel)]="UIDTRDate"
                                 (dateInput)="GetUIDATEDTRDate()" [readonly]="_isLocked">
@@ -57,7 +57,7 @@
 
                     </div>
                     <div fxFlex="33" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>DateStart</mat-label>
                             <input matInput [matDatepicker]="datePickerDateStart" [(ngModel)]="UIDateStart"
                                 (dateInput)="GetUIDATEDateStart()" [readonly]="_isLocked">
@@ -67,7 +67,7 @@
                         </mat-form-field>
                     </div>
                     <div fxFlex="34" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>Date End</mat-label>
                             <input matInput [matDatepicker]="datePickerDateEnd" [(ngModel)]="UIDateEnd"
                                 (dateInput)="GetUIDATEDateEnd()" [readonly]="_isLocked">
@@ -79,7 +79,7 @@
                 </div>
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="33" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>Over Time</mat-label>
                             <mat-select [(ngModel)]="_dTRModel.YearId">
                                 <mat-option *ngFor="let oT of _oTListDropdown" [disabled]="_isLocked" [value]="oT.Id">
@@ -89,7 +89,7 @@
                         </mat-form-field>
                     </div>
                     <div fxFlex="33" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>Leave Application</mat-label>
                             <mat-select [(ngModel)]="_dTRModel.LAId">
                                 <mat-option *ngFor="let lA of _lAListDropdown" [disabled]="_isLocked" [value]="lA.Id">
@@ -99,7 +99,7 @@
                         </mat-form-field>
                     </div>
                     <div fxFlex="34" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>Change Shift</mat-label>
                             <mat-select [(ngModel)]="_dTRModel.CSId">
                                 <mat-option *ngFor="let cS of _cSListDropdown" [disabled]="_isLocked" [value]="cS.Id">
@@ -115,7 +115,7 @@
                 <div fxLayout="row" fxLayout.xs="column">
 
                     <div fxFlex="33" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>Prepared By</mat-label>
                             <mat-select [(ngModel)]="_dTRModel.PreparedByUserId">
                                 <mat-option *ngFor="let user of _userListDropdown" disabled [value]="user.Id">
@@ -126,7 +126,7 @@
                     </div>
 
                     <div fxFlex="33" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>Checked By</mat-label>
                             <mat-select [(ngModel)]="_dTRModel.CheckedByUserId"
                                 (selectionChange)="selectedCheckedByUser($event)">
@@ -138,7 +138,7 @@
                         </mat-form-field>
                     </div>
                     <div fxFlex="34" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>Approved By</mat-label>
                             <mat-select [(ngModel)]="_dTRModel.ApprovedByUserId"
                                 (selectionChange)="selectedApprovedByUser($event)">
@@ -153,7 +153,7 @@
 
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="100" style="padding: 5px;">
-                        <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>Remarks</mat-label>
                             <textarea matInput placeholder="AddrRemarksess" [(ngModel)]="_dTRModel.Remarks"
                                 [readonly]="_isLocked" rows="5" style="min-height: 100px;"></textarea>

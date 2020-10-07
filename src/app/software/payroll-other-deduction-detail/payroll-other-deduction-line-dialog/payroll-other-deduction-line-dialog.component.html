@@ -7,14 +7,14 @@
         <br>
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="33" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Employee</mat-label>
                     <input type="text" [(ngModel)]="_payrollOtherDeductionLineModel.Employee" matInput readonly>
                     <mat-icon matSuffix (click)="EmployeeListDialog()">keyboard_arrow_down</mat-icon>
                 </mat-form-field>
             </div>
             <div fxFlex="33" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Other Deduction</mat-label>
                     <mat-select [(ngModel)]="_payrollOtherDeductionLineModel.OtherDeductionId">
                         <mat-option *ngFor="let otherDeduction of _payrollOtherDeductionListDropdown"
@@ -25,7 +25,7 @@
                 </mat-form-field>
             </div>
             <div fxFlex="33" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Loan</mat-label>
                     <mat-select [(ngModel)]="_payrollOtherDeductionLineModel.LNId">
                         <mat-option *ngFor="let loan of _loanListDropdown" [value]="loan.Id">
@@ -35,7 +35,7 @@
                 </mat-form-field>
             </div>
             <div fxFlex="34" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Amount</mat-label>
                     <input type="{{inputTypeAmount}}" matInput placeholder="0.00" style="text-align:right;"
                         autocomplete="off" [(ngModel)]="_payrollOtherDeductionLineModel.Amount"
@@ -45,7 +45,7 @@
         </div>
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="100" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Particulars</mat-label>
                     <textarea matInput placeholder="Particulars"
                         [(ngModel)]="_payrollOtherDeductionLineModel.Particulars" rows="5"

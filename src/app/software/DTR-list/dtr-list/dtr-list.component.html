@@ -16,7 +16,7 @@
     <div fxLayout="row" fxLayout.xs="column">
 
         <div fxFlex="20" style="padding: 5px;">
-            <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-form-field appearance="fill" style="width: 100%;">
                 <mat-label>Payroll Group</mat-label>
                 <mat-select [(ngModel)]="_filterPayrollGroup" (selectionChange)='PayrollGroupSelectionChange()'>
                     <mat-option *ngFor="let payrollGroup of _payrollGroupListDropdown" [value]="payrollGroup.Value">
@@ -102,7 +102,7 @@
                     </div>
                 </div>
                 <div fxFlex="15" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>Row</mat-label>
                         <mat-select [(ngModel)]="_listPageIndex"
                             (selectionChange)='CboShowNumberOfRowsOnSelectedIndexChanged()'>

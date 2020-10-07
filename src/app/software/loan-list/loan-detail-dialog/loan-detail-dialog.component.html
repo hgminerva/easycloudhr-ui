@@ -34,7 +34,7 @@
                 <h2 class="text_box"><b>{{_loanModel.LDDate}}</b> </h2>
             </div>
             <div fxFlex="60" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Employee</mat-label>
                     <input type="text" [(ngModel)]="_loanModel.Employee" matInput readonly>
                     <mat-icon matSuffix (click)="EmployeeListDialog()">keyboard_arrow_down
@@ -45,7 +45,7 @@
         </div>
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="20" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Other Deduction</mat-label>
                     <mat-select [(ngModel)]="_loanModel.OtherDeductionId">
                         <mat-option *ngFor="let otherDeduction of otherDeductionListDropdown" [disabled]="_isLocked"
@@ -56,13 +56,13 @@
                 </mat-form-field>
             </div>
             <div fxFlex="20" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>DocRef</mat-label>
                     <input matInput placeholder="DocRef" [(ngModel)]="_loanModel.DocRef" [readonly]="_isLocked">
                 </mat-form-field>
             </div>
             <div fxFlex="15" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Amortization</mat-label>
                     <input type="{{ inputTypeAmortiztion }}" matInput placeholder="0.00" style="text-align:right;"
                         [(ngModel)]="_loanModel.Amortization" (focus)="AmortiztionToNumberType()" [readonly]="_isLocked"
@@ -70,7 +70,7 @@
                 </mat-form-field>
             </div>
             <div fxFlex="15" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>LoanAmount</mat-label>
                     <input type="{{ inputTypeLoanAmount }}" matInput placeholder="0.00" ui-number-mask="2"
                         style="text-align:right;" [(ngModel)]="_loanModel.LoanAmount" [readonly]="_isLocked"
@@ -78,14 +78,14 @@
                 </mat-form-field>
             </div>
             <div fxFlex="15" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>PaidAmount</mat-label>
                     <input type="{{ inputTypePaidAmount }}" matInput placeholder="0.00" style="text-align:right;"
                         readonly [(ngModel)]="_loanModel.PaidAmount">
                 </mat-form-field>
             </div>
             <div fxFlex="15" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>BalanceAmount</mat-label>
                     <input type="{{ inputTypeBalanceAmount }}" matInput placeholder="0.00" style="text-align:right;"
                         readonly [(ngModel)]="_loanModel.BalanceAmount">
@@ -94,7 +94,7 @@
         </div>
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="25" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Prepared By</mat-label>
                     <mat-select [(ngModel)]="_loanModel.PreparedByUserId" disabled>
                         <mat-option *ngFor="let user of _userListDropdown" [value]="user.Id">
@@ -104,7 +104,7 @@
                 </mat-form-field>
             </div>
             <div fxFlex="25" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Checked By</mat-label>
                     <mat-select [(ngModel)]="_loanModel.CheckedByUserId">
                         <mat-option *ngFor="let user of _userListDropdown" [disabled]="_isLocked" [value]="user.Id">
@@ -114,7 +114,7 @@
                 </mat-form-field>
             </div>
             <div fxFlex="25" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Approved By</mat-label>
                     <mat-select [(ngModel)]="_loanModel.ApprovedByUserId">
                         <mat-option *ngFor="let user of _userListDropdown" [disabled]="_isLocked" [value]="user.Id">
@@ -124,7 +124,7 @@
                 </mat-form-field>
             </div>
             <div fxFlex="25" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Status</mat-label>
                     <mat-select [(ngModel)]="_loanModel.Status">
                         <mat-option *ngFor="let status of _loanStatusListDropdown" [disabled]="_isLocked"
@@ -166,7 +166,7 @@
                         <div style="height: 10em;">
                             <div fxLayout="row" fxLayout.xs="column">
                                 <div fxFlex="100">
-                                    <mat-form-field appearance="outline" style="width: 100%;">
+                                    <mat-form-field appearance="fill" style="width: 100%;">
                                         <mat-label>Remarks</mat-label>
                                         <textarea matInput placeholder="Remarks" [(ngModel)]="_loanModel.Remarks"
                                             rows="5" [readonly]="_isLocked" style="min-height: 3em;"></textarea>

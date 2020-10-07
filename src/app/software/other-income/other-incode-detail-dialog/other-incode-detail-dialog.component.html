@@ -28,14 +28,14 @@
     <div *ngIf="isComponentsShown">
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="25" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>OtherIncomeCode</mat-label>
                     <input matInput placeholder="Other Income Code" [(ngModel)]="_otherIncomeModel.OtherIncomeCode"
                         readonly>
                 </mat-form-field>
             </div>
             <div fxFlex="50" style="padding: 5px;">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>OtherIncome</mat-label>
                     <input matInput placeholder="Other Income" [(ngModel)]="_otherIncomeModel.OtherIncome"
                         [readonly]="isLocked">

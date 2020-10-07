@@ -6,7 +6,7 @@
 <div [hidden]="!_isComponentsShown">
     <div fxLayout="row" fxLayout.xs="column" style="margin-top: -5px;">
         <div fxFlex="50" style="padding: 5px;">
-            <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-form-field appearance="fill" style="width: 100%;">
                 <mat-label>Shift Date</mat-label>
                 <mat-select matNativeControl [(ngModel)]="_shiftLineModel.ShiftDate">
                     <mat-option *ngFor="let day of _dayListDropdown" [value]="day.Value">
@@ -18,25 +18,25 @@
     </div>
     <div fxLayout="row" fxLayout.xs="column" style="margin-top: -5px;">
         <div fxFlex="25" style="padding: 5px;">
-            <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-form-field appearance="fill" style="width: 100%;">
                 <mat-label>Time In 1</mat-label>
                 <input type="time" matInput style="text-align:right;" [(ngModel)]="_shiftLineModel.TimeIn1">
             </mat-form-field>
         </div>
         <div fxFlex="25" style="padding: 5px;">
-            <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-form-field appearance="fill" style="width: 100%;">
                 <mat-label>Time Out 1</mat-label>
                 <input type="time" matInput style="text-align:right;" [(ngModel)]="_shiftLineModel.TimeOut1">
             </mat-form-field>
         </div>
         <div fxFlex="25" style="padding: 5px;">
-            <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-form-field appearance="fill" style="width: 100%;">
                 <mat-label>Time In 2</mat-label>
                 <input type="time" matInput style="text-align:right;" [(ngModel)]="_shiftLineModel.TimeIn2">
             </mat-form-field>
         </div>
         <div fxFlex="25" style="padding: 5px;">
-            <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-form-field appearance="fill" style="width: 100%;">
                 <mat-label>Time Out 2</mat-label>
                 <input type="time" matInput style="text-align:right;" [(ngModel)]="_shiftLineModel.TimeOut2">
             </mat-form-field>
@@ -46,14 +46,14 @@
     <div fxLayout="row" fxLayout.xs="column">
 
         <div fxFlex="25" style="padding: 5px;">
-            <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-form-field appearance="fill" style="width: 100%;">
                 <mat-label>Total Number Of Hours</mat-label>
                 <input matInput placeholder="0.00" style="text-align:right;" (keypress)="restrictNumeric($event)"
                     (change)="formatValueTotalNumberOfHours()" [(ngModel)]="_shiftLineModel.TotalNumberOfHours">
             </mat-form-field>
         </div>
         <div fxFlex="25" style="padding: 5px;">
-            <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-form-field appearance="fill" style="width: 100%;">
                 <mat-label>Night Differential Hours</mat-label>
                 <input type="text" matInput placeholder="0.00" style="text-align:right;"
                     (keypress)="restrictNumeric($event)" (change)="formatValueFixibilityHoursLimit()"
@@ -61,7 +61,7 @@
             </mat-form-field>
         </div>
         <div fxFlex="25" style="padding: 5px;">
-            <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-form-field appearance="fill" style="width: 100%;">
                 <mat-label>Fixibility Hours Limit</mat-label>
                 <input type="text" matInput placeholder="0.00" style="text-align:right;"
                     (keypress)="restrictNumeric($event)" (change)="formatValueFixibilityHoursLimit()"
@@ -89,7 +89,7 @@
     </div>
     <div fxLayout="row" fxLayout.xs="column" style="height:12.45em;">
         <div fxFlex="75" style="padding: 5px;">
-            <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-form-field appearance="fill" style="width: 100%;">
                 <mat-label>Remarks</mat-label>
                 <textarea matInput placeholder="AddrRemarksess" [(ngModel)]="_shiftLineModel.Remarks"
                     rows="6"></textarea>

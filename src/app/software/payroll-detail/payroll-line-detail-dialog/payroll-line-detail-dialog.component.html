@@ -7,7 +7,7 @@
 <div [hidden]="_isComponentsHidden">
     <div fxLayout="row" fxLayout.xs="column">
         <div fxFlex="50" style="padding: 5px;">
-            <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-form-field appearance="fill" style="width: 100%;">
                 <mat-label>Employee</mat-label>
                 <input type="text" [(ngModel)]="_payrollLineModel.Employee" matInput readonly>
                 <mat-icon matSuffix (click)="EmployeeListDialog()">keyboard_arrow_down</mat-icon>
@@ -18,7 +18,7 @@
         <div fxFlex="20" style="padding: 5px;">
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>Payroll Rate</mat-label>
                         <input type="{{inputTypePayrollRate}}" matInput placeholder="0.00" style="text-align:right;"
                             autocomplete="off" [(ngModel)]="_payrollLineModel.PayrollRate"
@@ -28,7 +28,7 @@
             </div>
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>Total Daily Pay</mat-label>
                         <input type="{{inputTypeTotalDailyPay}}" matInput placeholder="0.00" style="text-align:right;"
                             autocomplete="off" [(ngModel)]="_payrollLineModel.TotalDailyPay"
@@ -38,7 +38,7 @@
             </div>
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>Total Premium Pay</mat-label>
                         <input type="{{inputTypeTotalPremiumPay}}" matInput placeholder="0.00" style="text-align:right;"
                             autocomplete="off" [(ngModel)]="_payrollLineModel.TotalPremiumPay"
@@ -48,7 +48,7 @@
             </div>
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>Total Holiday Pay</mat-label>
                         <input type="{{inputTypeTotalHolidayPay}}" matInput placeholder="0.00" style="text-align:right;"
                             autocomplete="off" [(ngModel)]="_payrollLineModel.TotalHolidayPay"
@@ -58,7 +58,7 @@
             </div>
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>Total Overtime Pay</mat-label>
                         <input type="{{inputTypeTotalOvertimePay}}" matInput placeholder="0.00"
                             style="text-align:right;" autocomplete="off"
@@ -71,7 +71,7 @@
         <div fxFlex="20" style="padding: 5px;">
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>Total Night Differential Pay</mat-label>
                         <input type="{{inputTypeTotalNightDifferentialPay}}" matInput placeholder="0.00"
                             style="text-align:right;" autocomplete="off"
@@ -83,7 +83,7 @@
             </div>
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>Total COLA</mat-label>
                         <input type="{{inputTypeTotalCOLA}}" matInput placeholder="0.00" style="text-align:right;"
                             autocomplete="off" [(ngModel)]="_payrollLineModel.TotalCOLA"
@@ -93,7 +93,7 @@
             </div>
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>Total Additional Allowance</mat-label>
                         <input type="{{inputTypeTotalAdditionalAllowance}}" matInput placeholder="0.00"
                             style="text-align:right;" autocomplete="off"
@@ -105,7 +105,7 @@
             </div>
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>Total Late Deduction</mat-label>
                         <input type="{{inputTypeTotalLateDeduction}}" matInput placeholder="0.00"
                             style="text-align:right;" autocomplete="off"
@@ -116,7 +116,7 @@
             </div>
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>Total Undertime Deduction</mat-label>
                         <input type="{{inputTypeTotalUndertimeDeduction}}" matInput placeholder="0.00"
                             style="text-align:right;" autocomplete="off"
@@ -130,7 +130,7 @@
         <div fxFlex="20" style="padding: 5px;">
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>Income</mat-label>
                         <input type="{{inputTypeIncome}}" matInput placeholder="0.00" style="text-align:right;"
                             autocomplete="off" [(ngModel)]="_payrollLineModel.Income" (focus)="IncomeToNumberTypeFocus()"
@@ -140,7 +140,7 @@
             </div>
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>Total Other Income Not Taxable</mat-label>
                         <input type="{{inputTypeTotalOtherIncomeNotTaxable}}" matInput placeholder="0.00"
                             style="text-align:right;" autocomplete="off"
@@ -152,7 +152,7 @@
             </div>
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>Total Other Income Taxable</mat-label>
                         <input type="{{inputTypeTotalOtherIncomeTaxable}}" matInput placeholder="0.00"
                             style="text-align:right;" autocomplete="off"
@@ -164,7 +164,7 @@
             </div>
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>Gross Income</mat-label>
                         <input type="{{inputTypeGrossIncome}}" matInput placeholder="0.00" style="text-align:right;"
                             autocomplete="off" [(ngModel)]="_payrollLineModel.GrossIncome"
@@ -174,7 +174,7 @@
             </div>
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>SSS Contribution</mat-label>
                         <input type="{{inputTypeSSSContribution}}" matInput placeholder="0.00" style="text-align:right;"
                             autocomplete="off" [(ngModel)]="_payrollLineModel.SSSContribution"
@@ -186,7 +186,7 @@
         <div fxFlex="20" style="padding: 5px;">
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>PHIC Contribution</mat-label>
                         <input type="{{inputTypePHICContribution}}" matInput placeholder="0.00"
                             style="text-align:right;" autocomplete="off"
@@ -197,7 +197,7 @@
             </div>
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>HDMF Contribution</mat-label>
                         <input type="{{inputTypeHDMFContribution}}" matInput placeholder="0.00"
                             style="text-align:right;" autocomplete="off"
@@ -208,7 +208,7 @@
             </div>
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>Income TaxAmount</mat-label>
                         <input type="{{inputTypeIncomeTaxAmount}}" matInput placeholder="0.00" style="text-align:right;"
                             autocomplete="off" [(ngModel)]="_payrollLineModel.IncomeTaxAmount"
@@ -218,7 +218,7 @@
             </div>
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>Total Other Deduction</mat-label>
                         <input type="{{inputTypeTotalOtherDeduction}}" matInput placeholder="0.00"
                             style="text-align:right;" autocomplete="off"
@@ -229,7 +229,7 @@
             </div>
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>Net Income</mat-label>
                         <input type="{{inputTypeNetIncome}}" matInput placeholder="0.00" style="text-align:right;"
                             autocomplete="off" [(ngModel)]="_payrollLineModel.NetIncome"
@@ -241,7 +241,7 @@
         <div fxFlex="20" style="padding: 5px;">
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>SSS Employer Contribution</mat-label>
                         <input type="{{inputTypeSSSEmployerContribution}}" matInput placeholder="0.00"
                             style="text-align:right;" autocomplete="off"
@@ -253,7 +253,7 @@
             </div>
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>SSSEC</mat-label>
                         <input type="{{inputTypeSSSEC}}" matInput placeholder="0.00" style="text-align:right;"
                             autocomplete="off" [(ngModel)]="_payrollLineModel.SSSEC" (focus)="SSSECToNumberTypeFocus()"
@@ -263,7 +263,7 @@
             </div>
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>PHIC Employer Contribution</mat-label>
                         <input type="{{inputTypePHICEmployerContribution}}" matInput placeholder="0.00"
                             style="text-align:right;" autocomplete="off"
@@ -275,7 +275,7 @@
             </div>
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
-                    <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>HDMF Employer Contribution</mat-label>
                         <input type="{{inputTypeHDMFEmployerContribution}}" matInput placeholder="0.00"
                             style="text-align:right;" autocomplete="off"
