@@ -124,6 +124,7 @@ $default-theme-background: (
     disabled-list-option: black,
     tooltip: map_get($mat-grey, 700),
 );
+
 $default-theme-foreground: (
     base:              white,
     divider:           $light-dividers,
@@ -163,3 +164,5 @@ $default-typography: mat-typography-config(
 );
 
 @include mat-core($default-typography);
+
+
