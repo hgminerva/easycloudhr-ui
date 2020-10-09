@@ -44,9 +44,9 @@ export class UserRegistrationDialogComponent implements OnInit {
   }
 
   registrationForm = this.fb.group({
-    FullName: ['', [Validators.required, Validators.minLength(5)]],
+    FullName: ['', [Validators.required, Validators.minLength(6)]],
     UserName: ['', Validators.required],
-    Password: ['', [Validators.required, Validators.minLength(5)]],
+    Password: ['', [Validators.required, Validators.minLength(6)]],
     ConfirmPassword: [''],
   });
 
