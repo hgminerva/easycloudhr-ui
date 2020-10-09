@@ -92,7 +92,7 @@ export class SoftwareComponent implements OnInit {
 
   public moduleEmployeePortal: boolean = false;
 
-  public moduleOthers: boolean = true;
+  public moduleOthers: boolean = false;
 
   public moduleEmployeePortalOnly: boolean = false;
 
