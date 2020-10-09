@@ -56,6 +56,12 @@ body {
     font-size: small;
 }
 
+.text_box {
+    background-color:#353535;
+    padding: 10px;
+    border-radius: 5px;
+}
+
 
 /* Black theme */
 ::-webkit-scrollbar {
