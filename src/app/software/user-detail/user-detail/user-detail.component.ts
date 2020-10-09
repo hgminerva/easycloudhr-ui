@@ -180,12 +180,12 @@ export class UserDetailComponent implements OnInit {
         response => {
           this.isDataLoaded = true;
           this.GetUserDetail();
-          this.loadComponent(this.userModel.IsLocked);
+          this.loadComponent(false);
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Save Successfully.");
           if (this.saveUserDetailSubscription !== null) this.saveUserDetailSubscription.unsubscribe();
         },
         error => {
-          this.loadComponent(this.userModel.IsLocked);
+          this.loadComponent(false);
           this.btnUnlockDisabled = true;
           this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
           if (this.saveUserDetailSubscription !== null) this.saveUserDetailSubscription.unsubscribe();
@@ -252,15 +252,9 @@ export class UserDetailComponent implements OnInit {
   get passwordInput() { return this.passwordField.get('password'); }
 
   private loadComponent(isDisable) {
-    if (isDisable == true) {
-      this.btnSaveDisabled = isDisable;
-      this.btnLockisabled = isDisable;
-      this.btnUnlockDisabled = !isDisable;
-    } else {
-      this.btnSaveDisabled = isDisable;
-      this.btnLockisabled = isDisable;
-      this.btnUnlockDisabled = !isDisable;
-    }
+    this.btnSaveDisabled = isDisable;
+    this.btnLockisabled = isDisable;
+    this.btnUnlockDisabled = !isDisable;
 
     if (this._userRights.CanEdit === false) {
       this._canEdit = false;

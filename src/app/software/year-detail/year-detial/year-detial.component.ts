@@ -62,7 +62,7 @@ export class YearDetialComponent implements OnInit {
           this._userRights.CanLock = results["CanLock"];
           this._userRights.CanUnlock = results["CanUnlock"];
           this._userRights.CanPrint = results["CanPrint"];
-        } 
+        }
 
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       },
@@ -189,12 +189,12 @@ export class YearDetialComponent implements OnInit {
         response => {
           this.event = "Save";
           this.isDataLoaded = true;
-          this.loadComponent(this._yearModel.IsLocked);
+          this.loadComponent(false);
           this._snackBarTemplate.snackBarSuccess(this._snackBar, "Save Successfully.");
           if (this._saveYearDetailSubscription !== null) this._saveYearDetailSubscription.unsubscribe();
         },
         error => {
-          this.loadComponent(this._yearModel.IsLocked);
+          this.loadComponent(false);
           this._btnUnlockDisabled = true;
           this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
           if (this._saveYearDetailSubscription !== null) this._saveYearDetailSubscription.unsubscribe();
@@ -256,19 +256,12 @@ export class YearDetialComponent implements OnInit {
   // Component Behavior
   // ==================
   private loadComponent(isDisable) {
-    if (isDisable == true) {
-      this._btnAddYearDateDisabled = isDisable;
-      this._btnSaveDisabled = isDisable;
-      this._btnLockIsabled = isDisable;
-      this._btnUnlockDisabled = !isDisable;
-    } else {
-      this._btnAddYearDateDisabled = isDisable;
-      this._btnSaveDisabled = isDisable;
-      this._btnLockIsabled = isDisable;
-      this._btnUnlockDisabled = !isDisable;
-    }
+    this._btnAddYearDateDisabled = isDisable;
+    this._btnSaveDisabled = isDisable;
+    this._btnLockIsabled = isDisable;
+    this._btnUnlockDisabled = !isDisable;
 
-     if (this._userRights.CanEdit === false) {
+    if (this._userRights.CanEdit === false) {
       this._canEdit = false;
       this._isLocked = true;
     } else {
@@ -281,7 +274,7 @@ export class YearDetialComponent implements OnInit {
     } else {
       this._canDelete = !isDisable;
     }
-    
+
     this.isProgressBarHidden = false;
   }
 

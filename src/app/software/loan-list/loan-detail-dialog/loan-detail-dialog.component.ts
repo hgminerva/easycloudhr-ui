@@ -272,14 +272,14 @@ export class LoanDetailDialogComponent implements OnInit {
       this.isDataLoaded = false;
       this._saveLoanDetailSubscription = await (await this._loanListService.SaveLoan(this._loanModel.Id, this._loanModel)).subscribe(
         response => {
-          this.loadComponent(this._loanModel.IsLocked);
+          this.loadComponent(false);
           this.isDataLoaded = true;
           this.event = "Save";
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Save Successfully.");
           if (this._saveLoanDetailSubscription !== null) this._saveLoanDetailSubscription.unsubscribe();
         },
         error => {
-          this.loadComponent(this._loanModel.IsLocked);
+          this.loadComponent(false);
           this.isDataLoaded = true;
           this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
           if (this._saveLoanDetailSubscription !== null) this._saveLoanDetailSubscription.unsubscribe();
@@ -334,15 +334,9 @@ export class LoanDetailDialogComponent implements OnInit {
   }
 
   private loadComponent(isDisable) {
-    if (isDisable == true) {
-      this.btnSaveDisabled = isDisable;
-      this.btnLockisabled = isDisable;
-      this.btnUnlockDisabled = !isDisable;
-    } else {
-      this.btnSaveDisabled = isDisable;
-      this.btnLockisabled = isDisable;
-      this.btnUnlockDisabled = !isDisable;
-    }
+    this.btnSaveDisabled = isDisable;
+    this.btnLockisabled = isDisable;
+    this.btnUnlockDisabled = !isDisable;
 
     if (this._userRights.CanEdit === false) {
       this._isLocked = true;

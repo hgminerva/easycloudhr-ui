@@ -290,13 +290,13 @@ export class PayrollDetailComponent implements OnInit {
       this._isDataLoaded = false;
       this._savePayrollDetailSubscription = (await this._payrollDetailService.SavePayroll(this._payrollModel.Id, this._payrollModel)).subscribe(
         response => {
-          this.loadComponent(this._payrollModel.IsLocked);
+          this.loadComponent(false);
           this._isDataLoaded = true;
           this._snackBarTemplate.snackBarSuccess(this._snackBar, "Save Successfully.");
           if (this._savePayrollDetailSubscription !== null) this._savePayrollDetailSubscription.unsubscribe();
         },
         error => {
-          this.loadComponent(this._payrollModel.IsLocked);
+          this.loadComponent(false);
           this._isDataLoaded = true;
           this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
           if (this._savePayrollDetailSubscription !== null) this._savePayrollDetailSubscription.unsubscribe();
@@ -348,17 +348,10 @@ export class PayrollDetailComponent implements OnInit {
   }
 
   private loadComponent(isDisable) {
-    if (isDisable == true) {
-      this._btnAddPayrollLineDisabled = isDisable;
-      this._btnSaveDisabled = isDisable;
-      this._btnLockisabled = isDisable;
-      this._btnUnlockDisabled = !isDisable;
-    } else {
-      this._btnAddPayrollLineDisabled = isDisable;
-      this._btnSaveDisabled = isDisable;
-      this._btnLockisabled = isDisable;
-      this._btnUnlockDisabled = !isDisable;
-    }
+    this._btnAddPayrollLineDisabled = isDisable;
+    this._btnSaveDisabled = isDisable;
+    this._btnLockisabled = isDisable;
+    this._btnUnlockDisabled = !isDisable;
 
     if (this._userRights.CanEdit === false) {
       this._canEdit = false;

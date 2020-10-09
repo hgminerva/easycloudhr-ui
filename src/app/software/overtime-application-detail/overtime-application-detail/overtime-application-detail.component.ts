@@ -63,7 +63,7 @@ export class OvertimeApplicationDetailComponent implements OnInit {
           this._userRights.CanLock = results["CanLock"];
           this._userRights.CanUnlock = results["CanUnlock"];
           this._userRights.CanPrint = results["CanPrint"];
-        } 
+        }
 
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       },
@@ -237,13 +237,13 @@ export class OvertimeApplicationDetailComponent implements OnInit {
       console.log(this._overtimeApplicationModel);;
       this._saveOvertimeApplicationDetailSubscription = (await this._overtimeApplicationDetailService.SaveOvertimeApplication(this._overtimeApplicationModel.Id, this._overtimeApplicationModel)).subscribe(
         response => {
-          this.loadComponent(this._overtimeApplicationModel.IsLocked);
+          this.loadComponent(false);
           this._isDataLoaded = true;
           this._snackBarTemplate.snackBarSuccess(this._snackBar, "Save Successfully.");
           if (this._saveOvertimeApplicationDetailSubscription !== null) this._saveOvertimeApplicationDetailSubscription.unsubscribe();
         },
         error => {
-          this.loadComponent(this._overtimeApplicationModel.IsLocked);
+          this.loadComponent(false);
           this._isDataLoaded = true;
           this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
           if (this._saveOvertimeApplicationDetailSubscription !== null) this._saveOvertimeApplicationDetailSubscription.unsubscribe();
@@ -295,17 +295,10 @@ export class OvertimeApplicationDetailComponent implements OnInit {
   }
 
   private loadComponent(isDisable) {
-    if (isDisable == true) {
-      this._btnAddOvertimeApplicationLineDisabled = isDisable;
-      this._btnSaveDisabled = isDisable;
-      this._btnLockDisabled = isDisable;
-      this._btnUnlockDisabled = !isDisable;
-    } else {
-      this._btnAddOvertimeApplicationLineDisabled = isDisable;
-      this._btnSaveDisabled = isDisable;
-      this._btnLockDisabled = isDisable;
-      this._btnUnlockDisabled = !isDisable;
-    }
+    this._btnAddOvertimeApplicationLineDisabled = isDisable;
+    this._btnSaveDisabled = isDisable;
+    this._btnLockDisabled = isDisable;
+    this._btnUnlockDisabled = !isDisable;
 
     if (this._userRights.CanEdit === false) {
       this._canEdit = false;
@@ -320,7 +313,7 @@ export class OvertimeApplicationDetailComponent implements OnInit {
     } else {
       this._canDelete = !isDisable;
     }
-    
+
     this._isProgressBarHidden = false;
   }
 

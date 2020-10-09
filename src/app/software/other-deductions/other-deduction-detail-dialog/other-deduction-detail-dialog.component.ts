@@ -139,14 +139,14 @@ export class OtherDeductionDetailDialogComponent implements OnInit {
       this.isDataLoaded = false;
       this.saveOtherDeductionDetailSubscription = await (await this._otherDeductionsService.SaveOtherDeduction(this._otherDeductionModel.Id, this._otherDeductionModel)).subscribe(
         response => {
-          this.loadComponent(this._otherDeductionModel.IsLocked);
+          this.loadComponent(false);
           this.isDataLoaded = true;
           this.event = "Save";
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Save Successfully.");
           if (this.saveOtherDeductionDetailSubscription !== null) this.saveOtherDeductionDetailSubscription.unsubscribe();
         },
         error => {
-          this.loadComponent(this._otherDeductionModel.IsLocked);
+          this.loadComponent(false);
           this.isDataLoaded = true;
           this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
           if (this.saveOtherDeductionDetailSubscription !== null) this.saveOtherDeductionDetailSubscription.unsubscribe();
@@ -201,15 +201,9 @@ export class OtherDeductionDetailDialogComponent implements OnInit {
   }
 
   private loadComponent(isDisable) {
-    if (isDisable == true) {
-      this.btnSaveDisabled = isDisable;
-      this.btnLockisabled = isDisable;
-      this.btnUnlockDisabled = !isDisable;
-    } else {
-      this.btnSaveDisabled = isDisable;
-      this.btnLockisabled = isDisable;
-      this.btnUnlockDisabled = !isDisable;
-    }
+    this.btnSaveDisabled = isDisable;
+    this.btnLockisabled = isDisable;
+    this.btnUnlockDisabled = !isDisable;
 
     if (this._userRights.CanEdit === false) {
       this.isLocked = true;

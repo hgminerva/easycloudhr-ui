@@ -243,13 +243,13 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
       this._isDataLoaded = false;
       this._saveChangeShiftCodeDetailSubscription = (await this._changeShiftCodeDetailService.SaveChangeShiftCode(this._changeShiftModel.Id, this._changeShiftModel)).subscribe(
         response => {
-          this.loadComponent(this._changeShiftModel.IsLocked);
+          this.loadComponent(false);
           this._isDataLoaded = true;
           this._snackBarTemplate.snackBarSuccess(this._snackBar, "Save Successfully.");
           if (this._saveChangeShiftCodeDetailSubscription !== null) this._saveChangeShiftCodeDetailSubscription.unsubscribe();
         },
         error => {
-          this.loadComponent(this._changeShiftModel.IsLocked);
+          this.loadComponent(false);
           this._isDataLoaded = true;
           this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
           if (this._saveChangeShiftCodeDetailSubscription !== null) this._saveChangeShiftCodeDetailSubscription.unsubscribe();
@@ -300,31 +300,24 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
     }
   }
 
-  private loadComponent(isDisable) {
-    if (isDisable == true) {
-      this._btnAddChangeShiftLineDisabled = isDisable;
-      this._btnSaveDisabled = isDisable;
-      this._btnLockisabled = isDisable;
-      this._btnUnlockDisabled = !isDisable;
-    } else {
-      this._btnAddChangeShiftLineDisabled = isDisable;
-      this._btnSaveDisabled = isDisable;
-      this._btnLockisabled = isDisable;
-      this._btnUnlockDisabled = !isDisable;
-    }
+  private loadComponent(isDisabled) {
+    this._btnAddChangeShiftLineDisabled = isDisabled;
+    this._btnSaveDisabled = isDisabled;
+    this._btnLockisabled = isDisabled;
+    this._btnUnlockDisabled = !isDisabled;
 
     if (this.userRights.CanEdit === false) {
       this._canEdit = false;
       this._isLocked = true;
     } else {
-      this._canEdit = !isDisable;
-      this._isLocked = isDisable;
+      this._canEdit = !isDisabled;
+      this._isLocked = isDisabled;
     }
 
     if (this.userRights.CanDelete === false) {
       this._canDelete = false;
     } else {
-      this._canDelete = !isDisable;
+      this._canDelete = !isDisabled;
     }
     
     this._isProgressBarHidden = false;

@@ -232,13 +232,13 @@ export class PayrollOtherDeductionDetailComponent implements OnInit {
       this._isDataLoaded = false;
       this._savePayrollOtherDeductionDetailSubscription = (await this._payrollOtherDeductionDetailService.SavePayrollOtherDeduction(this._payrollOtherDeductionModel.Id, this._payrollOtherDeductionModel)).subscribe(
         response => {
-          this.loadComponent(this._payrollOtherDeductionModel.IsLocked);
+          this.loadComponent(false);
           this._isDataLoaded = true;
           this._snackBarTemplate.snackBarSuccess(this._snackBar, "Save Successfully.");
           if (this._savePayrollOtherDeductionDetailSubscription !== null) this._savePayrollOtherDeductionDetailSubscription.unsubscribe();
         },
         error => {
-          this.loadComponent(this._payrollOtherDeductionModel.IsLocked);
+          this.loadComponent(false);
           this._isDataLoaded = true;
           this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
           if (this._savePayrollOtherDeductionDetailSubscription !== null) this._savePayrollOtherDeductionDetailSubscription.unsubscribe();
@@ -290,17 +290,10 @@ export class PayrollOtherDeductionDetailComponent implements OnInit {
   }
 
   private loadComponent(isDisable) {
-    if (isDisable == true) {
-      this._btnAddPayrollOtherDeductionLineDisabled = isDisable;
-      this._btnSaveDisabled = isDisable;
-      this._btnLockisabled = isDisable;
-      this._btnUnlockDisabled = !isDisable;
-    } else {
-      this._btnAddPayrollOtherDeductionLineDisabled = isDisable;
-      this._btnSaveDisabled = isDisable;
-      this._btnLockisabled = isDisable;
-      this._btnUnlockDisabled = !isDisable;
-    }
+    this._btnAddPayrollOtherDeductionLineDisabled = isDisable;
+    this._btnSaveDisabled = isDisable;
+    this._btnLockisabled = isDisable;
+    this._btnUnlockDisabled = !isDisable;
 
     if (this._userRights.CanEdit === false) {
       this._canEdit = false;
@@ -315,7 +308,7 @@ export class PayrollOtherDeductionDetailComponent implements OnInit {
     } else {
       this._canDelete = !isDisable;
     }
-    
+
     this._isProgressBarHidden = false;
   }
 
@@ -379,7 +372,7 @@ export class PayrollOtherDeductionDetailComponent implements OnInit {
       }
     }
   }
- 
+
 
   private Sum(data: any[]) {
     var total = 0

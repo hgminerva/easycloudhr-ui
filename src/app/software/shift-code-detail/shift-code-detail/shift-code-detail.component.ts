@@ -172,12 +172,12 @@ export class ShiftCodeDetailComponent implements OnInit {
         response => {
           this.event = "Save";
           this.isDataLoaded = true;
-          this.loadComponent(this.shiftModel.IsLocked);
+          this.loadComponent(false);
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Save Successfully.");
           if (this.saveShiftDetailSubscription !== null) this.saveShiftDetailSubscription.unsubscribe();
         },
         error => {
-          this.loadComponent(this.shiftModel.IsLocked);
+          this.loadComponent(false);
           this.btnUnlockDisabled = true;
           this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
           if (this.saveShiftDetailSubscription !== null) this.saveShiftDetailSubscription.unsubscribe();
@@ -236,17 +236,10 @@ export class ShiftCodeDetailComponent implements OnInit {
   // Component Behavior
   // ==================
   private loadComponent(isDisabled) {
-    if (isDisabled == true) {
-      this._btnAddShiftLineDisabled = isDisabled;
-      this.btnSaveDisabled = isDisabled;
-      this.btnLockisabled = isDisabled;
-      this.btnUnlockDisabled = !isDisabled;
-    } else {
-      this._btnAddShiftLineDisabled = isDisabled;
-      this.btnSaveDisabled = isDisabled;
-      this.btnLockisabled = isDisabled;
-      this.btnUnlockDisabled = !isDisabled;
-    }
+    this._btnAddShiftLineDisabled = isDisabled;
+    this.btnSaveDisabled = isDisabled;
+    this.btnLockisabled = isDisabled;
+    this.btnUnlockDisabled = !isDisabled;
 
     if (this._userRights.CanEdit == false) {
       this._canEdit = false;

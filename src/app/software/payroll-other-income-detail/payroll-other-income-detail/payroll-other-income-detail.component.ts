@@ -69,7 +69,7 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
           this._userRights.CanLock = results["CanLock"];
           this._userRights.CanUnlock = results["CanUnlock"];
           this._userRights.CanPrint = results["CanPrint"];
-        } 
+        }
 
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       },
@@ -81,7 +81,7 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
 
     await this.UserListData();
   }
-  
+
   public _isProgressBarHidden: boolean = false;
   public _isComponentsShown: boolean = true;
 
@@ -213,13 +213,13 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
       this.DateFormatSelectedDate();
       this._savePayrollOtherIncomeDetailSubscription = (await this._payrollOtherIncomeDetailService.SavePayrollOtherIncome(this._payrollOtherIncomeModel.Id, this._payrollOtherIncomeModel)).subscribe(
         response => {
-          this.loadComponent(this._payrollOtherIncomeModel.IsLocked);
+          this.loadComponent(false);
           this._isDataLoaded = true;
           this._snackBarTemplate.snackBarSuccess(this._snackBar, "Save Successfully.");
           if (this._savePayrollOtherIncomeDetailSubscription !== null) this._savePayrollOtherIncomeDetailSubscription.unsubscribe();
         },
         error => {
-          this.loadComponent(this._payrollOtherIncomeModel.IsLocked);
+          this.loadComponent(false);
           this._isDataLoaded = true;
           this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
           if (this._savePayrollOtherIncomeDetailSubscription !== null) this._savePayrollOtherIncomeDetailSubscription.unsubscribe();
@@ -272,17 +272,10 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
   }
 
   private loadComponent(isDisable) {
-    if (isDisable == true) {
-      this._btnAddPayrollOtherIncomeLineDisabled = isDisable;
-      this._btnSaveDisabled = isDisable;
-      this._btnLockisabled = isDisable;
-      this._btnUnlockDisabled = !isDisable;
-    } else {
-      this._btnAddPayrollOtherIncomeLineDisabled = isDisable;
-      this._btnSaveDisabled = isDisable;
-      this._btnLockisabled = isDisable;
-      this._btnUnlockDisabled = !isDisable;
-    }
+    this._btnAddPayrollOtherIncomeLineDisabled = isDisable;
+    this._btnSaveDisabled = isDisable;
+    this._btnLockisabled = isDisable;
+    this._btnUnlockDisabled = !isDisable;
 
     if (this._userRights.CanEdit === false) {
       this._canEdit = false;
@@ -297,7 +290,7 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
     } else {
       this._canDelete = !isDisable;
     }
-    
+
     this._isProgressBarHidden = false;
   }
 

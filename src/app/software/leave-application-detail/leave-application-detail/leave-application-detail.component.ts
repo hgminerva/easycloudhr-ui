@@ -240,13 +240,13 @@ export class LeaveApplicationDetailComponent implements OnInit {
       this._isDataLoaded = false;
       this._saveLeaveApplicationDetailSubscription = (await this._leaveApplicationDetailService.SaveLeaveApplication(this._leaveApplicationModel.Id, this._leaveApplicationModel)).subscribe(
         response => {
-          this.loadComponent(this._leaveApplicationModel.IsLocked);
+          this.loadComponent(false);
           this._isDataLoaded = true;
           this._snackBarTemplate.snackBarSuccess(this._snackBar, "Save Successfully.");
           if (this._saveLeaveApplicationDetailSubscription !== null) this._saveLeaveApplicationDetailSubscription.unsubscribe();
         },
         error => {
-          this.loadComponent(this._leaveApplicationModel.IsLocked);
+          this.loadComponent(false);
           this._isDataLoaded = true;
           this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
           if (this._saveLeaveApplicationDetailSubscription !== null) this._saveLeaveApplicationDetailSubscription.unsubscribe();
@@ -298,17 +298,10 @@ export class LeaveApplicationDetailComponent implements OnInit {
   }
 
   private loadComponent(isDisable) {
-    if (isDisable == true) {
-      this._btnAddLeaveApplicationLineDisabled = isDisable;
-      this._btnSaveDisabled = isDisable;
-      this._btnLockDisabled = isDisable;
-      this._btnUnlockDisabled = !isDisable;
-    } else {
-      this._btnAddLeaveApplicationLineDisabled = isDisable;
-      this._btnSaveDisabled = isDisable;
-      this._btnLockDisabled = isDisable;
-      this._btnUnlockDisabled = !isDisable;
-    }
+    this._btnAddLeaveApplicationLineDisabled = isDisable;
+    this._btnSaveDisabled = isDisable;
+    this._btnLockDisabled = isDisable;
+    this._btnUnlockDisabled = !isDisable;
 
     if (this._userRights.CanEdit === false) {
       this._canEdit = false;

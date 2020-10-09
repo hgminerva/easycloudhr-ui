@@ -684,14 +684,14 @@ export class EmployeeDetailComponent implements OnInit {
       this.isDataLoaded = false;
       this.saveEmployeeDetailSubscription = await (await this.employeeDetailService.SaveEmployee(this.employeeModel.Id, this.employeeModel)).subscribe(
         response => {
-          this.loadComponent(this.employeeModel.IsLocked);
+          this.loadComponent(false);
           this.GetChangeHistoryListData();
           this.isDataLoaded = true;
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Save Successfully.");
           if (this.saveEmployeeDetailSubscription !== null) this.saveEmployeeDetailSubscription.unsubscribe();
         },
         error => {
-          this.loadComponent(this.employeeModel.IsLocked);
+          this.loadComponent(false);
           this.isDataLoaded = true;
           this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
           if (this.saveEmployeeDetailSubscription !== null) this.saveEmployeeDetailSubscription.unsubscribe();
@@ -768,15 +768,9 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   private async loadComponent(isDisabled) {
-    if (isDisabled == true) {
-      this.btnSaveDisabled = isDisabled;
-      this.btnLockisabled = isDisabled;
-      this.btnUnlockDisabled = !isDisabled;
-    } else {
-      this.btnSaveDisabled = isDisabled;
-      this.btnLockisabled = isDisabled;
-      this.btnUnlockDisabled = !isDisabled;
-    }
+    this.btnSaveDisabled = isDisabled;
+    this.btnLockisabled = isDisabled;
+    this.btnUnlockDisabled = !isDisabled;
 
     if (this.userRights.CanEdit === false) {
       this._canEdit = false;

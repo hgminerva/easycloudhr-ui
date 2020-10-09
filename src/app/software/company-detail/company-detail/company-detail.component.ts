@@ -90,7 +90,7 @@ export class CompanyDetailComponent implements OnInit {
           this.userRights.CanUnlock = results["CanUnlock"];
           this.userRights.CanPrint = results["CanPrint"];
         }
-        
+
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       },
       error => {
@@ -142,14 +142,14 @@ export class CompanyDetailComponent implements OnInit {
       this.isDataLoaded = false;
       this.saveCompanyDetailSubscription = await (await this.companyDetialService.SaveCompany(this.companyModel.Id, this.companyModel)).subscribe(
         response => {
-          this.loadComponent(this.companyModel.IsLocked);
+          this.loadComponent(false);
           this.isDataLoaded = true;
           this.event = "Save";
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Save Successfully.");
           if (this.saveCompanyDetailSubscription !== null) this.saveCompanyDetailSubscription.unsubscribe();
         },
         error => {
-          this.loadComponent(this.companyModel.IsLocked);
+          this.loadComponent(false);
           this.isDataLoaded = true;
           this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
           if (this.saveCompanyDetailSubscription !== null) this.saveCompanyDetailSubscription.unsubscribe();
@@ -203,15 +203,9 @@ export class CompanyDetailComponent implements OnInit {
   }
 
   private loadComponent(isDisable) {
-    if (isDisable == true) {
-      this.btnSaveDisabled = isDisable;
-      this.btnLockisabled = isDisable;
-      this.btnUnlockDisabled = !isDisable;
-    } else {
-      this.btnSaveDisabled = isDisable;
-      this.btnLockisabled = isDisable;
-      this.btnUnlockDisabled = !isDisable;
-    }
+    this.btnSaveDisabled = isDisable;
+    this.btnLockisabled = isDisable;
+    this.btnUnlockDisabled = !isDisable;
 
     if (this.userRights.CanEdit === false) {
       this.isLocked = true;
