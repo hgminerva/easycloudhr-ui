@@ -26,7 +26,6 @@ export class CompanyListComponent implements OnInit {
     public _matDialogRef: MatDialog,
     private softwareSecurityService: SoftwareSecurityService,
     private _router: Router,
-
   ) {
   }
 
@@ -250,7 +249,6 @@ export class CompanyListComponent implements OnInit {
   public DetailCompany(companyId: string, eventTitle: string): void {
     const userRegistrationlDialogRef = this._matDialogRef.open(CompanyDetailComponent, {
       width: '1200px',
-      height: '550px',
       data: {
         objDialogTitle: eventTitle,
         objCompanyId: companyId,
