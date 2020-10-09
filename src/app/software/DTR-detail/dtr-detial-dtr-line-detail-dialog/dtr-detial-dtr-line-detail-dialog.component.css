@@ -8,6 +8,10 @@
 }
 
 .regular-detail {
-    color: purple;
+    color: white;
     font-weight: 600;
+}
+
+.spacer {
+    flex: 1 1 auto;
 }
