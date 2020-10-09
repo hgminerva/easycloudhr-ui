@@ -1,6 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 @import '@grapecity/wijmo.styles/wijmo.css';
 
+@font-face {
+    font-family: 'Segoe UI Light';
+    src: url('assets/fonts/Segoe UI Light.ttf');
+}
+
 html, body { 
     height: 100%; 
 }
