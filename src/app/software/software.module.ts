@@ -98,6 +98,7 @@ import { DtrDetailImportDtrLogsComponent } from './DTR-detail/dtr-detail-import-
 import { GenericDropdownDialogComponent } from './shared/generic-dropdown-dialog/generic-dropdown-dialog.component';
 import { PdfDialogComponent } from './shared/pdf-dialog/pdf-dialog.component';
 import { ComfirmMassageDialogComponent } from './shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
+import { TaxExemptionListComponent } from './tax-exemption-list/tax-exemption-list/tax-exemption-list.component';
 
 @NgModule({
   declarations: [
@@ -126,7 +127,6 @@ import { ComfirmMassageDialogComponent } from './shared/comfirm-massage-dialog/c
     DTRListComponent,
     DTRDetailComponent,
     UserRegistrationDialogComponent,
-    // DeleteDialogBoxComponent,
     SystemTalesListComponent,
     SystemTablesTaxExemptionDetailComponent,
     SystemTablesCodeTablesDetailComponent,
@@ -175,6 +175,7 @@ import { ComfirmMassageDialogComponent } from './shared/comfirm-massage-dialog/c
     GenericDropdownDialogComponent,
     PdfDialogComponent,
     ComfirmMassageDialogComponent,
+    TaxExemptionListComponent
   ],
   imports: [
     CommonModule,

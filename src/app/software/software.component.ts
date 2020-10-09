@@ -57,6 +57,8 @@ export class SoftwareComponent implements OnInit {
   public moduleOtherIncomeList: boolean = false;
   public moduleOtherDeductionList: boolean = false;
   public moduleMandatory: boolean = false;
+  public moduleTaxExemption: boolean = false;
+  
 
   // ==================
   // Transaction Module
@@ -191,6 +193,10 @@ export class SoftwareComponent implements OnInit {
 
         if (this.softwareSecurityService.openModule("Mandatory") == true) {
           this.moduleMandatory = true;
+        }
+
+        if (this.softwareSecurityService.openModule("Tax Exemption") == true) {
+          this.moduleTaxExemption = true;
         }
 
         if (this.softwareSecurityService.openModule("Year List") == true) {
