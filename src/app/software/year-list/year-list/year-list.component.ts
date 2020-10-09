@@ -245,24 +245,6 @@ export class YearListComponent implements OnInit {
     });
   }
 
-  public DetailYear(YearId: string, eventTitle: string): void {
-    const userRegistrationlDialogRef = this._matDialogRef.open(YearDetialComponent, {
-      width: '1200px',
-      height: '550px',
-      data: {
-        objDialogTitle: eventTitle,
-        objYearId: YearId,
-      },
-      disableClose: true
-    });
-
-    userRegistrationlDialogRef.afterClosed().subscribe(result => {
-      if (result.event !== "Close") {
-        this.GetYearListData();
-      }
-    });
-  }
-
   async ngOnInit() {
     await this.Get_userRights();
     await this.createCboShowNumberOfRows();
