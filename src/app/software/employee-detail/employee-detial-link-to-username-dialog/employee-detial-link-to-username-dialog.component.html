@@ -1,4 +1,4 @@
-<mat-form-field appearance="outline" style="width: 100%;" readonly>
+<mat-form-field appearance="fill" style="width: 100%;" readonly>
     <mat-label>User</mat-label>
     <mat-select [(ngModel)]="UserId" (selectionChange)="selected($event)">
         <mat-option *ngFor="let user of userListDropdown" [value]="user.Id" [disabled]="isLocked">
