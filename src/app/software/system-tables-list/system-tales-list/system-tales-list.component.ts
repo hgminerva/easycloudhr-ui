@@ -329,7 +329,7 @@ export class SystemTalesListComponent implements OnInit {
         response => {
           this.buttonDisabled = false;
           this.isTaxExemptionDataLoaded = true;
-          this.GetTaxExemptionListData();
+          // this.GetTaxExemptionListData();
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Added Successfully");
           if (this.addCodeTablesSubscription != null) this.addCodeTablesSubscription.unsubscribe();
         },
