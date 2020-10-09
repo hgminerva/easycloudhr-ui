@@ -2,7 +2,7 @@
     {{ title }}
 </h3>
 <mat-divider></mat-divider>
-<div mat-dialog-content style="height:450px;">
+<div mat-dialog-content>
     <div class="dialog-body" [hidden]="isComponentHidden">
         <br>
         <div fxLayout="row" fxLayout.xs="column">
@@ -27,6 +27,7 @@
                 </mat-form-field>
             </div>
         </div>
+        <br>
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="100">
                 <mat-progress-bar *ngIf="_isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'">
