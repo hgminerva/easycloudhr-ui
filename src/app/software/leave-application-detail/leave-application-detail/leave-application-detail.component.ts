@@ -380,7 +380,18 @@ export class LeaveApplicationDetailComponent implements OnInit {
  
 
   public AddLeaveApplicationLine() {
-    this.DetailLeaveApplicationLine(this._leaveApplicationLineModel, "Add Leave Application Line");
+    let _leaveApplicationLineModel: LeaveApplicationLineModel = {
+      Id: 0,
+      LAId: this._leaveApplicationModel.Id,
+      EmployeeId: 0,
+      Employee: '',
+      LADate: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
+      IsHalfDay: false,
+      IsWithPay: false,
+      Remarks: ''
+    }
+
+    this.DetailLeaveApplicationLine(_leaveApplicationLineModel, "Add Leave Application Line");
   }
 
   public EditLeaveApplicationLine() {
