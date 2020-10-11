@@ -172,52 +172,6 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     });
   }
 
-  public async ComputePayrollLine() {
-    this._event = 'Compute';
-    this._isProgressBarHidden = true;
-    console.log(this._payrollLineModel.Id);
-    this._computePayrollLineSubscription = (await this._payrollDetailService.ComputePayrollLine(this._payrollLineModel.Id)).subscribe(
-      (response: any) => {
-        let result = response;
-        console.log(result);
-        this._payrollLineModel.EmployeeId = result.EmployeeId;
-        this._payrollLineModel.Employee = result.Employee;
-        this._payrollLineModel.PayrollRate = this._decimalPipe.transform(result.PayrollRate, "1.2-2");
-        this._payrollLineModel.TotalDailyPay = this._decimalPipe.transform(result.TotalDailyPay, "1.2-2");
-        this._payrollLineModel.TotalPremiumPay = this._decimalPipe.transform(result.TotalPremiumPay, "1.2-2");
-        this._payrollLineModel.TotalHolidayPay = this._decimalPipe.transform(result.TotalHolidayPay, "1.2-2");
-        this._payrollLineModel.TotalOvertimePay = this._decimalPipe.transform(result.TotalOvertimePay, "1.2-2");
-        this._payrollLineModel.TotalNightDifferentialPay = this._decimalPipe.transform(result.TotalNightDifferentialPay, "1.2-2");
-        this._payrollLineModel.TotalCOLA = this._decimalPipe.transform(result.TotalCOLA, "1.2-2");
-        this._payrollLineModel.TotalAdditionalAllowance = this._decimalPipe.transform(result.TotalAdditionalAllowance, "1.2-2");
-        this._payrollLineModel.TotalLateDeduction = this._decimalPipe.transform(result.TotalLateDeduction, "1.2-2");
-        this._payrollLineModel.TotalUndertimeDeduction = this._decimalPipe.transform(result.TotalUndertimeDeduction, "1.2-2");
-        this._payrollLineModel.Income = this._decimalPipe.transform(result.Income, "1.2-2");
-        this._payrollLineModel.TotalOtherIncomeNotTaxable = this._decimalPipe.transform(result.TotalOtherIncomeNotTaxable, "1.2-2");
-        this._payrollLineModel.TotalOtherIncomeTaxable = this._decimalPipe.transform(result.TotalOtherIncomeTaxable, "1.2-2");
-        this._payrollLineModel.GrossIncome = this._decimalPipe.transform(result.GrossIncome, "1.2-2");
-        this._payrollLineModel.SSSContribution = this._decimalPipe.transform(result.SSSContribution, "1.2-2");
-        this._payrollLineModel.PHICContribution = this._decimalPipe.transform(result.PHICContribution, "1.2-2");
-        this._payrollLineModel.HDMFContribution = this._decimalPipe.transform(result.HDMFContribution, "1.2-2");
-        this._payrollLineModel.IncomeTaxAmount = this._decimalPipe.transform(result.IncomeTaxAmount, "1.2-2");
-        this._payrollLineModel.TotalOtherDeduction = this._decimalPipe.transform(result.TotalOtherDeduction, "1.2-2");
-        this._payrollLineModel.NetIncome = this._decimalPipe.transform(result.NetIncome, "1.2-2");
-        this._payrollLineModel.SSSEmployerContribution = this._decimalPipe.transform(result.SSSEmployerContribution, "1.2-2");
-        this._payrollLineModel.SSSEC = this._decimalPipe.transform(result.SSSEC, "1.2-2");
-        this._payrollLineModel.PHICEmployerContribution = this._decimalPipe.transform(result.PHICEmployerContribution, "1.2-2");
-        this._payrollLineModel.HDMFEmployerContribution = this._decimalPipe.transform(result.HDMFEmployerContribution, "1.2-2");
-        this._isProgressBarHidden = false;
-
-        this._snackBarTemplate.snackBarSuccess(this._snackBar, "Compute Successfully!");
-        if (this._computePayrollLineSubscription !== null) this._computePayrollLineSubscription.unsubscribe();
-      },
-      error => {
-        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this._computePayrollLineSubscription !== null) this._computePayrollLineSubscription.unsubscribe();
-      }
-    );
-  }
-
   private async GetPayrollDetailDetail(id) {
     this._payrollLineDetailSubscription = await (await this._payrollDetailService.PayrollLineDetail(id)).subscribe(
       (response: any) => {
@@ -270,13 +224,6 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     this._matDialogRef.close({ event: this._event });
   }
 
-  // public CloseOnSave(): void {
-  //   this._matDialogRef.close({ event: "Save", data: this._payrollLineModel });
-  // }
-
-  ngOnDestroy() {
-  }
-
   public SavePayrollLine() {
     if (this._payrollLineModel.Id == 0) {
       this.AddPayrollLine();
@@ -308,17 +255,34 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     }
   }
 
-  public async UpdatePayrollLine() {
+  UpdatePayrollLine(){
+      this.Save(false);
+  }
+
+  public ComputePayrollLine(){
+    this.Save(true);
+  }
+
+  public async Save(isSaveAndCompute: boolean) {
     this._event = 'Update';
     this._isProgressBarHidden = true;
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
       this._savePayrollLineSubscription = await (await this._payrollDetailService.UpdatePayrollLine(this._payrollLineModel.Id, this._payrollLineModel)).subscribe(
         response => {
+
           this._isDataLoaded = true;
           this._isProgressBarHidden = false;
-          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Update Successfully");
+
+          if(isSaveAndCompute){
+            this.Compute();
+          }
+          else{
+            this._snackBarTemplate.snackBarSuccess(this._snackBar, "Update Successfully");
+          }
+
           if (this._savePayrollLineSubscription != null) this._savePayrollLineSubscription.unsubscribe();
+
         },
         error => {
           this._isDataLoaded = true;
@@ -328,6 +292,52 @@ export class PayrollLineDetailDialogComponent implements OnInit {
         }
       );
     }
+  }
+  
+  public async Compute() {
+    this._event = 'Compute';
+    this._isProgressBarHidden = true;
+    console.log(this._payrollLineModel.Id);
+    this._computePayrollLineSubscription = (await this._payrollDetailService.ComputePayrollLine(this._payrollLineModel.Id)).subscribe(
+      (response: any) => {
+        let result = response;
+        console.log(result);
+        this._payrollLineModel.EmployeeId = result.EmployeeId;
+        this._payrollLineModel.Employee = result.Employee;
+        this._payrollLineModel.PayrollRate = this._decimalPipe.transform(result.PayrollRate, "1.2-2");
+        this._payrollLineModel.TotalDailyPay = this._decimalPipe.transform(result.TotalDailyPay, "1.2-2");
+        this._payrollLineModel.TotalPremiumPay = this._decimalPipe.transform(result.TotalPremiumPay, "1.2-2");
+        this._payrollLineModel.TotalHolidayPay = this._decimalPipe.transform(result.TotalHolidayPay, "1.2-2");
+        this._payrollLineModel.TotalOvertimePay = this._decimalPipe.transform(result.TotalOvertimePay, "1.2-2");
+        this._payrollLineModel.TotalNightDifferentialPay = this._decimalPipe.transform(result.TotalNightDifferentialPay, "1.2-2");
+        this._payrollLineModel.TotalCOLA = this._decimalPipe.transform(result.TotalCOLA, "1.2-2");
+        this._payrollLineModel.TotalAdditionalAllowance = this._decimalPipe.transform(result.TotalAdditionalAllowance, "1.2-2");
+        this._payrollLineModel.TotalLateDeduction = this._decimalPipe.transform(result.TotalLateDeduction, "1.2-2");
+        this._payrollLineModel.TotalUndertimeDeduction = this._decimalPipe.transform(result.TotalUndertimeDeduction, "1.2-2");
+        this._payrollLineModel.Income = this._decimalPipe.transform(result.Income, "1.2-2");
+        this._payrollLineModel.TotalOtherIncomeNotTaxable = this._decimalPipe.transform(result.TotalOtherIncomeNotTaxable, "1.2-2");
+        this._payrollLineModel.TotalOtherIncomeTaxable = this._decimalPipe.transform(result.TotalOtherIncomeTaxable, "1.2-2");
+        this._payrollLineModel.GrossIncome = this._decimalPipe.transform(result.GrossIncome, "1.2-2");
+        this._payrollLineModel.SSSContribution = this._decimalPipe.transform(result.SSSContribution, "1.2-2");
+        this._payrollLineModel.PHICContribution = this._decimalPipe.transform(result.PHICContribution, "1.2-2");
+        this._payrollLineModel.HDMFContribution = this._decimalPipe.transform(result.HDMFContribution, "1.2-2");
+        this._payrollLineModel.IncomeTaxAmount = this._decimalPipe.transform(result.IncomeTaxAmount, "1.2-2");
+        this._payrollLineModel.TotalOtherDeduction = this._decimalPipe.transform(result.TotalOtherDeduction, "1.2-2");
+        this._payrollLineModel.NetIncome = this._decimalPipe.transform(result.NetIncome, "1.2-2");
+        this._payrollLineModel.SSSEmployerContribution = this._decimalPipe.transform(result.SSSEmployerContribution, "1.2-2");
+        this._payrollLineModel.SSSEC = this._decimalPipe.transform(result.SSSEC, "1.2-2");
+        this._payrollLineModel.PHICEmployerContribution = this._decimalPipe.transform(result.PHICEmployerContribution, "1.2-2");
+        this._payrollLineModel.HDMFEmployerContribution = this._decimalPipe.transform(result.HDMFEmployerContribution, "1.2-2");
+        this._isProgressBarHidden = false;
+
+        this._snackBarTemplate.snackBarSuccess(this._snackBar, "Compute Successfully!");
+        if (this._computePayrollLineSubscription !== null) this._computePayrollLineSubscription.unsubscribe();
+      },
+      error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        if (this._computePayrollLineSubscription !== null) this._computePayrollLineSubscription.unsubscribe();
+      }
+    );
   }
 
   public inputTypePayrollRate = 'text';
@@ -373,8 +383,6 @@ export class PayrollLineDetailDialogComponent implements OnInit {
     this._payrollLineModel.PayrollRate = this.RemoveComma(this._payrollLineModel.PayrollRate);
     this.inputTypePayrollRate = 'number';
   }
-
-
 
   TotalDailyPayFormatValueFocusOut() {
     this.inputTypeTotalDailyPay = 'text';
@@ -720,5 +728,8 @@ export class PayrollLineDetailDialogComponent implements OnInit {
   HDMFEmployerContributionToNumberTypeFocus() {
     this._payrollLineModel.HDMFEmployerContribution = this.RemoveComma(this._payrollLineModel.HDMFEmployerContribution);
     this.inputTypeHDMFEmployerContribution = 'number';
+  }
+  
+  ngOnDestroy() {
   }
 }

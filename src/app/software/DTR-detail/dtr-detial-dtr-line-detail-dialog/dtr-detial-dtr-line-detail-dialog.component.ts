@@ -206,7 +206,77 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
     console.log(this._dTRLineModel);
   }
 
+
+  public DefaultValues() {
+    this._dTRLineModel.DTRId = 0;
+    this._dTRLineModel.ShiftId = 0;
+    this._dTRLineModel.TimeIn1 = '';
+    this._dTRLineModel.TimeOut1 = '';
+    this._dTRLineModel.TimeIn2 = '';
+    this._dTRLineModel.TimeOut2 = '';
+    this._dTRLineModel.DTRDate = '';
+    this._dTRLineModel.NumberOfHoursWorked = '';
+    this._dTRLineModel.OvertimeHours = '';
+    this._dTRLineModel.NightDifferentialHours = '';
+    this._dTRLineModel.LateHours = '';
+    this._dTRLineModel.UndertimeHours = '';
+    this._dTRLineModel.DailyPay = '';
+    this._dTRLineModel.PremiumPay = '';
+    this._dTRLineModel.HolidayPay = '';
+    this._dTRLineModel.OvertimePay = '';
+    this._dTRLineModel.NightDifferentialPay = '';
+    this._dTRLineModel.COLA = '';
+    this._dTRLineModel.AdditionalAllowance = '';
+    this._dTRLineModel.LateDeduction = '';
+    this._dTRLineModel.UndertimeDeduction = '';
+    this._dTRLineModel.AbsentDeduction = '';
+    this._dTRLineModel.DailyNetPay = '';
+  }
+
+  public Close(): void {
+    // this.DefaultValues();
+    this._matDialogRef.close({ event: this._event });
+  }
+
+  public async UpdateDTRLine() {
+    this.Save(false);
+  }
+
   public async ComputeDTRLine() {
+    this.Save(true);
+  }
+
+  public async Save(isSaveAndCompute: boolean) {
+    this._event = 'Update';
+    this._isProgressBarHidden = true;
+    if (this._isDataLoaded == true) {
+      this._isDataLoaded = false;
+      this._saveDTRLineSubscription = await (await this._dtrDetialService.UpdateTRLine(this._dTRLineModel.Id, this._dTRLineModel)).subscribe(
+        response => {
+
+          this._isDataLoaded = true;
+          this._isProgressBarHidden = false;
+
+          if (isSaveAndCompute == true) {
+            this.Compute();
+          }
+          else {
+            this._snackBarTemplate.snackBarSuccess(this._snackBar, "Update Successfully");
+          }
+
+          if (this._saveDTRLineSubscription != null) this._saveDTRLineSubscription.unsubscribe();
+        },
+        error => {
+          this._isDataLoaded = true;
+          this._isProgressBarHidden = false;
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this._saveDTRLineSubscription != null) this._saveDTRLineSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+  
+  public async Compute() {
     this._event = 'Compute';
     this._isProgressBarHidden = true;
     this._computeDTRLineSubscription = (await this._dtrDetialService.ComputeDTRLine(this._dTRLineModel.Id)).subscribe(
@@ -243,6 +313,8 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
         this._isComponentsHidden = false;
         this._isProgressBarHidden = false;
 
+        this._snackBarTemplate.snackBarSuccess(this._snackBar, "Compute Successfully");
+
         if (this._computeDTRLineSubscription !== null) this._computeDTRLineSubscription.unsubscribe();
       },
       error => {
@@ -252,65 +324,7 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
       }
     );
   }
-
-  public DefaultValues() {
-    this._dTRLineModel.DTRId = 0;
-    this._dTRLineModel.ShiftId = 0;
-    this._dTRLineModel.TimeIn1 = '';
-    this._dTRLineModel.TimeOut1 = '';
-    this._dTRLineModel.TimeIn2 = '';
-    this._dTRLineModel.TimeOut2 = '';
-    this._dTRLineModel.DTRDate = '';
-    this._dTRLineModel.NumberOfHoursWorked = '';
-    this._dTRLineModel.OvertimeHours = '';
-    this._dTRLineModel.NightDifferentialHours = '';
-    this._dTRLineModel.LateHours = '';
-    this._dTRLineModel.UndertimeHours = '';
-    this._dTRLineModel.DailyPay = '';
-    this._dTRLineModel.PremiumPay = '';
-    this._dTRLineModel.HolidayPay = '';
-    this._dTRLineModel.OvertimePay = '';
-    this._dTRLineModel.NightDifferentialPay = '';
-    this._dTRLineModel.COLA = '';
-    this._dTRLineModel.AdditionalAllowance = '';
-    this._dTRLineModel.LateDeduction = '';
-    this._dTRLineModel.UndertimeDeduction = '';
-    this._dTRLineModel.AbsentDeduction = '';
-    this._dTRLineModel.DailyNetPay = '';
-  }
-
-  public Close(): void {
-    // this.DefaultValues();
-    this._matDialogRef.close({ event: this._event });
-  }
-
-  // public CloseOnSave(): void {
-  //   this._matDialogRef.close({ event: "Save", data: this._dTRLineModel });
-  // }
-
+  
   ngOnDestroy() {
   }
-
-  public async UpdateDTRLine() {
-    this._event = 'Update';
-    this._isProgressBarHidden = true;
-    if (this._isDataLoaded == true) {
-      this._isDataLoaded = false;
-      this._saveDTRLineSubscription = await (await this._dtrDetialService.UpdateTRLine(this._dTRLineModel.Id, this._dTRLineModel)).subscribe(
-        response => {
-          this._isDataLoaded = true;
-          this._isProgressBarHidden = false;
-          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Update Successfully");
-          if (this._saveDTRLineSubscription != null) this._saveDTRLineSubscription.unsubscribe();
-        },
-        error => {
-          this._isDataLoaded = true;
-          this._isProgressBarHidden = false;
-          this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
-          if (this._saveDTRLineSubscription != null) this._saveDTRLineSubscription.unsubscribe();
-        }
-      );
-    }
-  }
-
 }
