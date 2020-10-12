@@ -81,7 +81,7 @@
                     <div fxFlex="33" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>Over Time</mat-label>
-                            <mat-select [(ngModel)]="_dTRModel.YearId">
+                            <mat-select [(ngModel)]="_dTRModel.OTId">
                                 <mat-option *ngFor="let oT of _oTListDropdown" [disabled]="_isLocked" [value]="oT.Id">
                                     {{oT.Value}}
                                 </mat-option>
