@@ -13,19 +13,19 @@ export class TaxExemptionListService {
   ) { }
 
   public async TaxExemptionList() {
-    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/tax/exemption/list', this.appSettings.defaultOptions);
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/mst/tax/exemption/list', this.appSettings.defaultOptions);
   }
 
   public async AddTaxExemption() {
-    return this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/tax/exemption/create', "", this.appSettings.defaultOptions);
+    return this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/mst/tax/exemption/create', "", this.appSettings.defaultOptions);
   }
 
   public async SaveTaxExemption(objTaxExemption: any) {
-    return this.httpClient.put(this.appSettings.defaultAPIURLHost + '/api/tax/exemption/update/' + objTaxExemption.Id, JSON.stringify(objTaxExemption), this.appSettings.defaultOptions);
+    return this.httpClient.put(this.appSettings.defaultAPIURLHost + '/api/mst/tax/exemption/update/' + objTaxExemption.Id, JSON.stringify(objTaxExemption), this.appSettings.defaultOptions);
   }
 
   public async DeleteTaxExemption(id: number) {
-    return this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/api/tax/exemption/delete/' + id, this.appSettings.defaultOptions);
+    return this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/api/mst/tax/exemption/delete/' + id, this.appSettings.defaultOptions);
   }
 
 }
