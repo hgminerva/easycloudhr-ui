@@ -16,8 +16,8 @@ export class TaxExemptionListService {
     return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/tax/exemption/list', this.appSettings.defaultOptions);
   }
 
-  public async AddTaxExemption(objTaxExemption: any) {
-    return this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/tax/exemption/create', JSON.stringify(objTaxExemption), this.appSettings.defaultOptions);
+  public async AddTaxExemption() {
+    return this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/tax/exemption/create', "", this.appSettings.defaultOptions);
   }
 
   public async SaveTaxExemption(objTaxExemption: any) {

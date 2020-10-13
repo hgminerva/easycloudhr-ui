@@ -12,35 +12,24 @@ export class SystemTablesListService {
     private httpClient: HttpClient
   ) { }
 
-  public async TaxExemptionList() {
-    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/tax/exemption/list', this.appSettings.defaultOptions);
+  public async CategoryDropdownList() {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/mst/api/code/table/category/dropdown/list', this.appSettings.defaultOptions);
   }
 
-  public async AddTaxExemption(objTaxExemption: any) {
-    return this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/tax/exemption/create', JSON.stringify(objTaxExemption), this.appSettings.defaultOptions);
-  }
-
-  public async SaveTaxExemption(objTaxExemption: any) {
-    return this.httpClient.put(this.appSettings.defaultAPIURLHost + '/api/tax/exemption/update/' + objTaxExemption.Id, JSON.stringify(objTaxExemption), this.appSettings.defaultOptions);
-  }
-
-  public async DeleteTaxExemption(id: number) {
-    return this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/api/tax/exemption/delete/' + id, this.appSettings.defaultOptions);
-  }
-
-  public async CodeTableList() {
-    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/code/table/list', this.appSettings.defaultOptions);
+  public async CodeTableList(category: string) {
+    console.log(category);
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/mst/api/code/table/list/' + category, this.appSettings.defaultOptions);
   }
 
   public async AddCodeTable(objTableCode: any) {
-    return this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/code/table/create', JSON.stringify(objTableCode), this.appSettings.defaultOptions);
+    return this.httpClient.post(this.appSettings.defaultAPIURLHost + '/mst/api/code/table/create', JSON.stringify(objTableCode), this.appSettings.defaultOptions);
   }
 
   public async SaveCodeTable(objTableCode: any) {
-    return this.httpClient.put(this.appSettings.defaultAPIURLHost + '/api/code/table/update/' + objTableCode.Id, JSON.stringify(objTableCode), this.appSettings.defaultOptions);
+    return this.httpClient.put(this.appSettings.defaultAPIURLHost + '/mst/api/code/table/update/' + objTableCode.Id, JSON.stringify(objTableCode), this.appSettings.defaultOptions);
   }
 
   public async DeleteCodeTable(id: number) {
-    return this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/api/code/table/delete/' + id, this.appSettings.defaultOptions);
+    return this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/mst/api/code/table/delete/' + id, this.appSettings.defaultOptions);
   }
 }

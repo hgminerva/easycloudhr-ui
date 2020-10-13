@@ -51,7 +51,6 @@ import { UserRegistrationDialogComponent } from './user-list/user-registration-d
 import { SnackBarTemplate } from './shared/snack-bar-template';
 // import { DeleteDialogBoxComponent } from './shared/delete-dialog-box/delete-dialog-box.component';
 import { SystemTalesListComponent } from './system-tables-list/system-tales-list/system-tales-list.component';
-import { SystemTablesTaxExemptionDetailComponent } from './system-tables-detail/system-tables-tax-exemption-detail/system-tables-tax-exemption-detail.component';
 import { SystemTablesCodeTablesDetailComponent } from './system-tables-detail/system-tables-code-tables-detail/system-tables-code-tables-detail.component';
 import { UserDetailUserModuleDialogComponent } from './user-detail/user-detail-user-module-dialog/user-detail-user-module-dialog.component';
 import { UserDetailUserPayrollGroupDialogComponent } from './user-detail/user-detail-user-payroll-group-dialog/user-detail-user-payroll-group-dialog.component';
@@ -99,6 +98,8 @@ import { GenericDropdownDialogComponent } from './shared/generic-dropdown-dialog
 import { PdfDialogComponent } from './shared/pdf-dialog/pdf-dialog.component';
 import { ComfirmMassageDialogComponent } from './shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 import { TaxExemptionListComponent } from './tax-exemption-list/tax-exemption-list/tax-exemption-list.component';
+import {TaxExemptionDetailComponent} from './tax-exemption-detail/tax-exemption-detail/tax-exemption-detail.component';
+import { TaxExemptionTableDialogComponent } from './tax-exemption-detail/tax-exemption-table-dialog/tax-exemption-table-dialog.component';
 
 @NgModule({
   declarations: [
@@ -128,7 +129,6 @@ import { TaxExemptionListComponent } from './tax-exemption-list/tax-exemption-li
     DTRDetailComponent,
     UserRegistrationDialogComponent,
     SystemTalesListComponent,
-    SystemTablesTaxExemptionDetailComponent,
     SystemTablesCodeTablesDetailComponent,
     UserDetailUserModuleDialogComponent,
     UserDetailUserPayrollGroupDialogComponent,
@@ -175,7 +175,9 @@ import { TaxExemptionListComponent } from './tax-exemption-list/tax-exemption-li
     GenericDropdownDialogComponent,
     PdfDialogComponent,
     ComfirmMassageDialogComponent,
-    TaxExemptionListComponent
+    TaxExemptionListComponent,
+    TaxExemptionDetailComponent,
+    TaxExemptionTableDialogComponent
   ],
   imports: [
     CommonModule,

@@ -28,7 +28,7 @@ export class TaxExemptionListComponent implements OnInit {
 
   ) { }
 
-    
+
   ngOnInit() {
     this.Get_userRights();
   }
@@ -49,7 +49,7 @@ export class TaxExemptionListComponent implements OnInit {
   }
 
   private async Get_userRights() {
-    this._userRightsSubscription = await (await this._softwareSecurityService.PageModuleRights("Tax Exemption")).subscribe(
+    this._userRightsSubscription = await (await this._softwareSecurityService.PageModuleRights("Tax Exemption List")).subscribe(
       (response: any) => {
         let results = response;
         if (results !== null) {
@@ -61,7 +61,7 @@ export class TaxExemptionListComponent implements OnInit {
           this._userRights.CanLock = results["CanLock"];
           this._userRights.CanUnlock = results["CanUnlock"];
           this._userRights.CanPrint = results["CanPrint"];
-        } 
+        }
 
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       },
@@ -182,13 +182,14 @@ export class TaxExemptionListComponent implements OnInit {
     }
   }
 
-  public async AddTaxExemption(objTaxExemption: any) {
+  public async AddTaxExemption() {
     this.buttonDisabled = true;
     if (this.isTaxExemptionDataLoaded == true) {
       this.isTaxExemptionDataLoaded = false;
-      this.addTaxExemptionSubscription = (await this.taxExemptionListService.AddTaxExemption(objTaxExemption)).subscribe(
+      this.addTaxExemptionSubscription = (await this.taxExemptionListService.AddTaxExemption()).subscribe(
         response => {
           this.buttonDisabled = false;
+          this.router.navigate(['/software/tax-exemption-detail/' + response]);
           this.isTaxExemptionDataLoaded = true;
           this.GetTaxExemptionListData();
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Added Successfully");
@@ -225,12 +226,9 @@ export class TaxExemptionListComponent implements OnInit {
     }
   }
 
-  public Add_TaxExemption() {
-    let objCodeTable: any = { Id: 0, TaxExemptionCode: 'NA', ExemptionAmount: '0.00', DependentAmount: '0.00' };
-  }
-
   public EditTaxExemption() {
     let currentTaxExemption = this.listTaxExemptionCollectionView.currentItem;
+    this.router.navigate(['/software/tax-exemption-detail/' + currentTaxExemption.Id]);
   }
 
   public async DeleteTaxExemption() {

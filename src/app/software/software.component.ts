@@ -199,7 +199,7 @@ export class SoftwareComponent implements OnInit {
           this.moduleMandatory = true;
         }
 
-        if (this.softwareSecurityService.openModule("Tax Exemption") == true) {
+        if (this.softwareSecurityService.openModule("Tax Exemption List") == true) {
           this.moduleTaxExemption = true;
         }
 
