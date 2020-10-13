@@ -45,7 +45,7 @@ export class ShiftCodeDetialShiftLineComponent implements OnInit {
     NightDifferentialHours: '',
     IsFlexible: false,
     FixibilityHoursLimit: '',
-    Remarks: '',
+    Remarks: ''
   }
 
   public _dayDropdownSubscription: any;
