@@ -71,6 +71,7 @@
 
         <mat-tab-group #tabGroup (selectedTabChange)="activeTab()" style="max-height:100%;" class="detail-tab ">
             <mat-tab label="Year Date">
+                <br>
                 <mat-progress-bar *ngIf="_isYearDateProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'">
                 </mat-progress-bar>
 
@@ -105,44 +106,114 @@
                     <wj-flex-grid-column [header]="'Remarks'" [binding]="'Remarks'" [isReadOnly]="true" [width]="'2*'">
                     </wj-flex-grid-column>
                 </wj-flex-grid>
+
+                <div fxLayout="row" fxLayout.xs="column" style="margin-bottom: 15px;">
+                    <div fxFlex="30" style="padding: 2px;">
+                        <div fxLayout="row" fxLayout.xs="column">
+                            <mat-button-toggle-group style="margin-top: 7px; width: 100%;">
+                                <mat-button-toggle (click)="_listYearDateCollectionView.moveToFirstPage()"
+                                    style=" width: 100%;">
+                                    <mat-icon style="margin-right: -15px">navigate_before</mat-icon>
+                                    <mat-icon>navigate_before</mat-icon>
+                                </mat-button-toggle>
+                                <mat-button-toggle (click)="_listYearDateCollectionView.moveToPreviousPage()"
+                                    style=" width: 100%;">
+                                    <mat-icon>navigate_before</mat-icon>
+                                </mat-button-toggle>
+                                <mat-button-toggle style=" width: 100%;">{{ _listYearDateCollectionView.pageIndex + 1 }}
+                                    /
+                                    {{ _listYearDateCollectionView.pageCount }}</mat-button-toggle>
+                                <mat-button-toggle (click)="_listYearDateCollectionView.moveToNextPage()"
+                                    style=" width: 100%;">
+                                    <mat-icon>navigate_next</mat-icon>
+                                </mat-button-toggle>
+                                <mat-button-toggle (click)="_listYearDateCollectionView.moveToLastPage()"
+                                    style=" width: 100%;">
+                                    <mat-icon style="margin-right: -15px">navigate_next</mat-icon>
+                                    <mat-icon>navigate_next</mat-icon>
+                                </mat-button-toggle>
+                            </mat-button-toggle-group>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="Year Leave Credits">
+                <br>
+                <mat-progress-bar *ngIf="_isYearDateProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'">
+                </mat-progress-bar>
+
+                <wj-flex-grid #flexYearLeaveCredits [itemsSource]="_listYearLeaveCreditsCollectionView" [selectionMode]="3"
+                    [frozenColumns]="2" [headersVisibility]="1"
+                    (click)="gridYearLeaveCreditsClick(flexYearLeaveCredits, $event)">
+                    <wj-flex-grid-filter></wj-flex-grid-filter>
+                    <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="90" *ngIf="_canEdit">
+                        <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
+                            <button mat-raised-button class="lc-button-edit" color="primary"
+                                style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
+                                <!-- <mat-icon class="button-edit">edit</mat-icon> -->
+                                <span class="lc-button-edit">Edit</span>
+                            </button>
+                        </ng-template>
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Delete'" [isReadOnly]="true" [width]="90" *ngIf="_canDelete">
+                        <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
+                            <button mat-raised-button class="lc-button-delete" color="warn"
+                                style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
+                                <!-- <mat-icon class="button-delete">delete</mat-icon> -->
+                                <span class="lc-button-delete">Delete</span>
+                            </button>
+                        </ng-template>
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Employee'" [binding]="'Employee'" [isReadOnly]="true" [width]="100">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Leave Credits'" [binding]="'LeaveCredits'" [isReadOnly]="true" [width]="'2*'">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Remarks'" [binding]="'Remarks'" [isReadOnly]="true" [width]="'2*'">
+                    </wj-flex-grid-column>
+                </wj-flex-grid>
+
+                <div fxLayout="row" fxLayout.xs="column" style="margin-bottom: 15px;">
+                    <div fxFlex="30" style="padding: 2px;">
+                        <div fxLayout="row" fxLayout.xs="column">
+                            <mat-button-toggle-group style="margin-top: 7px; width: 100%;">
+                                <mat-button-toggle (click)="_listYearLeaveCreditsCollectionView.moveToFirstPage()"
+                                    style=" width: 100%;">
+                                    <mat-icon style="margin-right: -15px">navigate_before</mat-icon>
+                                    <mat-icon>navigate_before</mat-icon>
+                                </mat-button-toggle>
+                                <mat-button-toggle (click)="_listYearLeaveCreditsCollectionView.moveToPreviousPage()"
+                                    style=" width: 100%;">
+                                    <mat-icon>navigate_before</mat-icon>
+                                </mat-button-toggle>
+                                <mat-button-toggle style=" width: 100%;">{{ _listYearLeaveCreditsCollectionView.pageIndex + 1 }}
+                                    /
+                                    {{ _listYearLeaveCreditsCollectionView.pageCount }}</mat-button-toggle>
+                                <mat-button-toggle (click)="_listYearLeaveCreditsCollectionView.moveToNextPage()"
+                                    style=" width: 100%;">
+                                    <mat-icon>navigate_next</mat-icon>
+                                </mat-button-toggle>
+                                <mat-button-toggle (click)="_listYearLeaveCreditsCollectionView.moveToLastPage()"
+                                    style=" width: 100%;">
+                                    <mat-icon style="margin-right: -15px">navigate_next</mat-icon>
+                                    <mat-icon>navigate_next</mat-icon>
+                                </mat-button-toggle>
+                            </mat-button-toggle-group>
+                        </div>
+                    </div>
+                </div>
+
             </mat-tab>
             <mat-tab disabled style="background-color: transparent; ">
                 <ng-template mat-tab-label>
                     <button mat-raised-button color="primary" style="float: right; margin: 5px;" [disabled]="_isLocked"
-                        (click)="AddYearDateToBranches()" [disabled]="_btnAddDTRLineDisabled"
-                        *ngIf="_userRights.CanAdd">
+                        (click)="Add()" [disabled]="_btnAddDateDisabled" *ngIf="_userRights.CanAdd">
                         <!-- <mat-icon>add</mat-icon>  -->
                         ADD
                     </button><br>
                 </ng-template>
             </mat-tab>
         </mat-tab-group>
-        <div fxLayout="row" fxLayout.xs="column" style="margin-bottom: 15px;">
-            <div fxFlex="20" style="padding: 2px;">
-                <div fxLayout="row" fxLayout.xs="column">
-                    <mat-button-toggle-group style="margin-top: 7px; width: 100%;">
-                        <mat-button-toggle (click)="_listYearDateCollectionView.moveToFirstPage()"
-                            style=" width: 100%;">
-                            <mat-icon style="margin-right: -15px">navigate_before</mat-icon>
-                            <mat-icon>navigate_before</mat-icon>
-                        </mat-button-toggle>
-                        <mat-button-toggle (click)="_listYearDateCollectionView.moveToPreviousPage()"
-                            style=" width: 100%;">
-                            <mat-icon>navigate_before</mat-icon>
-                        </mat-button-toggle>
-                        <mat-button-toggle style=" width: 100%;">{{ _listYearDateCollectionView.pageIndex + 1 }} /
-                            {{ _listYearDateCollectionView.pageCount }}</mat-button-toggle>
-                        <mat-button-toggle (click)="_listYearDateCollectionView.moveToNextPage()" style=" width: 100%;">
-                            <mat-icon>navigate_next</mat-icon>
-                        </mat-button-toggle>
-                        <mat-button-toggle (click)="_listYearDateCollectionView.moveToLastPage()" style=" width: 100%;">
-                            <mat-icon style="margin-right: -15px">navigate_next</mat-icon>
-                            <mat-icon>navigate_next</mat-icon>
-                        </mat-button-toggle>
-                    </mat-button-toggle-group>
-                </div>
-            </div>
-        </div>
+
         <mat-divider style="margin: 5px;"></mat-divider>
         <div fxLayout="row" fxLayout.xs="column" style="color: gray;">
             <div fxFlex="50" style="padding: 5px;">

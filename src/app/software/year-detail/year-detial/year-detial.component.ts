@@ -16,6 +16,8 @@ import { DatePipe } from '@angular/common';
 import { YearDateAddToBranchesDialogComponent } from '../year-date-add-to-branches-dialog/year-date-add-to-branches-dialog.component';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
+import { YearLeaveCreditsModel } from '../year-leave-credits.model';
+import { YearLeaveCreditsDialogComponent } from '../year-leave-credits-dialog/year-leave-credits-dialog.component';
 
 @Component({
   selector: 'app-year-detial',
@@ -108,7 +110,7 @@ export class YearDetialComponent implements OnInit {
   private _addYearDateSubscription: any;
   private _deleteYearDateSubscription: any;
 
-  public _btnAddYearDateDisabled: boolean = false;
+  public _btnAddDateDisabled: boolean = false;
 
   // DOM declaration
   @ViewChild('flexYearDate') flexYearDate: wjcGrid.FlexGrid;
@@ -256,7 +258,7 @@ export class YearDetialComponent implements OnInit {
   // Component Behavior
   // ==================
   private loadComponent(isDisable) {
-    this._btnAddYearDateDisabled = isDisable;
+    this._btnAddDateDisabled = isDisable;
     this._btnSaveDisabled = isDisable;
     this._btnLockIsabled = isDisable;
     this._btnUnlockDisabled = !isDisable;
@@ -323,6 +325,8 @@ export class YearDetialComponent implements OnInit {
         if (this._yearDateListSubscription !== null) this._yearDateListSubscription.unsubscribe();
       }
     );
+
+    this.GetYearLeaveCreditsListData();
   }
 
   gridClick(s, e) {
@@ -341,18 +345,18 @@ export class YearDetialComponent implements OnInit {
   }
 
   public async AddYearDate(objYearDate: YearDateModel) {
-    this._btnAddYearDateDisabled = true;
+    this._btnAddDateDisabled = true;
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
       this._addYearDateSubscription = (await this._yearDetialService.AddYearDate(objYearDate)).subscribe(
         (response: any) => {
-          this._btnAddYearDateDisabled = false;
+          this._btnAddDateDisabled = false;
           this._isDataLoaded = true;
           this.GetYearDateListData();
           this._snackBarTemplate.snackBarSuccess(this._snackBar, "Added Successfully");
         },
         error => {
-          this._btnAddYearDateDisabled = false;
+          this._btnAddDateDisabled = false;
           this._isDataLoaded = true;
           this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
           if (this._addYearDateSubscription != null) this._addYearDateSubscription.unsubscribe();
@@ -362,18 +366,18 @@ export class YearDetialComponent implements OnInit {
   }
 
   public async UpdateYearDate(objYearDate: YearDateModel) {
-    this._btnAddYearDateDisabled = true;
+    this._btnAddDateDisabled = true;
     if (this._isDataLoaded == true) {
       this._isDataLoaded = false;
       this._addYearDateSubscription = (await this._yearDetialService.Updatedate(objYearDate.Id, objYearDate)).subscribe(
         (response: any) => {
-          this._btnAddYearDateDisabled = false;
+          this._btnAddDateDisabled = false;
           this._isDataLoaded = true;
           this.GetYearDateListData();
           this._snackBarTemplate.snackBarSuccess(this._snackBar, "Updated Successfully");
         },
         error => {
-          this._btnAddYearDateDisabled = false;
+          this._btnAddDateDisabled = false;
           this._isDataLoaded = true;
           this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
           if (this._addYearDateSubscription != null) this._addYearDateSubscription.unsubscribe();
@@ -470,6 +474,202 @@ export class YearDetialComponent implements OnInit {
     });
   }
 
+  @ViewChild('tabGroup') tabGroup;
+
+  Add() {
+    if (this.tabGroup.selectedIndex == 0) {
+      this.AddYearDateToBranches();
+    }
+
+    if (this.tabGroup.selectedIndex == 1) {
+      this.AddYearLeaveCreditsDialog();
+    }
+  }
+
   activeTab() { }
 
+  public _listYearLeaveCreditsObservableArray: ObservableArray = new ObservableArray();
+  public _listYearLeaveCreditsCollectionView: CollectionView = new CollectionView(this._listYearLeaveCreditsObservableArray);
+  public _listYearLeaveCreditsPageIndex: number = 15;
+
+  public _isYearLeaveCreditsProgressBarHidden = false;
+  public _isYearLeaveCreditsDataLoaded: boolean = false;
+
+  private _yearLeaveCreditsListSubscription: any;
+  private _addLeaveCreditsSubscription: any;
+  private _deleteLeaveCreditsSubscription: any;
+
+  @ViewChild('flexYearLeaveCredits') flexYearLeaveCredits: wjcGrid.FlexGrid;
+
+  private async GetYearLeaveCreditsListData() {
+    this._listYearLeaveCreditsObservableArray = new ObservableArray();
+    this._listYearLeaveCreditsCollectionView = new CollectionView(this._listYearLeaveCreditsObservableArray);
+    this._listYearLeaveCreditsCollectionView.pageSize = 15;
+    this._listYearLeaveCreditsCollectionView.trackChanges = true;
+    await this._listYearLeaveCreditsCollectionView.refresh();
+    await this.flexYearLeaveCredits.refresh();
+
+    this._isYearLeaveCreditsProgressBarHidden = true;
+
+    this._yearLeaveCreditsListSubscription = (await this._yearDetialService.YearLeaveCreditsList(this._yearModel.Id)).subscribe(
+      (response: any) => {
+        var results = response;
+        if (results["length"] > 0) {
+          this._listYearLeaveCreditsObservableArray = results;
+          this._listYearLeaveCreditsCollectionView = new CollectionView(this._listYearLeaveCreditsObservableArray);
+          this._listYearLeaveCreditsCollectionView.pageSize = 15;
+          this._listYearLeaveCreditsCollectionView.trackChanges = true;
+          this._listYearLeaveCreditsCollectionView.refresh();
+          this.flexYearLeaveCredits.refresh();
+        }
+
+        this._isYearLeaveCreditsDataLoaded = true;
+        this._isYearLeaveCreditsProgressBarHidden = false;
+
+        if (this._yearLeaveCreditsListSubscription != null) this._yearLeaveCreditsListSubscription.unsubscribe();
+      },
+      error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        if (this._yearLeaveCreditsListSubscription !== null) this._yearLeaveCreditsListSubscription.unsubscribe();
+      }
+    );
+  }
+
+  gridYearLeaveCreditsClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'lc-button-edit')) {
+      if (this._userRights.CanEdit) {
+        this.EditYearLeaveCredits();
+      }
+
+    }
+
+    if (wjcCore.hasClass(e.target, 'lc-button-delete')) {
+      if (this._userRights.CanDelete) {
+        this.ComfirmDeleteYearLeaveCredits();
+      }
+    }
+  }
+
+  public async AddYearLeaveCredits(objearLeaveCredits: YearLeaveCreditsModel) {
+    this._btnAddDateDisabled = true;
+    if (this._isDataLoaded == true) {
+      this._isYearLeaveCreditsDataLoaded = false;
+      this._addLeaveCreditsSubscription = (await this._yearDetialService.AddYearLeaveCredits(this._yearModel.Id, objearLeaveCredits)).subscribe(
+        (response: any) => {
+          this._btnAddDateDisabled = false;
+          this._isYearLeaveCreditsDataLoaded = true;
+          this.GetYearLeaveCreditsListData();
+          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Added Successfully");
+          if (this._addLeaveCreditsSubscription != null) this._addLeaveCreditsSubscription.unsubscribe();
+        },
+        error => {
+          this._btnAddDateDisabled = false;
+          this._isYearLeaveCreditsDataLoaded = true;
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this._addLeaveCreditsSubscription != null) this._addLeaveCreditsSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
+  public async UpdateYearLeaveCredits(objearLeaveCredits: YearLeaveCreditsModel) {
+    this._btnAddDateDisabled = true;
+    if (this._isYearLeaveCreditsDataLoaded == true) {
+      this._isYearLeaveCreditsDataLoaded = false;
+      this._deleteLeaveCreditsSubscription = (await this._yearDetialService.UpdateYearLeaveCredits(objearLeaveCredits.Id, objearLeaveCredits)).subscribe(
+        (response: any) => {
+          this._btnAddDateDisabled = false;
+          this._isYearLeaveCreditsDataLoaded = true;
+          this.GetYearLeaveCreditsListData();
+          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Updated Successfully");
+          if (this._deleteLeaveCreditsSubscription != null) this._deleteLeaveCreditsSubscription.unsubscribe();
+        },
+        error => {
+          this._btnAddDateDisabled = false;
+          this._isYearLeaveCreditsDataLoaded = true;
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this._deleteLeaveCreditsSubscription != null) this._deleteLeaveCreditsSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
+  AddYearLeaveCreditsDialog() {
+    let yearLeaveCreditsModel: YearLeaveCreditsModel = {
+      Id: 0,
+      YearId: 0,
+      EmployeeId: 0,
+      Employee: '',
+      LeaveCredits: '0',
+      Remarks: 'NA',
+      DateEncoded: ''
+    }
+    this.DetailYearLeaveCredits(yearLeaveCreditsModel, "Add Year Leave Credits Detail");
+  }
+
+  public EditYearLeaveCredits() {
+    let currentYearLeaveCredits = this._listYearLeaveCreditsCollectionView.currentItem;
+    this.DetailYearLeaveCredits(currentYearLeaveCredits, "Edit Year Leave Credits Detail");
+  }
+
+  public async DeleteYearLeaveCredits() {
+    let currentYearLeaveCredits = this._listYearLeaveCreditsCollectionView.currentItem;
+    this._isYearDateProgressBarHidden = true;
+
+    if (this._isDataLoaded == true) {
+      this._isDataLoaded = false;
+      this._deleteYearDateSubscription = (await this._yearDetialService.DeleteYearLeaveCredits(currentYearLeaveCredits.Id)).subscribe(
+        response => {
+          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Delete Successfully");
+          this.GetYearDateListData();
+          this._isYearDateProgressBarHidden = false;
+          this._isDataLoaded = true;
+        },
+        error => {
+          this._isDataLoaded = true;
+          this._isYearDateProgressBarHidden = false;
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error + " Status " + error.status);
+          if (this._deleteYearDateSubscription != null) this._deleteYearDateSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
+  public ComfirmDeleteYearLeaveCredits(): void {
+    let currentYearLeaveCredits = this._listYearLeaveCreditsCollectionView.currentItem;
+    const dialogRef = this.deleteYearDateDetailDialog.open(ComfirmMassageDialogComponent, {
+      width: '500px',
+      data: {
+        objDialogTitle: "Delete Year Leave Credits",
+        objComfirmationMessage: ` Delete ${currentYearLeaveCredits.Employee}?`,
+      },
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.message == "Yes") {
+        this.DeleteYearLeaveCredits();
+      }
+    });
+  }
+
+  public DetailYearLeaveCredits(objYearLeaveCredits: YearLeaveCreditsModel, eventTitle: string): void {
+    const dialogRef = this.YearDateDetailDialog.open(YearLeaveCreditsDialogComponent, {
+      width: '700px',
+      data: {
+        objDialogTitle: eventTitle,
+        objDialogData: objYearLeaveCredits,
+      },
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.event === "Add") {
+        this.AddYearLeaveCredits(result.data);
+      }
+      if (result.event === "Edit") {
+        this.UpdateYearLeaveCredits(result.data);
+      }
+    });
+  }
 }

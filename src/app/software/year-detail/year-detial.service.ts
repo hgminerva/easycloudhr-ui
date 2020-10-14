@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import {AppSettings} from './../software-appsettings';
+import { AppSettings } from './../software-appsettings';
 import { HttpClient } from '@angular/common/http';
 
-import {YearModel} from './year.model';
-import {YearDateList, YearDateModel} from './year-date.model';
+import { YearModel } from './year.model';
+import { YearDateList, YearDateModel } from './year-date.model';
+import { YearLeaveCreditsModel } from './year-leave-credits.model';
 
 @Injectable({
   providedIn: 'root'
@@ -57,5 +58,22 @@ export class YearDetialService {
 
   public async BranchDropdown() {
     return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/year/date/branch/dropdown', this.appSettings.defaultOptions);
+  }
+
+  public async YearLeaveCreditsList(yearId: number) {
+    console.log('Fire');
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/mst/year/leave/credits/list/' + yearId, this.appSettings.defaultOptions);
+  }
+
+  public async AddYearLeaveCredits(yearId: number, objYearLeaveCreditss: YearLeaveCreditsModel) {
+    return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/mst/year/leave/credits/create/' + yearId, JSON.stringify(objYearLeaveCreditss), this.appSettings.defaultOptions);
+  }
+
+  public async UpdateYearLeaveCredits(id: number, objYearLeaveCredits: YearLeaveCreditsModel) {
+    return await this.httpClient.put(this.appSettings.defaultAPIURLHost + '/api/mst/year/leave/credits/update/' + id, JSON.stringify(objYearLeaveCredits), this.appSettings.defaultOptions);
+  }
+
+  public async DeleteYearLeaveCredits(id: number) {
+    return await this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/api/mst/year/leave/credits/delete/' + id, this.appSettings.defaultOptions);
   }
 }

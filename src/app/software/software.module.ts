@@ -100,6 +100,7 @@ import { ComfirmMassageDialogComponent } from './shared/comfirm-massage-dialog/c
 import { TaxExemptionListComponent } from './tax-exemption-list/tax-exemption-list/tax-exemption-list.component';
 import {TaxExemptionDetailComponent} from './tax-exemption-detail/tax-exemption-detail/tax-exemption-detail.component';
 import { TaxExemptionTableDialogComponent } from './tax-exemption-detail/tax-exemption-table-dialog/tax-exemption-table-dialog.component';
+import { YearLeaveCreditsDialogComponent } from './year-detail/year-leave-credits-dialog/year-leave-credits-dialog.component';
 
 @NgModule({
   declarations: [
@@ -177,7 +178,8 @@ import { TaxExemptionTableDialogComponent } from './tax-exemption-detail/tax-exe
     ComfirmMassageDialogComponent,
     TaxExemptionListComponent,
     TaxExemptionDetailComponent,
-    TaxExemptionTableDialogComponent
+    TaxExemptionTableDialogComponent,
+    YearLeaveCreditsDialogComponent
   ],
   imports: [
     CommonModule,
