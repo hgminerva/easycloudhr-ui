@@ -21,4 +21,8 @@ export class DtrDetailImportDtrLogsService {
   public async PostDTRLogs(objDTRLogs: DTRLogs) {
     return this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/dtr/line/create/lines/dtr/logs/', JSON.stringify(objDTRLogs), this.appSettings.defaultOptions);
   }
+
+  public async DeleteDTRLines(id: number) {
+    return await this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/api/dtr/line/delete/dtr/lines/' + id, this.appSettings.defaultOptions);
+  }
 }

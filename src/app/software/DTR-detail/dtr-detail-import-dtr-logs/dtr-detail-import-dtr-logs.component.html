@@ -69,7 +69,7 @@
 <mat-divider></mat-divider>
 <div mat-dialog-actions align="right">
     <input type="file" #file (change)="onFileChange($event)" multiple="false" hidden>
-    <button mat-raised-button color="accent" style="float: right; margin: 5px;" (click)="PostDTRLogs()"
+    <button mat-raised-button color="accent" style="float: right; margin: 5px;" (click)="Post()"
         [disabled]="isPostButtonHidden">
         <!-- <mat-icon>post_add</mat-icon>  -->
         Post

@@ -357,7 +357,7 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
                 Remarks: "NA"
               });
             }
-            else{
+            else {
               employeesDTRLineLogs.push({
                 DTRId: this._caseData.objDTRData.Id,
                 EmployeeId: this._employeeList[employeeIndex].Id,
@@ -449,6 +449,24 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
       }
     );
 
+  }
+
+  private _deleteDTRLineSubscription: any;
+
+  public async Post() {
+    this.deleteDTRLinesOnPost();
+  }
+  private async deleteDTRLinesOnPost() {
+    this._deleteDTRLineSubscription = await (await this._dtrDetailImportDtrLogsService.DeleteDTRLines(this._caseData.objDTRData.Id)).subscribe(
+      response => {
+        this.PostDTRLogs();
+        if (this._deleteDTRLineSubscription != null) this._deleteDTRLineSubscription.unsubscribe();
+      },
+      error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + error.status);
+        if (this._deleteDTRLineSubscription != null) this._deleteDTRLineSubscription.unsubscribe();
+      }
+    );
   }
 
   public async PostDTRLogs() {
