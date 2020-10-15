@@ -82,7 +82,7 @@
                                 <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                                     <button mat-raised-button class="button-edit" color="primary"
                                         style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
-                                        <mat-icon class="button-edit">edit</mat-icon>
+                                        <!-- <mat-icon class="button-edit">edit</mat-icon> -->
                                         <span class="button-edit">Edit</span>
                                     </button>
                                 </ng-template>
@@ -92,7 +92,7 @@
                                 <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                                     <button mat-raised-button class="button-delete" color="warn"
                                         style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
-                                        <mat-icon class="button-delete">delete</mat-icon>
+                                        <!-- <mat-icon class="button-delete">delete</mat-icon> -->
                                         <span class="button-delete">Delete</span>
                                     </button>
                                 </ng-template>
@@ -149,7 +149,8 @@
                             [mode]="'indeterminate'">
                         </mat-progress-bar>
                         <wj-flex-grid #flexUserPayrollGroup [itemsSource]="listUserPayrollGroupCollectionView"
-                            [selectionMode]="3" [frozenColumns]="2" #UserPayrollGroupGrid (click)="userPayrollGroupGridClick(UserPayrollGroupGrid, $event)">
+                            [selectionMode]="3" [frozenColumns]="2" #UserPayrollGroupGrid
+                            (click)="userPayrollGroupGridClick(UserPayrollGroupGrid, $event)">
                             <wj-flex-grid-filter></wj-flex-grid-filter>
                             <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="90" *ngIf="_canEdit">
                                 <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
@@ -197,6 +198,11 @@
                     </mat-tab>
                     <mat-tab disabled style="background-color: transparent; ">
                         <ng-template mat-tab-label>
+                            <button mat-raised-button color="primary" (click)="CopyUserModule()" [disabled]="isLocked"
+                                style="float: right; margin: 5px;" *ngIf="_userRights.CanAdd">
+                                <!-- <mat-icon>add</mat-icon>  -->
+                                Copy Rights
+                            </button><br>
                             <button mat-raised-button color="primary" (click)="AddUserTable()" [disabled]="isLocked"
                                 style="float: right; margin: 5px;" *ngIf="_userRights.CanAdd">
                                 <!-- <mat-icon>add</mat-icon>  -->

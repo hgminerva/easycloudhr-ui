@@ -52,6 +52,10 @@ export class UserDetailService {
     return this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/user/module/create', JSON.stringify(objUserModule), this.appSettings.defaultOptions);
   }
 
+  public async CopyRightsModule(userId: number, copyUserRightId: number) {
+    return this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/user/module/copy/rights/' + userId + "/" + copyUserRightId, "", this.appSettings.defaultOptions);
+  }
+
   public async UpdateUserModule(id: number, objUserModule: UserModuleModel) {
     return this.httpClient.put(this.appSettings.defaultAPIURLHost + '/api/user/module/update/' + id, JSON.stringify(objUserModule), this.appSettings.defaultOptions);
   }

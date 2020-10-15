@@ -26,7 +26,7 @@ export class GenericDropdownDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.title = this.caseData.objDialogTitle;
-    this.GetDropdownListListData(this.caseData.objPayrollGroup);
+    this.GetDropdownListData( this.caseData.objDialogTitle,{});
     this.CreateCboShowNumberOfRows();
   }
 
@@ -77,7 +77,7 @@ export class GenericDropdownDialogComponent implements OnInit {
     this._dropdownListCollectionView.refresh();
   }
 
-  private async GetDropdownListListData(payrollGroup: string) {
+  private async GetDropdownListData(type: string, filter: any) {
     this._dropdownListObservableArray = new ObservableArray();
     this._dropdownListCollectionView = new CollectionView(this._dropdownListObservableArray);
     this._dropdownListCollectionView.pageSize = 10;
@@ -87,7 +87,7 @@ export class GenericDropdownDialogComponent implements OnInit {
 
     this._isDropdownListProgressBarHidden = true;
 
-    this._dropdownLisSubscription = await (await this._sharedService.CityDropdownList()).subscribe(
+    this._dropdownLisSubscription = await (await this._sharedService.DropdownList(type, filter)).subscribe(
       (response: any) => {
         if (response["length"] > 0) {
           this._dropdownListObservableArray = response;

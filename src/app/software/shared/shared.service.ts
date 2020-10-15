@@ -20,7 +20,27 @@ export class SharedService {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/city/list/', this.appSettings.defaultOptions);
   }
 
+  // =============
+  // Dropdown List
+  // =============
+  public async DropdownList(type: string, filter: any) {
+
+    if (type == 'Employee') {
+      return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/dropdown/list/' + filter, this.appSettings.defaultOptions);
+    }
+
+    if (type == 'City') {
+      return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/city/list/', this.appSettings.defaultOptions);
+    }
+
+    if (type == 'Copy Rights') {
+      return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/user/module/user/list/', this.appSettings.defaultOptions);
+    }
+  }
+
+  // =======
   // Payslip
+  // =======
   public async PDFPayslip(employeeId: number, payId: number) {
     let printCaseOptions: any = {
       headers: new HttpHeaders({
@@ -34,7 +54,9 @@ export class SharedService {
       printCaseOptions);
   }
 
-  // DTR
+  // =======
+  // DTR PDF
+  // =======
   public async PDFDTR(dtrId: number) {
     let printCaseOptions: any = {
       headers: new HttpHeaders({
@@ -48,7 +70,9 @@ export class SharedService {
       printCaseOptions);
   }
 
-  // Work Sheet
+  // ==============
+  // Work Sheet PDF
+  // ==============
   public async PDFWorkSheet(payId: number) {
     let printCaseOptions: any = {
       headers: new HttpHeaders({
@@ -62,7 +86,9 @@ export class SharedService {
       printCaseOptions);
   }
 
-
+  // ============
+  // Generate CSV
+  // ============
   public generateCSV(collectionView: CollectionView, title: string, fileName: string): void {
 
     var data = "";
@@ -95,7 +121,7 @@ export class SharedService {
       }
     }
 
-    var csvURL = window.URL.createObjectURL( new Blob([data], { type: 'text/csv;charset=utf-8;' }));
+    var csvURL = window.URL.createObjectURL(new Blob([data], { type: 'text/csv;charset=utf-8;' }));
     var tempLink = document.createElement('a');
 
     tempLink.href = csvURL;

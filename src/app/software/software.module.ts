@@ -179,7 +179,7 @@ import { YearLeaveCreditsDialogComponent } from './year-detail/year-leave-credit
     TaxExemptionListComponent,
     TaxExemptionDetailComponent,
     TaxExemptionTableDialogComponent,
-    YearLeaveCreditsDialogComponent
+    YearLeaveCreditsDialogComponent,
   ],
   imports: [
     CommonModule,

@@ -841,7 +841,7 @@ export class EmployeeDetailComponent implements OnInit {
       width: '900px',
       height: '500',
       data: {
-        objDialogTitle: "Cities",
+        objDialogTitle: "City",
       },
       disableClose: true
     });

@@ -18,6 +18,7 @@ import { UserDetailUserPayrollGroupDialogComponent } from '../user-detail-user-p
 import { UserChangePasswordDialogComponent } from '../../shared/user-change-password-dialog/user-change-password-dialog.component';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
+import { GenericDropdownDialogComponent } from '../../shared/generic-dropdown-dialog/generic-dropdown-dialog.component';
 
 @Component({
   selector: 'app-user-detail',
@@ -39,7 +40,7 @@ export class UserDetailComponent implements OnInit {
   private _userRightsSubscription: any;
   public _canEdit: boolean = false;
   public _canDelete: boolean = false;
-  
+
   public _userRights: UserModule = {
     Module: "",
     CanOpen: false,
@@ -392,6 +393,49 @@ export class UserDetailComponent implements OnInit {
         this.GetUserDetail();
       }
     });
+  }
+
+  public CopyUserModule(): void {
+    const userRegistrationlDialogRef = this.matDialog.open(GenericDropdownDialogComponent, {
+      width: '500px',
+      data: {
+        objDialogTitle: "Copy Rights",
+        objDialogData: ''
+      },
+      disableClose: true
+    });
+
+    userRegistrationlDialogRef.afterClosed().subscribe(data => {
+      console.log();
+      if (data.event == 'Pick') {
+        this.CopyRightFromUser(data.Value.Id);
+      }
+    });
+  }
+
+  public copyUserRightsSubscription: any;
+
+  public async CopyRightFromUser(copyUserRightId: number) {
+    if (this.isDataLoaded == true) {
+      this.isDataLoaded = false;
+      this.isUserModuleProgressBarHidden = true;
+
+      this.copyUserRightsSubscription = await (await this.userDetailService.CopyRightsModule(this.userModel.Id ,copyUserRightId)).subscribe(
+        response => {
+          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Copy Rights Successfully");
+          this.GetUserModuleListData();
+          this.isUserModuleProgressBarHidden = false;
+          this.isDataLoaded = true;
+          if (this.copyUserRightsSubscription != null) this.copyUserRightsSubscription.unsubscribe();
+        },
+        error => {
+          this.isDataLoaded = true;
+          this.isUserModuleProgressBarHidden = false;
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + error.status);
+          if (this.copyUserRightsSubscription != null) this.copyUserRightsSubscription.unsubscribe();
+        }
+      );
+    }
   }
 
   public ComfirmDeleteUserModule(): void {
