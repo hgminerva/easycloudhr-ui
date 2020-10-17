@@ -386,6 +386,30 @@ export class PayrollOtherDeductionDetailComponent implements OnInit {
     this.DetailPayrollOtherDeductionLine(this._payrollOtherDeductionLineModel, "Add Payroll Other Deduction Line");
   }
 
+  public async GetLoand() {
+    this._isPayrollOtherDeductionLineProgressBarHidden = true;
+
+    if (this._isPayrollOtherDeductionLineDataLoaded == true) {
+      this._isPayrollOtherDeductionLineDataLoaded = false;
+      this._savePayrollOtherDeductionLineSubscription = await (await this._payrollOtherDeductionDetailService.GetLoan(this._payrollOtherDeductionModel.Id)).subscribe(
+        response => {
+          this._isPayrollOtherDeductionLineDataLoaded = true;
+          this._isPayrollOtherDeductionLineProgressBarHidden = false;
+
+          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Loan Successfully loaded");
+          this.GetPayrollOtherDeductionLineListData();
+          if (this._savePayrollOtherDeductionLineSubscription != null) this._savePayrollOtherDeductionLineSubscription.unsubscribe();
+        },
+        error => {
+          this._isPayrollOtherDeductionLineDataLoaded = true;
+          this._isPayrollOtherDeductionLineProgressBarHidden = false;
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this._savePayrollOtherDeductionLineSubscription != null) this._savePayrollOtherDeductionLineSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
   public EditPayrollOtherDeductionLine() {
     let currentPayrollOtherDeductionLine = this._listPayrollOtherDeductionLineCollectionView.currentItem;
     this.DetailPayrollOtherDeductionLine(currentPayrollOtherDeductionLine, "Edit Payroll Other Deduction Line Detail");

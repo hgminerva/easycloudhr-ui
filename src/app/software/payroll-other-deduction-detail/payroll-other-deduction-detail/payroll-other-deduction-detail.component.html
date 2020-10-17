@@ -150,9 +150,16 @@
             <mat-tab disabled style="background-color: transparent; ">
                 <ng-template mat-tab-label>
                     <button mat-raised-button color="primary" style="float: right; margin: 5px;"
+                        (click)="GetLoand()" [disabled]="_btnAddPayrollOtherDeductionLineDisabled"
+                        *ngIf="_userRights.CanAdd">
+                        <!-- <mat-icon>add</mat-icon>  -->
+                        Get Loan
+                    </button><br>
+                    <button mat-raised-button color="primary" style="float: right; margin: 5px;"
                         (click)="AddPayrollOtherDeductionLine()" [disabled]="_btnAddPayrollOtherDeductionLineDisabled"
                         *ngIf="_userRights.CanAdd">
-                        <mat-icon>add</mat-icon> ADD
+                        <!-- <mat-icon>add</mat-icon>  -->
+                        Add
                     </button><br>
                 </ng-template>
             </mat-tab>

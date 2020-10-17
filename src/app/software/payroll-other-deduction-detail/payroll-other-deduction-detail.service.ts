@@ -64,6 +64,11 @@ export class PayrollOtherDeductionDetailService {
     return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/payroll/other/deduction/line/create/' + PDID, JSON.stringify(objPayrollOtherDeductionLine), this.appSettings.defaultOptions);
   }
 
+  public async GetLoan(PDID: number) {
+    console.log(PDID);
+    return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/payroll/other/deduction/line/get/loan/' + PDID, "", this.appSettings.defaultOptions);
+  }
+
   public async UpdatePayrollOtherDeductionLine(id: number, objPayrollOtherDeductionLine: PayrollOtherDeductionLineModel) {
     return await this.httpClient.put(this.appSettings.defaultAPIURLHost + '/api/payroll/other/deduction/line/update/' + id, JSON.stringify(objPayrollOtherDeductionLine), this.appSettings.defaultOptions);
   }
