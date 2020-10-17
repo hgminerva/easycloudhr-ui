@@ -30,7 +30,7 @@ export class LoanDetailDialogComponent implements OnInit {
     private _softwareSecurityService: SoftwareSecurityService,
   ) { }
 
-  
+
   private _userRightsSubscription: any;
 
   public _userRights: UserModule = {
@@ -57,7 +57,7 @@ export class LoanDetailDialogComponent implements OnInit {
           this._userRights.CanLock = results["CanLock"];
           this._userRights.CanUnlock = results["CanUnlock"];
           this._userRights.CanPrint = results["CanPrint"];
-        } 
+        }
 
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       },
@@ -219,6 +219,7 @@ export class LoanDetailDialogComponent implements OnInit {
           this._loanModel.UpdatedByUser = result["UpdatedByUser"];
           this._loanModel.UpdatedDateTime = result["UpdatedDateTime"];
           this._loanModel.IsLocked = result["IsLocked"];
+          this.GetLoanPaymentListData(result["Id"]);
         }
         this.loadComponent(result["IsLocked"]);
         if (this._LoanDetailSubscription !== null) this._LoanDetailSubscription.unsubscribe();
@@ -228,8 +229,6 @@ export class LoanDetailDialogComponent implements OnInit {
         if (this._LoanDetailSubscription !== null) this._LoanDetailSubscription.unsubscribe();
       }
     );
-
-    await this.GetLoanPaymentListData(this._loanModel.Id);
   }
 
   private async GetLoanPaymentListData(loanId: number) {
@@ -270,6 +269,7 @@ export class LoanDetailDialogComponent implements OnInit {
     this.disableButtons();
     if (this.isDataLoaded == true) {
       this.isDataLoaded = false;
+      this._loanModel.BalanceAmount = this._loanModel.LoanAmount;
       this._saveLoanDetailSubscription = await (await this._loanListService.SaveLoan(this._loanModel.Id, this._loanModel)).subscribe(
         response => {
           this.loadComponent(false);
@@ -293,6 +293,7 @@ export class LoanDetailDialogComponent implements OnInit {
     this.disableButtons();
     if (this.isDataLoaded == true) {
       this.isDataLoaded = false;
+      this._loanModel.BalanceAmount = this._loanModel.LoanAmount;
       this._lockLoanDetailSubscription = await (await this._loanListService.LockLoan(this._loanModel.Id, this._loanModel)).subscribe(
         response => {
           this.loadComponent(true);
@@ -374,7 +375,7 @@ export class LoanDetailDialogComponent implements OnInit {
   }
 
   AmortiztionToNumberType() {
-    this._loanModel.Amortization = this.RemoveComma( this._loanModel.Amortization);
+    this._loanModel.Amortization = this.RemoveComma(this._loanModel.Amortization);
     this.inputTypeAmortiztion = 'number';
   }
 
@@ -389,7 +390,7 @@ export class LoanDetailDialogComponent implements OnInit {
   }
 
   LoanAmountToNumberType() {
-    this._loanModel.LoanAmount = this.RemoveComma( this._loanModel.LoanAmount);
+    this._loanModel.LoanAmount = this.RemoveComma(this._loanModel.LoanAmount);
 
     this.inputTypeLoanAmount = 'number';
   }
@@ -417,7 +418,7 @@ export class LoanDetailDialogComponent implements OnInit {
 
   activeTab() { }
 
-  
+
   ngOnInit(): void {
     this.title = this.caseData.objDialogTitle;
     this.Get_userRights();
