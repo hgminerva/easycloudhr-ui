@@ -21,6 +21,8 @@ export class MandatoryTablesDetailMandatoryPhicDetailComponent implements OnInit
 
   public inputTypeAmountStart = 'text';
   public inputTypeAmountEnd = 'text';
+  public inputTypeEmployeeContributionPercentage = 'text';
+  public inputTypeEmployerContributionPercentage = 'text';
   public inputTypeEmployeeContributionValue = 'text';
   public inputTypeEmployerContributionValue = 'text';
 
@@ -29,9 +31,12 @@ export class MandatoryTablesDetailMandatoryPhicDetailComponent implements OnInit
     this._mandatoryPHIC.Id = this.caseData.objData.Id;
     this._mandatoryPHIC.AmountStart = this._decimalPipe.transform(this.caseData.objData.AmountStart, "1.2-2");
     this._mandatoryPHIC.AmountEnd = this._decimalPipe.transform(this.caseData.objData.AmountEnd, "1.2-2");
+    this._mandatoryPHIC.EmployeeContributionPercentage = this._decimalPipe.transform(this.caseData.objData.EmployeeContributionPercentage, "1.2-2");
+    this._mandatoryPHIC.EmployerContributionPercentage = this._decimalPipe.transform(this.caseData.objData.EmployerContributionPercentage, "1.2-2");
     this._mandatoryPHIC.EmployeeContributionValue = this._decimalPipe.transform(this.caseData.objData.EmployeeContributionValue, "1.2-2");
     this._mandatoryPHIC.EmployerContributionValue = this._decimalPipe.transform(this.caseData.objData.EmployerContributionValue, "1.2-2");
     this._mandatoryPHIC.Remarks = this.caseData.objData.Remarks;
+    console.log(this._mandatoryPHIC);
   }
 
   public Close(): void {
@@ -78,6 +83,39 @@ export class MandatoryTablesDetailMandatoryPhicDetailComponent implements OnInit
       this._mandatoryPHIC.AmountEnd = this._decimalPipe.transform(0, "1.2-2");
     } else {
       this._mandatoryPHIC.AmountEnd = this._decimalPipe.transform(this._mandatoryPHIC.AmountEnd, "1.2-2");
+    }
+  }
+
+  EmployeeContributionPercentageToNumberType() {
+    this._mandatoryPHIC.EmployeeContributionPercentage = this.RemoveComma(this._mandatoryPHIC.EmployeeContributionPercentage);
+
+    this.inputTypeEmployeeContributionPercentage = 'number';
+  }
+
+  EmployeeContributionPercentageFormatValue() {
+    this.inputTypeEmployeeContributionPercentage = 'text';
+
+    if (this._mandatoryPHIC.EmployeeContributionPercentage === '') {
+      this._mandatoryPHIC.EmployeeContributionPercentage = this._decimalPipe.transform(0, "1.2-2");
+    } else {
+      this._mandatoryPHIC.EmployeeContributionPercentage = this._decimalPipe.transform(this._mandatoryPHIC.EmployeeContributionPercentage, "1.2-2");
+    }
+  }
+
+
+  EmployerContributionPercentageToNumberType() {
+    this._mandatoryPHIC.EmployerContributionPercentage = this.RemoveComma(this._mandatoryPHIC.EmployerContributionPercentage);
+
+    this.inputTypeEmployerContributionPercentage = 'number';
+  }
+
+  EmployerContributionPercentageFormatValue() {
+    this.inputTypeEmployerContributionPercentage = 'text';
+
+    if (this._mandatoryPHIC.EmployerContributionPercentage === '') {
+      this._mandatoryPHIC.EmployerContributionPercentage = this._decimalPipe.transform(0, "1.2-2");
+    } else {
+      this._mandatoryPHIC.EmployerContributionPercentage = this._decimalPipe.transform(this._mandatoryPHIC.EmployerContributionPercentage, "1.2-2");
     }
   }
 

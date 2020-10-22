@@ -262,19 +262,21 @@ export class MandatoryTablesListComponent implements OnInit {
 
     matDialogRef.afterClosed().subscribe(data => {
 
-      let objMandatoryBIR: MandatoryBIR = {
-        Id: data.objData.Id,
-        AmountStart: data.objData.AmountStart,
-        AmountEnd: data.objData.AmountEnd,
-        EmployeeTaxPercentage: data.objData.EmployeeTaxPercentage,
-        EmployeeAdditionalAmount: data.objData.EmployeeAdditionalAmount,
-      }
-
-      if (data.event === "Add") {
-        this.AddMandatoryBIR(objMandatoryBIR);
-      }
-      if (data.event === "Edit") {
-        this.SaveMandatoryBIR(objMandatoryBIR);
+      if (data.event ==! 'Close') {
+        let objMandatoryBIR: MandatoryBIR = {
+          Id: data.objData.Id,
+          AmountStart: data.objData.AmountStart,
+          AmountEnd: data.objData.AmountEnd,
+          EmployeeTaxPercentage: data.objData.EmployeeTaxPercentage,
+          EmployeeAdditionalAmount: data.objData.EmployeeAdditionalAmount,
+        }
+  
+        if (data.event === "Add") {
+          this.AddMandatoryBIR(objMandatoryBIR);
+        }
+        if (data.event === "Edit") {
+          this.SaveMandatoryBIR(objMandatoryBIR);
+        }
       }
     });
   }
@@ -457,22 +459,24 @@ export class MandatoryTablesListComponent implements OnInit {
 
     matDialogRef.afterClosed().subscribe(data => {
 
-      let objMandatoryHDMF: MandatoryHDMF = {
-        Id: data.objData.Id,
-        AmountStart: data.objData.AmountStart,
-        AmountEnd: data.objData.AmountEnd,
-        EmployeeContributionPercentage: data.objData.EmployeeContributionPercentage,
-        EmployerContributionPercentage: data.objData.EmployerContributionPercentage,
-        EmployeeContributionValue: data.objData.EmployeeContributionValue,
-        EmployerContributionValue: data.objData.EmployerContributionValue,
-        Remarks: data.objData.Remarks
-      }
-
-      if (data.event === "Add") {
-        this.AddMandatoryHDMF(objMandatoryHDMF);
-      }
-      if (data.event === "Edit") {
-        this.SaveMandatoryHDMF(objMandatoryHDMF);
+      if(data.event ==! 'Close'){
+        let objMandatoryHDMF: MandatoryHDMF = {
+          Id: data.objData.Id,
+          AmountStart: data.objData.AmountStart,
+          AmountEnd: data.objData.AmountEnd,
+          EmployeeContributionPercentage: data.objData.EmployeeContributionPercentage,
+          EmployerContributionPercentage: data.objData.EmployerContributionPercentage,
+          EmployeeContributionValue: data.objData.EmployeeContributionValue,
+          EmployerContributionValue: data.objData.EmployerContributionValue,
+          Remarks: data.objData.Remarks
+        }
+  
+        if (data.event === "Add") {
+          this.AddMandatoryHDMF(objMandatoryHDMF);
+        }
+        if (data.event === "Edit") {
+          this.SaveMandatoryHDMF(objMandatoryHDMF);
+        }
       }
     });
   }
@@ -545,6 +549,8 @@ export class MandatoryTablesListComponent implements OnInit {
       Id: 0,
       AmountStart: '0.00',
       AmountEnd: '0.00',
+      EmployeeContributionPercentage: '0.00',
+      EmployerContributionPercentage: '0.00',
       EmployeeContributionValue: '0.00',
       EmployerContributionValue: '0.00',
       Remarks: 'NA'
@@ -561,6 +567,8 @@ export class MandatoryTablesListComponent implements OnInit {
       Id: currentMandatoryPHIC.Id,
       AmountStart: this.RemoveComma(currentMandatoryPHIC.AmountStart),
       AmountEnd: this.RemoveComma(currentMandatoryPHIC.AmountEnd),
+      EmployeeContributionPercentage: this.RemoveComma(currentMandatoryPHIC.EmployeeContributionPercentage),
+      EmployerContributionPercentage: this.RemoveComma(currentMandatoryPHIC.EmployerContributionPercentage),
       EmployeeContributionValue: this.RemoveComma(currentMandatoryPHIC.EmployeeContributionValue),
       EmployerContributionValue: this.RemoveComma(currentMandatoryPHIC.EmployerContributionValue),
       Remarks: currentMandatoryPHIC.Remarks
@@ -665,21 +673,26 @@ export class MandatoryTablesListComponent implements OnInit {
 
     matDialogRef.afterClosed().subscribe(data => {
 
-      let objMandatoryPHIC: MandatoryPHIC = {
-        Id: data.objData.Id,
-        AmountStart: data.objData.AmountStart,
-        AmountEnd: data.objData.AmountEnd,
-        EmployeeContributionValue: data.objData.EmployeeContributionValue,
-        EmployerContributionValue: data.objData.EmployerContributionValue,
-        Remarks: data.objData.Remarks
+      if (data.event !== 'Close') {
+        let objMandatoryPHIC: MandatoryPHIC = {
+          Id: data.objData.Id,
+          AmountStart: data.objData.AmountStart,
+          AmountEnd: data.objData.AmountEnd,
+          EmployeeContributionPercentage: data.objData.EmployeeContributionPercentage,
+          EmployerContributionPercentage: data.objData.EmployerContributionPercentage,
+          EmployeeContributionValue: data.objData.EmployeeContributionValue,
+          EmployerContributionValue: data.objData.EmployerContributionValue,
+          Remarks: data.objData.Remarks
+        }
+
+        if (data.event === "Add") {
+          this.AddMandatoryPHIC(objMandatoryPHIC);
+        }
+        if (data.event === "Edit") {
+          this.SaveMandatoryPHIC(objMandatoryPHIC);
+        }
       }
 
-      if (data.event === "Add") {
-        this.AddMandatoryPHIC(objMandatoryPHIC);
-      }
-      if (data.event === "Edit") {
-        this.SaveMandatoryPHIC(objMandatoryPHIC);
-      }
     });
   }
 
@@ -873,21 +886,23 @@ export class MandatoryTablesListComponent implements OnInit {
 
     matDialogRef.afterClosed().subscribe(data => {
 
-      let objMandatorySSS: MandatorySSS = {
-        Id: data.objData.Id,
-        AmountStart: data.objData.AmountStart,
-        AmountEnd: data.objData.AmountEnd,
-        EmployeeContributionValue: data.objData.EmployeeContributionValue,
-        EmployerContributionValue: data.objData.EmployerContributionValue,
-        EmployerECValue: data.objData.EmployerECValue,
-        Remarks: data.objData.Remarks
-      }
+      if (data.event == ! 'Close') {
+        let objMandatorySSS: MandatorySSS = {
+          Id: data.objData.Id,
+          AmountStart: data.objData.AmountStart,
+          AmountEnd: data.objData.AmountEnd,
+          EmployeeContributionValue: data.objData.EmployeeContributionValue,
+          EmployerContributionValue: data.objData.EmployerContributionValue,
+          EmployerECValue: data.objData.EmployerECValue,
+          Remarks: data.objData.Remarks
+        }
 
-      if (data.event === 'Add') {
-        this.AddMandatorySSS(objMandatorySSS);
-      }
-      if (data.event === 'Edit') {
-        this.SaveMandatorySSS(objMandatorySSS);
+        if (data.event === 'Add') {
+          this.AddMandatorySSS(objMandatorySSS);
+        }
+        if (data.event === 'Edit') {
+          this.SaveMandatorySSS(objMandatorySSS);
+        }
       }
     });
   }

@@ -185,6 +185,14 @@
                         <wj-flex-grid-column [header]="'Amount End'" [binding]="'AmountEnd'" [isReadOnly]="true"
                             [isReadOnly]="true" [width]="'2*'">
                         </wj-flex-grid-column>
+                        <wj-flex-grid-column [header]="'Employee Contribution Percentage'"
+                            [binding]="'EmployeeContributionPercentage'" [isReadOnly]="true" [isReadOnly]="true"
+                            [width]="'2*'">
+                        </wj-flex-grid-column>
+                        <wj-flex-grid-column [header]="'Employer Contribution Percentage'"
+                            [binding]="'EmployerContributionPercentage'" [isReadOnly]="true" [isReadOnly]="true"
+                            [width]="'2*'">
+                        </wj-flex-grid-column>
                         <wj-flex-grid-column [header]="'Employee Contribution Value'"
                             [binding]="'EmployeeContributionValue'" [isReadOnly]="true" [isReadOnly]="true"
                             [width]="'2*'">
@@ -223,7 +231,7 @@
                         [mode]="'indeterminate'">
                     </mat-progress-bar>
                     <wj-flex-grid #flexMandatorySSS [itemsSource]="_listMandatorySSSCollectionView" [selectionMode]="3"
-                        [frozenColumns]="2"  #SSSGrid (click)="sssGridClick(SSSGrid, $event)">
+                        [frozenColumns]="2" #SSSGrid (click)="sssGridClick(SSSGrid, $event)">
                         <wj-flex-grid-filter></wj-flex-grid-filter>
                         <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="90"
                             *ngIf="_userRights.CanEdit">

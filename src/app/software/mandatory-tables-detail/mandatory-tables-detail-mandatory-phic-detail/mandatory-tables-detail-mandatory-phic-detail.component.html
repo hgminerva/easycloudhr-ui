@@ -25,6 +25,27 @@
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="50" style="padding: 5px;">
                 <mat-form-field appearance="fill" style="width: 100%;">
+                    <mat-label>Employee Contribution Percentage</mat-label>
+                    <input type="{{inputTypeEmployeeContributionPercentage}}" style="text-align:right;" matInput
+                        placeholder="0.00" [(ngModel)]="_mandatoryPHIC.EmployeeContributionPercentage" autocomplete="off"
+                        (focusout)="EmployeeContributionPercentageFormatValue()"
+                        (focus)="EmployeeContributionPercentageToNumberType()">
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" style="padding: 5px;">
+                <mat-form-field appearance="fill" style="width: 100%;">
+                    <mat-label>Employee Contribution Percentage</mat-label>
+                    <input type="{{inputTypeEmployerContributionPercentage}}" style="text-align:right;" matInput
+                        placeholder="0.00" [(ngModel)]="_mandatoryPHIC.EmployerContributionPercentage" autocomplete="off"
+                        (focusout)="EmployerContributionPercentageFormatValue()"
+                        (focus)="EmployerContributionPercentageToNumberType()">
+                </mat-form-field>
+            </div>
+
+        </div>
+        <div fxLayout="row" fxLayout.xs="column">
+            <div fxFlex="50" style="padding: 5px;">
+                <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Employee Contribution Value</mat-label>
                     <input type="{{inputTypeEmployeeContributionValue}}" style="text-align:right;" matInput
                         placeholder="0.00" [(ngModel)]="_mandatoryPHIC.EmployeeContributionValue" autocomplete="off"
