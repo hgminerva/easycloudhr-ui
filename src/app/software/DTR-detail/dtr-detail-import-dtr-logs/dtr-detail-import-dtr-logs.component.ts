@@ -178,7 +178,7 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
 
             let isRestDay = false;
             let dateLog = this.datePipe.transform(date, 'MM/dd/yyyy');
-            let dateType = "REGULAR";
+            let dateType = "REGULAR WORKING DAY";
 
             // Date Type
             let yearDate = this._yearDateList.filter(x => x.YearId == this._caseData.objDTRData.YearId && x.YearDate == this.datePipe.transform(date, 'MM/dd/yyyy'));
