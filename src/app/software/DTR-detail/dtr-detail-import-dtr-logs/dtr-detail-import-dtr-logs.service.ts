@@ -23,6 +23,6 @@ export class DtrDetailImportDtrLogsService {
   }
 
   public async DeleteDTRLines(id: number) {
-    return await this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/api/dtr/line/delete/dtr/lines/' + id, this.appSettings.defaultOptions);
+    return await this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/api/dtr/line/delete/dtr/lines/on/import/' + id, this.appSettings.defaultOptions);
   }
 }

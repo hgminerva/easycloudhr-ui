@@ -217,7 +217,7 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
             }
 
             let dayLogs = employeeDateLogs.filter(x => this.datePipe.transform(x.Date, 'MM/dd/yyyy') === this.datePipe.transform(date, 'MM/dd/yyyy'));
-            console.log(this.datePipe.transform(employeeDateLogs[0].Date, 'MM/dd/yyyy'), this.datePipe.transform(date, 'MM/dd/yyyy'));
+            // console.log(this.datePipe.transform(employeeDateLogs[0].Date, 'MM/dd/yyyy'), this.datePipe.transform(date, 'MM/dd/yyyy'));
 
             if (dayLogs["length"] > 0) {
 
@@ -456,6 +456,7 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
   public async Post() {
     this.deleteDTRLinesOnPost();
   }
+
   private async deleteDTRLinesOnPost() {
     this._deleteDTRLineSubscription = await (await this._dtrDetailImportDtrLogsService.DeleteDTRLines(this._caseData.objDTRData.Id)).subscribe(
       response => {
@@ -502,7 +503,6 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
     this.postDTRLogsSubscription = (await this._dtrDetailImportDtrLogsService.PostDTRLogs(DTRLogs)).subscribe(
       data => {
 
-        console.log("Employee: ", employee);
         let result = data;
 
         if (this.counter === this._newDTRLines["length"]) {
@@ -543,13 +543,6 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    let dt1 = new Date("9/5/2020 11:32 AM");
-    let dt2 = new Date("9/5/2020 5:00 PM");
-
-    console.log(dt1 >= dt2);
-    console.log("dt2: ", dt2.getHours(), dt2.getMinutes(), this.fillLeadingZeroes(dt2.getSeconds(), 2));
-
-    console.log("Test: ", this.convert24HrTo12Hr(dt1));
     this.CreateCboShowNumberOfRows();
   }
 
