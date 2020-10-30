@@ -181,7 +181,10 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
             let dateType = "REGULAR WORKING DAY";
 
             // Date Type
-            let yearDate = this._yearDateList.filter(x => x.YearId == this._caseData.objDTRData.YearId && x.YearDate == this.datePipe.transform(date, 'MM/dd/yyyy'));
+            let yearDate = this._yearDateList.filter(
+              x => x.YearId == this._caseData.objDTRData.YearId &&
+              x.YearDate == this.datePipe.transform(date, 'MM/dd/yyyy') &&
+              x.Branch == this._employeeList[employeeIndex].Branch);
 
             if (yearDate["length"] != 0) {
               dateType = yearDate[0].DateType;
@@ -436,6 +439,7 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
         if (result !== null) {
 
           this._employeeList = result["EmployeeList"];
+          console.log(this._employeeList);
           this._yearDateList = result["YearDateList"];
           this._shiftLineList = result["ShiftLineList"];
           this._changeShiftList = result["ChangeShiftineList"];
