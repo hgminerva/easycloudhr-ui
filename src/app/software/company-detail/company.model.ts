@@ -8,6 +8,7 @@ export class CompanyModel {
     HDMFNumber: string;
     TaxNumber: string;
     ExtenTaxNumbersionName: string;
+    MinimumOvertimeHours: string;
     CreatedByUserId: number;
     CreatedByUser: string;
     CreatedDateTime: string;

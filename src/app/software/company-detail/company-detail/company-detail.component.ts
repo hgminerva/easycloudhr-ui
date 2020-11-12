@@ -7,6 +7,7 @@ import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { CompanyDetialService } from './../company-detial.service';
 import { CompanyModel } from "./../company.model";
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-company-detail',
@@ -22,6 +23,7 @@ export class CompanyDetailComponent implements OnInit {
     public _companyDetailDialogRef: MatDialogRef<CompanyDetailComponent>,
     @Inject(MAT_DIALOG_DATA) public caseData: any,
     private softwareSecurityService: SoftwareSecurityService,
+    private decimalPipe: DecimalPipe,
   ) { }
 
   public title = '';
@@ -50,6 +52,7 @@ export class CompanyDetailComponent implements OnInit {
     HDMFNumber: '',
     TaxNumber: '',
     ExtenTaxNumbersionName: '',
+    MinimumOvertimeHours: '0.00',
     CreatedByUserId: 0,
     CreatedByUser: '',
     CreatedDateTime: '',
@@ -102,6 +105,10 @@ export class CompanyDetailComponent implements OnInit {
     await this.GetCompanyDetail(this.caseData.objCompanyId);
   }
 
+  public RemoveComma(value: string): string {
+    return value.toString().replace(',', '');
+  }
+
   private async GetCompanyDetail(id) {
     this._isComponentsShown = false;
     this.disableButtons();
@@ -117,6 +124,7 @@ export class CompanyDetailComponent implements OnInit {
           this.companyModel.PHICNumber = result["PHICNumber"];
           this.companyModel.HDMFNumber = result["HDMFNumber"];
           this.companyModel.TaxNumber = result["TaxNumber"];
+          this.companyModel.MinimumOvertimeHours = this.decimalPipe.transform(result["MinimumOvertimeHours"], "1.2-2");
           this.companyModel.CreatedByUserId = result["CreatedByUserId"];
           this.companyModel.CreatedByUser = result["CreatedByUser"];
           this.companyModel.CreatedDateTime = result["CreatedDateTime"];
@@ -200,6 +208,22 @@ export class CompanyDetailComponent implements OnInit {
         }
       );
     }
+  }
+
+  public inputTypeMinimumOvertimeHours = 'text';
+
+  formatValueMinimumOvertimeHours() {
+    this.inputTypeMinimumOvertimeHours = 'text';
+
+    if (this.companyModel.MinimumOvertimeHours == '') {
+      this.companyModel.MinimumOvertimeHours = this.decimalPipe.transform(0, "1.2-2");
+    } else {
+      this.companyModel.MinimumOvertimeHours = this.decimalPipe.transform(this.companyModel.MinimumOvertimeHours, "1.2-2");
+    }
+  }
+
+  MinimumOvertimeHoursToNumberType() {
+    this.inputTypeMinimumOvertimeHours = 'number';
   }
 
   private loadComponent(isDisable) {

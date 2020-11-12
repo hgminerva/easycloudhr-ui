@@ -33,10 +33,21 @@
                     <input matInput placeholder="Company Code" [(ngModel)]="companyModel.CompanyCode" readonly>
                 </mat-form-field>
             </div>
-            <div fxFlex="75" style="padding: 5px;">
+            <div fxFlex="50" style="padding: 5px;">
                 <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Company</mat-label>
                     <input matInput placeholder="Company" [(ngModel)]="companyModel.Company" [readonly]="isLocked">
+                </mat-form-field>
+            </div>
+            <div fxFlex="25" style="padding: 5px;">
+                <mat-form-field appearance="fill" style="width: 100%;">
+                    <mat-label>Minimum Overtime Hours</mat-label>
+                    <input matInput placeholder="0.00"
+                    type="{{inputTypeMinimumOvertimeHours}}" 
+                    [(ngModel)]="companyModel.MinimumOvertimeHours" 
+                    (focus)="MinimumOvertimeHoursToNumberType()"
+                    (focusout)="formatValueMinimumOvertimeHours()"
+                    [readonly]="isLocked">
                 </mat-form-field>
             </div>
         </div>
