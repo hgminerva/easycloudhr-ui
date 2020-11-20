@@ -101,6 +101,7 @@ import { TaxExemptionListComponent } from './tax-exemption-list/tax-exemption-li
 import {TaxExemptionDetailComponent} from './tax-exemption-detail/tax-exemption-detail/tax-exemption-detail.component';
 import { TaxExemptionTableDialogComponent } from './tax-exemption-detail/tax-exemption-table-dialog/tax-exemption-table-dialog.component';
 import { YearLeaveCreditsDialogComponent } from './year-detail/year-leave-credits-dialog/year-leave-credits-dialog.component';
+import { MandatoryReportComponent } from './report/mandatory-report/mandatory-report.component';
 
 @NgModule({
   declarations: [
@@ -180,6 +181,7 @@ import { YearLeaveCreditsDialogComponent } from './year-detail/year-leave-credit
     TaxExemptionDetailComponent,
     TaxExemptionTableDialogComponent,
     YearLeaveCreditsDialogComponent,
+    MandatoryReportComponent,
   ],
   imports: [
     CommonModule,
