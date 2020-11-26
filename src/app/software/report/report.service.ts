@@ -6,14 +6,27 @@ import { AppSettings } from '../software-appsettings';
 @Injectable({
   providedIn: 'root'
 })
-export class MandatoryReportService {
+export class ReportService {
 
+  
   constructor(
     private appSettings: AppSettings,
     private httpClient: HttpClient
   ) { }
 
-  // overtimeApplication LINE
+   public async DemographicsReport(companyId: number) {
+
+    let printCaseOptions: any = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }),
+      responseType: "blob"
+    };
+
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/demographics/report/' + companyId, printCaseOptions);
+  }
+
   public async MandatoryReport(mandatory: string, periodId: number, quarter: number, monthnumber: number, companyId: number) {
 
     let printCaseOptions: any = {

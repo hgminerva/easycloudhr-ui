@@ -45,6 +45,7 @@ import { PortalEmployeeComponent } from './portal-employee/portal-employee/porta
 import { TaxExemptionListComponent } from './tax-exemption-list/tax-exemption-list/tax-exemption-list.component';
 import { TaxExemptionDetailComponent } from './tax-exemption-detail/tax-exemption-detail/tax-exemption-detail.component';
 import { MandatoryReportComponent } from './report/mandatory-report/mandatory-report.component';
+import { DemographicsComponent } from './report/demographics/demographics.component';
 const routes: Routes = [
   {
     path: '', canActivate: [SoftwareRoutingActivate], component: SoftwareComponent,
@@ -89,6 +90,7 @@ const routes: Routes = [
       { path: 'tax-exemption-list', canActivate: [SoftwareRoutingActivate], component: TaxExemptionListComponent },
       { path: 'tax-exemption-detail/:id', canActivate: [SoftwareRoutingActivate], component: TaxExemptionDetailComponent },
       { path: 'report-mandatory', canActivate: [SoftwareRoutingActivate], component: MandatoryReportComponent },
+      { path: 'report-demographics', canActivate: [SoftwareRoutingActivate], component: DemographicsComponent },
 
     ]
   }

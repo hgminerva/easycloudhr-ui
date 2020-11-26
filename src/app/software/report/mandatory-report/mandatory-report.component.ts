@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
-import { MandatoryReportService } from './../mandatory-report.service';
+import { ReportService } from '../report.service';
 
 @Component({
   selector: 'app-mandatory-report',
@@ -11,7 +11,7 @@ import { MandatoryReportService } from './../mandatory-report.service';
 export class MandatoryReportComponent implements OnInit {
 
   constructor(
-    private mandatoryReportService: MandatoryReportService,
+    private reportService: ReportService,
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
   ) { }
@@ -35,7 +35,7 @@ export class MandatoryReportComponent implements OnInit {
   public mondatoryData: any = [];
 
   private async GetPeriodDropdownListData() {
-    this._periodListDropdownListSubscription = await (await this.mandatoryReportService.PeriodDropdownList()).subscribe(
+    this._periodListDropdownListSubscription = await (await this.reportService.PeriodDropdownList()).subscribe(
       response => {
         this._periodListDropdownList = response;
         this.periodId = this._periodListDropdownList[0].Id;
@@ -51,7 +51,7 @@ export class MandatoryReportComponent implements OnInit {
   }
 
   private async GetCompanyDropdownListData() {
-    this._companyListDropdownListSubscription = await (await this.mandatoryReportService.CompanyDropdownList()).subscribe(
+    this._companyListDropdownListSubscription = await (await this.reportService.CompanyDropdownList()).subscribe(
       response => {
         this._companyListDropdownList = response;
         this.companyId = this._companyListDropdownList[0].Id;
@@ -68,12 +68,12 @@ export class MandatoryReportComponent implements OnInit {
   }
 
   private GetMonthNumberDropdownListData() {
-    this.monthNumberData = this.mandatoryReportService.MonthDropdownList();
+    this.monthNumberData = this.reportService.MonthDropdownList();
     this.monthNumber = this.monthNumberData[0].Id;
   }
 
   private GetMondatoryDropdownListData() {
-    this.mondatoryData = this.mandatoryReportService.MandatoryDropdownList();
+    this.mondatoryData = this.reportService.MandatoryDropdownList();
     this.mondatory = this.mondatoryData[0].Code;
   }
 
@@ -84,18 +84,13 @@ export class MandatoryReportComponent implements OnInit {
 
   public async printCaseDTR() {
     this._isProgressBarHidden = true;
-    this._mandatoryReportSubscription = (await this.mandatoryReportService.MandatoryReport(this.mondatory, this.periodId, 0, this.monthNumber, this.companyId)).subscribe(
+    this._mandatoryReportSubscription = (await this.reportService.MandatoryReport(this.mondatory, this.periodId, 0, this.monthNumber, this.companyId)).subscribe(
       data => {
         var binaryData = [];
 
-        console.log("Fire");
-
         binaryData.push(data);
-
         this._isProgressBarHidden = false;
         this.pdfUrl = URL.createObjectURL(new Blob(binaryData, { type: "application/pdf" }));
-
-
         if (this._mandatoryReportSubscription != null) this._mandatoryReportSubscription.unsubscribe();
       },
       error => {
