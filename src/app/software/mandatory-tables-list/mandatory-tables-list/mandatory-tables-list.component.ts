@@ -116,8 +116,8 @@ export class MandatoryTablesListComponent implements OnInit {
       (response: any) => {
         var results = response;
         if (results["length"] > 0) {
-          this._listMandatoryBIRCollectionView = results;
-          this._listMandatoryBIRCollectionView = new CollectionView(this._listMandatoryBIRCollectionView);
+          this._listMandatoryBIRObservableArray = results;
+          this._listMandatoryBIRCollectionView = new CollectionView(this._listMandatoryBIRObservableArray);
           this._listMandatoryBIRCollectionView.pageSize = 15;
           this._listMandatoryBIRCollectionView.trackChanges = true;
           this._listMandatoryBIRCollectionView.refresh();
@@ -309,8 +309,8 @@ export class MandatoryTablesListComponent implements OnInit {
       (response: any) => {
         var results = response;
         if (results["length"] > 0) {
-          this._listMandatoryHDMFCollectionView = results;
-          this._listMandatoryHDMFCollectionView = new CollectionView(this._listMandatoryHDMFCollectionView);
+          this._listMandatoryHDMFObservableArray = results;
+          this._listMandatoryHDMFCollectionView = new CollectionView(this._listMandatoryHDMFObservableArray);
           this._listMandatoryHDMFCollectionView.pageSize = 15;
           this._listMandatoryHDMFCollectionView.trackChanges = true;
           this._listMandatoryHDMFCollectionView.refresh();
@@ -509,8 +509,8 @@ export class MandatoryTablesListComponent implements OnInit {
       (response: any) => {
         var results = response;
         if (results["length"] > 0) {
-          this._listMandatoryPHICCollectionView = results;
-          this._listMandatoryPHICCollectionView = new CollectionView(this._listMandatoryPHICCollectionView);
+          this._listMandatoryPHICObservableArray = results;
+          this._listMandatoryPHICCollectionView = new CollectionView(this._listMandatoryPHICObservableArray);
           this._listMandatoryPHICCollectionView.pageSize = 15;
           this._listMandatoryPHICCollectionView.trackChanges = true;
           this._listMandatoryPHICCollectionView.refresh();
@@ -724,8 +724,8 @@ export class MandatoryTablesListComponent implements OnInit {
       (response: any) => {
         var results = response;
         if (results["length"] > 0) {
-          this._listMandatorySSSCollectionView = results;
-          this._listMandatorySSSCollectionView = new CollectionView(this._listMandatorySSSCollectionView);
+          this._listMandatorySSSObservableArray = results;
+          this._listMandatorySSSCollectionView = new CollectionView(this._listMandatorySSSObservableArray);
           this._listMandatorySSSCollectionView.pageSize = 15;
           this._listMandatorySSSCollectionView.trackChanges = true;
           this._listMandatorySSSCollectionView.refresh();

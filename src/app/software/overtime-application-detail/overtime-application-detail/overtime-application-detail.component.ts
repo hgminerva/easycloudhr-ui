@@ -135,6 +135,7 @@ export class OvertimeApplicationDetailComponent implements OnInit {
     Employee: '',
     OTDate: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
     OTHours: '0',
+    IsApproved: false,
     Remarks: ''
   }
 

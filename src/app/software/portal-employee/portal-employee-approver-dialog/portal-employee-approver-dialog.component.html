@@ -1,0 +1,84 @@
+<h3 mat-dialog-title>
+    <mat-toolbar>
+        <span>{{dialogTitle}}</span>
+        <span class="spacer"></span>
+        <button mat-flat-button mat-dialog-close style="margin: 5px;" color="warn" (click)="Close()">
+            Close
+        </button>
+    </mat-toolbar>
+</h3>
+<mat-divider></mat-divider>
+<div mat-dialog-content>
+    <div [hidden]="isOTLineHidden">
+        <div fxLayout="row" fxLayout.xs="column">
+            <div fxFlex="100" style="padding: 5px;">
+                <mat-progress-bar *ngIf="_isOvertimeApplicationLineProgressBarHidden" [color]="'primary'"
+                    [mode]="'indeterminate'">
+                </mat-progress-bar>
+                <wj-flex-grid #flexOvertimeApplicationLine [itemsSource]="_listOvertimeApplicationLineCollectionView"
+                    [selectionMode]="3" [frozenColumns]="1" [headersVisibility]="1" #Grid
+                    (click)="gridClick(Grid, $event)">
+                    <wj-flex-grid-filter></wj-flex-grid-filter>
+                    <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="90">
+                        <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
+                            <button mat-raised-button class="button-edit" color="primary"
+                                style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
+                                <span class="button-edit">Edit</span>
+                            </button>
+                        </ng-template>
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Employee'" [binding]="'Employee'" [isReadOnly]="true"
+                        [width]="'2*'">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Date'" [binding]="'OTDate'" [isReadOnly]="true" [width]="100">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'OT Hours'" [binding]="'OTHours'" [isReadOnly]="true" [width]="100">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Approved'" [binding]="'IsApproved'" [isReadOnly]="true"
+                        [width]="100">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Remarks'" [binding]="'Remarks'" [isReadOnly]="true" [width]="'3*'">
+                    </wj-flex-grid-column>
+                </wj-flex-grid>
+            </div>
+        </div>
+    </div>
+    <div [hidden]="isLALineHidden">
+        <div fxLayout="row" fxLayout.xs="column">
+            <div fxFlex="100" style="padding: 5px;">
+                <mat-progress-bar *ngIf="_isLeaveApplicationLineProgressBarHidden" [color]="'primary'"
+                    [mode]="'indeterminate'">
+                </mat-progress-bar>
+                <wj-flex-grid #flexLeaveApplicationLine [itemsSource]="_listLeaveApplicationLineCollectionView"
+                    [selectionMode]="3" [frozenColumns]="1" [headersVisibility]="1" #Grid
+                    (click)="gridClick(Grid, $event)">
+                    <wj-flex-grid-filter></wj-flex-grid-filter>
+                    <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="90">
+                        <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
+                            <button mat-raised-button class="button-edit" color="primary"
+                                style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
+                                <span class="button-edit">Edit</span>
+                            </button>
+                        </ng-template>
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Employee'" [binding]="'Employee'" [isReadOnly]="true"
+                        [width]="'2*'">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Date'" [binding]="'LADate'" [isReadOnly]="true" [width]="100">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Half Day'" [binding]="'IsHalfDay'" [isReadOnly]="true"
+                        [width]="100">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'With Pay'" [binding]="'IsWithPay'" [isReadOnly]="true"
+                        [width]="100">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Approved'" [binding]="'IsApproved'" [isReadOnly]="true"
+                        [width]="100">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Remarks'" [binding]="'Remarks'" [isReadOnly]="true" [width]="'3*'">
+                    </wj-flex-grid-column>
+                </wj-flex-grid>
+            </div>
+        </div>
+    </div>
+</div>

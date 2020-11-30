@@ -6,14 +6,14 @@
     <div class="dialog-body" [hidden]="isComponentHidden">
         <br>
         <div fxLayout="row" fxLayout.xs="column">
-            <div fxFlex="33" style="padding: 5px;">
+            <div fxFlex="30" style="padding: 5px;">
                 <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Employee</mat-label>
                     <input type="text" [(ngModel)]="_overtimeApplicationLineModel.Employee" matInput readonly>
                     <mat-icon matSuffix (click)="EmployeeListDialog()">keyboard_arrow_down</mat-icon>
                 </mat-form-field>
             </div>
-            <div fxFlex="33" style="padding: 5px;">
+            <div fxFlex="30" style="padding: 5px;">
                 <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Date</mat-label>
                     <input matInput [matDatepicker]="datePickerOTDate" [(ngModel)]="this.UIOTDate"
@@ -23,13 +23,21 @@
                     <mat-datepicker #datePickerOTDate color="primary"></mat-datepicker>
                 </mat-form-field>
             </div>
-            <div fxFlex="34" style="padding: 5px;">
+            <div fxFlex="20" style="padding: 5px;">
                 <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>OT Hours</mat-label>
                     <input type="{{inputTypeOTHours}}" matInput placeholder="0.00" style="text-align:right;"
                         autocomplete="off" [(ngModel)]="_overtimeApplicationLineModel.OTHours"
                         (focus)="OTHoursToNumberType()" (focusout)="formatValueOTHours()">
                 </mat-form-field>
+            </div>
+            <div fxFlex="20" style="padding: 5px;" style="padding: 23px; text-align: start; display: inline;">
+                <div style="width: 100%; border: gray 1px !important">
+                    <mat-checkbox color="primary" [(ngModel)]="_overtimeApplicationLineModel.IsApproved">
+                        <span style="color: gray;">
+                            Approve</span>
+                    </mat-checkbox>
+                </div>
             </div>
         </div>
         <div fxLayout="row" fxLayout.xs="column">

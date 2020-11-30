@@ -38,7 +38,7 @@ export class PortalEmployeeService {
 
   // overtimeApplication LINE
   public async OvertimeApplicationDropdownList(yearId: number) {
-    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/portal/employee/overtime/application/dropdown/list/' + yearId , this.appSettings.defaultOptions);
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/portal/employee/overtime/application/dropdown/list/' + yearId, this.appSettings.defaultOptions);
   }
 
   public async OvertimeApplicationLineList(employeeId: number, ovartimeApplicationId: number) {
@@ -64,6 +64,10 @@ export class PortalEmployeeService {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/portal/employee/leave/application/list/' + employeeId + '/' + yearId, this.appSettings.defaultOptions);
   }
 
+  public async ApproverList(yearId: number) {
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/portal/employee/leave/ot/application/list/' + yearId, this.appSettings.defaultOptions);
+  }
+
   public async LeaveApplicationDetail(id: number) {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/portal/employee/leave/application/detail/' + id, this.appSettings.defaultOptions);
   }
@@ -72,7 +76,7 @@ export class PortalEmployeeService {
   // Leave Application Line
   // ======================
   public async LeaveApplicationDropdownList(yearId: number) {
-    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/portal/employee/leave/application/dropdown/list/' + yearId , this.appSettings.defaultOptions);
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/portal/employee/leave/application/dropdown/list/' + yearId, this.appSettings.defaultOptions);
   }
 
   public async LeaveApplicationLineList(employeeId: number, leaveApplicationId: number) {
@@ -141,4 +145,17 @@ export class PortalEmployeeService {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/portal/employee/payslip/' + employeeId + '/' + payId,
       printCaseOptions);
   }
+  
+
+  // LeaveApplication LINE
+  public async ApproverLeaveApplicationLineList(leaveApplicationId: number) {
+    console.log(leaveApplicationId);
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/portal/employee/approver/leave/application/list/' + leaveApplicationId, this.appSettings.defaultOptions);
+  }
+
+    // overtimeApplication LINE
+    public async ApproverOvertimeApplicationLineList(overtimeApplicationId: number) {
+      console.log(overtimeApplicationId);
+      return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/portal/employee/approver/overtime/application/list//' + overtimeApplicationId, this.appSettings.defaultOptions);
+    }
 }

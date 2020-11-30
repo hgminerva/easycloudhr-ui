@@ -1,5 +1,10 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+
+import * as wjcGrid from '@grapecity/wijmo.grid';
+import * as wjcCore from '@grapecity/wijmo';
+import { CollectionView, ObservableArray } from '@grapecity/wijmo';
+
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
@@ -8,7 +13,10 @@ import { CompanyDetialService } from './../company-detial.service';
 import { CompanyModel } from "./../company.model";
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 import { DecimalPipe } from '@angular/common';
+import { CompanyDetailApproverComponent } from '../company-detail-approver/company-detail-approver.component';
 
+import { CompanyApproverModel } from './../company-approver.model';
+import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 @Component({
   selector: 'app-company-detail',
   templateUrl: './company-detail.component.html',
@@ -24,6 +32,7 @@ export class CompanyDetailComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public caseData: any,
     private softwareSecurityService: SoftwareSecurityService,
     private decimalPipe: DecimalPipe,
+    public matDialog: MatDialog,
   ) { }
 
   public title = '';
@@ -142,6 +151,9 @@ export class CompanyDetailComponent implements OnInit {
         if (this.companyDetailSubscription !== null) this.companyDetailSubscription.unsubscribe();
       }
     );
+    setTimeout(() => {
+      this.GetApproverListData();
+    }, 500);
   }
 
   public async SaveCompanyDetail() {
@@ -251,6 +263,143 @@ export class CompanyDetailComponent implements OnInit {
     this._companyDetailDialogRef.close({ event: this.event });
   }
 
+  // =============
+  // Code Tables
+  // =============
+  public _listApproverObservableArray: ObservableArray = new ObservableArray();
+  public _listApproverCollectionView: CollectionView = new CollectionView(this._listApproverObservableArray);
+  public _listApproverageIndex: number = 15;
+  @ViewChild('flexApprover') _flexApprover: wjcGrid.FlexGrid;
+  public isApproverProgressBarHidden = false;
+  public isApproverDataLoaded: boolean = false;
+
+  private _approverListSubscription: any;
+  private _deleteApproverSubscription: any;
+
+  public buttonDisabled: boolean = false;
+
+  private async GetApproverListData() {
+    this._listApproverObservableArray = new ObservableArray();
+    this._listApproverCollectionView = new CollectionView(this._listApproverObservableArray);
+    this._listApproverCollectionView.pageSize = 15;
+    this._listApproverCollectionView.trackChanges = true;
+    await this._listApproverCollectionView.refresh();
+    await this._flexApprover.refresh();
+
+    this.isApproverProgressBarHidden = true;
+
+    this._approverListSubscription = (await this.companyDetialService.ApproverList(this.companyModel.Id)).subscribe(
+      (response: any) => {
+        let results = response;
+        console.log(results["length"], results);
+
+        if (results["length"] > 0) {
+          this._listApproverObservableArray = results;
+          this._listApproverCollectionView = new CollectionView(this._listApproverObservableArray);
+          this._listApproverCollectionView.pageSize = 15;
+          this._listApproverCollectionView.trackChanges = true;
+          this._listApproverCollectionView.refresh();
+          this._flexApprover.refresh();
+        }
+        this.isApproverDataLoaded = true;
+        this.isApproverProgressBarHidden = false;
+        if (this._approverListSubscription != null) this._approverListSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this._approverListSubscription !== null) this._approverListSubscription.unsubscribe();
+      }
+    );
+  }
+
+  gridClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'button-edit')) {
+      if (this.userRights.CanEdit) {
+        this.EditApprover();
+      }
+
+    }
+
+    if (wjcCore.hasClass(e.target, 'button-delete')) {
+      if (this.userRights.CanDelete) {
+        this.ComfirmDeleteApprover();
+      }
+    }
+  }
+  public BtnAddApprover() {
+
+    let objApprover: CompanyApproverModel = {
+      Id: 0,
+      CompanyId: this.companyModel.Id,
+      UserId: 0,
+      Branch: '',
+      Remarks: ''
+    }
+    this.DetailApprover(objApprover, "Add Approver", "Add");
+  }
+
+  public EditApprover() {
+    let currentApprover = this._listApproverCollectionView.currentItem;
+    this.DetailApprover(currentApprover, "Edit Approver", "Edit");
+  }
+
+  public async DeleteApprover() {
+    if (this.isApproverDataLoaded == true) {
+      this.isApproverDataLoaded = false;
+      let currentApprover = this._listApproverCollectionView.currentItem;
+      this.isApproverProgressBarHidden = true;
+
+      this._deleteApproverSubscription = (await this.companyDetialService.DeleteApprover(currentApprover.Id)).subscribe(
+        response => {
+          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Delete Successfully");
+          this.GetApproverListData();
+          this.isApproverProgressBarHidden = false;
+          this.isApproverDataLoaded = true;
+        },
+        error => {
+          this.isApproverDataLoaded = true;
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + error.status);
+          if (this._deleteApproverSubscription != null) this._deleteApproverSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
+  public ComfirmDeleteApprover(): void {
+    let currentApprover = this._listApproverCollectionView.currentItem;
+    const matDialogRef = this.matDialog.open(ComfirmMassageDialogComponent, {
+      width: '500px',
+      data: {
+        objDialogTitle: "",
+        objComfirmationMessage: `Delete ${currentApprover.User}?`,
+      },
+      disableClose: true
+    });
+
+    matDialogRef.afterClosed().subscribe(result => {
+      if (result.message == "Yes") {
+        this.DeleteApprover();
+      }
+    });
+  }
+
+  public DetailApprover(objApprover: CompanyApproverModel, eventTitle: string, action: string): void {
+    const matDialogRef = this.matDialog.open(CompanyDetailApproverComponent, {
+      width: '500px',
+      data: {
+        objDialogTitle: eventTitle,
+        objData: objApprover,
+        objDialogType: action,
+      },
+      disableClose: true
+    });
+
+    matDialogRef.afterClosed().subscribe(data => {
+      if (data != null) {
+        this.GetApproverListData();
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.title = this.caseData.objDialogTitle;

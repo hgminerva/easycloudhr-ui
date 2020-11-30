@@ -54,6 +54,10 @@ export class SoftwareSecurityService {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + "/api/security/user/right/module/detail/" + module, this.appSettings.defaultOptions);
   }
 
+  public async CompanyApprover(){
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + "/api/company/approver/company-approver", this.appSettings.defaultOptions);
+  }
+
   public openModule(module: string): boolean {
     let openFlag = false;
     if (localStorage.getItem("userRights") != null) {

@@ -6,14 +6,14 @@
     <div class="dialog-body" [hidden]="isComponentHidden">
         <br>
         <div fxLayout="row" fxLayout.xs="column">
-            <div fxFlex="33" style="padding: 5px;">
+            <div fxFlex="20" style="padding: 5px;">
                 <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Employee</mat-label>
                     <input type="text" [(ngModel)]="_leaveApplicationLine.Employee" matInput readonly>
                     <mat-icon matSuffix (click)="EmployeeListDialog()">keyboard_arrow_down</mat-icon>
                 </mat-form-field>
             </div>
-            <div fxFlex="30" style="padding: 5px;">
+            <div fxFlex="20" style="padding: 5px;">
                 <mat-form-field appearance="fill" style="width: 100%;">
                     <mat-label>Date</mat-label>
                     <input matInput [matDatepicker]="datePickerLADate" [(ngModel)]="UILADate"
@@ -36,6 +36,14 @@
                     <mat-checkbox color="primary" [(ngModel)]="_leaveApplicationLine.IsWithPay">
                         <span style="color: gray;">
                             With Pay</span>
+                    </mat-checkbox>
+                </div>
+            </div>
+            <div fxFlex="20" style="padding: 5px;" style="padding: 23px; text-align: start; display: inline;">
+                <div style="width: 100%; border: gray 1px !important">
+                    <mat-checkbox color="primary" [(ngModel)]="_leaveApplicationLine.IsApproved">
+                        <span style="color: gray;">
+                            Approve</span>
                     </mat-checkbox>
                 </div>
             </div>

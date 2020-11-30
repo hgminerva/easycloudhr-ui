@@ -140,8 +140,6 @@ export class CompanyListComponent implements OnInit {
     this._companyListSubscription = (await this._companyListService.CompanyList()).subscribe(
       (response: any) => {
         var results = response;
-        console.log("Response:", results);
-
         if (results["length"] > 0) {
           this._listCompanyObservableArray = results;
           this._listCompanyCollectionView = new CollectionView(this._listCompanyObservableArray);

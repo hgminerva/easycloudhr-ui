@@ -5,5 +5,6 @@ export class OvertimeApplicationLineModel {
     Employee: string;
     OTDate: string;
     OTHours: string;
+    IsApproved: boolean;
     Remarks: string;
 }

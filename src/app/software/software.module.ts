@@ -103,6 +103,8 @@ import { TaxExemptionTableDialogComponent } from './tax-exemption-detail/tax-exe
 import { YearLeaveCreditsDialogComponent } from './year-detail/year-leave-credits-dialog/year-leave-credits-dialog.component';
 import { MandatoryReportComponent } from './report/mandatory-report/mandatory-report.component';
 import { DemographicsComponent } from './report/demographics/demographics.component';
+import { CompanyDetailApproverComponent } from './company-detail/company-detail-approver/company-detail-approver.component';
+import { PortalEmployeeApproverDialogComponent } from './portal-employee/portal-employee-approver-dialog/portal-employee-approver-dialog.component';
 
 @NgModule({
   declarations: [
@@ -184,6 +186,8 @@ import { DemographicsComponent } from './report/demographics/demographics.compon
     YearLeaveCreditsDialogComponent,
     MandatoryReportComponent,
     DemographicsComponent,
+    CompanyDetailApproverComponent,
+    PortalEmployeeApproverDialogComponent,
   ],
   imports: [
     CommonModule,

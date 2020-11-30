@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DecimalPipe, DatePipe } from '@angular/common';
 import { SnackBarTemplate } from 'src/app/software/shared/snack-bar-template';
 import { PortalEmployeeService } from '../portal-employee.service';
+import { SoftwareSecurityService } from '../../software-security/software-security.service';
 
 @Component({
   selector: 'app-portal-employee-overtime-application-dialog',
@@ -16,6 +17,7 @@ export class PortalEmployeeOvertimeApplicationDialogComponent implements OnInit 
     public dialogRef: MatDialogRef<PortalEmployeeOvertimeApplicationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public caseData: any,
     private _portalEmployeeService: PortalEmployeeService,
+    private softwareSecurityService: SoftwareSecurityService,
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
     public _matDialog: MatDialog,
@@ -23,11 +25,14 @@ export class PortalEmployeeOvertimeApplicationDialogComponent implements OnInit 
     private datePipe: DatePipe
   ) { }
 
+  public isCompanyApprover: boolean = false;
+  public isCompanyApproverSubscription: any;
   public isComponentHidden: boolean = false;
   public title = '';
 
   public _overtimeApplicationDropdownListSubscription: any;
   public _overtimeApplicationDropdownList: any;
+  public isDisabled: boolean = true;
 
   public _overtimeApplicationLineModel: any = {
     Id: 0,
@@ -44,6 +49,17 @@ export class PortalEmployeeOvertimeApplicationDialogComponent implements OnInit 
 
   ngOnInit(): void {
     this.title = this.caseData.objDialogTitle;
+
+    this.getCompanyApprover();
+  }
+
+  private async getCompanyApprover() {
+    this.isCompanyApproverSubscription = await (await this.softwareSecurityService.CompanyApprover()).subscribe(
+      (result: any) => {
+        this.isCompanyApprover = result;
+      }
+    );
+
     this.LeaveApplicationDropdownList();
   }
 
@@ -61,7 +77,6 @@ export class PortalEmployeeOvertimeApplicationDialogComponent implements OnInit 
     );
 
     this.loadOvertimeApplicationLineDetail();
-
   }
 
   private loadOvertimeApplicationLineDetail() {

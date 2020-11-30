@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { SnackBarTemplate } from 'src/app/software/shared/snack-bar-template';
 import { PortalEmployeeService } from '../portal-employee.service';
+import { SoftwareSecurityService } from '../../software-security/software-security.service';
 
 
 @Component({
@@ -16,6 +17,7 @@ export class PortalEmployeeLeaveApplicationDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<PortalEmployeeLeaveApplicationDialogComponent>,
     private _portalEmployeeService: PortalEmployeeService,
+    private softwareSecurityService: SoftwareSecurityService,
     @Inject(MAT_DIALOG_DATA) public caseData: any,
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
@@ -32,18 +34,31 @@ export class PortalEmployeeLeaveApplicationDialogComponent implements OnInit {
     LADate: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
     IsHalfDay: false,
     IsWithPay: false,
+    IsApproved: false,
     Remarks: 'NA'
   }
-
+  public isCompanyApprover: boolean = false;
+  public isCompanyApproverSubscription: any;
   private _leaveApplicationDropdownListSubscription: any;
   public leaveApplicationDropdownList: any;
 
   public UILADate = new Date();
   public title = '';
   public isComponentHidden: boolean = false;
+  public isDisabled: boolean = true;
 
   ngOnInit(): void {
     this.title = this.caseData.objDialogTitle;
+
+    this.getCompanyApprover();
+  }
+
+  private async getCompanyApprover() {
+    this.isCompanyApproverSubscription = await (await this.softwareSecurityService.CompanyApprover()).subscribe(
+      (result: any) => {
+        this.isCompanyApprover = result;
+      }
+    );
 
     this.LeaveApplicationDropdownList();
   }
@@ -74,6 +89,7 @@ export class PortalEmployeeLeaveApplicationDialogComponent implements OnInit {
     this._leaveApplicationLine.LADate = this.caseData.objData.LADate;
     this._leaveApplicationLine.IsHalfDay = this.caseData.objData.IsHalfDay;
     this._leaveApplicationLine.IsWithPay = this.caseData.objData.IsWithPay;
+    this._leaveApplicationLine.IsApproved = this.caseData.objData.IsApproved;
     this._leaveApplicationLine.Remarks = this.caseData.objData.Remarks;
 
     if (this.caseData.objData.Id == 0) {
@@ -83,7 +99,7 @@ export class PortalEmployeeLeaveApplicationDialogComponent implements OnInit {
     setTimeout(() => {
       this.isComponentHidden = false;
     }, 100);
-    
+
   }
 
   public GetUIDATELADate() {

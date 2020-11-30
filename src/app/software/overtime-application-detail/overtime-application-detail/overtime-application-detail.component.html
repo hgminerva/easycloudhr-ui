@@ -116,7 +116,6 @@
                         <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                             <button mat-raised-button class="button-edit" color="primary"
                                 style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
-                                <!-- <mat-icon class="button-edit">edit</mat-icon> -->
                                 <span class="button-edit">Edit</span>
                             </button>
                         </ng-template>
@@ -125,7 +124,6 @@
                         <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                             <button mat-raised-button class="button-delete" color="warn"
                                 style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
-                                <!-- <mat-icon class="button-delete">delete</mat-icon> -->
                                 <span class="button-delete">Delete</span>
                             </button>
                         </ng-template>
@@ -136,6 +134,8 @@
                     <wj-flex-grid-column [header]="'Date'" [binding]="'OTDate'" [isReadOnly]="true" [width]="100">
                     </wj-flex-grid-column>
                     <wj-flex-grid-column [header]="'OT Hours'" [binding]="'OTHours'" [isReadOnly]="true" [width]="100">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Approved'" [binding]="'IsApproved'" [isReadOnly]="true" [width]="100">
                     </wj-flex-grid-column>
                     <wj-flex-grid-column [header]="'Remarks'" [binding]="'Remarks'" [isReadOnly]="true" [width]="'3*'">
                     </wj-flex-grid-column>

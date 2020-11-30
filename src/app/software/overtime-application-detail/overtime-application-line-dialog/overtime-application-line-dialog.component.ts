@@ -37,6 +37,7 @@ export class OvertimeApplicationLineDialogComponent implements OnInit {
     Employee: '',
     OTDate: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
     OTHours: '',
+    IsApproved: false,
     Remarks: ''
   }
 
@@ -53,6 +54,7 @@ export class OvertimeApplicationLineDialogComponent implements OnInit {
     this._overtimeApplicationLineModel.EmployeeId = this.caseData.objOvertimeApplicationLine.EmployeeId;
     this._overtimeApplicationLineModel.Employee = this.caseData.objOvertimeApplicationLine.Employee;
     this._overtimeApplicationLineModel.Remarks = this.caseData.objOvertimeApplicationLine.Remarks;
+    this._overtimeApplicationLineModel.IsApproved = this.caseData.objOvertimeApplicationLine.IsApproved;
     this._overtimeApplicationLineModel.OTHours = this.decimalPipe.transform(this.caseData.objOvertimeApplicationLine.OTHours, "1.2-2");
     this._overtimeApplicationLineModel.OTDate = this.caseData.objOvertimeApplicationLine.OTDate;
 

@@ -138,6 +138,7 @@ export class LeaveApplicationDetailComponent implements OnInit {
     LADate: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
     IsHalfDay: false,
     IsWithPay: false,
+    IsApproved: false,
     Remarks: ''
   }
 
@@ -388,6 +389,7 @@ export class LeaveApplicationDetailComponent implements OnInit {
       LADate: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
       IsHalfDay: false,
       IsWithPay: false,
+      IsApproved: false,
       Remarks: ''
     }
 

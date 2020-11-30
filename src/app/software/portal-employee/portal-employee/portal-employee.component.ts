@@ -18,6 +18,7 @@ import { UserChangePasswordDialogComponent } from '../../shared/user-change-pass
 import { SoftwareSecurityService } from '../../software-security/software-security.service';
 import { DatePipe } from '@angular/common';
 import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
+import { PortalEmployeeApproverDialogComponent } from '../portal-employee-approver-dialog/portal-employee-approver-dialog.component';
 
 @Component({
   selector: 'app-portal-employee',
@@ -43,8 +44,11 @@ export class PortalEmployeeComponent implements OnInit {
       this.moduleEmployeePortalOnly = true;
     }
 
-    this.GetEmployeeDetail();
+    this.getCompanyApprover();
   }
+
+  public isCompanyApprover: boolean = false;
+  public isCompanyApproverSubscription: any;
 
   public _portalEmployeeModel: PortalEmployeeModel = {
     Id: 0,
@@ -94,6 +98,16 @@ export class PortalEmployeeComponent implements OnInit {
 
   private _loanListSubscription: any;
 
+  private async getCompanyApprover() {
+    this.isCompanyApproverSubscription = await (await this.softwareSecurityService.CompanyApprover()).subscribe(
+      (result: any) => {
+        this.isCompanyApprover = result;
+      }
+    );
+
+    this.GetEmployeeDetail();
+  }
+
   // =============== 
   // Employee Detail
   // =============== 
@@ -124,7 +138,9 @@ export class PortalEmployeeComponent implements OnInit {
           this._portalEmployeeModel.Company = result["Company"];
           this._portalEmployeeModel.Branch = result["Branch"];
           this._portalEmployeeModel.Position = result["Position"];
-          this.GetOTYearDropdownListData();
+          this.GetYearDropdownListData();
+
+
         }
 
         this._isProgressBarHidden = false;
@@ -148,43 +164,58 @@ export class PortalEmployeeComponent implements OnInit {
   // Current Year
   // ============ 
 
-  private _yearOTCurrentSubscription: any;
+  private _yearCurrentSubscription: any;
   public _currentYearIdOT: number = 0;
+  public _currentYearIdDTR: number = 0;
+  public _currentYearIdPayroll: number = 0;
+  public _currentYearIdApprover: number = 0;
+  public _currentYearIdLA: number = 0;
+  private _yearListSubscription: any;
+  public _yearListDropdownList: any;
 
-  private _yearOTListSubscription: any;
-  public _yearOTListDropdownList: any;
-
-
-  private async GetOTYearDropdownListData() {
-    this._yearOTListSubscription = await (await this._portalEmployeeService.YearList()).subscribe(
+  private async GetYearDropdownListData() {
+    this._yearListSubscription = await (await this._portalEmployeeService.YearList()).subscribe(
       response => {
-        this._yearOTListDropdownList = response;
-        this.GetCurrentOTYear();
-        if (this._yearOTListSubscription !== null) this._yearOTListSubscription.unsubscribe();
+        this._yearListDropdownList = response;
+        this.GetCurrentYear();
+        if (this._yearListSubscription !== null) this._yearListSubscription.unsubscribe();
       },
       error => {
         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this._yearOTListSubscription !== null) this._yearOTListSubscription.unsubscribe();
+        if (this._yearListSubscription !== null) this._yearListSubscription.unsubscribe();
       }
     );
   }
 
-  private async GetCurrentOTYear() {
-    this._yearOTCurrentSubscription = await (await this._portalEmployeeService.CurrentYear()).subscribe(
+  private async GetCurrentYear() {
+    this._yearCurrentSubscription = await (await this._portalEmployeeService.CurrentYear()).subscribe(
       (result: any) => {
         this._currentYearIdOT = result;
-        console.log(this._currentYearIdOT);
+        this._currentYearIdDTR = result;
+        this._currentYearIdPayroll = result;
+        this._currentYearIdApprover = result;
+        this._currentYearIdLA = result;
+
         this.GetOvertimeApplicationListData();
-        if (this._yearOTCurrentSubscription !== null) this._yearOTCurrentSubscription.unsubscribe();
+
+        if (this.isCompanyApprover) {
+          this.GetApproverListData();
+        }
+        
+        if (this._yearCurrentSubscription !== null) this._yearCurrentSubscription.unsubscribe();
       },
       error => {
         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this._yearOTCurrentSubscription !== null) this._yearOTCurrentSubscription.unsubscribe();
+        if (this._yearCurrentSubscription !== null) this._yearCurrentSubscription.unsubscribe();
       }
     );
   }
 
   activeTab() { }
+
+  // ===================
+  // Overtime Application
+  // ====================
 
   private async GetOvertimeApplicationListData() {
 
@@ -218,8 +249,7 @@ export class PortalEmployeeComponent implements OnInit {
         if (this._overtimeApplicationSubscription !== null) this._overtimeApplicationSubscription.unsubscribe();
       }
     );
-
-    this.GetYearLADropdownListData();
+    await this.GetLeaveApplicationListData();
   }
 
   public async overtimeApplicationGridClick(s, e) {
@@ -242,7 +272,6 @@ export class PortalEmployeeComponent implements OnInit {
   public RemoveComma(value: string): string {
     return value.toString().replace(/,/g, '');
   }
-
 
   public AddOvertimeApplication() {
 
@@ -332,42 +361,6 @@ export class PortalEmployeeComponent implements OnInit {
   // =================
   // Leave Application
   // =================
-  private _yearLACurrentSubscription: any;
-  public _currentYearIdLA: number = 0;
-
-  private _yearLAListSubscription: any;
-  public _yearLAListDropdownList: any;
-
-  private async GetYearLADropdownListData() {
-    this._yearLAListSubscription = await (await this._portalEmployeeService.YearList()).subscribe(
-      response => {
-        this._yearLAListDropdownList = response;
-        this._currentYearIdLA = response[0].Id;
-        this.GetCurrentLAYear();
-        if (this._yearLAListSubscription !== null) this._yearLAListSubscription.unsubscribe();
-      },
-      error => {
-        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this._yearLAListSubscription !== null) this._yearLAListSubscription.unsubscribe();
-      }
-    );
-  }
-
-  private async GetCurrentLAYear() {
-    this._yearLACurrentSubscription = await (await this._portalEmployeeService.CurrentYear()).subscribe(
-      (result: any) => {
-        this._currentYearIdLA = result;
-        this.GetLeaveApplicationListData();
-        if (this._yearLACurrentSubscription !== null) this._yearLACurrentSubscription.unsubscribe();
-      },
-      error => {
-        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this._yearLACurrentSubscription !== null) this._yearLACurrentSubscription.unsubscribe();
-      }
-    );
-  }
-
-  // Leave Application
   public _listLeaveApplicationObservableArray: ObservableArray = new ObservableArray();
   public _listLeaveApplicationCollectionView: CollectionView = new CollectionView(this._listLeaveApplicationObservableArray);
   public _leaveApplicationPageIndex: number = 15;
@@ -412,8 +405,7 @@ export class PortalEmployeeComponent implements OnInit {
       }
     );
 
-    await this.GetLoanListData();
-    await this.GetYearDTRDropdownListData();
+    await this.GetDTRListData();
   }
 
   public async leaveApplicationridClick(s, e) {
@@ -519,47 +511,125 @@ export class PortalEmployeeComponent implements OnInit {
         if (this.deleteLeaveApplicationSubscription !== null) this.deleteLeaveApplicationSubscription.unsubscribe();
       }
     );
-
   }
+
+  // ================================
+  // // Approver Leave OT Application
+  // ================================
+  public _listApproverObservableArray: ObservableArray = new ObservableArray();
+  public _listApproverCollectionView: CollectionView = new CollectionView(this._listApproverObservableArray);
+  public _approverPageIndex: number = 15;
+
+  public _isApproverProgressBarHidden = false;
+  public _isApproverDataLoaded: boolean = false;
+
+  private _approverSubscription: any;
+
+  @ViewChild('flexApprover') _flexApprover: wjcGrid.FlexGrid;
+
+  private async GetApproverListData() {
+
+    this._listApproverObservableArray = new ObservableArray();
+    this._listApproverCollectionView = new CollectionView(this._listApproverObservableArray);
+    this._listApproverCollectionView.pageSize = 15;
+    this._listApproverCollectionView.trackChanges = true;
+    await this._listApproverCollectionView.refresh();
+    await this._flexApprover.refresh();
+
+    this._isApproverProgressBarHidden = true;
+
+    this._approverSubscription = await (await this._portalEmployeeService.ApproverList(this._currentYearIdApprover)).subscribe(
+      (response: any) => {
+        if (response["length"] > 0) {
+          this._listApproverObservableArray = response;
+          this._listApproverCollectionView = new CollectionView(this._listApproverObservableArray);
+          this._listApproverCollectionView.pageSize = 15;
+          this._listApproverCollectionView.trackChanges = true;
+          this._listApproverCollectionView.refresh();
+          this._flexApprover.refresh();
+        }
+
+        this._isApproverDataLoaded = true;
+        this._isApproverProgressBarHidden = false;
+        if (this._approverSubscription !== null) this._approverSubscription.unsubscribe();
+      },
+      error => {
+        this._isApproverProgressBarHidden = false;
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        if (this._approverSubscription !== null) this._approverSubscription.unsubscribe();
+      }
+    );
+
+    await this.GetDTRListData();
+  }
+
+  public async approverGridClick(s, e) {
+    let currentItem = this._listApproverCollectionView.currentItem;
+
+    if (wjcCore.hasClass(e.target, 'approve-button-edit')) {
+      await this.EditApprover();
+    }
+  }
+
+
+  public EditApprover() {
+    let currentApplication = this._listApproverCollectionView.currentItem;
+
+    const dialogRef = this._matDialog.open(PortalEmployeeApproverDialogComponent, {
+      width: '1000px',
+      data: {
+        objDialogTitle: currentApplication.Number,
+        objData: currentApplication.Id,
+        objType: currentApplication.Document
+      },
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.event !== 'Close') {
+        this.GetApproverListData();
+      }
+    });
+  }
+
+  // public ComfirmDeleteApprover(): void {
+  //   let currentLA = this._listApproverCollectionView.currentItem;
+  //   const userRegistrationlDialogRef = this._matDialog.open(ComfirmMassageDialogComponent, {
+  //     width: '500px',
+  //     data: {
+  //       objDialogTitle: "Delete Change Shift",
+  //       objComfirmationMessage: `Delete ${currentLA.LANumber}?`,
+  //     },
+  //     disableClose: true
+  //   });
+
+  //   userRegistrationlDialogRef.afterClosed().subscribe(result => {
+  //     if (result.message == "Yes") {
+  //       this.DeleteApprover();
+  //     }
+  //   });
+  // }
+
+  // private deleteApproverSubscription: any;
+
+  // private async DeleteApprover() {
+  //   let currentLA = this._listLeaveApplicationCollectionView.currentItem;
+
+  //   this.deleteApproverSubscription = (await this._portalEmployeeService.DeleteLeaveApplicationLine(currentLA.LineId)).subscribe(
+  //     response => {
+  //       this.GetLeaveApplicationListData();
+  //       if (this.deleteApproverSubscription !== null) this.deleteApproverSubscription.unsubscribe();
+  //     },
+  //     error => {
+  //       this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+  //       if (this.deleteApproverSubscription !== null) this.deleteApproverSubscription.unsubscribe();
+  //     }
+  //   );
+  // }
 
   // ===
   // DTR 
   // ===
-  private _yearDTRCurrentSubscription: any;
-  public _currentYearIdDTR: number = 0;
-
-  private _yearDTRListSubscription: any;
-  public _yearDTRListDropdownList: any;
-
-  private async GetYearDTRDropdownListData() {
-    this._yearDTRCurrentSubscription = await (await this._portalEmployeeService.YearList()).subscribe(
-      response => {
-        this._yearDTRListDropdownList = response;
-        this._currentYearIdDTR = response[0].Id;
-        this.GetCurrentDTRYear();
-        if (this._yearDTRCurrentSubscription !== null) this._yearDTRCurrentSubscription.unsubscribe();
-      },
-      error => {
-        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this._yearDTRCurrentSubscription !== null) this._yearDTRCurrentSubscription.unsubscribe();
-      }
-    );
-  }
-
-  private async GetCurrentDTRYear() {
-    this._yearDTRListSubscription = await (await this._portalEmployeeService.CurrentYear()).subscribe(
-      (result: any) => {
-        this._currentYearIdDTR = result;
-        this.GetDTRListData();
-        if (this._yearDTRListSubscription !== null) this._yearDTRListSubscription.unsubscribe();
-      },
-      error => {
-        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this._yearDTRListSubscription !== null) this._yearDTRListSubscription.unsubscribe();
-      }
-    );
-  }
-
   public _listDTRObservableArray: ObservableArray = new ObservableArray();
   public _listDTRCollectionView: CollectionView = new CollectionView(this._listDTRObservableArray);
   public _listDTRPageIndex: number = 15;
@@ -596,7 +666,6 @@ export class PortalEmployeeComponent implements OnInit {
 
         this._isDTRDataLoaded = true;
         this._isDTRProgressBarHidden = false;
-        this.GetYearPayrollDropdownListData();
         if (this._dtrListSubscription !== null) this._dtrListSubscription.unsubscribe();
       },
       error => {
@@ -605,6 +674,8 @@ export class PortalEmployeeComponent implements OnInit {
         if (this._dtrListSubscription !== null) this._dtrListSubscription.unsubscribe();
       }
     );
+
+    await this.GetPayrollListData();
   }
 
   ViewDTR() {
@@ -621,7 +692,7 @@ export class PortalEmployeeComponent implements OnInit {
 
     matDialogRef.afterClosed().subscribe(result => {
       if (result.message == "Yes") {
-        this.GetLeaveApplicationListData();
+        this.GetDTRListData();
       }
     });
   }
@@ -629,41 +700,6 @@ export class PortalEmployeeComponent implements OnInit {
   // =======
   // Payroll 
   // =======
-  private _yearPayrollCurrentSubscription: any;
-  public _currentYearIdPayroll: number = 0;
-
-  public _yearPayrollListSubscription: any;
-  public _yearPayrollListDropdownList: any;
-
-  private async GetYearPayrollDropdownListData() {
-    this._yearPayrollCurrentSubscription = await (await this._portalEmployeeService.YearList()).subscribe(
-      response => {
-        this._yearPayrollListDropdownList = response;
-        this._currentYearIdPayroll = response[0].Id;
-        this.GetCurrentPayrollYear();
-        if (this._yearPayrollCurrentSubscription !== null) this._yearPayrollCurrentSubscription.unsubscribe();
-      },
-      error => {
-        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this._yearPayrollCurrentSubscription !== null) this._yearPayrollCurrentSubscription.unsubscribe();
-      }
-    );
-  }
-
-  private async GetCurrentPayrollYear() {
-    this._yearPayrollListSubscription = await (await this._portalEmployeeService.CurrentYear()).subscribe(
-      (result: any) => {
-        this._currentYearIdPayroll = result;
-        this.GetPayrollListData();
-        if (this._yearPayrollListSubscription !== null) this._yearPayrollListSubscription.unsubscribe();
-      },
-      error => {
-        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this._yearPayrollListSubscription !== null) this._yearPayrollListSubscription.unsubscribe();
-      }
-    );
-  }
-
   public _listPayrollObservableArray: ObservableArray = new ObservableArray();
   public _listPayrollCollectionView: CollectionView = new CollectionView(this._listPayrollObservableArray);
   public _listPayrollPageIndex: number = 15;
@@ -707,6 +743,7 @@ export class PortalEmployeeComponent implements OnInit {
         if (this._PayrollListSubscription !== null) this._PayrollListSubscription.unsubscribe();
       }
     );
+    await this.GetLoanListData()
   }
 
   ViewPayroll() {
@@ -723,7 +760,7 @@ export class PortalEmployeeComponent implements OnInit {
 
     matDialogRef.afterClosed().subscribe(result => {
       if (result.message == "Yes") {
-        this.GetLeaveApplicationListData();
+        this.GetPayrollListData();
       }
     });
   }
