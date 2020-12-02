@@ -66,6 +66,7 @@ export class PortalEmployeeOvertimeApplicationDialogComponent implements OnInit 
   private async LeaveApplicationDropdownList() {
     this._overtimeApplicationDropdownListSubscription = await (await this._portalEmployeeService.OvertimeApplicationDropdownList(this.caseData.objYearId)).subscribe(
       (result: any) => {
+        console.log(result)
         this._overtimeApplicationDropdownList = result;
         this._overtimeApplicationLineModel.OTId = result[0].Id;
         if (this._overtimeApplicationDropdownListSubscription !== null) this._overtimeApplicationDropdownListSubscription.unsubscribe();

@@ -81,7 +81,7 @@ export class PortalEmployeeLeaveApplicationDialogComponent implements OnInit {
   }
 
   private loadLeaveApplicationLineDetail() {
-
+    console.log(this.caseData.objData.Id);
     this._leaveApplicationLine.Id = this.caseData.objData.Id;
     this._leaveApplicationLine.EmployeeId = this.caseData.objData.EmployeeId;
     this._leaveApplicationLine.LAId = this.caseData.objData.LAId;

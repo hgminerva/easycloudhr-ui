@@ -3,10 +3,12 @@ import * as wjcCore from '@grapecity/wijmo';
 import * as wjcGrid from '@grapecity/wijmo.grid';
 import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 import { PortalEmployeeService } from '../portal-employee.service';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { SharedService } from '../../shared/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { PortalEmployeeOvertimeApplicationDialogComponent } from '../portal-employee-overtime-application-dialog/portal-employee-overtime-application-dialog.component';
+import { PortalEmployeeLeaveApplicationDialogComponent } from '../portal-employee-leave-application-dialog/portal-employee-leave-application-dialog.component';
 
 @Component({
   selector: 'app-portal-employee-approver-dialog',
@@ -21,12 +23,13 @@ export class PortalEmployeeApproverDialogComponent implements OnInit {
     private _portalEmployeeService: PortalEmployeeService,
     private _snackBarTemplate: SnackBarTemplate,
     private _snackBar: MatSnackBar,
+    public _matDialog: MatDialog,
   ) { }
 
   public dialogTitle: string = this.caseData.objDialogTitle;
   public dialogData: any = this.caseData.objData;
   public dialogType: any = this.caseData.objType;
-
+  public dialogYearId: any = this.caseData.objYearId;
   // Class properties
   public _listLeaveApplicationLineObservableArray: ObservableArray = new ObservableArray();
   public _listLeaveApplicationLineCollectionView: CollectionView = new CollectionView(this._listLeaveApplicationLineObservableArray);
@@ -61,16 +64,15 @@ export class PortalEmployeeApproverDialogComponent implements OnInit {
       this.isLALineHidden = true;
 
       if (this.dialogType == "LA") {
-        this.GetLeaveApplicationLineListData(this.dialogData);
+        this.GetLeaveApplicationLineListData();
       } else if (this.dialogType == "OT") {
-        this.GetOvertimeApplicationLineListData(this.dialogData);
+        this.GetOvertimeApplicationLineListData();
       }
 
     }, 500);
   }
 
-  private async GetLeaveApplicationLineListData(laID: number) {
-
+  private async GetLeaveApplicationLineListData() {
 
     this._listLeaveApplicationLineObservableArray = new ObservableArray();
     this._listLeaveApplicationLineCollectionView = new CollectionView(this._listLeaveApplicationLineObservableArray);
@@ -81,7 +83,7 @@ export class PortalEmployeeApproverDialogComponent implements OnInit {
 
     this._isLeaveApplicationLineProgressBarHidden = true;
 
-    this._leaveApplicationLineSubscription = await (await this._portalEmployeeService.ApproverLeaveApplicationLineList(laID)).subscribe(
+    this._leaveApplicationLineSubscription = await (await this._portalEmployeeService.ApproverLeaveApplicationLineList(this.dialogData)).subscribe(
       (response: any) => {
         if (response["length"] > 0) {
           this._listLeaveApplicationLineObservableArray = response;
@@ -107,7 +109,7 @@ export class PortalEmployeeApproverDialogComponent implements OnInit {
     );
   }
 
-  private async GetOvertimeApplicationLineListData(otID: number) {
+  private async GetOvertimeApplicationLineListData() {
 
     this._listOvertimeApplicationLineObservableArray = new ObservableArray();
     this._listOvertimeApplicationLineCollectionView = new CollectionView(this._listOvertimeApplicationLineObservableArray);
@@ -118,7 +120,7 @@ export class PortalEmployeeApproverDialogComponent implements OnInit {
 
     this._isOvertimeApplicationLineProgressBarHidden = true;
 
-    this._overtimeApplicationLineSubscription = await (await this._portalEmployeeService.ApproverOvertimeApplicationLineList(otID)).subscribe(
+    this._overtimeApplicationLineSubscription = await (await this._portalEmployeeService.ApproverOvertimeApplicationLineList(this.dialogData)).subscribe(
       (response: any) => {
         console.log(response);
         if (response["length"] > 0) {
@@ -145,19 +147,74 @@ export class PortalEmployeeApproverDialogComponent implements OnInit {
     );
   }
 
-  gridClick(s, e) {
-    //   if (wjcCore.hasClass(e.target, 'button-edit')) {
-    //     if (this._userRights.CanEdit) {
-    //       this.EditLeaveApplicationLine();
-    //     }
+  public RemoveComma(value: string): string {
+    return value.toString().replace(/,/g, '');
+  }
 
-    //   }
+  gridOTClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'ot-button-edit')) {
+      let currentOT = this._listOvertimeApplicationLineCollectionView.currentItem;
+      console.log(currentOT);
+      let _overtimeApplicationLine: any = {
+        Id: currentOT.Id,
+        OTId: currentOT.OTId,
+        EmployeeId: currentOT.EmployeeId,
+        Employee: currentOT.Employee,
+        OTDate: currentOT.OTDate,
+        OTHours: this.RemoveComma(currentOT.OTHours),
+        Remarks: currentOT.Remarks,
+      }
 
-    //   if (wjcCore.hasClass(e.target, 'button-delete')) {
-    //     if (this._userRights.CanDelete) {
-    //       this.ComfirmDeleteLeaveApplicationLine();
-    //     }
-    //   }
+      const dialogRef = this._matDialog.open(PortalEmployeeOvertimeApplicationDialogComponent, {
+        width: '600px',
+        data: {
+          objDialogTitle: "Overtime Application",
+          objData: _overtimeApplicationLine,
+          objYearId: this.dialogYearId
+        },
+        disableClose: true
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result.event !== 'Close') {
+          this.GetOvertimeApplicationLineListData();
+        }
+      });
+    }
+  }
+
+  gridLAClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'la-button-edit')) {
+      let currentLA = this._listLeaveApplicationLineCollectionView.currentItem;
+
+      let _leaveApplicationLine: any = {
+        Id: currentLA.Id,
+        LAId: currentLA.LAId,
+        EmployeeId: currentLA.EmployeeId,
+        Employee: currentLA.Employee,
+        LADate: currentLA.LADate,
+        IsHalfDay: currentLA.IsHalfDay,
+        IsWithPay: currentLA.IsWithPay,
+        IsApproved: currentLA.IsApproved,
+        Remarks: currentLA.Remarks,
+      }
+
+      const dialogRef = this._matDialog.open(PortalEmployeeLeaveApplicationDialogComponent, {
+        width: '600px',
+        data: {
+          objDialogTitle: "Leave Application",
+          objData: _leaveApplicationLine,
+          objYearId: this.dialogYearId
+        },
+        disableClose: true
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result.event !== 'Close') {
+          this.GetLeaveApplicationLineListData();
+        }
+      });
+    }
   }
 
   public Close() { }

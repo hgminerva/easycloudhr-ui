@@ -17,13 +17,13 @@
                 </mat-progress-bar>
                 <wj-flex-grid #flexOvertimeApplicationLine [itemsSource]="_listOvertimeApplicationLineCollectionView"
                     [selectionMode]="3" [frozenColumns]="1" [headersVisibility]="1" #Grid
-                    (click)="gridClick(Grid, $event)">
+                    (click)="gridOTClick(flexOvertimeApplicationLine, $event)">
                     <wj-flex-grid-filter></wj-flex-grid-filter>
                     <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="90">
                         <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
-                            <button mat-raised-button class="button-edit" color="primary"
+                            <button mat-raised-button class="ot-button-edit" color="primary"
                                 style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
-                                <span class="button-edit">Edit</span>
+                                <span class="ot-button-edit">Edit</span>
                             </button>
                         </ng-template>
                     </wj-flex-grid-column>
@@ -51,13 +51,13 @@
                 </mat-progress-bar>
                 <wj-flex-grid #flexLeaveApplicationLine [itemsSource]="_listLeaveApplicationLineCollectionView"
                     [selectionMode]="3" [frozenColumns]="1" [headersVisibility]="1" #Grid
-                    (click)="gridClick(Grid, $event)">
+                    (click)="gridLAClick(flexLeaveApplicationLine, $event)">
                     <wj-flex-grid-filter></wj-flex-grid-filter>
                     <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="90">
                         <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
-                            <button mat-raised-button class="button-edit" color="primary"
+                            <button mat-raised-button class="la-button-edit" color="primary"
                                 style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
-                                <span class="button-edit">Edit</span>
+                                <span class="la-button-edit">Edit</span>
                             </button>
                         </ng-template>
                     </wj-flex-grid-column>

@@ -289,16 +289,16 @@ export class PortalEmployeeComponent implements OnInit {
   }
 
   public EditOvertimeApplication() {
-    let currentOT = this._listOvertimeApplicationCollectionView.currentItem;
+    let currentLA = this._listOvertimeApplicationCollectionView.currentItem;
 
     let _leaveApplicationLine: any = {
-      Id: currentOT.LineId,
-      OTId: currentOT.LAId,
-      EmployeeId: currentOT.EmployeeId,
-      Employee: currentOT.Employee,
-      OTDate: currentOT.LineOTDate,
-      OTHours: this.RemoveComma(currentOT.OTHours),
-      Remarks: currentOT.Remarks,
+      Id: currentLA.LineId,
+      OTId: currentLA.LAId,
+      EmployeeId: currentLA.EmployeeId,
+      Employee: currentLA.Employee,
+      OTDate: currentLA.LineOTDate,
+      OTHours: this.RemoveComma(currentLA.OTHours),
+      Remarks: currentLA.Remarks,
     }
 
     this.OvertimeApplicationLineDetail(_leaveApplicationLine);
@@ -580,7 +580,8 @@ export class PortalEmployeeComponent implements OnInit {
       data: {
         objDialogTitle: currentApplication.Number,
         objData: currentApplication.Id,
-        objType: currentApplication.Document
+        objType: currentApplication.Document,
+        objYearId: this._currentYearIdApprover
       },
       disableClose: true
     });
@@ -591,41 +592,6 @@ export class PortalEmployeeComponent implements OnInit {
       }
     });
   }
-
-  // public ComfirmDeleteApprover(): void {
-  //   let currentLA = this._listApproverCollectionView.currentItem;
-  //   const userRegistrationlDialogRef = this._matDialog.open(ComfirmMassageDialogComponent, {
-  //     width: '500px',
-  //     data: {
-  //       objDialogTitle: "Delete Change Shift",
-  //       objComfirmationMessage: `Delete ${currentLA.LANumber}?`,
-  //     },
-  //     disableClose: true
-  //   });
-
-  //   userRegistrationlDialogRef.afterClosed().subscribe(result => {
-  //     if (result.message == "Yes") {
-  //       this.DeleteApprover();
-  //     }
-  //   });
-  // }
-
-  // private deleteApproverSubscription: any;
-
-  // private async DeleteApprover() {
-  //   let currentLA = this._listLeaveApplicationCollectionView.currentItem;
-
-  //   this.deleteApproverSubscription = (await this._portalEmployeeService.DeleteLeaveApplicationLine(currentLA.LineId)).subscribe(
-  //     response => {
-  //       this.GetLeaveApplicationListData();
-  //       if (this.deleteApproverSubscription !== null) this.deleteApproverSubscription.unsubscribe();
-  //     },
-  //     error => {
-  //       this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-  //       if (this.deleteApproverSubscription !== null) this.deleteApproverSubscription.unsubscribe();
-  //     }
-  //   );
-  // }
 
   // ===
   // DTR 
