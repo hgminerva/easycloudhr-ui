@@ -128,4 +128,56 @@ export class SharedService {
     tempLink.setAttribute('download', fileName);
     tempLink.click();
   }
+
+  // ============
+  // Generate CSV
+  // ============
+  public generateCSVSpecifiedColumn(collectionView: CollectionView, title: string, fileName: string, number: number): void {
+
+    var data = "";
+    var collection;
+
+    data = title + '\r\n\n';
+    collection = collectionView;
+    var labelCount = 0;
+    if (data != "") {
+      var label = '';
+      for (var s in collection.items[0]) {
+        label += s + ',';
+        labelCount++;
+        if(labelCount == number){
+          break;
+        }
+      }
+
+      label = label.slice(0, -1);
+
+      data += label + '\r\n';
+
+      collection.moveToFirstPage();
+      for (var p = 0; p < collection.pageCount; p++) {
+        for (var i = 0; i < collection.items.length; i++) {
+          var row = '';
+          var columnCount = 0;
+          for (var s in collection.items[i]) {
+            row += '"' + collection.items[i][s] + '",';
+            columnCount++;
+            if(columnCount == number){
+              break;
+            }
+          }
+          row.slice(0, row.length - 1);
+          data += row + '\r\n';
+        }
+        collection.moveToNextPage();
+      }
+    }
+
+    var csvURL = window.URL.createObjectURL(new Blob([data], { type: 'text/csv;charset=utf-8;' }));
+    var tempLink = document.createElement('a');
+
+    tempLink.href = csvURL;
+    tempLink.setAttribute('download', fileName);
+    tempLink.click();
+  }
 }

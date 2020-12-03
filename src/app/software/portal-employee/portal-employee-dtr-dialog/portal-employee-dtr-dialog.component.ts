@@ -105,6 +105,6 @@ export class PortalEmployeeDtrDialogComponent implements OnInit {
   }
 
   public btnCSVListClick() {
-    this._sharedService.generateCSV(this._listDTRLineCollectionView, "DTR Logs", "dtr-list.csv");
+    this._sharedService.generateCSVSpecifiedColumn(this._listDTRLineCollectionView, "DTR Logs", "dtr-list.csv", 25);
   }
 }
