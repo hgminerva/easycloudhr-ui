@@ -262,7 +262,11 @@
             </mat-tab>
             <mat-tab disabled style="background-color: transparent; ">
                 <ng-template mat-tab-label>
-
+                    <button mat-raised-button color="primary" style="float: right; margin: 5px;"
+                        (click)="PickEmployeeDownload()" [disabled]="_isLocked" *ngIf="_userRights.CanAdd">
+                        <!-- <mat-icon>get_app</mat-icon>  -->
+                        Download Employee
+                    </button>
                     <button mat-raised-button color="primary" style="float: right; margin: 5px;"
                         (click)="ComfirmComputePayroll()" [disabled]="_isLocked" *ngIf="_userRights.CanAdd">
                         <!-- <mat-icon>get_app</mat-icon>  -->

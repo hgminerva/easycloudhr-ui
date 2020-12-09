@@ -19,6 +19,7 @@ import { SoftwareSecurityService, UserModule } from '../../software-security/sof
 import { PdfDialogComponent } from '../../shared/pdf-dialog/pdf-dialog.component';
 import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 import { SharedService } from '../../shared/shared.service';
+import { EmployeeListPickDialogComponent } from '../../shared/employee-list-pick-dialog/employee-list-pick-dialog.component';
 
 @Component({
   selector: 'app-payroll-detail',
@@ -632,6 +633,47 @@ export class PayrollDetailComponent implements OnInit {
 
   public btnCSVClick() {
     this._sharedService.generateCSV(this._listPayrollLineCollectionView, "Payroll List", "payroll.csv");
+  }
+
+  public PickEmployeeDownload() {
+    const matDialogRef = this._matDialogRef.open(EmployeeListPickDialogComponent, {
+      width: '900px',
+      height: '500',
+      data: {
+        objDialogTitle: "Employee List",
+        objPayrollGroup: this._payrollModel.PayrollGroup
+      },
+      disableClose: true
+    });
+
+    matDialogRef.afterClosed().subscribe((data: any) => {
+      console.log(data);
+      if (data.event != "Close") {
+        this.DownloadEmployeeDTR(data.employee.Id);
+      }
+    });
+  }
+
+  public async DownloadEmployeeDTR(employeeId: number) {
+    if (this._isDataLoaded == true) {
+      this._isPayrollLineProgressBarHidden = true;
+      this._isDataLoaded = false;
+      this._downlloadDTRPayrollLineSubscription = (await this._payrollDetailService.DownloadEmployeePayrollLines(employeeId, this._payrollLineModel.PAYId)).subscribe(
+        response => {
+          this.GetPayrollLineListData();
+          this._isDataLoaded = true;
+          this._isPayrollLineProgressBarHidden = false;
+          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Download Successfully");
+          if (this._downlloadDTRPayrollLineSubscription != null) this._downlloadDTRPayrollLineSubscription.unsubscribe();
+        },
+        error => {
+          this._isDataLoaded = true;
+          this._isPayrollLineProgressBarHidden = false;
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this._downlloadDTRPayrollLineSubscription != null) this._downlloadDTRPayrollLineSubscription.unsubscribe();
+        }
+      );
+    }
   }
 
   async ngOnInit() {

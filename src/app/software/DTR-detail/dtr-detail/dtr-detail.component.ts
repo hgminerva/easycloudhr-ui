@@ -70,7 +70,7 @@ export class DTRDetailComponent implements OnInit {
       }
     );
 
-    await this.PayrollGroupListData();
+    await this.UserListData();
   }
 
   private _userRightsSubscription: any;
@@ -221,76 +221,6 @@ export class DTRDetailComponent implements OnInit {
 
   public _btnAddDTRLineDisabled: boolean = false;
 
-  private async PayrollGroupListData() {
-    this._payrollGroupDropdownSubscription = (await this._dtrDetialService.PayrollGroupList()).subscribe(
-      response => {
-        this._payrollGroupListDropdown = response;
-        this.YearCodeListData();
-        if (this._payrollGroupDropdownSubscription !== null) this._payrollGroupDropdownSubscription.unsubscribe();
-      },
-      error => {
-        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this._payrollGroupDropdownSubscription !== null) this._payrollGroupDropdownSubscription.unsubscribe();
-      }
-    );
-  }
-
-  private async YearCodeListData() {
-    this._yearDropdownSubscription = (await this._dtrDetialService.YearList()).subscribe(
-      response => {
-        this._yearListDropdown = response;
-        this.OTListData();
-        if (this._yearDropdownSubscription !== null) this._yearDropdownSubscription.unsubscribe();
-      },
-      error => {
-        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this._yearDropdownSubscription !== null) this._yearDropdownSubscription.unsubscribe();
-      }
-    );
-  }
-
-  private async OTListData() {
-    this._oTDropdownSubscription = await (await this._dtrDetialService.OTList()).subscribe(
-      response => {
-        this._oTListDropdown = response;
-        this.LSListData();
-        if (this._oTDropdownSubscription !== null) this._oTDropdownSubscription.unsubscribe();
-      },
-      error => {
-        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this._oTDropdownSubscription !== null) this._oTDropdownSubscription.unsubscribe();
-      }
-    );
-  }
-
-  private async LSListData() {
-    this._lADropdownSubscription = await (await this._dtrDetialService.LAList()).subscribe(
-      response => {
-        this._lAListDropdown = response;
-        this.CSListData();
-        if (this._lADropdownSubscription !== null) this._lADropdownSubscription.unsubscribe();
-      },
-      error => {
-        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this._lADropdownSubscription !== null) this._lADropdownSubscription.unsubscribe();
-      }
-    );
-  }
-
-  private async CSListData() {
-    this._cSDropdownSubscription = await (await this._dtrDetialService.CSList()).subscribe(
-      response => {
-        this._cSListDropdown = response;
-        this.UserListData();
-        if (this._cSDropdownSubscription !== null) this._cSDropdownSubscription.unsubscribe();
-      },
-      error => {
-        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this._cSDropdownSubscription !== null) this._cSDropdownSubscription.unsubscribe();
-      }
-    );
-  }
-
   private async UserListData() {
     this._userDropdownSubscription = await (await this._dtrDetialService.UserList()).subscribe(
       response => {
@@ -312,6 +242,7 @@ export class DTRDetailComponent implements OnInit {
     this._isProgressBarHidden = true;
 
     this.DisableButtons();
+
     this._dTRDetailSubscription = await (await this._dtrDetialService.DTRDetail(id)).subscribe(
       (response: any) => {
         let result = response;
@@ -323,6 +254,7 @@ export class DTRDetailComponent implements OnInit {
           this._dTRLineModel.DTRId = result["Id"];
         }
         this.loadComponent(result["IsLocked"]);
+        this.OTListData();
         this.GetDTRLineListData();
         this._isDataLoaded = true;
         this._isProgressBarHidden = false;
@@ -332,6 +264,52 @@ export class DTRDetailComponent implements OnInit {
       error => {
         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
         if (this._dTRDetailSubscription !== null) this._dTRDetailSubscription.unsubscribe();
+      }
+    );
+  }
+
+
+  private async OTListData() {
+    console.log(this._dTRModel.PayrollGroup);
+    this._oTDropdownSubscription = await (await this._dtrDetialService.OTList(this._dTRModel.PayrollGroup)).subscribe(
+      response => {
+        this._oTListDropdown = response;
+        this._dTRModel.OTId = this._dTRModel.OTId;
+        this.LAListData();
+        if (this._oTDropdownSubscription !== null) this._oTDropdownSubscription.unsubscribe();
+      },
+      error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        if (this._oTDropdownSubscription !== null) this._oTDropdownSubscription.unsubscribe();
+      }
+    );
+  }
+
+  private async LAListData() {
+    this._lADropdownSubscription = await (await this._dtrDetialService.LAList(this._dTRModel.PayrollGroup)).subscribe(
+      response => {
+        this._lAListDropdown = response;
+        this._dTRModel.LAId = this._dTRModel.LAId;
+        this.CSListData();
+        if (this._lADropdownSubscription !== null) this._lADropdownSubscription.unsubscribe();
+      },
+      error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        if (this._lADropdownSubscription !== null) this._lADropdownSubscription.unsubscribe();
+      }
+    );
+  }
+
+  private async CSListData() {
+    this._cSDropdownSubscription = await (await this._dtrDetialService.CSList(this._dTRModel.PayrollGroup)).subscribe(
+      response => {
+        this._cSListDropdown = response;
+        this._dTRModel.CSId = this._dTRModel.CSId;
+        if (this._cSDropdownSubscription !== null) this._cSDropdownSubscription.unsubscribe();
+      },
+      error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        if (this._cSDropdownSubscription !== null) this._cSDropdownSubscription.unsubscribe();
       }
     );
   }

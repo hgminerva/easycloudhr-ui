@@ -50,7 +50,6 @@ export class PayrollDetailService {
     return await this.httpClient.put(this.appSettings.defaultAPIURLHost + '/api/trn/payroll/unlock/' + id, "", this.appSettings.defaultOptions);
   }
 
-
   // Payroll LINE
   public async PayrollLineList(payrollId: number) {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/trn/payroll/line/list/' + payrollId, this.appSettings.defaultOptions);
@@ -64,6 +63,11 @@ export class PayrollDetailService {
   public async AddPayrollLine(payId: number, objPayrollLines: PayrollLineModel) {
     return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/trn/payroll/line/create/' + payId, JSON.stringify(objPayrollLines), this.appSettings.defaultOptions);
   }
+
+  public async DownloadEmployeePayrollLines(employeeId: number, payId: number) {
+    return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/trn/payroll/line/"download/employee/dtr/create/' + employeeId + "/" + payId, "", this.appSettings.defaultOptions);
+  }
+
 
   public async DownloadDTRPayrollLines(payId: number) {
     return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/trn/payroll/line/download/dtr/create/' + payId, "", this.appSettings.defaultOptions);

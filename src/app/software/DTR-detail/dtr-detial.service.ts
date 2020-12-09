@@ -24,16 +24,16 @@ export class DtrDetialService {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/dtr/year/list', this.appSettings.defaultOptions);
   }
 
-  public async OTList() {
-    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/dtr/over/time/list', this.appSettings.defaultOptions);
+  public async OTList(payrollGroup: string) {
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/dtr/over/time/list/' + payrollGroup, this.appSettings.defaultOptions);
   }
 
-  public async LAList() {
-    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/dtr/leave/application/list', this.appSettings.defaultOptions);
+  public async LAList(payrollGroup: string) {
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/dtr/leave/application/list/' + payrollGroup, this.appSettings.defaultOptions);
   }
 
-  public async CSList() {
-    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/dtr/change/shift/list', this.appSettings.defaultOptions);
+  public async CSList(payrollGroup: string) {
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/dtr/change/shift/list/' + payrollGroup, this.appSettings.defaultOptions);
   }
 
   public async UserList() {
