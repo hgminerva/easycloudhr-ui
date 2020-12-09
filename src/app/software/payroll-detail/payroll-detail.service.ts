@@ -65,9 +65,8 @@ export class PayrollDetailService {
   }
 
   public async DownloadEmployeePayrollLines(employeeId: number, payId: number) {
-    return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/trn/payroll/line/"download/employee/dtr/create/' + employeeId + "/" + payId, "", this.appSettings.defaultOptions);
+    return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/trn/payroll/line/download/employee/dtr/create/' + employeeId + "/" + payId, "", this.appSettings.defaultOptions);
   }
-
 
   public async DownloadDTRPayrollLines(payId: number) {
     return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/trn/payroll/line/download/dtr/create/' + payId, "", this.appSettings.defaultOptions);
