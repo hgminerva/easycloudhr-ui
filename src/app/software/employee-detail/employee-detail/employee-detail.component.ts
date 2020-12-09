@@ -854,6 +854,44 @@ export class EmployeeDetailComponent implements OnInit {
     });
   }
 
+  public monthlyRateOnKeyUpEvent(event: any) {
+    let payrollRate = parseFloat(event.target.value) / 2;
+    let dailyRate = parseFloat(event.target.value) / 26;
+    let absentRate = parseFloat(event.target.value) / 26;
+    let hourlyRate = dailyRate / 8;
+    let lateHourlyRate = dailyRate / 8;
+    let undertimeHourlyRate = dailyRate / 8;
+    let overtimeHourlyRate = (dailyRate / 8) * 1.25;
+    let nightDifferenceHourlyRate = hourlyRate * 0.10;
+    this.employeeModel.EmployeePayroll.PayrollRate = this._decimalPipe.transform(payrollRate, "1.2-2");
+    this.employeeModel.EmployeePayroll.DailyRate = this._decimalPipe.transform(dailyRate, "1.2-2");
+    this.employeeModel.EmployeePayroll.AbsentDailyRate = this._decimalPipe.transform(absentRate, "1.2-2");
+    this.employeeModel.EmployeePayroll.HourlyRate = this._decimalPipe.transform(hourlyRate, "1.2-2");
+    this.employeeModel.EmployeePayroll.LateHourlyRate = this._decimalPipe.transform(lateHourlyRate, "1.2-2");
+    this.employeeModel.EmployeePayroll.UndertimeHourlyRate = this._decimalPipe.transform(undertimeHourlyRate, "1.2-2");
+    this.employeeModel.EmployeePayroll.OvertimeHourlyRate = this._decimalPipe.transform(overtimeHourlyRate, "1.2-2");
+    this.employeeModel.EmployeePayroll.NightDifferentialRate = this._decimalPipe.transform(nightDifferenceHourlyRate, "1.2-2");
+  }
+
+  public payrollRateOnKeyUpEvent(event: any) {
+    let monthlyRate = parseFloat(event.target.value) * 2;
+    let dailyRate = monthlyRate / 26;
+    let absentRate = monthlyRate / 26;
+    let hourlyRate = dailyRate / 8;
+    let lateHourlyRate = dailyRate / 8;
+    let undertimeHourlyRate = dailyRate / 8;
+    let overtimeHourlyRate = (dailyRate / 8) * 1.25;
+    let nightDifferenceHourlyRate = hourlyRate * 0.10;
+    this.employeeModel.EmployeePayroll.MonthlyRate = this._decimalPipe.transform(monthlyRate, "1.2-2");
+    this.employeeModel.EmployeePayroll.DailyRate = this._decimalPipe.transform(dailyRate, "1.2-2");
+    this.employeeModel.EmployeePayroll.AbsentDailyRate = this._decimalPipe.transform(absentRate, "1.2-2");
+    this.employeeModel.EmployeePayroll.HourlyRate = this._decimalPipe.transform(hourlyRate, "1.2-2");
+    this.employeeModel.EmployeePayroll.LateHourlyRate = this._decimalPipe.transform(lateHourlyRate, "1.2-2");
+    this.employeeModel.EmployeePayroll.UndertimeHourlyRate = this._decimalPipe.transform(undertimeHourlyRate, "1.2-2");
+    this.employeeModel.EmployeePayroll.OvertimeHourlyRate = this._decimalPipe.transform(overtimeHourlyRate, "1.2-2");
+    this.employeeModel.EmployeePayroll.NightDifferentialRate = this._decimalPipe.transform(nightDifferenceHourlyRate, "1.2-2");
+  }
+
   restrictNumeric(e) {
     let input;
     if (e.key == '') {

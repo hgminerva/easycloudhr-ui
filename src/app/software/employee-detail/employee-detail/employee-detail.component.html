@@ -352,7 +352,7 @@
                                     <input type="text" matInput placeholder="0.00" style="text-align:right;"
                                         [(ngModel)]="employeeModel.EmployeePayroll.HourlyRate" [readonly]="isLocked"
                                         (focus)="HourlyRateToNumberTypeFocus()"
-                                        (focusout)=" HourlyRateFormatValueFocusOut()">
+                                        (focusout)=" HourlyRateFormatValueFocusOut()" disabled>
                                 </mat-form-field>
                             </div>
                         </div>
@@ -364,7 +364,8 @@
                                         style="text-align:right;"
                                         [(ngModel)]="employeeModel.EmployeePayroll.MonthlyRate" [readonly]="isLocked"
                                         (focus)="MonthlyRateToNumberTypeFocus()"
-                                        (focusout)="MonthlyRateFormatValueFocusOut()">
+                                        (focusout)="MonthlyRateFormatValueFocusOut()"
+                                        (keyup)="monthlyRateOnKeyUpEvent($event)">
                                 </mat-form-field>
                             </div>
                             <div fxFlex="50" style="padding: 5px;">
@@ -374,7 +375,7 @@
                                         style="text-align:right;"
                                         [(ngModel)]="employeeModel.EmployeePayroll.LateHourlyRate" [readonly]="isLocked"
                                         (focus)="LateHourlyRateToNumberTypeFocus()"
-                                        (focusout)="LateHourlyRateFormatValueFocusOut()">
+                                        (focusout)="LateHourlyRateFormatValueFocusOut()" disabled>
                                 </mat-form-field>
                             </div>
                         </div>
@@ -388,7 +389,8 @@
                                         [readonly]="isLocked" style="text-align:right;"
                                         [(ngModel)]="employeeModel.EmployeePayroll.PayrollRate"
                                         (focus)="PayrollRateToNumberTypeFocus()"
-                                        (focusout)="PayrollRateFormatValueFocusOut()">
+                                        (focusout)="PayrollRateFormatValueFocusOut()"
+                                        (keyup)="payrollRateOnKeyUpEvent($event)">
                                 </mat-form-field>
                             </div>
                             <div fxFlex="50" style="padding: 5px;">
@@ -398,7 +400,7 @@
                                         [(ngModel)]="employeeModel.EmployeePayroll.UndertimeHourlyRate"
                                         style="text-align:right;" [readonly]="isLocked"
                                         (focus)="UndertimeHourlyRateToNumberTypeFocus()"
-                                        (focusout)="UndertimeHourlyRateFormatValueFocusOut()">
+                                        (focusout)="UndertimeHourlyRateFormatValueFocusOut()" disabled>
                                 </mat-form-field>
                             </div>
                         </div>
@@ -409,7 +411,7 @@
                                     <input type="{{inputTypeDailyRate}}" matInput placeholder="0.00"
                                         style="text-align:right;" [(ngModel)]="employeeModel.EmployeePayroll.DailyRate"
                                         [readonly]="isLocked" (focus)="DailyRateToNumberTypeFocus()"
-                                        (focusout)="DailyRateFormatValueFocusOut()">
+                                        (focusout)="DailyRateFormatValueFocusOut()" disabled>
                                 </mat-form-field>
                             </div>
                             <div fxFlex="50" style="padding: 5px;">
@@ -420,7 +422,7 @@
                                         [(ngModel)]="employeeModel.EmployeePayroll.OvertimeHourlyRate"
                                         [readonly]="isLocked" (keypress)="restrictNumeric($event)"
                                         (focus)="OvertimeHourlyRateToNumberTypeFocus()"
-                                        (focusout)="OvertimeHourlyRateFormatValueFocusOut()">
+                                        (focusout)="OvertimeHourlyRateFormatValueFocusOut()" disabled>
                                 </mat-form-field>
                             </div>
                         </div>
@@ -432,7 +434,7 @@
                                         style="text-align:right;"
                                         [(ngModel)]="employeeModel.EmployeePayroll.AbsentDailyRate"
                                         [readonly]="isLocked" (focus)="AbsentDailyRateToNumberTypeFocus()"
-                                        (focusout)="AbsentDailyRateFormatValueFocusOut()">
+                                        (focusout)="AbsentDailyRateFormatValueFocusOut()" disabled>
                                 </mat-form-field>
 
                             </div>
@@ -443,7 +445,7 @@
                                         style="text-align:right;"
                                         [(ngModel)]="employeeModel.EmployeePayroll.NightDifferentialRate"
                                         [readonly]="isLocked" (focus)="NightDifferentialRateToNumberTypeFocus()"
-                                        (focusout)="NightDifferentialRateFormatValueFocusOut()">
+                                        (focusout)="NightDifferentialRateFormatValueFocusOut()" disabled>
                                 </mat-form-field>
                             </div>
                         </div>
