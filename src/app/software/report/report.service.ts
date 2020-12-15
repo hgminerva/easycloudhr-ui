@@ -8,13 +8,13 @@ import { AppSettings } from '../software-appsettings';
 })
 export class ReportService {
 
-  
+
   constructor(
     private appSettings: AppSettings,
     private httpClient: HttpClient
   ) { }
 
-   public async DemographicsReport(companyId: number) {
+  public async DemographicsReport(companyId: number) {
 
     let printCaseOptions: any = {
       headers: new HttpHeaders({
@@ -27,7 +27,7 @@ export class ReportService {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/demographics/report/' + companyId, printCaseOptions);
   }
 
-  public async MandatoryReport(mandatory: string, periodId: number, quarter: number, monthnumber: number, companyId: number) {
+  public async PDFMandatoryReport(mandatory: string, periodId: number, quarter: number, monthnumber: number, companyId: number) {
 
     let printCaseOptions: any = {
       headers: new HttpHeaders({
@@ -38,6 +38,11 @@ export class ReportService {
     };
 
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/mandatory/report/' + mandatory + '/' + periodId + '/' + quarter + '/' + monthnumber + '/' + companyId, printCaseOptions);
+  }
+
+  public async CSVMandatoryReport(mandatory: string, periodId: number, quarter: number, monthnumber: number, companyId: number) {
+    
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/report/csv/mandatory/' + mandatory + '/' + periodId + '/' + quarter + '/' + monthnumber + '/' + companyId, this.appSettings.defaultOptions);
   }
 
   // period List

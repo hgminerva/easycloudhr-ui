@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { ReportService } from '../report.service';
+import { CollectionView, ObservableArray } from '@grapecity/wijmo';
+import { SharedService } from '../../shared/shared.service';
 
 @Component({
   selector: 'app-mandatory-report',
@@ -14,6 +16,7 @@ export class MandatoryReportComponent implements OnInit {
     private reportService: ReportService,
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
+    private _sharedService: SharedService
   ) { }
 
   ngOnInit(): void {
@@ -82,9 +85,9 @@ export class MandatoryReportComponent implements OnInit {
 
   public _isProgressBarHidden: boolean = false;
 
-  public async printCaseDTR() {
+  public async printCaseDTRPDF() {
     this._isProgressBarHidden = true;
-    this._mandatoryReportSubscription = (await this.reportService.MandatoryReport(this.mondatory, this.periodId, 0, this.monthNumber, this.companyId)).subscribe(
+    this._mandatoryReportSubscription = (await this.reportService.PDFMandatoryReport(this.mondatory, this.periodId, 0, this.monthNumber, this.companyId)).subscribe(
       data => {
         var binaryData = [];
 
@@ -98,6 +101,22 @@ export class MandatoryReportComponent implements OnInit {
 
         this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + error.status);
         console.log(error);
+        if (this._mandatoryReportSubscription != null) this._mandatoryReportSubscription.unsubscribe();
+      }
+    );
+  }
+
+  public async printCaseDTRCSV() {
+    this._isProgressBarHidden = true;
+    this._mandatoryReportSubscription = (await this.reportService.CSVMandatoryReport(this.mondatory, this.periodId, 0, this.monthNumber, this.companyId)).subscribe(
+      (data: any) => {
+        console.log(data);
+        this._sharedService.generateAPICSV(data, "mandatory", "dtr-list.csv");
+        if (this._mandatoryReportSubscription != null) this._mandatoryReportSubscription.unsubscribe();
+      },
+      error => {
+        this._isProgressBarHidden = false;
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + error.status);
         if (this._mandatoryReportSubscription != null) this._mandatoryReportSubscription.unsubscribe();
       }
     );

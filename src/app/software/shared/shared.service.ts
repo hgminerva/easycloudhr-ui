@@ -129,6 +129,45 @@ export class SharedService {
     tempLink.click();
   }
 
+  public generateAPICSV(object: any, title: string, fileName: string): void {
+
+    var data = "";
+    var data = "";
+    var collection;
+
+    data = object.MandatoryType + '\r\n';
+    data += object.Year + '\r\n';
+    data += object.Month + '\r\n';
+    data += object.Company + '\r\n';
+    collection = object.MandatoryList;
+
+    if (data != "") {
+      var label = "Name, SSS No., Payroll No., Income, Employee Share ,Employeer Share, EC, Total ";
+      if (object.MandatoryType != "Mandatory SSS") {
+        label = "Name, SSS No., Payroll No., Income, Employee Share ,Employeer Share, Total ";
+      }
+
+      label = label.slice(0, -1);
+      data += label + '\r\n';
+
+      for (var i = 0; i < collection.length; i++) {
+        var row = '';
+        for (var s in collection[i]) {
+          row += '"' + collection[i][s] + '",';
+        }
+        row.slice(0, row.length - 1);
+        data += row + '\r\n';
+      }
+    }
+
+    var csvURL = window.URL.createObjectURL(new Blob([data], { type: 'text/csv;charset=utf-8;' }));
+    var tempLink = document.createElement('a');
+
+    tempLink.href = csvURL;
+    tempLink.setAttribute('download', fileName);
+    tempLink.click();
+  }
+
   // ============
   // Generate CSV
   // ============
@@ -145,7 +184,7 @@ export class SharedService {
       for (var s in collection.items[0]) {
         label += s + ',';
         labelCount++;
-        if(labelCount == number){
+        if (labelCount == number) {
           break;
         }
       }
@@ -162,7 +201,7 @@ export class SharedService {
           for (var s in collection.items[i]) {
             row += '"' + collection.items[i][s] + '",';
             columnCount++;
-            if(columnCount == number){
+            if (columnCount == number) {
               break;
             }
           }

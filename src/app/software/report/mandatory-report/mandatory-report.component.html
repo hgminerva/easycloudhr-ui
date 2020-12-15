@@ -2,7 +2,10 @@
     <img src="../../../../assets/menu-icons/reports.png" height="35" />
     <span>&nbsp;&nbsp; Mandatory Report</span>
     <span class="spacer"></span>
-    <button mat-flat-button color="primary" style="margin: 5px;" (click)="printCaseDTR()">
+    <button mat-flat-button color="accent" style="margin: 5px;" (click)="printCaseDTRCSV()">
+        CSV
+    </button>
+    <button mat-flat-button color="primary" style="margin: 5px;" (click)="printCaseDTRPDF()">
         View
     </button>
     <button mat-raised-button style="margin: 5px;" routerLink="/software" color="warn">
