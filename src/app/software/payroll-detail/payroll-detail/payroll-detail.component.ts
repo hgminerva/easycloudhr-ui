@@ -465,7 +465,8 @@ export class PayrollDetailComponent implements OnInit {
       PHICEmployerContribution: this.RemoveComma(currentPayrollLine.PHICEmployerContribution),
       HDMFEmployerContribution: this.RemoveComma(currentPayrollLine.HDMFEmployerContribution)
     }
-    this.DetailPayrollLine(currentPayrollLine, "Edit Payroll Line Detail");
+    console.log(_payrollLineModel.TotalLateDeduction);
+    this.DetailPayrollLine(_payrollLineModel, "Edit Payroll Line Detail");
   }
 
   public async DownloadDTR() {

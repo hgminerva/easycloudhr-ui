@@ -46,6 +46,9 @@ import { TaxExemptionListComponent } from './tax-exemption-list/tax-exemption-li
 import { TaxExemptionDetailComponent } from './tax-exemption-detail/tax-exemption-detail/tax-exemption-detail.component';
 import { MandatoryReportComponent } from './report/mandatory-report/mandatory-report.component';
 import { DemographicsComponent } from './report/demographics/demographics.component';
+import { PayrollWorkSheetComponent } from './report/payroll-work-sheet/payroll-work-sheet.component';
+import { PayrollOtherDeductionReportComponent } from './report/payroll-other-deduction-report/payroll-other-deduction-report.component';
+import { PayrollOtherIncomeReportComponent } from './report/payroll-other-income-report/payroll-other-income-report.component';
 const routes: Routes = [
   {
     path: '', canActivate: [SoftwareRoutingActivate], component: SoftwareComponent,
@@ -91,7 +94,9 @@ const routes: Routes = [
       { path: 'tax-exemption-detail/:id', canActivate: [SoftwareRoutingActivate], component: TaxExemptionDetailComponent },
       { path: 'report-mandatory', canActivate: [SoftwareRoutingActivate], component: MandatoryReportComponent },
       { path: 'report-demographics', canActivate: [SoftwareRoutingActivate], component: DemographicsComponent },
-
+      { path: 'report-payroll-work-sheet', canActivate: [SoftwareRoutingActivate], component: PayrollWorkSheetComponent },
+      { path: 'report-payroll-other-deduction', canActivate: [SoftwareRoutingActivate], component: PayrollOtherDeductionReportComponent },
+      { path: 'report-payroll-other-income', canActivate: [SoftwareRoutingActivate], component: PayrollOtherIncomeReportComponent },
     ]
   }
 ];

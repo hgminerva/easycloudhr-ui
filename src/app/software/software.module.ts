@@ -105,6 +105,9 @@ import { MandatoryReportComponent } from './report/mandatory-report/mandatory-re
 import { DemographicsComponent } from './report/demographics/demographics.component';
 import { CompanyDetailApproverComponent } from './company-detail/company-detail-approver/company-detail-approver.component';
 import { PortalEmployeeApproverDialogComponent } from './portal-employee/portal-employee-approver-dialog/portal-employee-approver-dialog.component';
+import { PayrollWorkSheetComponent } from './report/payroll-work-sheet/payroll-work-sheet.component';
+import { PayrollOtherDeductionReportComponent } from './report/payroll-other-deduction-report/payroll-other-deduction-report.component';
+import { PayrollOtherIncomeReportComponent } from './report/payroll-other-income-report/payroll-other-income-report.component';
 
 @NgModule({
   declarations: [
@@ -188,6 +191,9 @@ import { PortalEmployeeApproverDialogComponent } from './portal-employee/portal-
     DemographicsComponent,
     CompanyDetailApproverComponent,
     PortalEmployeeApproverDialogComponent,
+    PayrollWorkSheetComponent,
+    PayrollOtherDeductionReportComponent,
+    PayrollOtherIncomeReportComponent
   ],
   imports: [
     CommonModule,

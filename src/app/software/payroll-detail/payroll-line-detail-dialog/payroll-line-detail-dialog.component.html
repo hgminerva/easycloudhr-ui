@@ -42,7 +42,8 @@
                         <mat-label>Total Premium Pay</mat-label>
                         <input type="{{inputTypeTotalPremiumPay}}" matInput placeholder="0.00" style="text-align:right;"
                             autocomplete="off" [(ngModel)]="_payrollLineModel.TotalPremiumPay"
-                            (focus)="TotalPremiumPayToNumberTypeFocus()" (focusout)="TotalPremiumPayFormatValueFocusOut()">
+                            (focus)="TotalPremiumPayToNumberTypeFocus()"
+                            (focusout)="TotalPremiumPayFormatValueFocusOut()">
                     </mat-form-field>
                 </div>
             </div>
@@ -52,7 +53,8 @@
                         <mat-label>Total Holiday Pay</mat-label>
                         <input type="{{inputTypeTotalHolidayPay}}" matInput placeholder="0.00" style="text-align:right;"
                             autocomplete="off" [(ngModel)]="_payrollLineModel.TotalHolidayPay"
-                            (focus)="TotalHolidayPayToNumberTypeFocus()" (focusout)="TotalHolidayPayFormatValueFocusOut()">
+                            (focus)="TotalHolidayPayToNumberTypeFocus()"
+                            (focusout)="TotalHolidayPayFormatValueFocusOut()">
                     </mat-form-field>
                 </div>
             </div>
@@ -62,7 +64,8 @@
                         <mat-label>Total Overtime Pay</mat-label>
                         <input type="{{inputTypeTotalOvertimePay}}" matInput placeholder="0.00"
                             style="text-align:right;" autocomplete="off"
-                            [(ngModel)]="_payrollLineModel.TotalOvertimePay" (focus)="TotalOvertimePayToNumberTypeFocus()"
+                            [(ngModel)]="_payrollLineModel.TotalOvertimePay"
+                            (focus)="TotalOvertimePayToNumberTypeFocus()"
                             (focusout)="TotalOvertimePayFormatValueFocusOut()">
                     </mat-form-field>
                 </div>
@@ -106,11 +109,12 @@
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="100" style="padding: 5px;">
                     <mat-form-field appearance="fill" style="width: 100%;">
-                        <mat-label>Total Late Deduction</mat-label>
+                        <mat-label>Total Late Deduction {{_payrollLineModel.TotalLateDeduction}}</mat-label>
                         <input type="{{inputTypeTotalLateDeduction}}" matInput placeholder="0.00"
                             style="text-align:right;" autocomplete="off"
                             [(ngModel)]="_payrollLineModel.TotalLateDeduction"
-                            (focus)="TotalLateDeductionToNumberTypeFocus()" (focusout)="TotalLateDeductionFormatValueFocusOut()">
+                            (focus)="TotalLateDeductionToNumberTypeFocus()"
+                            (focusout)="TotalLateDeductionFormatValueFocusOut()">
                     </mat-form-field>
                 </div>
             </div>
@@ -133,8 +137,8 @@
                     <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>Income</mat-label>
                         <input type="{{inputTypeIncome}}" matInput placeholder="0.00" style="text-align:right;"
-                            autocomplete="off" [(ngModel)]="_payrollLineModel.Income" (focus)="IncomeToNumberTypeFocus()"
-                            (focusout)="IncomeFormatValueFocusOut()">
+                            autocomplete="off" [(ngModel)]="_payrollLineModel.Income"
+                            (focus)="IncomeToNumberTypeFocus()" (focusout)="IncomeFormatValueFocusOut()">
                     </mat-form-field>
                 </div>
             </div>
@@ -178,7 +182,8 @@
                         <mat-label>SSS Contribution</mat-label>
                         <input type="{{inputTypeSSSContribution}}" matInput placeholder="0.00" style="text-align:right;"
                             autocomplete="off" [(ngModel)]="_payrollLineModel.SSSContribution"
-                            (focus)="SSSContributionToNumberTypeFocus()" (focusout)="SSSContributionFormatValueFocusOut()">
+                            (focus)="SSSContributionToNumberTypeFocus()"
+                            (focusout)="SSSContributionFormatValueFocusOut()">
                     </mat-form-field>
                 </div>
             </div>
@@ -190,7 +195,8 @@
                         <mat-label>PHIC Contribution</mat-label>
                         <input type="{{inputTypePHICContribution}}" matInput placeholder="0.00"
                             style="text-align:right;" autocomplete="off"
-                            [(ngModel)]="_payrollLineModel.PHICContribution" (focus)="PHICContributionToNumberTypeFocus()"
+                            [(ngModel)]="_payrollLineModel.PHICContribution"
+                            (focus)="PHICContributionToNumberTypeFocus()"
                             (focusout)="PHICContributionFormatValueFocusOut()">
                     </mat-form-field>
                 </div>
@@ -201,7 +207,8 @@
                         <mat-label>HDMF Contribution</mat-label>
                         <input type="{{inputTypeHDMFContribution}}" matInput placeholder="0.00"
                             style="text-align:right;" autocomplete="off"
-                            [(ngModel)]="_payrollLineModel.HDMFContribution" (focus)="HDMFContributionToNumberTypeFocus()"
+                            [(ngModel)]="_payrollLineModel.HDMFContribution"
+                            (focus)="HDMFContributionToNumberTypeFocus()"
                             (focusout)="HDMFContributionFormatValueFocusOut()">
                     </mat-form-field>
                 </div>
@@ -212,7 +219,8 @@
                         <mat-label>Income TaxAmount</mat-label>
                         <input type="{{inputTypeIncomeTaxAmount}}" matInput placeholder="0.00" style="text-align:right;"
                             autocomplete="off" [(ngModel)]="_payrollLineModel.IncomeTaxAmount"
-                            (focus)="IncomeTaxAmountToNumberTypeFocus()" (focusout)="IncomeTaxAmountFormatValueFocusOut()">
+                            (focus)="IncomeTaxAmountToNumberTypeFocus()"
+                            (focusout)="IncomeTaxAmountFormatValueFocusOut()">
                     </mat-form-field>
                 </div>
             </div>
@@ -223,7 +231,8 @@
                         <input type="{{inputTypeTotalOtherDeduction}}" matInput placeholder="0.00"
                             style="text-align:right;" autocomplete="off"
                             [(ngModel)]="_payrollLineModel.TotalOtherDeduction"
-                            (focus)="TotalOtherDeductionToNumberTypeFocus()" (focusout)="TotalOtherDeductionFormatValueFocusOut()">
+                            (focus)="TotalOtherDeductionToNumberTypeFocus()"
+                            (focusout)="TotalOtherDeductionFormatValueFocusOut()">
                     </mat-form-field>
                 </div>
             </div>
@@ -247,7 +256,7 @@
                             style="text-align:right;" autocomplete="off"
                             [(ngModel)]="_payrollLineModel.SSSEmployerContribution"
                             (focus)="SSSEmployerContributionToNumberTypeFocus()"
-                            (focusout)="SSSEmployerContributionFormatValueFocusOut()"> 
+                            (focusout)="SSSEmployerContributionFormatValueFocusOut()">
                     </mat-form-field>
                 </div>
             </div>

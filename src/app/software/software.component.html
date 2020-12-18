@@ -174,7 +174,8 @@
                             &nbsp;
                             Leave Application
                         </a>
-                        <a mat-list-item routerLink="/software/overtime-application-list" *ngIf="moduleOvertimeApplicationList">
+                        <a mat-list-item routerLink="/software/overtime-application-list"
+                            *ngIf="moduleOvertimeApplicationList">
                             &nbsp;
                             &nbsp;
                             <img src="../../assets/menu-icons/overtime application.png" height="30" />
@@ -322,6 +323,33 @@
                             &nbsp;
                             Demographics
                         </a>
+                        <a mat-list-item routerLink="/software/report-payroll-work-sheet"
+                            *ngIf="moduleDemographicsReports">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/menu-icons/reports.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Payroll Work Sheet
+                        </a>
+                        <a mat-list-item routerLink="/software/report-payroll-other-income"
+                            *ngIf="moduleDemographicsReports">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/menu-icons/reports.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Payroll Other Income
+                        </a>
+                        <a mat-list-item routerLink="/software/report-payroll-other-deduction"
+                            *ngIf="moduleDemographicsReports">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/menu-icons/reports.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Payroll Other Deduction
+                        </a>
                     </mat-nav-list>
                 </mat-expansion-panel>
 
@@ -382,7 +410,7 @@
                         </a>
                     </mat-nav-list>
                 </mat-expansion-panel>
-                
+
                 <!-- <mat-expansion-panel style="pointer-events: none;" class="mat-elevation-z0"
                     style="border-bottom: 1px solid #585858;" *ngIf="moduleSecurity">
                     <mat-expansion-panel-header>

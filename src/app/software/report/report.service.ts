@@ -41,7 +41,7 @@ export class ReportService {
   }
 
   public async CSVMandatoryReport(mandatory: string, periodId: number, quarter: number, monthnumber: number, companyId: number) {
-    
+
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/report/csv/mandatory/' + mandatory + '/' + periodId + '/' + quarter + '/' + monthnumber + '/' + companyId, this.appSettings.defaultOptions);
   }
 
@@ -49,6 +49,15 @@ export class ReportService {
   public async PeriodDropdownList() {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/period/dropdown/list', this.appSettings.defaultOptions);
   }
+
+  public async DepartmentDropdownList() {
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/department/dropdown/list', this.appSettings.defaultOptions);
+  }
+
+  public async PayrollDropdownList() {
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/payroll/dropdown/list', this.appSettings.defaultOptions);
+  }
+
 
   // Company List
   public async CompanyDropdownList() {
@@ -82,4 +91,53 @@ export class ReportService {
       { Code: 'hdmf', Value: 'HDMF' },
     ];
   }
+
+  // ==============
+  // Work Sheet PDF
+  // ==============
+  public async WorkSheetPerDepartment(payId: number, department: string) {
+    let printCaseOptions: any = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }),
+      responseType: "blob"
+    };
+
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/payroll/worksheet/per/department/' + payId + '/' + department,
+      printCaseOptions);
+  }
+
+  // ====================
+  // Payroll Other Income
+  // ====================
+  public async PayrollOtherDeduction(payId: number) {
+    let printCaseOptions: any = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }),
+      responseType: "blob"
+    };
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/payroll/other/deduction/report/' + payId,
+      printCaseOptions);
+
+  }
+
+  // =======================
+  // Payroll Other Deduction
+  // =======================
+  public async PayrollOtherIncome(payId: number) {
+    let printCaseOptions: any = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }),
+      responseType: "blob"
+    };
+
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/payroll/other/income/report/' + payId,
+      printCaseOptions);
+  }
+
 }

@@ -1,6 +1,6 @@
 <mat-toolbar>
     <img src="../../../../assets/menu-icons/reports.png" height="35" />
-    <span>&nbsp;&nbsp; Demographics</span>
+    <span>&nbsp;&nbsp; Worksheet</span>
     <span class="spacer"></span>
     <button mat-flat-button color="primary" style="margin: 5px;" (click)="printCaseDTR()">
         View
@@ -15,10 +15,21 @@
     <div fxLayout="row" fxLayout.xs="column">
         <div fxFlex="20" style="padding: 5px;">
             <mat-form-field appearance="fill" style="width: 100%; font-size:smaller;">
-                <mat-label>Company</mat-label>
-                <mat-select [(ngModel)]="companyId">
-                    <mat-option *ngFor="let company of _companyListDropdownList" [value]="company.Id">
-                        {{company.Value}}
+                <mat-label>Payroll</mat-label>
+                <mat-select [(ngModel)]="payrollId">
+                    <mat-option *ngFor="let payroll of _payrollListDropdownList" [value]="payroll.Id">
+                        {{payroll.Value}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div fxFlex="20" style="padding: 5px;">
+            <mat-form-field appearance="fill" style="width: 100%; font-size:smaller;">
+                <mat-label>Department</mat-label>
+                <mat-select [(ngModel)]="department">
+                    <mat-option *ngFor="let department of _departmentListDropdownList" [value]="department.Value">
+                        {{department.Value}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
