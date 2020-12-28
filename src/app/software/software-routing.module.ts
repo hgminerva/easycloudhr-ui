@@ -49,6 +49,7 @@ import { DemographicsComponent } from './report/demographics/demographics.compon
 import { PayrollWorkSheetComponent } from './report/payroll-work-sheet/payroll-work-sheet.component';
 import { PayrollOtherDeductionReportComponent } from './report/payroll-other-deduction-report/payroll-other-deduction-report.component';
 import { PayrollOtherIncomeReportComponent } from './report/payroll-other-income-report/payroll-other-income-report.component';
+import { CompanyJournalVoucherComponent } from './report/company-journal-voucher/company-journal-voucher.component';
 const routes: Routes = [
   {
     path: '', canActivate: [SoftwareRoutingActivate], component: SoftwareComponent,
@@ -97,6 +98,8 @@ const routes: Routes = [
       { path: 'report-payroll-work-sheet', canActivate: [SoftwareRoutingActivate], component: PayrollWorkSheetComponent },
       { path: 'report-payroll-other-deduction', canActivate: [SoftwareRoutingActivate], component: PayrollOtherDeductionReportComponent },
       { path: 'report-payroll-other-income', canActivate: [SoftwareRoutingActivate], component: PayrollOtherIncomeReportComponent },
+      { path: 'report-company-journal-voucher', canActivate: [SoftwareRoutingActivate], component: CompanyJournalVoucherComponent },
+      
     ]
   }
 ];

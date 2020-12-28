@@ -122,7 +122,6 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
       var worksheet = workbook.Sheets[first_sheet_name];
       var arraylist = XLSX.utils.sheet_to_json(worksheet, { raw: true });
       dtrFileUpload = arraylist;
-
       let employeesDTRLogs = new ObservableArray();
       // Format date logs to MM/dd/yyyy
       for (var i = 0; i < dtrFileUpload["length"]; i++) {
@@ -131,7 +130,6 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
           Date: new Date(dtrFileUpload[i].Att_Time),
           Time: new Date(dtrFileUpload[i].Att_Time)
         });
-
       }
 
       this._dtrLogsUploadedData = employeesDTRLogs;
@@ -156,6 +154,10 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
       let changeShiftLineList = this._changeShiftList;
 
       let employeesDTRLineLogs = new ObservableArray();
+      console.log("Employee",employeeList);
+      console.log("Change Shift",changeShiftLineList);
+      console.log("Shift Lines", shiftLineList);
+      // Throw info if Employee List == 0 | null
 
       // Loop to Employees List
       for (var employeeIndex = 0; employeeIndex < employeeList["length"]; employeeIndex++) {
@@ -181,7 +183,7 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
             let dateType = "REGULAR WORKING DAY";
 
             // Date Type
-            let yearDate = this._yearDateList.filter(x => x.YearId == this._caseData.objDTRData.YearId 
+            let yearDate = this._yearDateList.filter(x => x.YearId == this._caseData.objDTRData.YearId
               && this.datePipe.transform(new Date(x.YearDate), 'MM/dd/yyyy') == dateLog
               && x.Branch == this._employeeList[employeeIndex].Branch);
 
@@ -189,9 +191,10 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
               dateType = yearDate[0].DateType;
             }
 
+            console.log(changeShiftLineList);
             // Change Shift
             let changeShift = changeShiftLineList.filter(x => x.CSId == this._caseData.objDTRData.CSId == this._employeeList[employeeIndex].Id && x.ShiftDate == this.datePipe.transform(date, 'MM/dd/yyyy'));
-
+            
             if (changeShift["length"] != 0) {
               shiftId = changeShift[0].ShiftId;
             }

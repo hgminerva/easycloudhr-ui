@@ -140,4 +140,20 @@ export class ReportService {
       printCaseOptions);
   }
 
+  // =======================
+  // Company Journal Voucher
+  // =======================
+  public async CompanyJournalVourcer(payId: number, compnayId: number) {
+    let printCaseOptions: any = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }),
+      responseType: "blob"
+    };
+
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/journal/voucher/report/' + payId + '/' + compnayId,
+      printCaseOptions);
+  }
+
 }

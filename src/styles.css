@@ -32,6 +32,11 @@ body {
     color: #fff;
 }
 
+.blue-snackbar {
+    background: #0085c7;
+    color: #fff;
+}
+
 .software-container {
     padding: 15px;
 }

@@ -108,6 +108,7 @@ import { PortalEmployeeApproverDialogComponent } from './portal-employee/portal-
 import { PayrollWorkSheetComponent } from './report/payroll-work-sheet/payroll-work-sheet.component';
 import { PayrollOtherDeductionReportComponent } from './report/payroll-other-deduction-report/payroll-other-deduction-report.component';
 import { PayrollOtherIncomeReportComponent } from './report/payroll-other-income-report/payroll-other-income-report.component';
+import { CompanyJournalVoucherComponent } from './report/company-journal-voucher/company-journal-voucher.component';
 
 @NgModule({
   declarations: [
@@ -193,7 +194,8 @@ import { PayrollOtherIncomeReportComponent } from './report/payroll-other-income
     PortalEmployeeApproverDialogComponent,
     PayrollWorkSheetComponent,
     PayrollOtherDeductionReportComponent,
-    PayrollOtherIncomeReportComponent
+    PayrollOtherIncomeReportComponent,
+    CompanyJournalVoucherComponent
   ],
   imports: [
     CommonModule,

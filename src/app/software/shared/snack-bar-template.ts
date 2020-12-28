@@ -24,4 +24,14 @@ export class SnackBarTemplate {
             panelClass: ["orange-snackbar"]
         });
     }
+
+     // Info
+     public snackBarInfo(snackBar: MatSnackBar, message: string): void {
+        snackBar.open(message, '', {
+            duration: 1500,
+            horizontalPosition: this.snackBarHorizontalPosition,
+            verticalPosition: this.snackBarVerticalPosition,
+            panelClass: ["blue-snackbar"]
+        });
+    }
 }
