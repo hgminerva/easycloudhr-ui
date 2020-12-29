@@ -50,6 +50,8 @@ import { PayrollWorkSheetComponent } from './report/payroll-work-sheet/payroll-w
 import { PayrollOtherDeductionReportComponent } from './report/payroll-other-deduction-report/payroll-other-deduction-report.component';
 import { PayrollOtherIncomeReportComponent } from './report/payroll-other-income-report/payroll-other-income-report.component';
 import { CompanyJournalVoucherComponent } from './report/company-journal-voucher/company-journal-voucher.component';
+import { MonthlyWithholdingTaxComponent } from './report/monthly-withholding-tax/monthly-withholding-tax.component';
+import { SssLoanComponent } from './report/sss-loan/sss-loan.component';
 const routes: Routes = [
   {
     path: '', canActivate: [SoftwareRoutingActivate], component: SoftwareComponent,
@@ -99,6 +101,8 @@ const routes: Routes = [
       { path: 'report-payroll-other-deduction', canActivate: [SoftwareRoutingActivate], component: PayrollOtherDeductionReportComponent },
       { path: 'report-payroll-other-income', canActivate: [SoftwareRoutingActivate], component: PayrollOtherIncomeReportComponent },
       { path: 'report-company-journal-voucher', canActivate: [SoftwareRoutingActivate], component: CompanyJournalVoucherComponent },
+      { path: 'report-month-withholding-tax', canActivate: [SoftwareRoutingActivate], component: MonthlyWithholdingTaxComponent },
+      { path: 'report-sss-loan', canActivate: [SoftwareRoutingActivate], component: SssLoanComponent },
       
     ]
   }

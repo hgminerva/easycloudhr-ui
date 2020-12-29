@@ -359,6 +359,24 @@
                             &nbsp;
                             Journal Voucher
                         </a>
+                        <a mat-list-item routerLink="/software/report-month-withholding-tax"
+                            *ngIf="moduleDemographicsReports">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/menu-icons/reports.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Withholding Tax Monthly
+                        </a>
+                        <a mat-list-item routerLink="/software/report-sss-loan" *ngIf="moduleDemographicsReports">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/menu-icons/reports.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            SSS Loan
+                        </a>
+
                     </mat-nav-list>
                 </mat-expansion-panel>
 

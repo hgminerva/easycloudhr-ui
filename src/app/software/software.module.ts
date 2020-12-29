@@ -109,6 +109,8 @@ import { PayrollWorkSheetComponent } from './report/payroll-work-sheet/payroll-w
 import { PayrollOtherDeductionReportComponent } from './report/payroll-other-deduction-report/payroll-other-deduction-report.component';
 import { PayrollOtherIncomeReportComponent } from './report/payroll-other-income-report/payroll-other-income-report.component';
 import { CompanyJournalVoucherComponent } from './report/company-journal-voucher/company-journal-voucher.component';
+import { MonthlyWithholdingTaxComponent } from './report/monthly-withholding-tax/monthly-withholding-tax.component';
+import { SssLoanComponent } from './report/sss-loan/sss-loan.component';
 
 @NgModule({
   declarations: [
@@ -195,7 +197,9 @@ import { CompanyJournalVoucherComponent } from './report/company-journal-voucher
     PayrollWorkSheetComponent,
     PayrollOtherDeductionReportComponent,
     PayrollOtherIncomeReportComponent,
-    CompanyJournalVoucherComponent
+    CompanyJournalVoucherComponent,
+    MonthlyWithholdingTaxComponent,
+    SssLoanComponent
   ],
   imports: [
     CommonModule,
