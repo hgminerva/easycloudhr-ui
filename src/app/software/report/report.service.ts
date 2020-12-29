@@ -121,7 +121,36 @@ export class ReportService {
     };
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/payroll/other/deduction/report/' + payId,
       printCaseOptions);
+  }
 
+  // ========================
+  // Whithholding Tax Monthly
+  // ========================
+  public async WithholdingTaxMonthyl(periodId: number, monthnumber: number, companyId: number) {
+    let printCaseOptions: any = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }),
+      responseType: "blob"
+    };
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/monthly/with-holding-tax/' + periodId + '/' + monthnumber + '/' + companyId,
+      printCaseOptions);
+  }
+
+  // ====================
+  // SSS Loan Report
+  // ====================
+  public async SSSLoan(periodId: number, monthnumber: number, companyId: number) {
+    let printCaseOptions: any = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }),
+      responseType: "blob"
+    };
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/sss/loan/report/' + periodId + '/' + monthnumber + '/' + companyId,
+      printCaseOptions);
   }
 
   // =======================
