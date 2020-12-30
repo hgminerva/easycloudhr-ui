@@ -16,4 +16,5 @@ export class CompanyModel {
     UpdatedByUser: string;
     UpdatedDateTime: string;
     IsLocked: boolean;
+    FundingAccount: string;
 }

@@ -68,7 +68,8 @@ export class CompanyDetailComponent implements OnInit {
     UpdatedByUserId: 0,
     UpdatedByUser: '',
     UpdatedDateTime: '',
-    IsLocked: false
+    IsLocked: false,
+    FundingAccount: '',
   }
 
   public isCompanyDataLoaded: boolean = false;
@@ -141,6 +142,7 @@ export class CompanyDetailComponent implements OnInit {
           this.companyModel.UpdatedByUser = result["UpdatedByUser"];
           this.companyModel.UpdatedDateTime = result["UpdatedDateTime"];
           this.companyModel.IsLocked = result["IsLocked"];
+          this.companyModel.FundingAccount = result["FundingAccount"];
         }
         this.loadComponent(result["IsLocked"]);
         this._isComponentsShown = true;
