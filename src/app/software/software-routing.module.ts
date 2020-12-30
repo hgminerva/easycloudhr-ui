@@ -52,6 +52,7 @@ import { PayrollOtherIncomeReportComponent } from './report/payroll-other-income
 import { CompanyJournalVoucherComponent } from './report/company-journal-voucher/company-journal-voucher.component';
 import { MonthlyWithholdingTaxComponent } from './report/monthly-withholding-tax/monthly-withholding-tax.component';
 import { SssLoanComponent } from './report/sss-loan/sss-loan.component';
+import { AtmBankReportComponent } from './report/atm-bank-report/atm-bank-report.component';
 const routes: Routes = [
   {
     path: '', canActivate: [SoftwareRoutingActivate], component: SoftwareComponent,
@@ -103,7 +104,7 @@ const routes: Routes = [
       { path: 'report-company-journal-voucher', canActivate: [SoftwareRoutingActivate], component: CompanyJournalVoucherComponent },
       { path: 'report-month-withholding-tax', canActivate: [SoftwareRoutingActivate], component: MonthlyWithholdingTaxComponent },
       { path: 'report-sss-loan', canActivate: [SoftwareRoutingActivate], component: SssLoanComponent },
-      
+      { path: 'atm-bank-report', canActivate: [SoftwareRoutingActivate], component: AtmBankReportComponent },
     ]
   }
 ];
