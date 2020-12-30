@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SharedService } from '../../shared/shared.service';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { ReportService } from '../report.service';
 
@@ -14,6 +15,7 @@ export class DemographicsComponent implements OnInit {
     private reportService: ReportService,
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
+    private _sharedService: SharedService
   ) { }
 
   ngOnInit(): void {
@@ -45,7 +47,7 @@ export class DemographicsComponent implements OnInit {
 
   public _isProgressBarHidden: boolean = false;
 
-  public async printCaseDTR() {
+  public async printCase() {
     this._isProgressBarHidden = true;
     this._demographicsReportSubscription = (await this.reportService.DemographicsReport(this.companyId)).subscribe(
       data => {
@@ -62,6 +64,22 @@ export class DemographicsComponent implements OnInit {
         this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + error.status);
         console.log(error);
         if (this._demographicsReportSubscription != null) this._demographicsReportSubscription.unsubscribe();
+      }
+    );
+  }
+
+  public async printCaseCSV() {
+    this._isProgressBarHidden = true;
+    (await this.reportService.DemographicsCSVReport(this.companyId)).subscribe(
+      data => {
+        this._sharedService.generateDemographicsCSV(data, "Demographics", "demographics-report.csv");
+        this._isProgressBarHidden = false;
+      },
+      error => {
+        this._isProgressBarHidden = false;
+
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + error.status);
+        console.log(error);
       }
     );
   }

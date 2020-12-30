@@ -41,8 +41,38 @@ export class ReportService {
   }
 
   public async CSVMandatoryReport(mandatory: string, periodId: number, quarter: number, monthnumber: number, companyId: number) {
+    return await this.httpClient.get(
+      this.appSettings.defaultAPIURLHost 
+        + '/api/report/csv/mandatory/' 
+        + mandatory + '/' 
+        + periodId + '/'
+        + quarter + '/' 
+        + monthnumber + '/' 
+        + companyId, 
+      this.appSettings.defaultOptions);
+  }
 
-    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/report/csv/mandatory/' + mandatory + '/' + periodId + '/' + quarter + '/' + monthnumber + '/' + companyId, this.appSettings.defaultOptions);
+  // ===================
+  // CSV ATM Bank Report
+  // ===================
+  public async ATMBankReport(payrollId: number, companyId: number) {
+    return await this.httpClient.get(
+      this.appSettings.defaultAPIURLHost 
+        + '/api/report/csv/employee/pay/' 
+        + payrollId + '/' 
+        + companyId,
+      this.appSettings.defaultOptions);
+  }
+
+  // ===================
+  // CSV ATM Bank Report
+  // ===================
+  public async DemographicsCSVReport(companyId: number) {
+    return await this.httpClient.get(
+      this.appSettings.defaultAPIURLHost 
+        + '/api/report/csv/demographics/report/' 
+        + companyId,
+      this.appSettings.defaultOptions);
   }
 
   // period List
