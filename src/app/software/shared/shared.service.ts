@@ -129,9 +129,85 @@ export class SharedService {
     tempLink.click();
   }
 
-  public generateAPICSV(object: any, title: string, fileName: string): void {
+  // ============
+  // Generate CSV
+  // ============
+  public generateATMReportCSV(object: any, title: string, fileName: string): void {
 
+    console.log(object, "CSV data");
     var data = "";
+    var collection;
+
+    collection = object.PayLine;
+
+    var header = "H, Payroll Date,"
+      + object.PayrollDate
+      + ", Payroll Time,"
+      + ""
+      + ",Total Amount,"
+      + object.TotalAmount
+      + ",Total Count,"
+      + object.TotalCount
+      + ",FUNDING ACCOUNT," + object.FundingAccount;
+
+    header = header.slice(0, -1);
+    data += header + '\r\n';
+
+    var label = "DETAIL CONSTANT, EMPLOYEE NAME, EMPLOYEE ACCOUNT, AMOUNT, REMARKS";
+
+    label = label.slice(0, -1);
+    data += label + '\r\n';
+
+    for (var i = 0; i < collection.length; i++) {
+      var row = '';
+      for (var s in collection[i]) {
+        row += '"' + collection[i][s] + '",';
+      }
+      row.slice(0, row.length - 1);
+      data += row + '\r\n';
+    }
+
+    var csvURL = window.URL.createObjectURL(new Blob([data], { type: 'text/csv;charset=utf-8;' }));
+    var tempLink = document.createElement('a');
+
+    tempLink.href = csvURL;
+    tempLink.setAttribute('download', fileName);
+    tempLink.click();
+  }
+
+  // ============
+  // Generate CSV
+  // ============
+  public generateDemographicsCSV(object: any, title: string, fileName: string): void {
+
+    console.log(object, "CSV data");
+    var data = "";
+    var collection;
+
+    collection = object;
+
+    var label = "Employee, IdNumber, Position, Address, ZipCode, PhoneNumber, CellNumber, DateOfBirth,Age,DateHired ,DateRegularized,DateResigned,BloodType,Sex,CivilStatus,MonthlyRate,DailyRate,SSSNumber,PHICNumber,HDMFNumber,TIN,TaxCode";
+    label = label.slice(0, -1);
+    data += label + '\r\n';
+
+    for (var i = 0; i < collection.length; i++) {
+      var row = '';
+      for (var s in collection[i]) {
+        row += '"' + collection[i][s] + '",';
+      }
+      row.slice(0, row.length - 1);
+      data += row + '\r\n';
+    }
+
+    var csvURL = window.URL.createObjectURL(new Blob([data], { type: 'text/csv;charset=utf-8;' }));
+    var tempLink = document.createElement('a');
+
+    tempLink.href = csvURL;
+    tempLink.setAttribute('download', fileName);
+    tempLink.click();
+  }
+
+  public generateAPICSV(object: any, title: string, fileName: string): void {
     var data = "";
     var collection;
 
