@@ -18,6 +18,7 @@ import { PayrollOtherIncomeDetailService } from './../payroll-other-income-detai
 import { PayrollOtherIncomeLineDialogComponent } from '../payroll-other-income-line-dialog/payroll-other-income-line-dialog.component';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
+import { AddPayrollOtherIncomeDialogComponent } from '../add-payroll-other-income-dialog/add-payroll-other-income-dialog.component';
 
 @Component({
   selector: 'app-payroll-other-income-detail',
@@ -363,12 +364,44 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
   }
 
   public AddPayrollOtherIncomeLine() {
-    this.DetailPayrollOtherIncomeLine(this._payrollOtherIncomeLineModel, "Add Payroll Other Income Line");
+
+    const matDialogRef = this._matDialog.open(AddPayrollOtherIncomeDialogComponent, {
+      width: '900px',
+      data: {
+        objDialogTitle: "Add Payroll Other Income Lines",
+        objPayrollGroup: this._payrollOtherIncomeModel.PayrollGroup,
+        objPayrollOtherIncomeLine: this._payrollOtherIncomeLineModel,
+      },
+      disableClose: true
+    });
+
+    matDialogRef.afterClosed().subscribe((data: any) => {
+      if (data != null) {
+        this.GetPayrollOtherIncomeLineListData();
+      }
+    });
   }
 
   public EditPayrollOtherIncomeLine() {
     let currentPayrollOtherIncomeLine = this._listPayrollOtherIncomeLineCollectionView.currentItem;
-    this.DetailPayrollOtherIncomeLine(currentPayrollOtherIncomeLine, "Edit Payroll Other Income Line Detail");
+    const matDialogRef = this._matDialog.open(PayrollOtherIncomeLineDialogComponent, {
+      width: '900px',
+      data: {
+        objDialogTitle: "Edit Payroll Other Income Line Detail",
+        objPayrollGroup: this._payrollOtherIncomeModel.PayrollGroup,
+        objPayrollOtherIncomeLine: currentPayrollOtherIncomeLine,
+      },
+      disableClose: true
+    });
+
+    matDialogRef.afterClosed().subscribe((result: any) => {
+      if (result.event === "Edit Payroll Other Income Line Detail") {
+
+        this._isPayrollOtherIncomeLineDataLoaded = true;
+
+        this.UpdatePayrollOtherIncomeLine(result.data.Id, result.data);
+      }
+    });
   }
 
   public async DeletePayrollOtherIncomeLine() {
@@ -410,61 +443,6 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
         this.DeletePayrollOtherIncomeLine();
       }
     });
-  }
-
-
-  public DetailPayrollOtherIncomeLine(objPayrollOtherIncomeLine: PayrollOtherIncomeLineModel, eventTitle: string) {
-    const matDialogRef = this._matDialog.open(PayrollOtherIncomeLineDialogComponent, {
-      width: '1300px',
-      data: {
-        objDialogTitle: eventTitle,
-        objPayrollGroup: this._payrollOtherIncomeModel.PayrollGroup,
-        objPayrollOtherIncomeLine: objPayrollOtherIncomeLine,
-      },
-      disableClose: true
-    });
-
-    matDialogRef.afterClosed().subscribe((result: any) => {
-      if (result.event === "Add Payroll Other Income Line") {
-
-        this._isPayrollOtherIncomeLineDataLoaded = true;
-
-        this.AddSavePayrollOtherIncomeLine(result.data);
-      }
-      if (result.event === "Edit Payroll Other Income Line Detail") {
-
-        this._isPayrollOtherIncomeLineDataLoaded = true;
-
-        this.UpdatePayrollOtherIncomeLine(result.data.Id, result.data);
-      }
-    });
-  }
-
-  ngOnDestroy() {
-  }
-
-  public async AddSavePayrollOtherIncomeLine(objPayrollOtherIncomeLine: PayrollOtherIncomeLineModel) {
-    this._isPayrollOtherIncomeLineProgressBarHidden = true;
-
-    if (this._isPayrollOtherIncomeLineDataLoaded == true) {
-      this._isPayrollOtherIncomeLineDataLoaded = false;
-      this._savePayrollOtherIncomeLineSubscription = await (await this._payrollOtherIncomeDetailService.AddPayrollOtherIncomeLine(objPayrollOtherIncomeLine)).subscribe(
-        response => {
-          this._isPayrollOtherIncomeLineDataLoaded = true;
-          this._isPayrollOtherIncomeLineProgressBarHidden = false;
-
-          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Save Successfully");
-          this.GetPayrollOtherIncomeLineListData();
-          if (this._savePayrollOtherIncomeLineSubscription != null) this._savePayrollOtherIncomeLineSubscription.unsubscribe();
-        },
-        error => {
-          this._isPayrollOtherIncomeLineDataLoaded = true;
-          this._isPayrollOtherIncomeLineProgressBarHidden = false;
-          this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
-          if (this._savePayrollOtherIncomeLineSubscription != null) this._savePayrollOtherIncomeLineSubscription.unsubscribe();
-        }
-      );
-    }
   }
 
   public async UpdatePayrollOtherIncomeLine(id: number, objPayrollOtherIncomeLine: PayrollOtherIncomeLineModel) {
@@ -585,5 +563,7 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
     }
     return new Blob([data], { type: 'text/csv;charset=utf-8;' });
   }
-
+  
+  ngOnDestroy() {
+  }
 }

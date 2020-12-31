@@ -186,7 +186,7 @@ export class SharedService {
 
     collection = object;
 
-    var label = "Employee, IdNumber, Position, Address, ZipCode, PhoneNumber, CellNumber, DateOfBirth,Age,DateHired ,DateRegularized,DateResigned,BloodType,Sex,CivilStatus,MonthlyRate,DailyRate,SSSNumber,PHICNumber,HDMFNumber,TIN,TaxCode";
+    var label = "Employee, IdNumber, Position, Address, ZipCode, PhoneNumber, CellNumber, DateOfBirth,Age,DateHired ,DateRegularized,DateResigned,BloodType,Sex,CivilStatus,MonthlyRate,DailyRate,SSSNumber,PHICNumber,HDMFNumber,TIN,TaxCode ";
     label = label.slice(0, -1);
     data += label + '\r\n';
 

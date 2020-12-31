@@ -3,7 +3,7 @@ import { AppSettings } from './../software-appsettings';
 import { HttpClient } from '@angular/common/http';
 
 import { PayrollOtherIncomeModel } from './payroll-other-income.model';
-import { PayrollOtherIncomeLineModel } from './payroll-other-income-line.model';
+import { PayrollOtherIncomeLineModel, PayrollOtherIncomeLines } from './payroll-other-income-line.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -55,8 +55,8 @@ export class PayrollOtherIncomeDetailService {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/payroll/other/income/line/list/' + PayrollOtherIncomeId, this.appSettings.defaultOptions);
   }
 
-  public async AddPayrollOtherIncomeLine(objPayrollOtherIncomeLine: PayrollOtherIncomeLineModel) {
-    return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/payroll/other/income/line/create/', JSON.stringify(objPayrollOtherIncomeLine), this.appSettings.defaultOptions);
+  public async AddPayrollOtherIncomeLine(objPayrollOtherIncomeLines: PayrollOtherIncomeLines) {
+    return await this.httpClient.post(this.appSettings.defaultAPIURLHost + '/api/payroll/other/income/line/create/lines', JSON.stringify(objPayrollOtherIncomeLines), this.appSettings.defaultOptions);
   }
 
   public async UpdatePayrollOtherIncomeLine(id: number, objPayrollOtherIncomeLine: PayrollOtherIncomeLineModel) {
@@ -67,10 +67,10 @@ export class PayrollOtherIncomeDetailService {
     return await this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/api/payroll/other/income/line/delete/' + id, this.appSettings.defaultOptions);
   }
 
-  // Change Shift Line DROPDOWN
-  public async EmployeeList() {
-    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/payroll/other/income/line/employee/list', this.appSettings.defaultOptions);
-  }
+  // // Change Shift Line DROPDOWN
+  // public async EmployeeList() {
+  //   return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/payroll/other/income/line/employee/list', this.appSettings.defaultOptions);
+  // }
 
   public async ShiftsList() {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/payroll/other/income/line/shift/list', this.appSettings.defaultOptions);
@@ -79,4 +79,10 @@ export class PayrollOtherIncomeDetailService {
   public async BranchList() {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/payroll/other/income/line/branch/list', this.appSettings.defaultOptions);
   }
+
+   // DTR LINE DROPDOWN
+   public async EmployeeList(payrollGroup: string) {
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/dtr/line/employee/filteredBy/' + payrollGroup, this.appSettings.defaultOptions);
+  }
+
 }

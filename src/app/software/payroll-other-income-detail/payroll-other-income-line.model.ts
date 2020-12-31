@@ -8,3 +8,8 @@ export class PayrollOtherIncomeLineModel {
     Amount: string;
     Particulars: string;
 }
+
+export class PayrollOtherIncomeLines {
+    PayrollOtherIncome: PayrollOtherIncomeLineModel;
+    EmployeeList: any;
+}
