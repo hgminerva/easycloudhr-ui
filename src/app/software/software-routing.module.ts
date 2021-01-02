@@ -29,8 +29,8 @@ import { LeaveApplicationListComponent } from './leave-application-list/leave-ap
 import { LeaveApplicationDetailComponent } from './leave-application-detail/leave-application-detail/leave-application-detail.component';
 import { OvertimeApplicationListComponent } from './overtime-application-list/overtime-application-list/overtime-application-list.component';
 import { OvertimeApplicationDetailComponent } from './overtime-application-detail/overtime-application-detail/overtime-application-detail.component';
-import { DTRListComponent } from './dtr-list/dtr-list/dtr-list.component';
-import { DTRDetailComponent } from './dtr-detail/dtr-detail/dtr-detail.component';
+import { DTRListComponent } from './dtr-list-new/dtr-list/dtr-list.component';
+import { DTRDetailComponent } from './dtr-detail-new/dtr-detail/dtr-detail.component';
 import { SystemTalesListComponent } from './system-tables-list/system-tales-list/system-tales-list.component';
 import { YearListComponent } from './year-list/year-list/year-list.component';
 import { YearDetialComponent } from './year-detail/year-detial/year-detial.component';

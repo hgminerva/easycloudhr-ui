@@ -45,8 +45,8 @@ import { LeaveApplicationListComponent } from './leave-application-list/leave-ap
 import { LeaveApplicationDetailComponent } from './leave-application-detail/leave-application-detail/leave-application-detail.component';
 import { OvertimeApplicationListComponent } from './overtime-application-list/overtime-application-list/overtime-application-list.component';
 import { OvertimeApplicationDetailComponent } from './overtime-application-detail/overtime-application-detail/overtime-application-detail.component';
-import { DTRListComponent } from './dtr-list/dtr-list/dtr-list.component';
-import { DTRDetailComponent } from './dtr-detail/dtr-detail/dtr-detail.component';
+import { DTRListComponent } from './dtr-list-new/dtr-list/dtr-list.component';
+import { DTRDetailComponent } from './dtr-detail-new/dtr-detail/dtr-detail.component';
 import { UserRegistrationDialogComponent } from './user-list/user-registration-dialog/user-registration-dialog.component';
 import { SnackBarTemplate } from './shared/snack-bar-template';
 // import { DeleteDialogBoxComponent } from './shared/delete-dialog-box/delete-dialog-box.component';
@@ -56,8 +56,8 @@ import { UserDetailUserModuleDialogComponent } from './user-detail/user-detail-u
 import { UserDetailUserPayrollGroupDialogComponent } from './user-detail/user-detail-user-payroll-group-dialog/user-detail-user-payroll-group-dialog.component';
 import { EmployeeDetailEditNameDialogComponent } from './employee-detail/employee-detail-edit-name-dialog/employee-detail-edit-name-dialog.component';
 import { EmployeeDetialLinkToUsernameDialogComponent } from './employee-detail/employee-detial-link-to-username-dialog/employee-detial-link-to-username-dialog.component';
-import { DtrDetialDtrLineDetailDialogComponent } from './dtr-detail/dtr-detial-dtr-line-detail-dialog/dtr-detial-dtr-line-detail-dialog.component';
-import { DtrDetailDtrLineAddDialogComponent } from './dtr-detail/dtr-detail-dtr-line-add-dialog/dtr-detail-dtr-line-add-dialog.component';
+import { DtrDetialDtrLineDetailDialogComponent } from './dtr-detail-new/dtr-detial-dtr-line-detail-dialog/dtr-detial-dtr-line-detail-dialog.component';
+import { DtrDetailDtrLineAddDialogComponent } from './dtr-detail-new/dtr-detail-dtr-line-add-dialog/dtr-detail-dtr-line-add-dialog.component';
 import { ShiftCodeDetialShiftLineComponent } from './shift-code-detail/shift-code-detial-shift-line/shift-code-detial-shift-line.component';
 import { ChangeShiftCodeLineDetailComponent } from './change-shift-code-detail/change-shift-code-line-detail/change-shift-code-line-detail.component';
 import { LeaveApplicationLineDetailComponent } from './leave-application-detail/leave-application-line-detail/leave-application-line-detail.component';
@@ -93,7 +93,7 @@ import { PortalEmployeeDtrDialogComponent } from './portal-employee/portal-emplo
 import { PortalEmployeePayrollDialogComponent } from './portal-employee/portal-employee-payroll-dialog/portal-employee-payroll-dialog.component';
 import { YearDateAddToBranchesDialogComponent } from './year-detail/year-date-add-to-branches-dialog/year-date-add-to-branches-dialog.component';
 import { UserChangePasswordDialogComponent } from './shared/user-change-password-dialog/user-change-password-dialog.component';
-import { DtrDetailImportDtrLogsComponent } from './dtr-detail/dtr-detail-import-dtr-logs/dtr-detail-import-dtr-logs.component';
+import { DtrDetailImportDtrLogsComponent } from './dtr-detail-new/dtr-detail-import-dtr-logs/dtr-detail-import-dtr-logs.component';
 import { GenericDropdownDialogComponent } from './shared/generic-dropdown-dialog/generic-dropdown-dialog.component';
 import { PdfDialogComponent } from './shared/pdf-dialog/pdf-dialog.component';
 import { ComfirmMassageDialogComponent } from './shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
