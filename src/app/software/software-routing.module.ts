@@ -29,8 +29,8 @@ import { LeaveApplicationListComponent } from './leave-application-list/leave-ap
 import { LeaveApplicationDetailComponent } from './leave-application-detail/leave-application-detail/leave-application-detail.component';
 import { OvertimeApplicationListComponent } from './overtime-application-list/overtime-application-list/overtime-application-list.component';
 import { OvertimeApplicationDetailComponent } from './overtime-application-detail/overtime-application-detail/overtime-application-detail.component';
-import { DTRListComponent } from './DTR-list/DTR-list/DTR-list.component';
-import { DTRDetailComponent } from './DTR-detail/DTR-detail/DTR-detail.component';
+import { DTRListComponent } from './dtr-list/dtr-list/dtr-list.component';
+import { DTRDetailComponent } from './dtr-detail/dtr-detail/dtr-detail.component';
 import { SystemTalesListComponent } from './system-tables-list/system-tales-list/system-tales-list.component';
 import { YearListComponent } from './year-list/year-list/year-list.component';
 import { YearDetialComponent } from './year-detail/year-detial/year-detial.component';
@@ -83,8 +83,8 @@ const routes: Routes = [
       { path: 'leave-application-detail/:id', canActivate: [SoftwareRoutingActivate], component: LeaveApplicationDetailComponent },
       { path: 'overtime-application-list', canActivate: [SoftwareRoutingActivate], component: OvertimeApplicationListComponent },
       { path: 'overtime-application-detail/:id', canActivate: [SoftwareRoutingActivate], component: OvertimeApplicationDetailComponent },
-      { path: 'DTR-list', canActivate: [SoftwareRoutingActivate], component: DTRListComponent },
-      { path: 'DTR-detail/:id', canActivate: [SoftwareRoutingActivate], component: DTRDetailComponent },
+      { path: 'dtr-list', canActivate: [SoftwareRoutingActivate], component: DTRListComponent },
+      { path: 'dtr-detail/:id', canActivate: [SoftwareRoutingActivate], component: DTRDetailComponent },
       { path: 'system-tables-list', canActivate: [SoftwareRoutingActivate], component: SystemTalesListComponent },
       { path: 'loan-list', canActivate: [SoftwareRoutingActivate], component: LoanListComponent },
       { path: 'payroll-list', canActivate: [SoftwareRoutingActivate], component: PayrollListComponent },

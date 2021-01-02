@@ -5,7 +5,7 @@ import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DecimalPipe } from '@angular/common';
 
-import { DtrDetialService } from './../dtr-detial.service';
+import { DtrDetialService } from '../dtr-detial.service';
 import { DTRLineModel } from '../dtr-line.model';
 
 @Component({

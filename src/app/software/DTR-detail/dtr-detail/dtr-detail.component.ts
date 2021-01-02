@@ -13,7 +13,7 @@ import { DatePipe } from '@angular/common';
 
 import * as XLSX from 'xlsx';
 
-import { DtrDetialService } from './../dtr-detial.service';
+import { DtrDetialService } from '../dtr-detial.service';
 import { DTRModel } from '../dtr-detial.model';
 import { DTRLineModel } from '../dtr-line.model';
 import { DtrDetialDtrLineDetailDialogComponent } from '../dtr-detial-dtr-line-detail-dialog/dtr-detial-dtr-line-detail-dialog.component';

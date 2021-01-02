@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AppSettings } from '../../software-appsettings';
 
-import { DTRLogs } from './../dtr-line.model';
+import { DTRLogs } from '../dtr-line.model';
 
 @Injectable({
   providedIn: 'root'

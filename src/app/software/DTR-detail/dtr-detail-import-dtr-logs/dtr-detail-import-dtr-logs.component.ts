@@ -10,7 +10,7 @@ import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 import * as wjcGrid from '@grapecity/wijmo.grid';
 
 import { DtrDetailImportDtrLogsService } from './dtr-detail-import-dtr-logs.service';
-import { DTRLogs } from './../dtr-line.model';
+import { DTRLogs } from '../dtr-line.model';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 
 @Component({
