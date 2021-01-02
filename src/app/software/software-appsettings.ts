@@ -2,7 +2,8 @@ import { HttpHeaders } from '@angular/common/http';
 
 export class AppSettings {
     // API URL
-    public defaultAPIURLHost = "https://easycloudhrapi.azurewebsites.net";
+    // public defaultAPIURLHost = "https://easycloudhrapi.azurewebsites.net";
+    public defaultAPIURLHost = "http://localhost:8081";
     // public defaultAPIURLHost = "https://localhost:44369";
     // public defaultAPIURLHost = "http://192.169.1.9:8082";
 
