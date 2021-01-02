@@ -3,9 +3,9 @@ import { HttpHeaders } from '@angular/common/http';
 
 export class AppSetting {
     // API URL
-    public defaultAPIURLHost = "https://easycloudhrapi.azurewebsites.net";
+    // public defaultAPIURLHost = "https://easycloudhrapi.azurewebsites.net";
     // public defaultAPIURLHost = "https://localhost:44369";
-    // public defaultAPIURLHost = "http://hris-api.hiro-test.net/?fbclid=IwAR3d6p5y4qDvtox_218iDhAeNlvjnVJIOFuslRPy3ZgOuNhYU9UcRWPRz-8";
+    public defaultAPIURLHost = "http://hris-api.hiro-test.net/?fbclid=IwAR3d6p5y4qDvtox_218iDhAeNlvjnVJIOFuslRPy3ZgOuNhYU9UcRWPRz-8";
     // public defaultAPIURLHost = "http://192.169.1.9:8082";
 
     // URL Encoded Options
