@@ -2,94 +2,169 @@
     <img src="../../../../assets/menu-icons/system tables.png" height="35" />
     <span>&nbsp;&nbsp; System Tables</span>
     <span class="spacer"></span>
-    <button mat-flat-button color="primary" style="margin: 5px;" [disabled]="buttonDisabled"
-        (click)="BtnAddCodeTables()" *ngIf="_userRights.CanAdd">
-        <!-- <mat-icon>add</mat-icon> -->
-        Add
-    </button>
     <button mat-raised-button style="margin: 5px;" routerLink="/software" color="warn">
         <!-- <mat-icon>close</mat-icon> -->
         Close
     </button>
 </mat-toolbar>
-<div class="software-container" [hidden]="!_userRights.CanOpen">
-    <div fxLayout="row" fxLayout.xs="column">
-
-        <div fxFlex="20" style="padding: 5px;">
-            <mat-form-field appearance="fill" style="width: 100%;">
-                <mat-label>Payroll Group</mat-label>
-                <mat-select [(ngModel)]="_filterCategory" (selectionChange)='CategorySelectionChange()'>
-                    <mat-option *ngFor="let category of _categoryListDropdown" [value]="category.Value">
-                        {{category.Value}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+<mat-tab-group>
+    <mat-tab label="Payroll Group">
+        <div class="software-container" [hidden]="!_userRights.CanOpen">
+            <div fxLayout="row" fxLayout.xs="column">
+                <div fxFlex="50" style="padding: 5px;">
+                    <mat-form-field appearance="fill" style="width: 100%;">
+                        <mat-label>Payroll Group</mat-label>
+                        <mat-select [(ngModel)]="_filterCategory" (selectionChange)='CategorySelectionChange()'>
+                            <mat-option *ngFor="let category of _categoryListDropdown" [value]="category.Value">
+                                {{category.Value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="50" style="padding: 5px; text-align: right;">
+                    <button mat-flat-button color="primary" [disabled]="buttonDisabled" (click)="BtnAddCodeTables()"
+                        *ngIf="_userRights.CanAdd">
+                        <!-- <mat-icon>add</mat-icon> -->
+                        Add
+                    </button>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column">
+                <div fxFlex="100" style="margin: 5px;">
+                    <mat-tab-group #tabGroup (selectedTabChange)="activeTab()" style="max-height:100%;">
+                        <mat-tab label="Code Tables">
+                            <mat-progress-bar *ngIf="isTablesCodeProgressBarHidden" [color]="'primary'"
+                                [mode]="'indeterminate'">
+                            </mat-progress-bar>
+                            <wj-flex-grid #flexCodeTables [itemsSource]="listCodeTablesCollectionView"
+                                [selectionMode]="3" [frozenColumns]="2" #CodeTablesGrid
+                                (click)="codeTablesGridClick(CodeTablesGrid, $event)">
+                                <wj-flex-grid-filter></wj-flex-grid-filter>
+                                <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="90"
+                                    *ngIf="_userRights.CanEdit">
+                                    <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
+                                        <button mat-raised-button class="ct-button-edit" color="primary"
+                                            style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
+                                            <!-- <mat-icon class="ct-button-edit">edit</mat-icon> -->
+                                            <span class="ct-button-edit">Edit</span>
+                                        </button>
+                                    </ng-template>
+                                </wj-flex-grid-column>
+                                <wj-flex-grid-column [header]="'Delete'" [isReadOnly]="true" [width]="90"
+                                    *ngIf="_userRights.CanDelete">
+                                    <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
+                                        <button mat-raised-button class="ct-button-delete" color="warn"
+                                            style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
+                                            <!-- <mat-icon class="ct-button-delete">delete</mat-icon> -->
+                                            <span class="ct-button-delete">Delete</span>
+                                        </button>
+                                    </ng-template>
+                                </wj-flex-grid-column>
+                                <wj-flex-grid-column [header]="'Code'" [binding]="'Code'" [isReadOnly]="true"
+                                    [isReadOnly]="true" [width]="'2*'">
+                                </wj-flex-grid-column>
+                                <wj-flex-grid-column [header]="'Value'" [binding]="'Value'" [isReadOnly]="true"
+                                    [isReadOnly]="true" [width]="'2*'">
+                                </wj-flex-grid-column>
+                                <wj-flex-grid-column [header]="'Category'" [binding]="'Category'" [isReadOnly]="true"
+                                    [isReadOnly]="true" [width]="'2*'">
+                                </wj-flex-grid-column>
+                            </wj-flex-grid>
+                            <mat-button-toggle-group style="margin-top: 7px;">
+                                <mat-button-toggle (click)="listCodeTablesCollectionView.moveToFirstPage()">
+                                    <mat-icon style="margin-right: -15px">navigate_before</mat-icon>
+                                    <mat-icon>navigate_before</mat-icon>
+                                </mat-button-toggle>
+                                <mat-button-toggle (click)="listCodeTablesCollectionView.moveToPreviousPage()">
+                                    <mat-icon>navigate_before</mat-icon>
+                                </mat-button-toggle>
+                                <mat-button-toggle style="width: 100px;">
+                                    {{ listCodeTablesCollectionView.pageIndex + 1 }}
+                                    /
+                                    {{ listCodeTablesCollectionView.pageCount }}</mat-button-toggle>
+                                <mat-button-toggle (click)="listCodeTablesCollectionView.moveToNextPage()">
+                                    <mat-icon>navigate_next</mat-icon>
+                                </mat-button-toggle>
+                                <mat-button-toggle (click)="listCodeTablesCollectionView.moveToLastPage()">
+                                    <mat-icon style="margin-right: -15px">navigate_next</mat-icon>
+                                    <mat-icon>navigate_next</mat-icon>
+                                </mat-button-toggle>
+                            </mat-button-toggle-group>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+            </div>
         </div>
-
-    </div>
-
-    <div fxLayout="row" fxLayout.xs="column">
-        <div fxFlex="100" style="margin: 5px;">
-            <mat-tab-group #tabGroup (selectedTabChange)="activeTab()" style="max-height:100%;">
-                <mat-tab label="Code Tables">
-                    <mat-progress-bar *ngIf="isTablesCodeProgressBarHidden" [color]="'primary'"
-                        [mode]="'indeterminate'">
+    </mat-tab>
+    <mat-tab label="Labels">
+        <div class="software-container" [hidden]="!_userRights.CanOpen">
+            <div fxLayout="row" fxLayout.xs="column">
+                <div fxFlex="100" style="padding: 5px; text-align: right;">
+                    <button mat-flat-button color="primary" [disabled]="buttonDisabled" (click)="BtnAddLabel()"
+                        *ngIf="_userRights.CanAdd">
+                        Add
+                    </button>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column">
+                <div fxFlex="100" style="padding: 5px; text-align: right;">
+                    <mat-progress-bar *ngIf="isLabelProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'">
                     </mat-progress-bar>
-                    <wj-flex-grid #flexCodeTables [itemsSource]="listCodeTablesCollectionView" [selectionMode]="3"
-                        [frozenColumns]="2" #CodeTablesGrid (click)="codeTablesGridClick(CodeTablesGrid, $event)">
+                    <wj-flex-grid #flexLabel [itemsSource]="_listLabelCollectionView" [selectionMode]="3"
+                        [frozenColumns]="2" #BIRGrid (click)="birGridClick(BIRGrid, $event)">
                         <wj-flex-grid-filter></wj-flex-grid-filter>
                         <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="90"
                             *ngIf="_userRights.CanEdit">
                             <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
-                                <button mat-raised-button class="ct-button-edit" color="primary"
+                                <button mat-raised-button class="bir-button-edit" color="primary"
                                     style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
-                                    <!-- <mat-icon class="ct-button-edit">edit</mat-icon> -->
-                                    <span class="ct-button-edit">Edit</span>
+                                    <!-- <mat-icon class="bir-button-edit">edit</mat-icon> -->
+                                    <span class="bir-button-edit">Edit</span>
                                 </button>
                             </ng-template>
                         </wj-flex-grid-column>
                         <wj-flex-grid-column [header]="'Delete'" [isReadOnly]="true" [width]="90"
                             *ngIf="_userRights.CanDelete">
                             <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
-                                <button mat-raised-button class="ct-button-delete" color="warn"
+                                <button mat-raised-button class="bir-button-delete" color="warn"
                                     style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
-                                    <!-- <mat-icon class="ct-button-delete">delete</mat-icon> -->
-                                    <span class="ct-button-delete">Delete</span>
+                                    <!-- <mat-icon class="bir-button-delete">delete</mat-icon> -->
+                                    <span class="bir-button-delete">Delete</span>
                                 </button>
                             </ng-template>
                         </wj-flex-grid-column>
                         <wj-flex-grid-column [header]="'Code'" [binding]="'Code'" [isReadOnly]="true"
                             [isReadOnly]="true" [width]="'2*'">
                         </wj-flex-grid-column>
-                        <wj-flex-grid-column [header]="'Value'" [binding]="'Value'" [isReadOnly]="true"
+                        <wj-flex-grid-column [header]="'Label'" [binding]="'Label'" [isReadOnly]="true"
                             [isReadOnly]="true" [width]="'2*'">
                         </wj-flex-grid-column>
-                        <wj-flex-grid-column [header]="'Category'" [binding]="'Category'" [isReadOnly]="true"
-                            [isReadOnly]="true" [width]="'2*'">
+                        <wj-flex-grid-column [header]="'Displayed Label'" [binding]="'DisplayedLabel'"
+                            [isReadOnly]="true" [width]="'4*'">
                         </wj-flex-grid-column>
                     </wj-flex-grid>
                     <mat-button-toggle-group style="margin-top: 7px;">
-                        <mat-button-toggle (click)="listCodeTablesCollectionView.moveToFirstPage()">
+                        <mat-button-toggle (click)="_listLabelCollectionView.moveToFirstPage()">
                             <mat-icon style="margin-right: -15px">navigate_before</mat-icon>
                             <mat-icon>navigate_before</mat-icon>
                         </mat-button-toggle>
-                        <mat-button-toggle (click)="listCodeTablesCollectionView.moveToPreviousPage()">
+                        <mat-button-toggle (click)="_listLabelCollectionView.moveToPreviousPage()">
                             <mat-icon>navigate_before</mat-icon>
                         </mat-button-toggle>
                         <mat-button-toggle style="width: 100px;">
-                            {{ listCodeTablesCollectionView.pageIndex + 1 }}
+                            {{ _listLabelCollectionView.pageIndex + 1 }}
                             /
-                            {{ listCodeTablesCollectionView.pageCount }}</mat-button-toggle>
-                        <mat-button-toggle (click)="listCodeTablesCollectionView.moveToNextPage()">
+                            {{ _listLabelCollectionView.pageCount }}</mat-button-toggle>
+                        <mat-button-toggle (click)="_listLabelCollectionView.moveToNextPage()">
                             <mat-icon>navigate_next</mat-icon>
                         </mat-button-toggle>
-                        <mat-button-toggle (click)="listCodeTablesCollectionView.moveToLastPage()">
+                        <mat-button-toggle (click)="_listLabelCollectionView.moveToLastPage()">
                             <mat-icon style="margin-right: -15px">navigate_next</mat-icon>
                             <mat-icon>navigate_next</mat-icon>
                         </mat-button-toggle>
                     </mat-button-toggle-group>
-                </mat-tab>
-            </mat-tab-group>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
+    </mat-tab>
+</mat-tab-group>

@@ -113,6 +113,7 @@ import { MonthlyWithholdingTaxComponent } from './report/monthly-withholding-tax
 import { SssLoanComponent } from './report/sss-loan/sss-loan.component';
 import { AtmBankReportComponent } from './report/atm-bank-report/atm-bank-report.component';
 import { AddPayrollOtherIncomeDialogComponent } from './payroll-other-income-detail/add-payroll-other-income-dialog/add-payroll-other-income-dialog.component';
+import { LabelDetailComponent } from './system-tables-list/label-detail/label-detail.component';
 
 @NgModule({
   declarations: [
@@ -203,7 +204,8 @@ import { AddPayrollOtherIncomeDialogComponent } from './payroll-other-income-det
     MonthlyWithholdingTaxComponent,
     SssLoanComponent,
     AtmBankReportComponent,
-    AddPayrollOtherIncomeDialogComponent
+    AddPayrollOtherIncomeDialogComponent,
+    LabelDetailComponent
   ],
   imports: [
     CommonModule,

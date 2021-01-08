@@ -12,6 +12,8 @@ import { SystemTablesCodeTablesDetailComponent } from '../../system-tables-detai
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
+import { LabelDetailComponent } from './../label-detail/label-detail.component';
+
 @Component({
   selector: 'app-system-tales-list',
   templateUrl: './system-tales-list.component.html',
@@ -26,11 +28,13 @@ export class SystemTalesListComponent implements OnInit {
     private snackBarTemplate: SnackBarTemplate,
     public matDialog: MatDialog,
     private _softwareSecurityService: SoftwareSecurityService,
+    private labelService: SystemTablesListService,
 
   ) { }
 
   ngOnInit() {
     this.Get_userRights();
+    this.GetLabelListData();
   }
 
   @ViewChild('tabGroup') tabGroup;
@@ -288,4 +292,195 @@ export class SystemTalesListComponent implements OnInit {
 
   }
 
+
+  // =============
+  // Code Tables
+  // =============
+  public _listLabelObservableArray: ObservableArray = new ObservableArray();
+  public _listLabelCollectionView: CollectionView = new CollectionView(this._listLabelObservableArray);
+  public _listLabelPageIndex: number = 15;
+  @ViewChild('flexLabel') _flexLabel: wjcGrid.FlexGrid;
+  public isLabelProgressBarHidden = false;
+  public isLabelDataLoaded: boolean = false;
+
+  private _labelListSubscription: any;
+  private _addLabelSubscription: any;
+  private _deleteLabelSubscription: any;
+
+  private async GetLabelListData() {
+    this._listLabelObservableArray = new ObservableArray();
+    this._listLabelCollectionView = new CollectionView(this._listLabelObservableArray);
+    this._listLabelCollectionView.pageSize = 15;
+    this._listLabelCollectionView.trackChanges = true;
+    await this._listLabelCollectionView.refresh();
+    await this._flexLabel.refresh();
+
+    this.isLabelProgressBarHidden = true;
+
+    this._labelListSubscription = (await this.labelService.LabelList()).subscribe(
+      (response: any) => {
+        var results = response;
+        if (results["length"] > 0) {
+          this._listLabelObservableArray = results;
+          this._listLabelCollectionView = new CollectionView(this._listLabelObservableArray);
+          this._listLabelCollectionView.pageSize = 15;
+          this._listLabelCollectionView.trackChanges = true;
+          this._listLabelCollectionView.refresh();
+          this._flexLabel.refresh();
+        }
+
+        this.isLabelDataLoaded = true;
+        this.isLabelProgressBarHidden = false;
+        if (this._labelListSubscription != null) this._labelListSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this._labelListSubscription !== null) this._labelListSubscription.unsubscribe();
+      }
+    );
+  }
+
+  birGridClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'bir-button-edit')) {
+      if (this._userRights.CanEdit) {
+        this.EditLabel();
+      }
+
+    }
+
+    if (wjcCore.hasClass(e.target, 'bir-button-delete')) {
+      if (this._userRights.CanDelete) {
+        this.ComfirmDeleteLabel();
+      }
+    }
+  }
+
+  public BtnAddLabel() {
+
+    let objLabel: any = {
+      Id: 0,
+      Code: '',
+      Label: '',
+      DisplayedLabel: ''
+    }
+
+    this.DetailLabel(objLabel, "Add Label");
+  }
+
+  public EditLabel() {
+    let currentLabel = this._listLabelCollectionView.currentItem;
+    this.DetailLabel(currentLabel, "Edit Label");
+  }
+
+  public async AddLabel(objLabel: any) {
+    this.buttonDisabled = true;
+    if (this.isLabelDataLoaded == true) {
+      this.isLabelDataLoaded = false;
+      this._addLabelSubscription = (await this.labelService.AddLabel(objLabel)).subscribe(
+        response => {
+          this.buttonDisabled = false;
+          this.isLabelDataLoaded = true;
+          this.GetLabelListData();
+          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Added Successfully");
+          if (this._addLabelSubscription != null) this._addLabelSubscription.unsubscribe();
+        },
+        error => {
+          this.buttonDisabled = false;
+          this.isLabelDataLoaded = true;
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this._addLabelSubscription != null) this._addLabelSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
+  public async SaveLabel(objLabel: any) {
+    this.buttonDisabled = true;
+    if (this.isLabelDataLoaded == true) {
+      this.isLabelDataLoaded = false;
+      this._addLabelSubscription = (await this.labelService.SaveLabel(objLabel)).subscribe(
+        response => {
+          this.buttonDisabled = false;
+          this.isLabelDataLoaded = true;
+          this.GetLabelListData();
+          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Save Successfully");
+        },
+        error => {
+          this.buttonDisabled = false;
+          this.isLabelDataLoaded = true;
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this._addLabelSubscription != null) this._addLabelSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
+  public async DeleteLabel() {
+    if (this.isLabelDataLoaded == true) {
+      this.isLabelDataLoaded = false;
+      let currentLabel = this._listLabelCollectionView.currentItem;
+      this.isLabelProgressBarHidden = true;
+
+      this._deleteLabelSubscription = (await this.labelService.DeleteLabel(currentLabel.Id)).subscribe(
+        response => {
+          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Delete Successfully");
+          this.GetLabelListData();
+          this.isLabelProgressBarHidden = false;
+          this.isLabelDataLoaded = true;
+        },
+        error => {
+          this.isLabelDataLoaded = true;
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + error.status);
+          if (this._deleteLabelSubscription != null) this._deleteLabelSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
+  public ComfirmDeleteLabel(): void {
+    let currentLabel = this._listLabelCollectionView.currentItem;
+    const matDialogRef = this.matDialog.open(ComfirmMassageDialogComponent, {
+      width: '500px',
+      data: {
+        objDialogTitle: "",
+        objComfirmationMessage: `Delete Label?`,
+      },
+      disableClose: true
+    });
+
+    matDialogRef.afterClosed().subscribe(result => {
+      if (result.message == "Yes") {
+        this.DeleteLabel();
+      }
+    });
+  }
+
+  public DetailLabel(data: any, eventTitle: string): void {
+    const matDialogRef = this.matDialog.open(LabelDetailComponent, {
+      width: '500px',
+      data: {
+        objDialogTitle: eventTitle,
+        objData: data,
+      },
+      disableClose: true
+    });
+
+    matDialogRef.afterClosed().subscribe(data => {
+      if (data.event != 'Close') {
+        let objLabel: any = {
+          Id: data.objData.Id,
+          Code: data.objData.Code,
+          Label: data.objData.Label,
+          DisplayedLabel: data.objData.DisplayedLabel
+        }
+
+        if (data.event === "Add") {
+          this.AddLabel(objLabel);
+        }
+        if (data.event === "Edit") {
+          this.SaveLabel(objLabel);
+        }
+      }
+    });
+  }
 }
