@@ -124,5 +124,8 @@
       }
     }
   },
-  "defaultProject": "easycloudhr-ui"
+  "defaultProject": "easycloudhr-ui",
+  "cli": {
+    "analytics": false
+  }
 }

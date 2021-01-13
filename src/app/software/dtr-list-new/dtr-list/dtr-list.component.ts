@@ -228,7 +228,7 @@ export class DTRListComponent implements OnInit {
         (response: any) => {
           this._btnAddDisabled = false;
           this._isDataLoaded = true;
-          this._router.navigate(['/software/DTR-detail/' + response]);
+          this._router.navigate(['/software/dtr-detail/' + response]);
 
           this.GetDTRListData();
           this._snackBarTemplate.snackBarSuccess(this._snackBar, "Added Successfully");
@@ -245,7 +245,7 @@ export class DTRListComponent implements OnInit {
 
   public EditDTR() {
     let currentDTR = this._listDTRCollectionView.currentItem;
-    this._router.navigate(['/software/DTR-detail/' + currentDTR.Id]);
+    this._router.navigate(['/software/dtr-detail/' + currentDTR.Id]);
   }
 
   public async DeleteDTR() {
