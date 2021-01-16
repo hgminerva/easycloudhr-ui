@@ -791,6 +791,7 @@ export class MandatoryTablesListComponent implements OnInit {
 
   public async AddMandatorySSS(objMandatorySSS: MandatorySSS) {
     this.buttonDisabled = true;
+
     if (this._isMandatorySSSDataLoaded == true) {
       this._isMandatorySSSDataLoaded = false;
       this._addMandatorySSSSubscription = (await this._mandatoryTablesService.AddMandatorySSS(objMandatorySSS)).subscribe(
@@ -886,7 +887,7 @@ export class MandatoryTablesListComponent implements OnInit {
 
     matDialogRef.afterClosed().subscribe(data => {
 
-      if (data.event == ! 'Close') {
+      if (data.event != 'Close') {
         let objMandatorySSS: MandatorySSS = {
           Id: data.objData.Id,
           AmountStart: data.objData.AmountStart,
@@ -898,6 +899,7 @@ export class MandatoryTablesListComponent implements OnInit {
         }
 
         if (data.event === 'Add') {
+          console.log("we");
           this.AddMandatorySSS(objMandatorySSS);
         }
         if (data.event === 'Edit') {
