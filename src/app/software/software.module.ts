@@ -114,7 +114,7 @@ import { SssLoanComponent } from './report/sss-loan/sss-loan.component';
 import { AtmBankReportComponent } from './report/atm-bank-report/atm-bank-report.component';
 import { AddPayrollOtherIncomeDialogComponent } from './payroll-other-income-detail/add-payroll-other-income-dialog/add-payroll-other-income-dialog.component';
 import { LabelDetailComponent } from './system-tables-list/label-detail/label-detail.component';
-
+import { PayslipReportComponent } from './report/payslip-report/payslip-report.component';
 @NgModule({
   declarations: [
     SoftwareComponent,
@@ -205,7 +205,8 @@ import { LabelDetailComponent } from './system-tables-list/label-detail/label-de
     SssLoanComponent,
     AtmBankReportComponent,
     AddPayrollOtherIncomeDialogComponent,
-    LabelDetailComponent
+    LabelDetailComponent,
+    PayslipReportComponent
   ],
   imports: [
     CommonModule,
