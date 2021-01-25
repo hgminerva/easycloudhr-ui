@@ -54,6 +54,7 @@ import { MonthlyWithholdingTaxComponent } from './report/monthly-withholding-tax
 import { SssLoanComponent } from './report/sss-loan/sss-loan.component';
 import { AtmBankReportComponent } from './report/atm-bank-report/atm-bank-report.component';
 import { PayslipReportComponent } from './report/payslip-report/payslip-report.component';
+import { LoanSummaryComponent } from './report/loan-summary/loan-summary.component';
 const routes: Routes = [
   {
     path: '', canActivate: [SoftwareRoutingActivate], component: SoftwareComponent,
@@ -107,6 +108,7 @@ const routes: Routes = [
       { path: 'report-sss-loan', canActivate: [SoftwareRoutingActivate], component: SssLoanComponent },
       { path: 'atm-bank-report', canActivate: [SoftwareRoutingActivate], component: AtmBankReportComponent },
       { path: 'payslip-report', canActivate: [SoftwareRoutingActivate], component: PayslipReportComponent },
+      { path: 'loan-summary-report', canActivate: [SoftwareRoutingActivate], component: LoanSummaryComponent },
     ]
   }
 ];

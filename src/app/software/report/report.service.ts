@@ -88,6 +88,9 @@ export class ReportService {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/payroll/dropdown/list', this.appSettings.defaultOptions);
   }
 
+  public async BranchList() {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/branch/list', this.appSettings.defaultOptions);
+  }
 
   // Company List
   public async CompanyDropdownList() {
@@ -141,7 +144,7 @@ export class ReportService {
   // ==============
   // Payslip Report
   // ==============
-  public async PayslipReport(payId: number) {
+  public async PayslipReport(payId: number, branch: string) {
     let printCaseOptions: any = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -150,7 +153,39 @@ export class ReportService {
       responseType: "blob"
     };
 
-    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/payslip-list/' + payId,
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/payslip-list/' + payId + '/' + branch,
+      printCaseOptions);
+  }
+
+  // ===================
+  // Loan Summary Report
+  // ===================
+  public async LoanSummaryReport(startDate: string, endDate: string) {
+    let printCaseOptions: any = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }),
+      responseType: "blob"
+    };
+
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/loan/summary/report/' + startDate + '/' + endDate,
+      printCaseOptions);
+  }
+
+  // ==================
+  // Loan Ledger Report
+  // ==================
+  public async LoanLedgerReport(loanId: number) {
+    let printCaseOptions: any = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }),
+      responseType: "blob"
+    };
+
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/loan/ledger/report/' + loanId,
       printCaseOptions);
   }
 

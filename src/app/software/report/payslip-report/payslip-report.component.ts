@@ -21,10 +21,10 @@ export class PayslipReportComponent implements OnInit {
   public _payrollListDropdownList: any;
   public _payrollListDropdownListSubscription: any;
 
-  public department: string = "";
+  public branch: string = "";
 
-  public _departmentListDropdownList: any;
-  public _departmentListDropdownListSubscription: any;
+  public _branchListDropdownList: any;
+  public _branchListDropdownListSubscription: any;
 
   public _demographicsReportSubscription: any;
   public pdfUrl: string = '';
@@ -42,7 +42,6 @@ export class PayslipReportComponent implements OnInit {
         else {
           this._snackBarTemplate.snackBarInfo(this._snackBar, "Missing Payroll");
         }
-
         if (this._payrollListDropdownListSubscription !== null) this._payrollListDropdownListSubscription.unsubscribe();
       },
       error => {
@@ -52,9 +51,31 @@ export class PayslipReportComponent implements OnInit {
     );
   }
 
+  private async GetBranchDropdownListData() {
+    this._branchListDropdownListSubscription = (await this.reportService.BranchList()).subscribe(
+      response => {
+        let result = response;
+        console.log(result);
+        if (result["length"] > 0) {
+          this._branchListDropdownList = result;
+          this.branch = this._branchListDropdownList[0].Value;
+        }
+        else {
+          this._snackBarTemplate.snackBarInfo(this._snackBar, "Missing Branch");
+        }
+
+        if (this._branchListDropdownListSubscription !== null) this._branchListDropdownListSubscription.unsubscribe();
+      },
+      error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        if (this._branchListDropdownListSubscription !== null) this._branchListDropdownListSubscription.unsubscribe();
+      }
+    );
+  }
+
   public async printCaseDTR() {
     this._isProgressBarHidden = true;
-    this._demographicsReportSubscription = (await this.reportService.PayslipReport(this.payrollId)).subscribe(
+    this._demographicsReportSubscription = (await this.reportService.PayslipReport(this.payrollId, this.branch)).subscribe(
       data => {
         var binaryData = [];
 
@@ -73,8 +94,9 @@ export class PayslipReportComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {
-    this.GetPayrollDropdownListData();
+  async ngOnInit() {
+    await this.GetPayrollDropdownListData();
+    await this.GetBranchDropdownListData();
   }
 
 }

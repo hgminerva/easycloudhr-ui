@@ -393,6 +393,7 @@ export class PayrollDetailComponent implements OnInit {
 
     this._payrollLineListSubscription = await (await this._payrollDetailService.PayrollLineList(this._payrollModel.Id)).subscribe(
       (response: any) => {
+        console.log(response);
         if (response["length"] > 0) {
           this._listPayrollLineObservableArray = response;
           this._listPayrollLineCollectionView = new CollectionView(this._listPayrollLineObservableArray);
