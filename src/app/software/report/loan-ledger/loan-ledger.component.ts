@@ -49,7 +49,7 @@ export class LoanLedgerComponent implements OnInit {
 
   public async printCaseDTR() {
     this._isProgressBarHidden = true;
-    this._loanLedgerReportSubscription = (await this.reportService.PayslipReport(this._loanId)).subscribe(
+    this._loanLedgerReportSubscription = (await this.reportService.LoanLedgerReport(this._loanId)).subscribe(
       data => {
         var binaryData = [];
 
