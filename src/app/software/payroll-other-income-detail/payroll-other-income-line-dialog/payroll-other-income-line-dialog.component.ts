@@ -61,22 +61,24 @@ export class PayrollOtherIncomeLineDialogComponent implements OnInit {
         if (this._otherIncomeDropdownSubscription !== null) this._otherIncomeDropdownSubscription.unsubscribe();
       }
     );
-    this.loadShiftLineDetail();
+    this.loadetail();
   }
 
-  private loadShiftLineDetail() {
-    this._payrollOtherIncomeLineModel.Id = this.caseData.objPayrollOtherIncomeLine.Id;
-    this._payrollOtherIncomeLineModel.PIId = this.caseData.objPayrollOtherIncomeLine.PIId;
-    this._payrollOtherIncomeLineModel.EmployeeId = this.caseData.objPayrollOtherIncomeLine.EmployeeId;
-    this._payrollOtherIncomeLineModel.Employee = this.caseData.objPayrollOtherIncomeLine.Employee;
-    this._payrollOtherIncomeLineModel.OtherIncome = this.caseData.objPayrollOtherIncomeLine.OtherIncome;
-    this._payrollOtherIncomeLineModel.Amount = this.decimalPipe.transform(this.caseData.objPayrollOtherIncomeLine.Amount, "1.2-2");
-    this._payrollOtherIncomeLineModel.Particulars = this.caseData.objPayrollOtherIncomeLine.Particulars;
+  private loadetail() {
+    setTimeout(() => {
+      this._payrollOtherIncomeLineModel.Id = this.caseData.objPayrollOtherIncomeLine.Id;
+      this._payrollOtherIncomeLineModel.PIId = this.caseData.objPayrollOtherIncomeLine.PIId;
+      this._payrollOtherIncomeLineModel.EmployeeId = this.caseData.objPayrollOtherIncomeLine.EmployeeId;
+      this._payrollOtherIncomeLineModel.Employee = this.caseData.objPayrollOtherIncomeLine.Employee;
+      this._payrollOtherIncomeLineModel.OtherIncome = this.caseData.objPayrollOtherIncomeLine.OtherIncome;
+      this._payrollOtherIncomeLineModel.Amount = this.decimalPipe.transform(this.caseData.objPayrollOtherIncomeLine.Amount, "1.2-2");
+      this._payrollOtherIncomeLineModel.Particulars = this.caseData.objPayrollOtherIncomeLine.Particulars;
 
-    if (this._payrollOtherIncomeLineModel.Id != 0) {
-      this._payrollOtherIncomeLineModel.OtherIncomeId = this.caseData.objPayrollOtherIncomeLine.OtherIncomeId;
-    }
-    this.isComponentHidden = false;
+      if (this._payrollOtherIncomeLineModel.Id != 0) {
+        this._payrollOtherIncomeLineModel.OtherIncomeId = this.caseData.objPayrollOtherIncomeLine.OtherIncomeId;
+      }
+      this.isComponentHidden = false;
+    }, 500);
   }
 
   public Close(): void {
