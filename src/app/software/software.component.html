@@ -400,7 +400,31 @@
                             &nbsp;
                             Loan Summary Report
                         </a>
-
+                        <a mat-list-item routerLink="/software/payroll-other-income-payslip"
+                            *ngIf="moduleDemographicsReports">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/menu-icons/reports.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            <small>Payroll Other Income Payslips</small> 
+                        </a>
+                        <a mat-list-item routerLink="/software/loan-deduction-report" *ngIf="moduleDemographicsReports">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/menu-icons/reports.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Loan Deduction Report
+                        </a>
+                        <a mat-list-item routerLink="/software/hdmf-loan-report" *ngIf="moduleDemographicsReports">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/menu-icons/reports.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            HDMF Loan Report
+                        </a>
                     </mat-nav-list>
                 </mat-expansion-panel>
 

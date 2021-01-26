@@ -40,6 +40,19 @@ export class ReportService {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/mandatory/report/' + mandatory + '/' + periodId + '/' + quarter + '/' + monthnumber + '/' + companyId, printCaseOptions);
   }
 
+  public async HDMFLoanReport(periodId: number, monthnumber: number, companyId: number) {
+
+    let printCaseOptions: any = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }),
+      responseType: "blob"
+    };
+
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/hdmf/loan/report/' + periodId + '/' + monthnumber + '/' + companyId, printCaseOptions);
+  }
+
   public async CSVMandatoryReport(mandatory: string, periodId: number, quarter: number, monthnumber: number, companyId: number) {
     return await this.httpClient.get(
       this.appSettings.defaultAPIURLHost
@@ -247,6 +260,38 @@ export class ReportService {
     };
 
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/payroll/other/income/report/' + payId,
+      printCaseOptions);
+  }
+
+  // =======================
+  // Payroll Other Deduction
+  // =======================
+  public async PayrollOtherIncomePayslip(payId: number) {
+    let printCaseOptions: any = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }),
+      responseType: "blob"
+    };
+
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/payroll/other/income/payslip/' + payId,
+      printCaseOptions);
+  }
+
+  // =====================
+  // Loan Deduction Report
+  // =====================
+  public async LoanDeductionReport(payId: number) {
+    let printCaseOptions: any = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }),
+      responseType: "blob"
+    };
+
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/loan/deduction/report/' + payId,
       printCaseOptions);
   }
 

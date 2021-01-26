@@ -1,0 +1,33 @@
+<mat-toolbar>
+    <img src="../../../../assets/menu-icons/reports.png" height="35" />
+    <span>&nbsp;&nbsp; Payroll Other Income Payslip</span>
+    <span class="spacer"></span>
+    <button mat-flat-button color="primary" style="margin: 5px;" (click)="printCaseDTR()">
+        View
+    </button>
+    <button mat-raised-button style="margin: 5px;" routerLink="/software" color="warn">
+        Close
+    </button>
+</mat-toolbar>
+<mat-progress-bar *ngIf="_isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'">
+</mat-progress-bar>
+<div class="software-container">
+    <div fxLayout="row" fxLayout.xs="column">
+        <div fxFlex="20" style="padding: 5px;">
+            <mat-form-field appearance="fill" style="width: 100%; font-size:smaller;">
+                <mat-label>Payroll</mat-label>
+                <mat-select [(ngModel)]="payrollId">
+                    <mat-option *ngFor="let payroll of _payrollListDropdownList" [value]="payroll.Id">
+                        {{payroll.Value}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <br>
+    <div fxLayout="row" fxLayout.xs="column" style="height:900px">
+        <ngx-doc-viewer name="printDoc" [url]="pdfUrl" viewer="url" class="col-sm-12" class="col-sm-12"
+            style="height:100%; width: 100%;">
+        </ngx-doc-viewer>
+    </div>
+</div>

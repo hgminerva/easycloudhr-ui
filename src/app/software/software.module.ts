@@ -117,6 +117,9 @@ import { LabelDetailComponent } from './system-tables-list/label-detail/label-de
 import { PayslipReportComponent } from './report/payslip-report/payslip-report.component';
 import { LoanSummaryComponent } from './report/loan-summary/loan-summary.component';
 import { LoanLedgerComponent } from './report/loan-ledger/loan-ledger.component';
+import { PayrollOtherIncomePayslipComponent } from './report/payroll-other-income-payslip/payroll-other-income-payslip.component';
+import { LoanDeductionReportComponent } from './report/loan-deduction-report/loan-deduction-report.component';
+import { HdmfLoanReportComponent } from './report/hdmf-loan-report/hdmf-loan-report.component';
 @NgModule({
   declarations: [
     SoftwareComponent,
@@ -210,7 +213,10 @@ import { LoanLedgerComponent } from './report/loan-ledger/loan-ledger.component'
     LabelDetailComponent,
     PayslipReportComponent,
     LoanSummaryComponent,
-    LoanLedgerComponent
+    LoanLedgerComponent,
+    PayrollOtherIncomePayslipComponent,
+    LoanDeductionReportComponent,
+    HdmfLoanReportComponent
   ],
   imports: [
     CommonModule,

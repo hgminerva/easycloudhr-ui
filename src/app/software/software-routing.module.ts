@@ -55,6 +55,9 @@ import { SssLoanComponent } from './report/sss-loan/sss-loan.component';
 import { AtmBankReportComponent } from './report/atm-bank-report/atm-bank-report.component';
 import { PayslipReportComponent } from './report/payslip-report/payslip-report.component';
 import { LoanSummaryComponent } from './report/loan-summary/loan-summary.component';
+import { PayrollOtherIncomePayslipComponent } from './report/payroll-other-income-payslip/payroll-other-income-payslip.component';
+import { LoanDeductionReportComponent } from './report/loan-deduction-report/loan-deduction-report.component';
+import { HdmfLoanReportComponent } from './report/hdmf-loan-report/hdmf-loan-report.component';
 const routes: Routes = [
   {
     path: '', canActivate: [SoftwareRoutingActivate], component: SoftwareComponent,
@@ -109,6 +112,9 @@ const routes: Routes = [
       { path: 'atm-bank-report', canActivate: [SoftwareRoutingActivate], component: AtmBankReportComponent },
       { path: 'payslip-report', canActivate: [SoftwareRoutingActivate], component: PayslipReportComponent },
       { path: 'loan-summary-report', canActivate: [SoftwareRoutingActivate], component: LoanSummaryComponent },
+      { path: 'payroll-other-income-payslip', canActivate: [SoftwareRoutingActivate], component: PayrollOtherIncomePayslipComponent },
+      { path: 'loan-deduction-report', canActivate: [SoftwareRoutingActivate], component: LoanDeductionReportComponent },
+      { path: 'hdmf-loan-report', canActivate: [SoftwareRoutingActivate], component: HdmfLoanReportComponent },
     ]
   }
 ];
