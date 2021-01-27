@@ -158,7 +158,7 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
   private _deleteChangeShiftLineSubscription: any;
 
   public _btnAddChangeShiftLineDisabled: boolean = false;
-
+  public pageNumber: number = 0;
 
   private async PayrollGroupListData() {
     this._payrollGroupDropdownSubscription = (await this._changeShiftCodeDetailService.PayrollGroupList()).subscribe(
@@ -333,7 +333,7 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
   activeTab() { }
 
   private async GetChangeShiftLineListData() {
-
+    this.pageNumber = this._listChangeShiftLineCollectionView.pageIndex;
     this._listChangeShiftLineObservableArray = new ObservableArray();
     this._listChangeShiftLineCollectionView = new CollectionView(this._listChangeShiftLineObservableArray);
     this._listChangeShiftLineCollectionView.pageSize = 15;
@@ -353,7 +353,7 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
           this._listChangeShiftLineCollectionView.refresh();
           this.flexChangeShiftLine.refresh();
         }
-
+        this._listChangeShiftLineCollectionView.moveToPage(this.pageNumber);
         this._isChangeShiftLineDataLoaded = true;
         this._isChangeShiftLineProgressBarHidden = false;
         if (this._changeShiftLineListSubscription !== null) this._changeShiftLineListSubscription.unsubscribe();
