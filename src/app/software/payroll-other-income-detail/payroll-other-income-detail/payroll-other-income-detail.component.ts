@@ -160,6 +160,8 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
 
   public _btnAddPayrollOtherIncomeLineDisabled: boolean = false;
 
+  public pageNumber: number = 0;
+
   private async UserListData() {
     this._userDropdownSubscription = await (await this._payrollOtherIncomeDetailService.UserList()).subscribe(
       response => {
@@ -305,7 +307,7 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
   activeTab() { }
 
   private async GetPayrollOtherIncomeLineListData() {
-
+    this.pageNumber = this._listPayrollOtherIncomeLineCollectionView.pageIndex;
     this._listPayrollOtherIncomeLineObservableArray = new ObservableArray();
     this._listPayrollOtherIncomeLineCollectionView = new CollectionView(this._listPayrollOtherIncomeLineObservableArray);
     this._listPayrollOtherIncomeLineCollectionView.pageSize = 15;
@@ -327,7 +329,7 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
           this._listPayrollOtherIncomeLineCollectionView.refresh();
           this.flexPayrollOtherIncomeLine.refresh();
         }
-
+        this._listPayrollOtherIncomeLineCollectionView.moveToPage(this.pageNumber);
         this._isPayrollOtherIncomeLineDataLoaded = true;
         this._isPayrollOtherIncomeLineProgressBarHidden = false;
         if (this._PayrollOtherIncomeLineListSubscription !== null) this._PayrollOtherIncomeLineListSubscription.unsubscribe();
@@ -563,7 +565,7 @@ export class PayrollOtherIncomeDetailComponent implements OnInit {
     }
     return new Blob([data], { type: 'text/csv;charset=utf-8;' });
   }
-  
+
   ngOnDestroy() {
   }
 }

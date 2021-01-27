@@ -220,6 +220,7 @@ export class DTRDetailComponent implements OnInit {
   private _deleteDTRLineSubscription: any;
 
   public _btnAddDTRLineDisabled: boolean = false;
+  public pageNumber: number = 0;
 
   private async UserListData() {
     this._userDropdownSubscription = await (await this._dtrDetialService.UserList()).subscribe(
@@ -422,7 +423,7 @@ export class DTRDetailComponent implements OnInit {
   activeTab() { }
 
   private async GetDTRLineListData() {
-
+    this.pageNumber = this._listDTRLineCollectionView.pageIndex;
     this._listDTRLineObservableArray = new ObservableArray();
     this._listDTRLineCollectionView = new CollectionView(this._listDTRLineObservableArray);
     this._listDTRLineCollectionView.pageSize = 15;
@@ -442,7 +443,7 @@ export class DTRDetailComponent implements OnInit {
           this._listDTRLineCollectionView.refresh();
           this.flexDTRLine.refresh();
         }
-
+        this._listDTRLineCollectionView.moveToPage(this.pageNumber);
         this._isDTRLineDataLoaded = true;
         this._isDTRLineProgressBarHidden = false;
         if (this._dTRLineListSubscription !== null) this._dTRLineListSubscription.unsubscribe();

@@ -160,6 +160,8 @@ export class LeaveApplicationDetailComponent implements OnInit {
 
   @ViewChild('flexLeaveApplicationLine') flexLeaveApplicationLine: wjcGrid.FlexGrid;
 
+  public pageNumber: number = 0;
+
   private async PayrollGroupListData() {
     this._payrollGroupDropdownSubscription = (await this._leaveApplicationDetailService.PayrollGroupList()).subscribe(
       response => {
@@ -331,7 +333,7 @@ export class LeaveApplicationDetailComponent implements OnInit {
   activeTab() { }
 
   private async GetLeaveApplicationLineListData() {
-
+    this.pageNumber = this._listLeaveApplicationLineCollectionView.pageIndex;
     this._listLeaveApplicationLineObservableArray = new ObservableArray();
     this._listLeaveApplicationLineCollectionView = new CollectionView(this._listLeaveApplicationLineObservableArray);
     this._listLeaveApplicationLineCollectionView.pageSize = 15;
@@ -352,6 +354,7 @@ export class LeaveApplicationDetailComponent implements OnInit {
           this.flexLeaveApplicationLine.refresh();
         }
 
+        this._listLeaveApplicationLineCollectionView.moveToPage(this.pageNumber);
         this._isLeaveApplicationLineDataLoaded = true;
         this._isLeaveApplicationLineProgressBarHidden = false;
         if (this._leaveApplicationLineSubscription !== null) this._leaveApplicationLineSubscription.unsubscribe();
@@ -378,7 +381,7 @@ export class LeaveApplicationDetailComponent implements OnInit {
       }
     }
   }
- 
+
 
   public AddLeaveApplicationLine() {
     let _leaveApplicationLineModel: LeaveApplicationLineModel = {

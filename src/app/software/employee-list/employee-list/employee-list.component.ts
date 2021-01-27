@@ -165,6 +165,7 @@ export class EmployeeListComponent implements OnInit {
   private DeletemployeeListSubscription: any;
 
   public btnAddDisabled: boolean = false;
+  public pageNumber: number = 0;
 
   private async GetEmployeeData() {
     this.listEmployeeObservableArray = new ObservableArray();

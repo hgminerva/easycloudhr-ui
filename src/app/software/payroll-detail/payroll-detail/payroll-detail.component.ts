@@ -190,6 +190,7 @@ export class PayrollDetailComponent implements OnInit {
   public _btnAddPayrollLineDisabled: boolean = false;
   public payrollDetail: any;
 
+  public pageNumber: number = 0;
 
   private async GetPayrollDetail() {
     let id = 0;
@@ -381,7 +382,7 @@ export class PayrollDetailComponent implements OnInit {
   activeTab() { }
 
   private async GetPayrollLineListData() {
-
+    this.pageNumber = this._listPayrollLineCollectionView.pageIndex;
     this._listPayrollLineObservableArray = new ObservableArray();
     this._listPayrollLineCollectionView = new CollectionView(this._listPayrollLineObservableArray);
     this._listPayrollLineCollectionView.pageSize = 15;
@@ -402,7 +403,7 @@ export class PayrollDetailComponent implements OnInit {
           this._listPayrollLineCollectionView.refresh();
           this.flexPayrollLine.refresh();
         }
-
+        this._listPayrollLineCollectionView.moveToPage(this.pageNumber);
         this._isPayrollLineDataLoaded = true;
         this._isPayrollLineProgressBarHidden = false;
         if (this._payrollLineListSubscription !== null) this._payrollLineListSubscription.unsubscribe();

@@ -156,6 +156,8 @@ export class OvertimeApplicationDetailComponent implements OnInit {
 
   @ViewChild('flexOvertimeApplicationLine') flexOvertimeApplicationLine: wjcGrid.FlexGrid;
 
+  public pageNumber: number = 0;
+
   private async PayrollGroupListData() {
     this._payrollGroupDropdownSubscription = (await this._overtimeApplicationDetailService.PayrollGroupList()).subscribe(
       response => {
@@ -329,6 +331,8 @@ export class OvertimeApplicationDetailComponent implements OnInit {
 
   private async GetOvertimeApplicationLineListData() {
 
+    this.pageNumber = this._listOvertimeApplicationLineCollectionView.pageIndex;
+
     this._listOvertimeApplicationLineObservableArray = new ObservableArray();
     this._listOvertimeApplicationLineCollectionView = new CollectionView(this._listOvertimeApplicationLineObservableArray);
     this._listOvertimeApplicationLineCollectionView.pageSize = 15;
@@ -348,7 +352,7 @@ export class OvertimeApplicationDetailComponent implements OnInit {
           this._listOvertimeApplicationLineCollectionView.refresh();
           this.flexOvertimeApplicationLine.refresh();
         }
-
+        this._listOvertimeApplicationLineCollectionView.moveToPage(this.pageNumber);
         this._isOvertimeApplicationLineDataLoaded = true;
         this._isOvertimeApplicationLineProgressBarHidden = false;
         if (this._overtimeApplicationLineSubscription !== null) this._overtimeApplicationLineSubscription.unsubscribe();
