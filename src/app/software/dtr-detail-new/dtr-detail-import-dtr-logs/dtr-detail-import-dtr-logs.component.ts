@@ -191,12 +191,14 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
               dateType = yearDate[0].DateType;
             }
 
-            console.log(changeShiftLineList);
+            // console.log(changeShiftLineList);
             // Change Shift
-            let changeShift = changeShiftLineList.filter(x => x.CSId == this._caseData.objDTRData.CSId == this._employeeList[employeeIndex].Id && x.ShiftDate == this.datePipe.transform(date, 'MM/dd/yyyy'));
+            if(changeShiftLineList != null){
+              let changeShift = changeShiftLineList.filter(x => x.CSId == this._caseData.objDTRData.CSId == this._employeeList[employeeIndex].Id && x.ShiftDate == this.datePipe.transform(date, 'MM/dd/yyyy'));
 
-            if (changeShift["length"] != 0) {
-              shiftId = changeShift[0].ShiftId;
+              if (changeShift["length"] != 0) {
+                shiftId = changeShift[0].ShiftId;
+              }
             }
 
             // Employee Shift
@@ -431,13 +433,15 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
             if (yearDate["length"] != 0) {
               dateType = yearDate[0].DateType;
             }
-
-            // console.log(changeShiftLineList);
             // Change Shift
-            let changeShift = changeShiftLineList.filter(x => x.CSId == this._caseData.objDTRData.CSId == this._employeeList[employeeIndex].Id && x.ShiftDate == this.datePipe.transform(date, 'MM/dd/yyyy'));
 
-            if (changeShift["length"] != 0) {
-              shiftId = changeShift[0].ShiftId;
+            // Change Shift
+            if(changeShiftLineList != null){
+              let changeShift = changeShiftLineList.filter(x => x.CSId == this._caseData.objDTRData.CSId == this._employeeList[employeeIndex].Id && x.ShiftDate == this.datePipe.transform(date, 'MM/dd/yyyy'));
+
+              if (changeShift["length"] != 0) {
+                shiftId = changeShift[0].ShiftId;
+              }
             }
 
             // Employee Shift
