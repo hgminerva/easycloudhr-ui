@@ -636,6 +636,7 @@ export class PayrollDetailComponent implements OnInit {
 
   public btnCSVClick() {
     this._sharedService.generateCSV(this._listPayrollLineCollectionView, "Payroll List", "payroll.csv");
+    console.log(this._listPayrollLineCollectionView);
   }
 
   public PickEmployeeDownload() {

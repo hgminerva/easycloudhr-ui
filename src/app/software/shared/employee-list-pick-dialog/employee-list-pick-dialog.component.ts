@@ -75,7 +75,7 @@ export class EmployeeListPickDialogComponent implements OnInit {
     this._listEmployeeCollectionView.refresh();
   }
 
-  private async GetEmployeeListData(payrollGroup: string) {
+  private async GetEmployeeListData(payrollGroup: any) {
     this._employeeObservableArray = new ObservableArray();
     this._listEmployeeCollectionView = new CollectionView(this._employeeObservableArray);
     this._listEmployeeCollectionView.pageSize = 10;
@@ -84,27 +84,54 @@ export class EmployeeListPickDialogComponent implements OnInit {
     await this.flexEmployee.refresh();
 
     this._isEmployeeProgressBarHidden = true;
+    if (payrollGroup == null) {
+      console.log(payrollGroup, "== null")
+      this._employeeListDropdownSubscription = await (await this._sharedService.GetEmployeeList()).subscribe(
+        (response: any) => {
+          if (response["length"] > 0) {
+            this._employeeObservableArray = response;
+            this._listEmployeeCollectionView = new CollectionView(this._employeeObservableArray);
+            this._listEmployeeCollectionView.pageSize = 10;
+            this._listEmployeeCollectionView.trackChanges = true;
+            this._listEmployeeCollectionView.refresh();
+            this.flexEmployee.refresh();
+          }
 
-    this._employeeListDropdownSubscription = await (await this._sharedService.EmployeeList(payrollGroup)).subscribe(
-      (response: any) => {
-        if (response["length"] > 0) {
-          this._employeeObservableArray = response;
-          this._listEmployeeCollectionView = new CollectionView(this._employeeObservableArray);
-          this._listEmployeeCollectionView.pageSize = 10;
-          this._listEmployeeCollectionView.trackChanges = true;
-          this._listEmployeeCollectionView.refresh();
-          this.flexEmployee.refresh();
+          this._isEmployeeProgressBarHidden = false;
+          if (this._employeeListDropdownSubscription !== null) this._employeeListDropdownSubscription.unsubscribe();
+        },
+        error => {
+          this._isEmployeeProgressBarHidden = false;
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+          if (this._employeeListDropdownSubscription !== null) this._employeeListDropdownSubscription.unsubscribe();
         }
+      );
+    }
+    else {
+      this._employeeListDropdownSubscription = await (await this._sharedService.EmployeeList(payrollGroup)).subscribe(
+        (response: any) => {
+          if (response["length"] > 0) {
+            this._employeeObservableArray = response;
+            this._listEmployeeCollectionView = new CollectionView(this._employeeObservableArray);
+            this._listEmployeeCollectionView.pageSize = 10;
+            this._listEmployeeCollectionView.trackChanges = true;
+            this._listEmployeeCollectionView.refresh();
+            this.flexEmployee.refresh();
+          }
 
-        this._isEmployeeProgressBarHidden = false;
-        if (this._employeeListDropdownSubscription !== null) this._employeeListDropdownSubscription.unsubscribe();
-      },
-      error => {
-        this._isEmployeeProgressBarHidden = false;
-        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this._employeeListDropdownSubscription !== null) this._employeeListDropdownSubscription.unsubscribe();
-      }
-    );
+          this._isEmployeeProgressBarHidden = false;
+          if (this._employeeListDropdownSubscription !== null) this._employeeListDropdownSubscription.unsubscribe();
+        },
+        error => {
+          this._isEmployeeProgressBarHidden = false;
+          this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+          if (this._employeeListDropdownSubscription !== null) this._employeeListDropdownSubscription.unsubscribe();
+        }
+      );
+    }
+
+
+
   }
 
   Pick() {

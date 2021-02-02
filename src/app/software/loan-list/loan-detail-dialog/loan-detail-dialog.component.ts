@@ -402,7 +402,7 @@ export class LoanDetailDialogComponent implements OnInit {
         height: '500',
         data: {
           objDialogTitle: "Employee List",
-          objPayrollGroup: "ACTIVE"
+          objPayrollGroup: null
         },
         disableClose: true
       });

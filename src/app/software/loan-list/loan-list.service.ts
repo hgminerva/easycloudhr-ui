@@ -25,6 +25,17 @@ export class LoanListService {
       defaultOptions);
   }
 
+  public async LoanListFilterPayrollGroup() {
+    let defaultOptions: any = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      })
+    };
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/loan/list',
+      defaultOptions);
+  }
+
   public async UserList() {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/loan/user/list', this.appSettings.defaultOptions);
   }

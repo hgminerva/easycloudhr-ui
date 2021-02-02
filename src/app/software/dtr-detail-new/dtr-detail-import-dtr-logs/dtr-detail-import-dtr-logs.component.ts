@@ -154,8 +154,8 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
       let changeShiftLineList = this._changeShiftList;
 
       let employeesDTRLineLogs = new ObservableArray();
-      console.log("Employee",employeeList);
-      console.log("Change Shift",changeShiftLineList);
+      console.log("Employee", employeeList);
+      console.log("Change Shift", changeShiftLineList);
       console.log("Shift Lines", shiftLineList);
       // Throw info if Employee List == 0 | null
 
@@ -194,7 +194,7 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
             console.log(changeShiftLineList);
             // Change Shift
             let changeShift = changeShiftLineList.filter(x => x.CSId == this._caseData.objDTRData.CSId == this._employeeList[employeeIndex].Id && x.ShiftDate == this.datePipe.transform(date, 'MM/dd/yyyy'));
-            
+
             if (changeShift["length"] != 0) {
               shiftId = changeShift[0].ShiftId;
             }
@@ -405,6 +405,107 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
                 Remarks: "NA"
               });
             }
+
+          }
+        } else {
+          // DTR Start Date and End Date
+          let startDate = new Date(this._caseData.objDTRData.DateStart);
+          let endDate = new Date(this._caseData.objDTRData.DateEnd);
+
+          let shiftId = this._employeeList[employeeIndex].DefaultShiftId;
+
+          for (var date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
+
+            let SIN1, SOUT1, SIN2, SOUT2;
+            let DIN1, DOUT1, DIN2, DOUT2;
+
+            let isRestDay = false;
+            let dateLog = this.datePipe.transform(date, 'MM/dd/yyyy');
+            let dateType = "REGULAR WORKING DAY";
+
+            // Date Type
+            let yearDate = this._yearDateList.filter(x => x.YearId == this._caseData.objDTRData.YearId
+              && this.datePipe.transform(new Date(x.YearDate), 'MM/dd/yyyy') == dateLog
+              && x.Branch == this._employeeList[employeeIndex].Branch);
+
+            if (yearDate["length"] != 0) {
+              dateType = yearDate[0].DateType;
+            }
+
+            // console.log(changeShiftLineList);
+            // Change Shift
+            let changeShift = changeShiftLineList.filter(x => x.CSId == this._caseData.objDTRData.CSId == this._employeeList[employeeIndex].Id && x.ShiftDate == this.datePipe.transform(date, 'MM/dd/yyyy'));
+
+            if (changeShift["length"] != 0) {
+              shiftId = changeShift[0].ShiftId;
+            }
+
+            // Employee Shift
+            var days = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
+            let numberofSwipes = 4;
+
+            let shift = shiftLineList.filter(x => x.ShiftId == shiftId && x.ShiftDate == days[date.getDay()]);
+
+            if (shift["length"] != 0) {
+
+              if (shift[0].TimeOut1 === '' && shift[0].TimeIn2 === '') {
+                numberofSwipes = 2
+              }
+
+              isRestDay = shift[0].IsRestDay;
+
+              let dateString = this.datePipe.transform(date, 'MM/dd/yyyy');
+              SIN1 = new Date(dateString + ' ' + shift[0].TimeIn1);
+              SOUT1 = new Date(dateString + ' ' + shift[0].TimeOut1);
+              SIN2 = new Date(dateString + ' ' + shift[0].TimeIn2);
+              SOUT2 = new Date(dateString + ' ' + shift[0].TimeOut2);
+
+            }
+
+            let dayLogs = employeeDateLogs.filter(x => this.datePipe.transform(x.Date, 'MM/dd/yyyy') === this.datePipe.transform(date, 'MM/dd/yyyy'));
+            // console.log(this.datePipe.transform(employeeDateLogs[0].Date, 'MM/dd/yyyy'), this.datePipe.transform(date, 'MM/dd/yyyy'));
+
+            employeesDTRLineLogs.push({
+              DTRId: this._caseData.objDTRData.Id,
+              EmployeeId: this._employeeList[employeeIndex].Id,
+              Employee: this._employeeList[employeeIndex].FullName,
+              DTRDate: dateLog,
+              DateType: dateType,
+              IsRestDay: isRestDay,
+              ShiftId: shiftId,
+              Branch: this._employeeList[employeeIndex].Branch,
+              TimeIn1: '',
+              TimeOut1: '',
+              TimeIn2: '',
+              TimeOut2: '',
+
+              IsOnLeave: false,
+              IsOnLeaveHalfDay: false,
+              IsOnOfficialBusiness: false,
+              IsOnOfficialBusinessHalfDay: false,
+              IsAbsent: false,
+              IsAbsentHalfDay: false,
+
+              NumberOfHoursWorked: 0,
+              OvertimeHours: 0,
+              NightDifferentialHours: 0,
+              LateHours: 0,
+              UndertimeHours: 0,
+
+              DailyPay: 0,
+              PremiumPay: 0,
+              HolidayPay: 0,
+              OvertimePay: 0,
+              NightDifferentialPay: 0,
+              COLA: 0,
+              AdditionalAllowance: 0,
+              LateDeduction: 0,
+              UndertimeDeduction: 0,
+              AbsentDeduction: 0,
+              DailyNetPay: 0,
+
+              Remarks: "NA"
+            });
 
           }
         }

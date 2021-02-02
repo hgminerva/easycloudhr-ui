@@ -157,6 +157,8 @@ export class PayrollOtherDeductionDetailComponent implements OnInit {
   public _isPayrollOtherDeductionLineProgressBarHidden = false;
   public _isPayrollOtherDeductionLineDataLoaded: boolean = false;
 
+  public pageNumber: number = 0;
+
   private _PayrollOtherDeductionLineListSubscription: any;
   private _savePayrollOtherDeductionLineSubscription: any;
   private _updatePayrollOtherDeductionLineSubscription: any;
@@ -322,7 +324,7 @@ export class PayrollOtherDeductionDetailComponent implements OnInit {
   activeTab() { }
 
   private async GetPayrollOtherDeductionLineListData() {
-
+    this.pageNumber = this._listPayrollOtherDeductionLineCollectionView.pageIndex;
     this._listPayrollOtherDeductionLineObservableArray = new ObservableArray();
     this._listPayrollOtherDeductionLineCollectionView = new CollectionView(this._listPayrollOtherDeductionLineObservableArray);
     this._listPayrollOtherDeductionLineCollectionView.pageSize = 15;
@@ -345,7 +347,7 @@ export class PayrollOtherDeductionDetailComponent implements OnInit {
           this._listPayrollOtherDeductionLineCollectionView.refresh();
           this.flexPayrollOtherDeductionLine.refresh();
         }
-
+        this._listPayrollOtherDeductionLineCollectionView.moveToPage(this.pageNumber);
         this._isPayrollOtherDeductionLineDataLoaded = true;
         this._isPayrollOtherDeductionLineProgressBarHidden = false;
         if (this._PayrollOtherDeductionLineListSubscription !== null) this._PayrollOtherDeductionLineListSubscription.unsubscribe();
