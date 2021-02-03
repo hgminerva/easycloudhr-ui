@@ -421,6 +421,7 @@ export class DTRDetailComponent implements OnInit {
   }
 
   activeTab() { }
+  public dtrLineData: any;
 
   private async GetDTRLineListData() {
     this.pageNumber = this._listDTRLineCollectionView.pageIndex;
@@ -436,6 +437,7 @@ export class DTRDetailComponent implements OnInit {
     this._dTRLineListSubscription = await (await this._dtrDetialService.DTRLineList(this._dTRModel.Id)).subscribe(
       (response: any) => {
         if (response["length"] > 0) {
+          this.dtrLineData = response;
           this._listDTRLineObservableArray = response;
           this._listDTRLineCollectionView = new CollectionView(this._listDTRLineObservableArray);
           this._listDTRLineCollectionView.pageSize = 15;
@@ -594,6 +596,45 @@ export class DTRDetailComponent implements OnInit {
       );
     }
   }
+
+  public _computeDTRLineSubscription: any;
+  public counter: number = 0;
+  public dataCount: number = 0;
+
+  public async ComputeAll() {
+
+    this.dataCount = this.dtrLineData["length"];
+    this.counter = 0;
+    await this.Compute(this.dtrLineData[this.counter].Id);
+
+  }
+
+  public async Compute(dtrLineId: number) {
+    let i = 0;
+    this._isDTRLineProgressBarHidden = true;
+
+    this._computeDTRLineSubscription = (await this._dtrDetialService.ComputeDTRLine(dtrLineId)).subscribe(
+      (response: any) => {
+        this.counter++;
+        if (this.counter < this.dtrLineData["length"]) {
+          this.Compute(this.counter);
+        } else {
+          this.GetDTRLineListData();
+
+        }
+        console.log(this.counter);
+      },
+      error => {
+        this._isDataLoaded = true;
+        this._isDTRLineProgressBarHidden = false;
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + " Status Code: " + error.status);
+      }
+    );
+
+    return i;
+  }
+
 
   public ComfirmDeleteDTRLine(): void {
     let currentDTRLine = this._listDTRLineCollectionView.currentItem;

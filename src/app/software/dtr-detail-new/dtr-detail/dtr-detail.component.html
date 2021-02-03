@@ -264,8 +264,11 @@
                     </wj-flex-grid-column>
                     <wj-flex-grid-column [header]="'NP'" [binding]="'DailyNetPay'" [isReadOnly]="true" [width]="70">
                     </wj-flex-grid-column>
-
                 </wj-flex-grid>
+                <div fxLayout="row" fxLayout.xs="column" *ngIf="_isDTRLineProgressBarHidden">
+                    <div fxFlex="75" style="padding: 2px;"></div>
+                    <div fxFlex="25" style="padding: 2px;"><span>{{counter + 1}} | {{dataCount}}</span></div>
+                </div>
             </mat-tab>
             <mat-tab disabled style="background-color: transparent; ">
                 <ng-template mat-tab-label>
@@ -275,7 +278,7 @@
                         Import
                     </button><br>
                     <button mat-raised-button color="primary" style="float: right; margin: 5px;"
-                        (click)="ComputeAllDTRLines()" [disabled]="_isLocked" *ngIf="_userRights.CanAdd">
+                        (click)="ComputeAll()" [disabled]="_isLocked" *ngIf="_userRights.CanAdd">
                         <!-- <mat-icon>calculate</mat-icon>  -->
                         Compute
                     </button><br>
