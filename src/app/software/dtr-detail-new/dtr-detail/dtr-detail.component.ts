@@ -616,13 +616,13 @@ export class DTRDetailComponent implements OnInit {
     this._computeDTRLineSubscription = (await this._dtrDetialService.ComputeDTRLine(dtrLineId)).subscribe(
       (response: any) => {
         this.counter++;
+        console.log(this.counter);
+
         if (this.counter < this.dtrLineData["length"]) {
-          this.Compute(this.counter);
+          this.Compute(this.dtrLineData[this.counter].Id);
         } else {
           this.GetDTRLineListData();
-
         }
-        console.log(this.counter);
       },
       error => {
         this._isDataLoaded = true;

@@ -3,12 +3,12 @@ import { HttpHeaders } from '@angular/common/http';
 
 export class AppSetting {
     // API URL Gateway
-    public defaultAPIURLHost = "https://easycloudhrapi.azurewebsites.net";
+    // public defaultAPIURLHost = "https://easycloudhrapi.azurewebsites.net";
 
     // API Hiro Japan 
     // public defaultAPIURLHost = "http://hris-api.hiro-test.net";
  
-    // public defaultAPIURLHost = "https://localhost:44369";
+    public defaultAPIURLHost = "https://localhost:44369";
     // public defaultAPIURLHost = "http://192.169.1.9:8082";
 
     // URL Encoded Options
