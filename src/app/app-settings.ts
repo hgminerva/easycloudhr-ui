@@ -7,7 +7,7 @@ export class AppSetting {
 
     // API Hiro Japan 
     // public defaultAPIURLHost = "http://hris-api.hiro-test.net";
-
+ 
     // public defaultAPIURLHost = "https://localhost:44369";
     // public defaultAPIURLHost = "http://192.169.1.9:8082";
 
