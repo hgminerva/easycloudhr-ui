@@ -395,17 +395,22 @@ export class PayrollDetailComponent implements OnInit {
     this._payrollLineListSubscription = await (await this._payrollDetailService.PayrollLineList(this._payrollModel.Id)).subscribe(
       (response: any) => {
         console.log(response);
+        
         if (response["length"] > 0) {
+
           this._listPayrollLineObservableArray = response;
           this._listPayrollLineCollectionView = new CollectionView(this._listPayrollLineObservableArray);
           this._listPayrollLineCollectionView.pageSize = 15;
           this._listPayrollLineCollectionView.trackChanges = true;
           this._listPayrollLineCollectionView.refresh();
           this.flexPayrollLine.refresh();
+
         }
+
         this._listPayrollLineCollectionView.moveToPage(this.pageNumber);
         this._isPayrollLineDataLoaded = true;
         this._isPayrollLineProgressBarHidden = false;
+
         if (this._payrollLineListSubscription !== null) this._payrollLineListSubscription.unsubscribe();
       },
       error => {
@@ -415,6 +420,8 @@ export class PayrollDetailComponent implements OnInit {
       }
     );
   }
+
+
 
   gridClick(s, e) {
     if (wjcCore.hasClass(e.target, 'button-edit')) {

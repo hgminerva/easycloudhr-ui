@@ -266,7 +266,7 @@ export class ReportService {
   // =======================
   // Payroll Other Deduction
   // =======================
-  public async PayrollOtherIncomePayslip(payId: number) {
+  public async PayrollOtherIncomePayslip(payId: number, branch: string) {
     let printCaseOptions: any = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -275,7 +275,7 @@ export class ReportService {
       responseType: "blob"
     };
 
-    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/payroll/other/income/payslip/' + payId,
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/payroll/other/income/payslip/' + payId + '/' + branch,
       printCaseOptions);
   }
 
