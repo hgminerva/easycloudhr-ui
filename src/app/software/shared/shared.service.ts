@@ -222,10 +222,14 @@ export class SharedService {
     data += object.Company + '\r\n';
     collection = object.MandatoryList;
 
+    console.log(object.MandatoryType);
+
     if (data != "") {
       var label = "Name, SSS No., Payroll No., Income, Employee Share ,Employeer Share, EC, Total ";
-      if (object.MandatoryType != "Mandatory SSS") {
-        label = "Name, SSS No., Payroll No., Income, Employee Share ,Employeer Share, Total ";
+      if (object.MandatoryType == "Mandatory PHIC") {
+        label = "Name, PHIC No., Payroll No., Income, Employee Share ,Employeer Share, Total ";
+      } else if (object.MandatoryType == "Mandatory HDMF") {
+        label = "Name, HDMF No., Payroll No., Income, Employee Share ,Employeer Share, Total ";
       }
 
       label = label.slice(0, -1);
@@ -236,9 +240,19 @@ export class SharedService {
         for (var s in collection[i]) {
           row += '"' + collection[i][s] + '",';
         }
+
         row.slice(0, row.length - 1);
         data += row + '\r\n';
+
       }
+
+      var total = "' ', ' ', ' ', ' ', ' ',' ',' '," + object.Total + ",";
+
+      if (object.MandatoryType == "Mandatory SSS") {
+        total = "' ', ' ', ' ', ' ', ' ',' ',' ',,' '," + object.Total + ",";
+      }
+
+      data += total + '\r\n';
     }
 
     var csvURL = window.URL.createObjectURL(new Blob([data], { type: 'text/csv;charset=utf-8;' }));

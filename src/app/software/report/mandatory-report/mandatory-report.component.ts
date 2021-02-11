@@ -111,7 +111,7 @@ export class MandatoryReportComponent implements OnInit {
     this._mandatoryReportSubscription = (await this.reportService.CSVMandatoryReport(this.mondatory, this.periodId, 0, this.monthNumber, this.companyId)).subscribe(
       (data: any) => {
         console.log(data);
-        this._sharedService.generateAPICSV(data, "mandatory", "dtr-list.csv");
+        this._sharedService.generateAPICSV(data, "mandatory", "mandatory-list.csv");
         if (this._mandatoryReportSubscription != null) this._mandatoryReportSubscription.unsubscribe();
       },
       error => {
