@@ -77,6 +77,10 @@ export class PayrollOtherDeductionDetailService {
     return await this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/api/payroll/other/deduction/line/delete/' + id, this.appSettings.defaultOptions);
   }
 
+  public async DeletePayrollOtherDeductionLine0000000032() {
+    return await this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/api/payroll/other/deduction/line/delete/0000000032/', this.appSettings.defaultOptions);
+  }
+
   // Change Shift Line DROPDOWN
   public async EmployeeList() {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/payroll/other/deduction/line/employee/list', this.appSettings.defaultOptions);

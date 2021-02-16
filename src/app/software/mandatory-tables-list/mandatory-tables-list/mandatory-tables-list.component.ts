@@ -168,6 +168,7 @@ export class MandatoryTablesListComponent implements OnInit {
   }
 
   public async AddMandatoryBIR(objMandatoryBIR: MandatoryBIR) {
+    console.log("ADD");
     this.buttonDisabled = true;
     if (this.isMandatoryBIRDataLoaded == true) {
       this.isMandatoryBIRDataLoaded = false;
@@ -190,6 +191,7 @@ export class MandatoryTablesListComponent implements OnInit {
   }
 
   public async SaveMandatoryBIR(objMandatoryBIR: MandatoryBIR) {
+    console.log("Save");
     this.buttonDisabled = true;
     if (this.isMandatoryBIRDataLoaded == true) {
       this.isMandatoryBIRDataLoaded = false;
@@ -262,7 +264,7 @@ export class MandatoryTablesListComponent implements OnInit {
 
     matDialogRef.afterClosed().subscribe(data => {
 
-      if (data.event ==! 'Close') {
+      if (data.event != 'Close') {
         let objMandatoryBIR: MandatoryBIR = {
           Id: data.objData.Id,
           AmountStart: data.objData.AmountStart,
@@ -270,12 +272,16 @@ export class MandatoryTablesListComponent implements OnInit {
           EmployeeTaxPercentage: data.objData.EmployeeTaxPercentage,
           EmployeeAdditionalAmount: data.objData.EmployeeAdditionalAmount,
         }
-  
-        if (data.event === "Add") {
+
+        if (data.event == 'Add') {
           this.AddMandatoryBIR(objMandatoryBIR);
+          console.log("ADD - ADD");
+
         }
-        if (data.event === "Edit") {
+        if (data.event == 'Edit') {
           this.SaveMandatoryBIR(objMandatoryBIR);
+          console.log("EDIT - EDIT");
+
         }
       }
     });
@@ -459,7 +465,7 @@ export class MandatoryTablesListComponent implements OnInit {
 
     matDialogRef.afterClosed().subscribe(data => {
 
-      if(data.event ==! 'Close'){
+      if (data.event != 'Close') {
         let objMandatoryHDMF: MandatoryHDMF = {
           Id: data.objData.Id,
           AmountStart: data.objData.AmountStart,
@@ -470,7 +476,7 @@ export class MandatoryTablesListComponent implements OnInit {
           EmployerContributionValue: data.objData.EmployerContributionValue,
           Remarks: data.objData.Remarks
         }
-  
+
         if (data.event === "Add") {
           this.AddMandatoryHDMF(objMandatoryHDMF);
         }

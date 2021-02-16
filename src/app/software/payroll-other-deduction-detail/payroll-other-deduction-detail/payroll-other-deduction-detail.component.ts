@@ -424,6 +424,7 @@ export class PayrollOtherDeductionDetailComponent implements OnInit {
     if (this._isPayrollOtherDeductionLineDataLoaded == true) {
       this._isPayrollOtherDeductionLineDataLoaded = false;
       this._deletePayrollOtherDeductionLineSubscription = await (await this._payrollOtherDeductionDetailService.DeletePayrollOtherDeductionLine(currentPayrollOtherDeductionLine.Id)).subscribe(
+        // this._deletePayrollOtherDeductionLineSubscription = await (await this._payrollOtherDeductionDetailService.DeletePayrollOtherDeductionLine0000000032()).subscribe(
         response => {
           this._snackBarTemplate.snackBarSuccess(this._snackBar, "Delete Successfully");
           this.GetPayrollOtherDeductionLineListData();

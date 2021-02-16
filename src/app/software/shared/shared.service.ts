@@ -225,11 +225,12 @@ export class SharedService {
     console.log(object.MandatoryType);
 
     if (data != "") {
-      var label = "Name, SSS No., Payroll No., Income, Employee Share ,Employeer Share, EC, Total ";
+      var label = "Name,Id No., TIN, Date of Birth, SSS No., Payroll No., Income, Employee Share ,Employeer Share, EC, Total ";
+
       if (object.MandatoryType == "Mandatory PHIC") {
-        label = "Name, PHIC No., Payroll No., Income, Employee Share ,Employeer Share, Total ";
+        label = "Name,Id No., TIN, Date of Birth, PHIC No., Payroll No., Income, Employee Share ,Employeer Share, Total ";
       } else if (object.MandatoryType == "Mandatory HDMF") {
-        label = "Name, HDMF No., Payroll No., Income, Employee Share ,Employeer Share, Total ";
+        label = "Name,Id No., TIN, Date of Birth, HDMF No., Payroll No., Income, Employee Share ,Employeer Share, Total ";
       }
 
       label = label.slice(0, -1);
@@ -246,10 +247,10 @@ export class SharedService {
 
       }
 
-      var total = "' ', ' ', ' ', ' ', ' ',' ',' '," + object.Total + ",";
+      var total = ",,,,,,,,TOTAL," + object.Total;
 
       if (object.MandatoryType == "Mandatory SSS") {
-        total = "' ', ' ', ' ', ' ', ' ',' ',' ',,' '," + object.Total + ",";
+        total = ",,,,,,,,,TOTAL," + object.Total;
       }
 
       data += total + '\r\n';

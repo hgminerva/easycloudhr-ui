@@ -247,6 +247,22 @@ export class ReportService {
       printCaseOptions);
   }
 
+  // ====================
+  // SSS Loan Report
+  // ====================
+  public async SSSCalamityLoan(periodId: number, monthnumber: number, companyId: number) {
+    console.log(periodId, monthnumber, companyId);
+    let printCaseOptions: any = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }),
+      responseType: "blob"
+    };
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/sss/calamity/loan/report/' + periodId + '/' + monthnumber + '/' + companyId,
+      printCaseOptions);
+  }
+
   // =======================
   // Payroll Other Deduction
   // =======================

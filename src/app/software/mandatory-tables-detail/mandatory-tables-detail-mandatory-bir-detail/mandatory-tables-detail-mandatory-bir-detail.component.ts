@@ -22,18 +22,22 @@ export class MandatoryTablesDetailMandatoryBirDetailComponent implements OnInit 
   public inputTypeAmountEnd = 'text';
   public inputTypeEmployeeTaxPercentage = 'text';
   public inputTypeEmployeeAdditionalAmount = 'text';
+  public isComponentShow: boolean = false
 
   async ngOnInit() {
-    this.title = this.caseData.objDialogTitle;
-    this._mandatoryBIR.Id = this.caseData.objData.Id;
-    this._mandatoryBIR.AmountStart = this._decimalPipe.transform(this.caseData.objData.AmountStart, "1.2-2");
-    this._mandatoryBIR.AmountEnd = this._decimalPipe.transform(this.caseData.objData.AmountEnd, "1.2-2");
-    this._mandatoryBIR.EmployeeTaxPercentage = this._decimalPipe.transform(this.caseData.objData.EmployeeTaxPercentage, "1.2-2");
-    this._mandatoryBIR.EmployeeAdditionalAmount = this._decimalPipe.transform(this.caseData.objData.EmployeeAdditionalAmount, "1.2-2");
+    setTimeout(() => {
+      this.title = this.caseData.objDialogTitle;
+      this._mandatoryBIR.Id = this.caseData.objData.Id;
+      this._mandatoryBIR.AmountStart = this._decimalPipe.transform(this.caseData.objData.AmountStart, "1.2-2");
+      this._mandatoryBIR.AmountEnd = this._decimalPipe.transform(this.caseData.objData.AmountEnd, "1.2-2");
+      this._mandatoryBIR.EmployeeTaxPercentage = this._decimalPipe.transform(this.caseData.objData.EmployeeTaxPercentage, "1.2-2");
+      this._mandatoryBIR.EmployeeAdditionalAmount = this._decimalPipe.transform(this.caseData.objData.EmployeeAdditionalAmount, "1.2-2");
+      this.isComponentShow = true;
+    }, 300);
   }
 
   public Close(): void {
-    // this.dialogRef.close({ event: 'Close' });
+    this.dialogRef.close({ event: 'Close' });
   }
 
   public Save(): void {

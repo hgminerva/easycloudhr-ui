@@ -120,6 +120,7 @@ import { LoanLedgerComponent } from './report/loan-ledger/loan-ledger.component'
 import { PayrollOtherIncomePayslipComponent } from './report/payroll-other-income-payslip/payroll-other-income-payslip.component';
 import { LoanDeductionReportComponent } from './report/loan-deduction-report/loan-deduction-report.component';
 import { HdmfLoanReportComponent } from './report/hdmf-loan-report/hdmf-loan-report.component';
+import { SssCalamityLoanComponent } from './report/sss-calamity-loan/sss-calamity-loan.component';
 @NgModule({
   declarations: [
     SoftwareComponent,
@@ -216,7 +217,8 @@ import { HdmfLoanReportComponent } from './report/hdmf-loan-report/hdmf-loan-rep
     LoanLedgerComponent,
     PayrollOtherIncomePayslipComponent,
     LoanDeductionReportComponent,
-    HdmfLoanReportComponent
+    HdmfLoanReportComponent,
+    SssCalamityLoanComponent
   ],
   imports: [
     CommonModule,
