@@ -247,10 +247,10 @@ export class SharedService {
 
       }
 
-      var total = ",,,,,,,,TOTAL," + object.Total;
+      var total = "TOTAL,,,,,,," + object.TotalIncome + ',' + object.TotalEmployeeShare + ',' + object.TotalEmployeerShare + ',' + object.Total;
 
       if (object.MandatoryType == "Mandatory SSS") {
-        total = ",,,,,,,,,TOTAL," + object.Total;
+        total = "TOTAL,,,,,,," + object.TotalIncome + ',' + object.TotalEmployeeShare + ',', object.TotalEmployeerShare + ',' + object.TotalEC + ',' + object.Total;
       }
 
       data += total + '\r\n';
