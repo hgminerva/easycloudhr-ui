@@ -218,7 +218,7 @@ import { SssCalamityLoanComponent } from './report/sss-calamity-loan/sss-calamit
     PayrollOtherIncomePayslipComponent,
     LoanDeductionReportComponent,
     HdmfLoanReportComponent,
-    SssCalamityLoanComponent
+    SssCalamityLoanComponent,
   ],
   imports: [
     CommonModule,
