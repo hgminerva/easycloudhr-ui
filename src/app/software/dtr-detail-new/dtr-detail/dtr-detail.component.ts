@@ -606,7 +606,6 @@ export class DTRDetailComponent implements OnInit {
     this.dataCount = this.dtrLineData["length"];
     this.counter = 0;
     await this.Compute(this.dtrLineData[this.counter].Id);
-
   }
 
   public async Compute(dtrLineId: number) {

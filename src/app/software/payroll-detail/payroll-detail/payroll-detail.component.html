@@ -200,6 +200,9 @@
                     <wj-flex-grid-column [header]="'Total Daily Pay'" [binding]="'TotalDailyPay'" [isReadOnly]="true"
                         [width]="150">
                     </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Total Restday Pay'" [binding]="'TotalRestdaysPay'"
+                        [isReadOnly]="true" [width]="150">
+                    </wj-flex-grid-column>
                     <wj-flex-grid-column [header]="'Total Premium Pay'" [binding]="'TotalPremiumPay'"
                         [isReadOnly]="true" [width]="150">
                     </wj-flex-grid-column>
@@ -226,7 +229,10 @@
                     </wj-flex-grid-column>
                     <wj-flex-grid-column [header]="'Income'" [binding]="'Income'" [isReadOnly]="true" [width]="150">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Total OtherIncome Not Taxable'"
+                    <wj-flex-grid-column [header]="'Taxable OtherIncome '" [binding]="'TotalOtherIncomeTaxable'"
+                        [isReadOnly]="true" [width]="150">
+                    </wj-flex-grid-column>
+                    <wj-flex-grid-column [header]="'Non-Taxable OtherIncome'"
                         [binding]="'TotalOtherIncomeNotTaxable'" [isReadOnly]="true" [width]="150">
                     </wj-flex-grid-column>
                     <wj-flex-grid-column [header]="'Gross Income'" [binding]="'GrossIncome'" [isReadOnly]="true"
