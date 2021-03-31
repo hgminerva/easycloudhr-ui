@@ -139,18 +139,21 @@ export class SharedService {
   // ============
   public generateATMReportCSV(object: any, title: string, fileName: string): void {
 
-    console.log(object, "CSV data");
     var data = "";
     var collection;
 
     collection = object.PayLine;
+
+    for (var i = 0; i < collection.length; i++) {
+      collection[i].Amount = collection[i].Amount.toFixed(2);
+    }
 
     var header = "H, Payroll Date,"
       + object.PayrollDate
       + ", Payroll Time,"
       + ""
       + ",Total Amount,"
-      + object.TotalAmount
+      + object.TotalAmount.toFixed(2)
       + ",Total Count,"
       + object.TotalCount
       + ",FUNDING ACCOUNT," + object.FundingAccount;
@@ -166,6 +169,7 @@ export class SharedService {
     for (var i = 0; i < collection.length; i++) {
       var row = '';
       for (var s in collection[i]) {
+        console.log(s, collection[i][s]);
         row += '"' + collection[i][s] + '",';
       }
       row.slice(0, row.length - 1);
