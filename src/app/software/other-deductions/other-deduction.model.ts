@@ -11,4 +11,5 @@ export class OtherDeductionModel {
     UpdatedByUser: string;
     UpdatedDateTime: string;
     IsLocked: boolean;
+    AccountId: number;
 }

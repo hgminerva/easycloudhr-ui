@@ -68,6 +68,7 @@ export class EmployeePayrollModel {
     HDMFNumber: string;
     PHICNumber: string;
     TIN: string;
+    AccountId: number;
 }
 
 export class EmployeeHRModel {

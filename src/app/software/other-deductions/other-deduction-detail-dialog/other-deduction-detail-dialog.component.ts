@@ -82,7 +82,8 @@ export class OtherDeductionDetailDialogComponent implements OnInit {
     UpdatedByUserId: 0,
     UpdatedByUser: '',
     UpdatedDateTime: '',
-    IsLocked: false
+    IsLocked: false,
+    AccountId: null
   }
 
   public isOtherDeductionDataLoaded: boolean = false;
@@ -101,6 +102,21 @@ export class OtherDeductionDetailDialogComponent implements OnInit {
   public btnUnlockDisabled: boolean = true;
 
   public isComponentsShown: boolean = false;
+
+  public accountDropdownSubscription: any;
+  public accountListDropdown: any;
+  private async GetAccountDropdownListData() {
+    this.accountDropdownSubscription = await (await this._otherDeductionsService.AccountList()).subscribe(
+      response => {
+        this.accountListDropdown = response;
+        if (this.accountDropdownSubscription !== null) this.accountDropdownSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this.accountDropdownSubscription !== null) this.accountDropdownSubscription.unsubscribe();
+      }
+    );
+  }
 
   private async GetOtherDeductionDetail(id) {
     this.isComponentsShown = false;
@@ -259,6 +275,7 @@ export class OtherDeductionDetailDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.title = this.caseData.objDialogTitle;
+    this.GetAccountDropdownListData();
     this.Get_userRights();
   }
 }

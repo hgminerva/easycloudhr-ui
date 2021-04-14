@@ -60,6 +60,10 @@ export class EmployeeDetailService {
     return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/payroll/type/list', this.appSettings.defaultOptions);
   }
 
+  public async AccountList() {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/mst/api/account/list', this.appSettings.defaultOptions);
+  }
+
   public async PayrollGroupList() {
     return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/payroll/group/list', this.appSettings.defaultOptions);
   }

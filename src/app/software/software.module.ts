@@ -121,6 +121,7 @@ import { PayrollOtherIncomePayslipComponent } from './report/payroll-other-incom
 import { LoanDeductionReportComponent } from './report/loan-deduction-report/loan-deduction-report.component';
 import { HdmfLoanReportComponent } from './report/hdmf-loan-report/hdmf-loan-report.component';
 import { SssCalamityLoanComponent } from './report/sss-calamity-loan/sss-calamity-loan.component';
+import { AccountDetailComponent } from './system-tables-list/account-detail/account-detail.component';
 @NgModule({
   declarations: [
     SoftwareComponent,
@@ -219,6 +220,7 @@ import { SssCalamityLoanComponent } from './report/sss-calamity-loan/sss-calamit
     LoanDeductionReportComponent,
     HdmfLoanReportComponent,
     SssCalamityLoanComponent,
+    AccountDetailComponent,
   ],
   imports: [
     CommonModule,

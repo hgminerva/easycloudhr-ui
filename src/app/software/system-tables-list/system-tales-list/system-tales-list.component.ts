@@ -13,6 +13,7 @@ import { SoftwareSecurityService, UserModule } from '../../software-security/sof
 import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
 import { LabelDetailComponent } from './../label-detail/label-detail.component';
+import { AccountDetailComponent } from '../account-detail/account-detail.component';
 
 @Component({
   selector: 'app-system-tales-list',
@@ -28,13 +29,13 @@ export class SystemTalesListComponent implements OnInit {
     private snackBarTemplate: SnackBarTemplate,
     public matDialog: MatDialog,
     private _softwareSecurityService: SoftwareSecurityService,
-    private labelService: SystemTablesListService,
 
   ) { }
 
   ngOnInit() {
     this.Get_userRights();
     this.GetLabelListData();
+    this.GetAccountListData();
   }
 
   @ViewChild('tabGroup') tabGroup;
@@ -317,7 +318,7 @@ export class SystemTalesListComponent implements OnInit {
 
     this.isLabelProgressBarHidden = true;
 
-    this._labelListSubscription = (await this.labelService.LabelList()).subscribe(
+    this._labelListSubscription = (await this.systemTablesListService.LabelList()).subscribe(
       (response: any) => {
         var results = response;
         if (results["length"] > 0) {
@@ -376,7 +377,7 @@ export class SystemTalesListComponent implements OnInit {
     this.buttonDisabled = true;
     if (this.isLabelDataLoaded == true) {
       this.isLabelDataLoaded = false;
-      this._addLabelSubscription = (await this.labelService.AddLabel(objLabel)).subscribe(
+      this._addLabelSubscription = (await this.systemTablesListService.AddLabel(objLabel)).subscribe(
         response => {
           this.buttonDisabled = false;
           this.isLabelDataLoaded = true;
@@ -398,7 +399,7 @@ export class SystemTalesListComponent implements OnInit {
     this.buttonDisabled = true;
     if (this.isLabelDataLoaded == true) {
       this.isLabelDataLoaded = false;
-      this._addLabelSubscription = (await this.labelService.SaveLabel(objLabel)).subscribe(
+      this._addLabelSubscription = (await this.systemTablesListService.SaveLabel(objLabel)).subscribe(
         response => {
           this.buttonDisabled = false;
           this.isLabelDataLoaded = true;
@@ -421,7 +422,7 @@ export class SystemTalesListComponent implements OnInit {
       let currentLabel = this._listLabelCollectionView.currentItem;
       this.isLabelProgressBarHidden = true;
 
-      this._deleteLabelSubscription = (await this.labelService.DeleteLabel(currentLabel.Id)).subscribe(
+      this._deleteLabelSubscription = (await this.systemTablesListService.DeleteLabel(currentLabel.Id)).subscribe(
         response => {
           this.snackBarTemplate.snackBarSuccess(this.snackBar, "Delete Successfully");
           this.GetLabelListData();
@@ -483,4 +484,196 @@ export class SystemTalesListComponent implements OnInit {
       }
     });
   }
+
+  // =============
+  // Code Tables
+  // =============
+  public _listAccountObservableArray: ObservableArray = new ObservableArray();
+  public _listAccountCollectionView: CollectionView = new CollectionView(this._listAccountObservableArray);
+  public _listAccountPageIndex: number = 15;
+  @ViewChild('flexAccount') _flexAccount: wjcGrid.FlexGrid;
+  public isAccountProgressBarHidden = false;
+  public isAccountDataLoaded: boolean = false;
+
+  private _accountListSubscription: any;
+  private _addAccountSubscription: any;
+  private _deleteAccountSubscription: any;
+
+  private async GetAccountListData() {
+    this._listAccountObservableArray = new ObservableArray();
+    this._listAccountCollectionView = new CollectionView(this._listAccountObservableArray);
+    this._listAccountCollectionView.pageSize = 15;
+    this._listAccountCollectionView.trackChanges = true;
+    await this._listAccountCollectionView.refresh();
+    await this._flexAccount.refresh();
+
+    this.isAccountProgressBarHidden = true;
+
+    this._accountListSubscription = (await this.systemTablesListService.AccountList()).subscribe(
+      (response: any) => {
+        var results = response;
+        if (results["length"] > 0) {
+          this._listAccountObservableArray = results;
+          this._listAccountCollectionView = new CollectionView(this._listAccountObservableArray);
+          this._listAccountCollectionView.pageSize = 15;
+          this._listAccountCollectionView.trackChanges = true;
+          this._listAccountCollectionView.refresh();
+          this._flexAccount.refresh();
+        }
+
+        this.isAccountDataLoaded = true;
+        this.isAccountProgressBarHidden = false;
+        if (this._accountListSubscription != null) this._accountListSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this._accountListSubscription !== null) this._accountListSubscription.unsubscribe();
+      }
+    );
+  }
+
+  accountGridClick(s, e) {
+    if (wjcCore.hasClass(e.target, 'bir-button-edit')) {
+      if (this._userRights.CanEdit) {
+        this.EditAccount();
+      }
+
+    }
+
+    if (wjcCore.hasClass(e.target, 'bir-button-delete')) {
+      if (this._userRights.CanDelete) {
+        this.ComfirmDeleteAccount();
+      }
+    }
+  }
+
+  public BtnAddAccount() {
+
+    let objAccount: any = {
+      Id: 0,
+      AccountCode: '',
+      AccountName: '',
+      Description: ''
+    }
+
+    this.DetailAccount(objAccount, "Add Account");
+  }
+
+  public EditAccount() {
+    let currentAccount = this._listAccountCollectionView.currentItem;
+    this.DetailAccount(currentAccount, "Edit Account");
+  }
+
+  public async AddAccount(objAccount: any) {
+    this.buttonDisabled = true;
+    if (this.isAccountDataLoaded == true) {
+      this.isAccountDataLoaded = false;
+      this._addAccountSubscription = (await this.systemTablesListService.AddAccount(objAccount)).subscribe(
+        response => {
+          this.buttonDisabled = false;
+          this.isAccountDataLoaded = true;
+          this.GetAccountListData();
+          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Added Successfully");
+          if (this._addAccountSubscription != null) this._addAccountSubscription.unsubscribe();
+        },
+        error => {
+          this.buttonDisabled = false;
+          this.isAccountDataLoaded = true;
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this._addAccountSubscription != null) this._addAccountSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
+  public async SaveAccount(objAccount: any) {
+    this.buttonDisabled = true;
+    if (this.isAccountDataLoaded == true) {
+      this.isAccountDataLoaded = false;
+      this._addAccountSubscription = (await this.systemTablesListService.SaveAccount(objAccount)).subscribe(
+        response => {
+          this.buttonDisabled = false;
+          this.isAccountDataLoaded = true;
+          this.GetAccountListData();
+          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Save Successfully");
+        },
+        error => {
+          this.buttonDisabled = false;
+          this.isAccountDataLoaded = true;
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + " Status Code: " + error.status);
+          if (this._addAccountSubscription != null) this._addAccountSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
+  public async DeleteAccount() {
+    if (this.isAccountDataLoaded == true) {
+      this.isAccountDataLoaded = false;
+      let currentAccount = this._listAccountCollectionView.currentItem;
+      this.isAccountProgressBarHidden = true;
+
+      this._deleteAccountSubscription = (await this.systemTablesListService.DeleteAccount(currentAccount.Id)).subscribe(
+        response => {
+          this.snackBarTemplate.snackBarSuccess(this.snackBar, "Delete Successfully");
+          this.GetAccountListData();
+          this.isAccountProgressBarHidden = false;
+          this.isAccountDataLoaded = true;
+        },
+        error => {
+          this.isAccountDataLoaded = true;
+          this.snackBarTemplate.snackBarError(this.snackBar, error.error + " " + error.status);
+          if (this._deleteAccountSubscription != null) this._deleteAccountSubscription.unsubscribe();
+        }
+      );
+    }
+  }
+
+  public ComfirmDeleteAccount(): void {
+    let currentAccount = this._listAccountCollectionView.currentItem;
+    const matDialogRef = this.matDialog.open(ComfirmMassageDialogComponent, {
+      width: '500px',
+      data: {
+        objDialogTitle: "",
+        objComfirmationMessage: `Delete Account?`,
+      },
+      disableClose: true
+    });
+
+    matDialogRef.afterClosed().subscribe(result => {
+      if (result.message == "Yes") {
+        this.DeleteAccount();
+      }
+    });
+  }
+
+  public DetailAccount(data: any, eventTitle: string): void {
+    const matDialogRef = this.matDialog.open(AccountDetailComponent, {
+      width: '500px',
+      data: {
+        objDialogTitle: eventTitle,
+        objData: data,
+      },
+      disableClose: true
+    });
+
+    matDialogRef.afterClosed().subscribe(data => {
+      if (data.event != 'Close') {
+        let objAccount: any = {
+          Id: data.objData.Id,
+          AccountCode: data.objData.AccountCode,
+          AccountName: data.objData.AccountName,
+          Description: data.objData.Description
+        }
+
+        if (data.event === "Add") {
+          this.AddAccount(objAccount);
+        }
+        if (data.event === "Edit") {
+          this.SaveAccount(objAccount);
+        }
+      }
+    });
+  }
+
 }

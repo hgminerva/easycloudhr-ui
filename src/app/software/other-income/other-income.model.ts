@@ -10,4 +10,5 @@ export class OtherIncomeModel {
     UpdatedByUser: string;
     UpdatedDateTime: string;
     IsLocked: boolean;
+    AccountId: number;
 }

@@ -50,4 +50,21 @@ export class SystemTablesListService {
     return this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/mst/api/labels/delete/' + id, this.appSettings.defaultOptions);
   }
 
+  // Accounts
+  public async AccountList() {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/mst/api/account/list', this.appSettings.defaultOptions);
+  }
+
+  public async AddAccount(objAccount: any) {
+    return this.httpClient.post(this.appSettings.defaultAPIURLHost + '/mst/api/account/create', JSON.stringify(objAccount), this.appSettings.defaultOptions);
+  }
+
+  public async SaveAccount(objAccount: any) {
+    return this.httpClient.put(this.appSettings.defaultAPIURLHost + '/mst/api/account/update/' + objAccount.Id, JSON.stringify(objAccount), this.appSettings.defaultOptions);
+  }
+
+  public async DeleteAccount(id: number) {
+    return this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/mst/api/account/delete/' + id, this.appSettings.defaultOptions);
+  }
+
 }

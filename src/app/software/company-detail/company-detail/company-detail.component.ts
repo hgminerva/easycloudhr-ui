@@ -70,6 +70,10 @@ export class CompanyDetailComponent implements OnInit {
     UpdatedDateTime: '',
     IsLocked: false,
     FundingAccount: '',
+    SSSAccountId: null,
+    HDMFAccountId: null,
+    PHICAccountId: null,
+    TaxAccountId: null
   }
 
   public isCompanyDataLoaded: boolean = false;
@@ -88,6 +92,21 @@ export class CompanyDetailComponent implements OnInit {
   public btnUnlockDisabled: boolean = true;
 
   public _isComponentsShown: boolean = false;
+
+  public accountDropdownSubscription: any;
+  public accountListDropdown: any;
+  private async GetAccountDropdownListData() {
+    this.accountDropdownSubscription = await (await this.companyDetialService.AccountList()).subscribe(
+      response => {
+        this.accountListDropdown = response;
+        if (this.accountDropdownSubscription !== null) this.accountDropdownSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this.accountDropdownSubscription !== null) this.accountDropdownSubscription.unsubscribe();
+      }
+    );
+  }
 
   private async GetUserRights() {
     this._userRightsSubscription = await (await this.softwareSecurityService.PageModuleRights("Company Detail")).subscribe(
@@ -405,6 +424,7 @@ export class CompanyDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.title = this.caseData.objDialogTitle;
+    this.GetAccountDropdownListData();
     this.GetUserRights();
   }
 }

@@ -49,6 +49,17 @@
                         [readonly]="isLocked" (change)="formatValueDefaultAmount()">
                 </mat-form-field>
             </div>
+            <div fxFlex="25" style="padding: 5px;">
+                <mat-form-field appearance="fill" style="width: 100%;">
+                    <mat-label>Account</mat-label>
+                    <mat-select [(ngModel)]="_otherDeductionModel.AccountId">
+                        <mat-option *ngFor="let account of accountListDropdown" [disabled]="isLocked"
+                            [value]="account.Id">
+                            {{account.AccountName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
             <div fxFlex="25" style="padding: 5px;" style="padding: 23px; text-align: start; display: inline;">
                 <div style="width: 100%; border: gray 1px !important">
                     <mat-checkbox color="primary" [disabled]="isLocked" [(ngModel)]="_otherDeductionModel.IsLoan"><span

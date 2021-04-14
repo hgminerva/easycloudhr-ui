@@ -54,6 +54,52 @@
                     </div>
                 </div>
                 <div fxLayout="row" fxLayout.xs="column">
+                    <div fxFlex="25" style="padding: 5px;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
+                            <mat-label>SSS Account</mat-label>
+                            <mat-select [(ngModel)]="companyModel.SSSAccountId">
+                                <mat-option *ngFor="let account of accountListDropdown"
+                                    [disabled]="isLocked" [value]="account.Id">
+                                    {{account.AccountName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="25" style="padding: 5px;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
+                            <mat-label>HDMF Account</mat-label>
+                            <mat-select [(ngModel)]="companyModel.HDMFAccountId">
+                                <mat-option *ngFor="let account of accountListDropdown"
+                                    [disabled]="isLocked" [value]="account.Id">
+                                    {{account.AccountName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="25" style="padding: 5px;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
+                            <mat-label>PHIC Account</mat-label>
+                            <mat-select [(ngModel)]="companyModel.PHICAccountId">
+                                <mat-option *ngFor="let account of accountListDropdown"
+                                    [disabled]="isLocked" [value]="account.Id">
+                                    {{account.AccountName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="25" style="padding: 5px;">
+                        <mat-form-field appearance="fill" style="width: 100%;">
+                            <mat-label>Tax Account</mat-label>
+                            <mat-select [(ngModel)]="companyModel.TaxAccountId">
+                                <mat-option *ngFor="let account of accountListDropdown"
+                                    [disabled]="isLocked" [value]="account.Id">
+                                    {{account.AccountName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="20" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
                             <mat-label>SSS No.</mat-label>

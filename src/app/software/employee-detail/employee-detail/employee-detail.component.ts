@@ -111,6 +111,7 @@ export class EmployeeDetailComponent implements OnInit {
     HDMFNumber: '',
     PHICNumber: '',
     TIN: '',
+    AccountId: null,
   }
 
   public employeeHRModel: EmployeeHRModel = {
@@ -397,13 +398,28 @@ export class EmployeeDetailComponent implements OnInit {
   private async GetPayrollTypeDropdownListData() {
     this.payrollTypeDropdownSubscription = await (await this.employeeDetailService.PayrollTypeList()).subscribe(
       response => {
-        this.GetPayrollGroupDropdownListData();
+        this.GetAccountDropdownListData();
         this.payrollTypeListDropdown = response;
         if (this.payrollTypeDropdownSubscription !== null) this.payrollTypeDropdownSubscription.unsubscribe();
       },
       error => {
         this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
         if (this.payrollTypeDropdownSubscription !== null) this.payrollTypeDropdownSubscription.unsubscribe();
+      }
+    );
+  }
+  public accountDropdownSubscription: any;
+  public accountListDropdown: any;
+  private async GetAccountDropdownListData() {
+    this.accountDropdownSubscription = await (await this.employeeDetailService.AccountList()).subscribe(
+      response => {
+        this.GetPayrollGroupDropdownListData();
+        this.accountListDropdown = response;
+        if (this.accountDropdownSubscription !== null) this.accountDropdownSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this.accountDropdownSubscription !== null) this.accountDropdownSubscription.unsubscribe();
       }
     );
   }
@@ -611,7 +627,6 @@ export class EmployeeDetailComponent implements OnInit {
           if (result["EmployeePayroll"] !== null) {
             this.employeeModel.EmployeePayroll = result["EmployeePayroll"];
             this.employeeModel.EmployeePayroll.TaxTable = result["EmployeePayroll"].TaxTable;
-            console.log(this.employeeModel.EmployeePayroll.TaxTable);
             this.employeeModel.EmployeePayroll.PayrollRate = this._decimalPipe.transform(result["EmployeePayroll"].PayrollRate, "1.2-2");
             this.employeeModel.EmployeePayroll.MonthlyRate = this._decimalPipe.transform(result["EmployeePayroll"].MonthlyRate, "1.2-2");
             this.employeeModel.EmployeePayroll.DailyRate = this._decimalPipe.transform(result["EmployeePayroll"].DailyRate, "1.2-2");

@@ -17,4 +17,8 @@ export class CompanyModel {
     UpdatedDateTime: string;
     IsLocked: boolean;
     FundingAccount: string;
+    SSSAccountId: number;
+    HDMFAccountId: number;
+    PHICAccountId: number;
+    TaxAccountId: number;
 }

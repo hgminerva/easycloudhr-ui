@@ -45,4 +45,8 @@ export class OtherDeductionsService {
     return this.httpClient.delete(this.appSettings.defaultAPIURLHost + '/api/other/deduction/delete/' + id,
                                   this.appSettings.defaultOptions);
   }
+
+  public async AccountList() {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/mst/api/account/list', this.appSettings.defaultOptions);
+  }
 }

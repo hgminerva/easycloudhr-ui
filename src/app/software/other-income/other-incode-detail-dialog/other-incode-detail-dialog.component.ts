@@ -23,6 +23,13 @@ export class OtherIncodeDetailDialogComponent implements OnInit {
     private _softwareSecurityService: SoftwareSecurityService,
   ) { }
 
+  
+  ngOnInit(): void {
+    this.title = this.caseData.objDialogTitle;
+    this.GetAccountDropdownListData();
+    this.Get_userRights();
+  }
+
   public title = '';
   public event = 'Close';
 
@@ -65,11 +72,6 @@ export class OtherIncodeDetailDialogComponent implements OnInit {
     await this.GetOtherIncomeDetail(this.caseData.objOtherIncomeId);
   }
 
-  ngOnInit(): void {
-    this.title = this.caseData.objDialogTitle;
-    this.Get_userRights();
-  }
-
   public _otherIncomeModel: OtherIncomeModel = {
     Id: 0,
     OtherIncomeCode: '',
@@ -81,7 +83,8 @@ export class OtherIncodeDetailDialogComponent implements OnInit {
     UpdatedByUserId: 0,
     UpdatedByUser: '',
     UpdatedDateTime: '',
-    IsLocked: false
+    IsLocked: false,
+    AccountId: null
   }
 
   public isOtherIncomeDataLoaded: boolean = false;
@@ -101,6 +104,20 @@ export class OtherIncodeDetailDialogComponent implements OnInit {
 
   public isComponentsShown: boolean = false;
 
+  public accountDropdownSubscription: any;
+  public accountListDropdown: any;
+  private async GetAccountDropdownListData() {
+    this.accountDropdownSubscription = await (await this._otherIncomeService.AccountList()).subscribe(
+      response => {
+        this.accountListDropdown = response;
+        if (this.accountDropdownSubscription !== null) this.accountDropdownSubscription.unsubscribe();
+      },
+      error => {
+        this.snackBarTemplate.snackBarError(this.snackBar, error.error.Message + " " + error.status);
+        if (this.accountDropdownSubscription !== null) this.accountDropdownSubscription.unsubscribe();
+      }
+    );
+  }
 
   private async GetOtherIncomeDetail(id) {
     this.isComponentsShown = false;

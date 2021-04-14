@@ -1,0 +1,42 @@
+<h3 mat-dialog-title>
+    {{ title }}
+</h3>
+<mat-divider></mat-divider>
+<div mat-dialog-content style="height: 70%;">
+    <div class="dialog-body">
+        <div fxLayout="row" fxLayout.xs="column">
+            <div fxFlex="100" style="padding: 5px;">
+                <mat-form-field appearance="fill" style="width: 100%;">
+                    <mat-label>Code</mat-label>
+                    <input matInput [(ngModel)]="accountData.AccountCode" disabled>
+                </mat-form-field>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayout.xs="column">
+            <div fxFlex="100" style="padding: 5px;">
+                <mat-form-field appearance="fill" style="width: 100%;">
+                    <mat-label>AccountName</mat-label>
+                    <input matInput [(ngModel)]="accountData.AccountName">
+                </mat-form-field>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayout.xs="column">
+            <div fxFlex="100" style="padding: 5px;">
+                <mat-form-field appearance="fill" style="width: 100%;">
+                    <mat-label>Description</mat-label>
+                    <input matInput [(ngModel)]="accountData.Description">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions align="right">
+    <button mat-flat-button color="primary" mat-dialog-close align-self="right" style="margin-right: 5px;"
+        (click)="Save()">
+        Save
+    </button>
+    <button mat-flat-button mat-dialog-close style="margin: 5px;" color="warn" (click)="Close()">
+        Close
+    </button>
+</div>
