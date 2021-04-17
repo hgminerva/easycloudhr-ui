@@ -380,6 +380,45 @@ export class PayrollDetailComponent implements OnInit {
   }
 
   activeTab() { }
+  public grandTotal = {
+    PayrollRate: 0,
+    TotalDailyPay: 0,
+    TotalPremiumPay: 0,
+    TotalHolidayPay: 0,
+    TotalOvertimePay: 0,
+    TotalNightDifferentialPay: 0,
+    TotalCOLA: 0,
+    TotalAdditionalAllowance: 0,
+    TotalLateDeduction: 0,
+    TotalUndertimeDeduction: 0,
+    Income: 0,
+    TotalOtherIncomeNotTaxable: 0,
+    TotalOtherIncomeTaxable: 0,
+    GrossIncome: 0,
+    SSSContribution: 0,
+    PHICContribution: 0,
+    HDMFContribution: 0,
+    IncomeTaxAmount: 0,
+    TotalOtherDeduction: 0,
+    NetIncome: 0,
+    SSSEmployerContribution: 0,
+    SSSEC: 0,
+    PHICEmployerContribution: 0,
+    HDMFEmployerContribution: 0,
+    NoOfPremiumPayDays: 0,
+    NoOfHolidays: 0,
+    NoOfDaysLate: 0,
+    NoOfDaysUndertime: 0,
+    NoOfDaysWorked: 0,
+    NoOfRestdays: 0,
+    TotalRestdaysPay: 0,
+    TotalPaidLeaveDays: 0,
+    TotalPaidLeaveAmount: 0,
+    NoOfUnPaidLeaveDays: 0,
+    NoOfAbsentDays: 0,
+    TotalAbsentAmount: 0,
+    OvertimeNumberOfHours: 0
+  }
 
   private async GetPayrollLineListData() {
     this.pageNumber = this._listPayrollLineCollectionView.pageIndex;
@@ -395,16 +434,14 @@ export class PayrollDetailComponent implements OnInit {
     this._payrollLineListSubscription = await (await this._payrollDetailService.PayrollLineList(this._payrollModel.Id)).subscribe(
       (response: any) => {
         console.log(response);
-        
         if (response["length"] > 0) {
-
+          this.getGrandTotal(response);
           this._listPayrollLineObservableArray = response;
           this._listPayrollLineCollectionView = new CollectionView(this._listPayrollLineObservableArray);
           this._listPayrollLineCollectionView.pageSize = 15;
           this._listPayrollLineCollectionView.trackChanges = true;
           this._listPayrollLineCollectionView.refresh();
           this.flexPayrollLine.refresh();
-
         }
 
         this._listPayrollLineCollectionView.moveToPage(this.pageNumber);
@@ -419,6 +456,49 @@ export class PayrollDetailComponent implements OnInit {
         if (this._payrollLineListSubscription !== null) this._payrollLineListSubscription.unsubscribe();
       }
     );
+  }
+
+  public getGrandTotal(data: any) {
+    for (var i = 0; i < data.length; i++) {
+      this.grandTotal.PayrollRate += data[i].PayrollRate;
+      this.grandTotal.TotalDailyPay += data[i].TotalDailyPay;
+      this.grandTotal.TotalPremiumPay += data[i].TotalPremiumPay;
+      this.grandTotal.TotalHolidayPay += data[i].TotalHolidayPay;
+      this.grandTotal.TotalOvertimePay += data[i].TotalOvertimePay;
+      this.grandTotal.TotalNightDifferentialPay += data[i].TotalNightDifferentialPay;
+      this.grandTotal.TotalCOLA += data[i].TotalCOLA;
+      this.grandTotal.TotalAdditionalAllowance += data[i].TotalAdditionalAllowance;
+      this.grandTotal.TotalLateDeduction += data[i].TotalLateDeduction;
+      this.grandTotal.TotalUndertimeDeduction += data[i].TotalUndertimeDeduction;
+      this.grandTotal.Income += data[i].Income;
+      this.grandTotal.TotalOtherIncomeNotTaxable += data[i].TotalOtherIncomeNotTaxable;
+      this.grandTotal.TotalOtherIncomeTaxable += data[i].TotalOtherIncomeTaxable;
+      this.grandTotal.GrossIncome += data[i].GrossIncome;
+      this.grandTotal.SSSContribution += data[i].SSSContribution;
+      this.grandTotal.PHICContribution += data[i].PHICContribution;
+      this.grandTotal.HDMFContribution += data[i].HDMFContribution;
+      this.grandTotal.IncomeTaxAmount += data[i].IncomeTaxAmount;
+      this.grandTotal.TotalOtherDeduction += data[i].TotalOtherDeduction;
+      this.grandTotal.NetIncome += data[i].NetIncome;
+      this.grandTotal.SSSEmployerContribution += data[i].SSSEmployerContribution;
+      this.grandTotal.SSSEC += data[i].SSSEC;
+      this.grandTotal.PHICEmployerContribution += data[i].PHICEmployerContribution;
+      this.grandTotal.HDMFEmployerContribution += data[i].HDMFEmployerContribution;
+      this.grandTotal.NoOfPremiumPayDays += data[i].NoOfPremiumPayDays;
+      this.grandTotal.NoOfHolidays += data[i].NoOfHolidays;
+      this.grandTotal.NoOfDaysLate += data[i].NoOfDaysLate;
+      this.grandTotal.NoOfDaysUndertime += data[i].NoOfDaysUndertime;
+      this.grandTotal.NoOfDaysWorked += data[i].NoOfDaysWorked;
+      this.grandTotal.NoOfRestdays += data[i].NoOfRestdays;
+      this.grandTotal.TotalRestdaysPay += data[i].TotalRestdaysPay;
+      this.grandTotal.TotalPaidLeaveDays += data[i].TotalPaidLeaveDays;
+      this.grandTotal.TotalPaidLeaveAmount += data[i].TotalPaidLeaveAmount;
+      this.grandTotal.NoOfUnPaidLeaveDays += data[i].NoOfUnPaidLeaveDays;
+      this.grandTotal.NoOfAbsentDays += data[i].NoOfAbsentDays;
+      this.grandTotal.TotalAbsentAmount += data[i].TotalAbsentAmount;
+      this.grandTotal.OvertimeNumberOfHours += data[i].OvertimeNumberOfHours;
+    }
+    console.log(this.grandTotal);
   }
 
 
@@ -642,7 +722,7 @@ export class PayrollDetailComponent implements OnInit {
   }
 
   public btnCSVClick() {
-    this._sharedService.generateCSV(this._listPayrollLineCollectionView, "Payroll List", "payroll.csv");
+    this._sharedService.generateCSVPayrollLine(this._listPayrollLineCollectionView, this.grandTotal, "Payroll List", "payroll.csv");
     console.log(this._listPayrollLineCollectionView);
   }
 

@@ -93,6 +93,91 @@ export class SharedService {
   // ============
   // Generate CSV
   // ============
+  public generateCSVPayrollLine(collectionView: CollectionView, grandTotal: any, title: string, fileName: string): void {
+
+    console.log(grandTotal);
+    var data = "";
+    var collection;
+
+    data = title + '\r\n\n';
+    collection = collectionView;
+    let total = "Grand Total,,,," + grandTotal.PayrollRate.toString() + ',' + grandTotal.TotalDailyPay.toString() + ',' +
+      grandTotal.TotalPremiumPay.toString() + ',' +
+      grandTotal.TotalHolidayPay.toString() + ',' +
+      grandTotal.TotalOvertimePay.toString() + ',' +
+      grandTotal.TotalNightDifferentialPay.toString() + ',' +
+      grandTotal.TotalCOLA.toString() + ',' +
+      grandTotal.TotalAdditionalAllowance.toString() + ',' +
+      grandTotal.TotalLateDeduction.toString() + ',' +
+      grandTotal.TotalUndertimeDeduction.toString() + ',' +
+      grandTotal.Income.toString() + ',' +
+      grandTotal.TotalOtherIncomeNotTaxable.toString() + ',' +
+      grandTotal.TotalOtherIncomeTaxable.toString() + ',' +
+      grandTotal.GrossIncome.toString() + ',' +
+      grandTotal.SSSContribution.toString() + ',' +
+      grandTotal.PHICContribution.toString() + ',' +
+      grandTotal.HDMFContribution.toString() + ',' +
+      grandTotal.IncomeTaxAmount.toString() + ',' +
+      grandTotal.TotalOtherDeduction.toString() + ',' +
+      grandTotal.NetIncome.toString() + ',' +
+      grandTotal.SSSEmployerContribution.toString() + ',' +
+      grandTotal.SSSEC.toString() + ',' +
+      grandTotal.PHICEmployerContribution.toString() + ',' +
+      grandTotal.HDMFEmployerContribution.toString() + ',' +
+      grandTotal.NoOfPremiumPayDays.toString() + ',' +
+      grandTotal.NoOfHolidays.toString() + ',' +
+      grandTotal.NoOfDaysLate.toString() + ',' +
+      grandTotal.NoOfDaysUndertime.toString() + ',' +
+      grandTotal.NoOfDaysWorked.toString() + ',' +
+      grandTotal.NoOfRestdays.toString() + ',' +
+      grandTotal.TotalRestdaysPay.toString() + ',' +
+      grandTotal.TotalPaidLeaveDays.toString() + ',' +
+      grandTotal.TotalPaidLeaveAmount.toString() + ',' +
+      grandTotal.NoOfUnPaidLeaveDays.toString() + ',' +
+      grandTotal.NoOfAbsentDays.toString() + ',' +
+      grandTotal.TotalAbsentAmount.toString() + ',' +
+      grandTotal.OvertimeNumberOfHours.toString() + ',';
+
+    console.log(total);
+
+    if (data != "") {
+      var label = '';
+      for (var s in collection.items[0]) {
+        label += s + ',';
+      }
+
+      label = label.slice(0, -1);
+
+      data += label + '\r\n';
+
+      collection.moveToFirstPage();
+      for (var p = 0; p < collection.pageCount; p++) {
+        for (var i = 0; i < collection.items.length; i++) {
+          var row = '';
+          for (var s in collection.items[i]) {
+            row += '"' + collection.items[i][s] + '",';
+          }
+          row.slice(0, row.length - 1);
+          data += row + '\r\n';
+        }
+        collection.moveToNextPage();
+      }
+
+      data += total;
+    }
+
+    var csvURL = window.URL.createObjectURL(new Blob([data], { type: 'text/csv;charset=utf-8;' }));
+    var tempLink = document.createElement('a');
+
+    tempLink.href = csvURL;
+    tempLink.setAttribute('download', fileName);
+    tempLink.click();
+  }
+
+
+  // ============
+  // Generate CSV
+  // ============
   public generateCSV(collectionView: CollectionView, title: string, fileName: string): void {
 
     console.log(collectionView);
