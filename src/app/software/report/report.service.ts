@@ -160,7 +160,7 @@ export class ReportService {
   // ==============
   // Work Sheet PDF
   // ==============
-  public async WorkSheetPerDepartment(payId: number, department: string) {
+  public async WorkSheetPerDepartment(payId: number, department: string, companyId: number) {
     let printCaseOptions: any = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -169,7 +169,7 @@ export class ReportService {
       responseType: "blob"
     };
 
-    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/payroll/worksheet/per/department/' + payId + '/' + department,
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/payroll/worksheet/per/department/' + payId + '/' + department + '/' + companyId,
       printCaseOptions);
   }
 

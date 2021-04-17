@@ -160,6 +160,10 @@ export class CompanyDetailComponent implements OnInit {
           this.companyModel.UpdatedByUserId = result["UpdatedByUserId"];
           this.companyModel.UpdatedByUser = result["UpdatedByUser"];
           this.companyModel.UpdatedDateTime = result["UpdatedDateTime"];
+          this.companyModel.SSSAccountId = result["SSSAccountId"];
+          this.companyModel.HDMFAccountId = result["HDMFAccountId"];
+          this.companyModel.PHICAccountId = result["PHICAccountId"];
+          this.companyModel.TaxAccountId = result["TaxAccountId"];
           this.companyModel.IsLocked = result["IsLocked"];
           this.companyModel.FundingAccount = result["FundingAccount"];
         }

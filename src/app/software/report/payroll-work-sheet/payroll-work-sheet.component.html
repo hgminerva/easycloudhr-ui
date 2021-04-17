@@ -34,6 +34,17 @@
                 </mat-select>
             </mat-form-field>
         </div>
+
+        <div fxFlex="20" style="padding: 5px;">
+            <mat-form-field appearance="fill" style="width: 100%; font-size:smaller;">
+                <mat-label>Company</mat-label>
+                <mat-select [(ngModel)]="companyId">
+                    <mat-option *ngFor="let company of _companyListDropdownList" [value]="company.Id">
+                        {{company.Value}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <br>
     <div fxLayout="row" fxLayout.xs="column" style="height:900px">

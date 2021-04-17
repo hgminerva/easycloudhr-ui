@@ -136,6 +136,7 @@ export class OtherIncodeDetailDialogComponent implements OnInit {
           this._otherIncomeModel.UpdatedByUserId = result["UpdatedByUserId"];
           this._otherIncomeModel.UpdatedByUser = result["UpdatedByUser"];
           this._otherIncomeModel.UpdatedDateTime = result["UpdatedDateTime"];
+          this._otherIncomeModel.AccountId = result["AccountId"];
           this._otherIncomeModel.IsLocked = result["IsLocked"];
         }
         this.loadComponent(result["IsLocked"]);

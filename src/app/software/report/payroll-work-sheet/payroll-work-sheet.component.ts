@@ -17,7 +17,8 @@ export class PayrollWorkSheetComponent implements OnInit {
   ) { }
 
   public payrollId: number = 0;
-
+  public companyId: number = 0;
+  
   public _payrollListDropdownList: any;
   public _payrollListDropdownListSubscription: any;
 
@@ -28,6 +29,9 @@ export class PayrollWorkSheetComponent implements OnInit {
 
   public _demographicsReportSubscription: any;
   public pdfUrl: string = '';
+
+  public _companyListDropdownList: any;
+  public _companyListDropdownListSubscription: any;
 
   public _isProgressBarHidden: boolean = false;
 
@@ -58,7 +62,7 @@ export class PayrollWorkSheetComponent implements OnInit {
       response => {
         this._departmentListDropdownList = response;
         this.department = this._departmentListDropdownList[0].Value;
-
+        this.GetCompanyDropdownListData();
         if (this._departmentListDropdownListSubscription !== null) this._departmentListDropdownListSubscription.unsubscribe();
       },
       error => {
@@ -68,9 +72,24 @@ export class PayrollWorkSheetComponent implements OnInit {
     );
   }
 
+  private async GetCompanyDropdownListData() {
+    this._companyListDropdownListSubscription = await (await this.reportService.CompanyDropdownList()).subscribe(
+      response => {
+        this._companyListDropdownList = response;
+        this.companyId = this._companyListDropdownList[0].Id;
+
+        if (this._companyListDropdownListSubscription !== null) this._companyListDropdownListSubscription.unsubscribe();
+      },
+      error => {
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
+        if (this._companyListDropdownListSubscription !== null) this._companyListDropdownListSubscription.unsubscribe();
+      }
+    );
+  }
+
   public async printCaseDTR() {
     this._isProgressBarHidden = true;
-    this._demographicsReportSubscription = (await this.reportService.WorkSheetPerDepartment(this.payrollId, this.department)).subscribe(
+    this._demographicsReportSubscription = (await this.reportService.WorkSheetPerDepartment(this.payrollId, this.department, this.companyId)).subscribe(
       data => {
         var binaryData = [];
 

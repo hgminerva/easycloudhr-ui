@@ -136,6 +136,7 @@ export class OtherDeductionDetailDialogComponent implements OnInit {
           this._otherDeductionModel.UpdatedByUserId = result["UpdatedByUserId"];
           this._otherDeductionModel.UpdatedByUser = result["UpdatedByUser"];
           this._otherDeductionModel.UpdatedDateTime = result["UpdatedDateTime"];
+          this._otherDeductionModel.AccountId = result["AccountId"];
           this._otherDeductionModel.IsLocked = result["IsLocked"];
         }
         this.loadComponent(result["IsLocked"]);
