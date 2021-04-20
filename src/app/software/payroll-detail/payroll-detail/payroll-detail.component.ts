@@ -459,6 +459,46 @@ export class PayrollDetailComponent implements OnInit {
   }
 
   public getGrandTotal(data: any) {
+    this.grandTotal = {
+      PayrollRate: 0,
+      TotalDailyPay: 0,
+      TotalPremiumPay: 0,
+      TotalHolidayPay: 0,
+      TotalOvertimePay: 0,
+      TotalNightDifferentialPay: 0,
+      TotalCOLA: 0,
+      TotalAdditionalAllowance: 0,
+      TotalLateDeduction: 0,
+      TotalUndertimeDeduction: 0,
+      Income: 0,
+      TotalOtherIncomeNotTaxable: 0,
+      TotalOtherIncomeTaxable: 0,
+      GrossIncome: 0,
+      SSSContribution: 0,
+      PHICContribution: 0,
+      HDMFContribution: 0,
+      IncomeTaxAmount: 0,
+      TotalOtherDeduction: 0,
+      NetIncome: 0,
+      SSSEmployerContribution: 0,
+      SSSEC: 0,
+      PHICEmployerContribution: 0,
+      HDMFEmployerContribution: 0,
+      NoOfPremiumPayDays: 0,
+      NoOfHolidays: 0,
+      NoOfDaysLate: 0,
+      NoOfDaysUndertime: 0,
+      NoOfDaysWorked: 0,
+      NoOfRestdays: 0,
+      TotalRestdaysPay: 0,
+      TotalPaidLeaveDays: 0,
+      TotalPaidLeaveAmount: 0,
+      NoOfUnPaidLeaveDays: 0,
+      NoOfAbsentDays: 0,
+      TotalAbsentAmount: 0,
+      OvertimeNumberOfHours: 0
+    }
+    
     for (var i = 0; i < data.length; i++) {
       this.grandTotal.PayrollRate += data[i].PayrollRate;
       this.grandTotal.TotalDailyPay += data[i].TotalDailyPay;
