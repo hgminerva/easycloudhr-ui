@@ -404,4 +404,70 @@ export class SharedService {
     tempLink.setAttribute('download', fileName);
     tempLink.click();
   }
+
+   // ============
+  // SSS Loan CSV
+  // ============
+  public generateSSSLoanCSV(object: any, title: string, fileName: string): void {
+
+    var data = "";
+    var collection;
+
+    collection = object.SSSLoanList;
+
+    var label = "SSSNumber, EmployeeName, PayrollNumber, LoanAmount, Penalty, Total";
+    var grandTotal = "Grand Total, , , , ," + object.GrandTotal;
+    label = label.slice(0, -1);
+    data += label + '\r\n';
+
+    for (var i = 0; i < collection.length; i++) {
+      var row = '';
+      for (var s in collection[i]) {
+        row += '"' + collection[i][s] + '",';
+      }
+      row.slice(0, row.length - 1);
+      data += row + '\r\n';
+    }
+
+    data += grandTotal + '\r\n';
+
+    var csvURL = window.URL.createObjectURL(new Blob([data], { type: 'text/csv;charset=utf-8;' }));
+    var tempLink = document.createElement('a');
+
+    tempLink.href = csvURL;
+    tempLink.setAttribute('download', fileName);
+    tempLink.click();
+  }
+
+   // ============
+  // SSS Loan CSV
+  // ============
+  public generateHDMFLoanCSV(object: any, title: string, fileName: string): void {
+
+    console.log(object, "CSV data");
+    var data = "";
+    var collection;
+
+    collection = object;
+
+    var label = "HDMFNumber, EmployeeName, PayrollNumber, LoanAmount, Penalty, Total";
+    label = label.slice(0, -1);
+    data += label + '\r\n';
+
+    for (var i = 0; i < collection.length; i++) {
+      var row = '';
+      for (var s in collection[i]) {
+        row += '"' + collection[i][s] + '",';
+      }
+      row.slice(0, row.length - 1);
+      data += row + '\r\n';
+    }
+
+    var csvURL = window.URL.createObjectURL(new Blob([data], { type: 'text/csv;charset=utf-8;' }));
+    var tempLink = document.createElement('a');
+
+    tempLink.href = csvURL;
+    tempLink.setAttribute('download', fileName);
+    tempLink.click();
+  }
 }

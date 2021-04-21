@@ -35,6 +35,11 @@ export class HdmfLoanReportComponent implements OnInit {
 
   public monthNumberData: any = [];
   public mondatoryData: any = [];
+    
+  public _mandatoryReportSubscription: any;
+  public pdfUrl: string = '';
+
+  public _isProgressBarHidden: boolean = false;
 
   private async GetPeriodDropdownListData() {
     this._periodListDropdownListSubscription = await (await this.reportService.PeriodDropdownList()).subscribe(
@@ -73,11 +78,42 @@ export class HdmfLoanReportComponent implements OnInit {
     this.monthNumber = this.monthNumberData[0].Id;
   }
 
+  public csvDataSubscription: any;
 
-  public _mandatoryReportSubscription: any;
-  public pdfUrl: string = '';
+  public async downloadCSV() {
+    this._isProgressBarHidden = true;
+    let data_csv: any = [];
+    this.csvDataSubscription = (await this.reportService.HDMFLoanData(this.periodId, this.monthNumber, this.companyId)).subscribe(
+      (data: any) => {
+        let results = data;
+        if (results != null) {
+          var data = results;
+          if (data.length > 0) {
+            for (let i = 0; i <= data.length - 1; i++) {
+              data_csv.push({
+                HDMFNumber: data[i].HDMFNumber,
+                EmployeeName: data[i].EmployeeName,
+                PayrollNumber: data[i].PayrollNumber,
+                Amount: data[i].Amount == '' ? '' : parseFloat(data[i].Amount).toFixed(2),
+                Penalty: data[i].Penalty == '' ? '' : parseFloat(data[i].Penalty).toFixed(2),
+                Total: data[i].Total == '' ? '' : parseFloat(data[i].Total).toFixed(2)
+              });
+            }
+          }
+        }
 
-  public _isProgressBarHidden: boolean = false;
+        console.log(data_csv);
+        this._sharedService.generateHDMFLoanCSV(data_csv, "HDMF Loan Report", "hdmf-loan-report.csv");
+        this._isProgressBarHidden = false;
+      },
+      error => {
+        this._isProgressBarHidden = false;
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + error.status);
+        if (this.csvDataSubscription != null) this.csvDataSubscription.unsubscribe();
+      }
+    );
+  }
+
 
   public async printCaseDTRPDF() {
     this._isProgressBarHidden = true;

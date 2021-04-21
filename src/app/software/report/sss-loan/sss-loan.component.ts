@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { SharedService } from '../../shared/shared.service';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { ReportService } from '../report.service';
 
@@ -15,7 +16,7 @@ export class SssLoanComponent implements OnInit {
     private reportService: ReportService,
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
-    private _activatedRoute: ActivatedRoute,
+    private _sharedService: SharedService
   ) { }
 
   public payrollId: number = 0;
@@ -94,6 +95,46 @@ export class SssLoanComponent implements OnInit {
 
         this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + error.status);
         console.log(error);
+        if (this._sssLoanReportSubscription != null) this._sssLoanReportSubscription.unsubscribe();
+      }
+    );
+  }
+
+  public async downloadCSV() {
+    this._isProgressBarHidden = true;
+    let data_csv = {
+      GrandTotal: '',
+      SSSLoanList: []
+    };
+    this._sssLoanReportSubscription = (await this.reportService.SSSLoanData(this.periodId, this.monthNumber, this.companyId)).subscribe(
+      (data: any) => {
+        let results = data;
+        data_csv.GrandTotal = parseFloat(results.GrandTotal).toFixed(2);
+
+        if (results != null) {
+          var data = results.SSSLoanList;
+
+          if (data.length > 0) {
+            for (let i = 0; i <= data.length - 1; i++) {
+              data_csv.SSSLoanList.push({
+                SSSNumber: data[i].SSSNumber,
+                EmployeeName: data[i].EmployeeName,
+                PayrollNumber: data[i].PayrollNumber,
+                LoanAmount: data[i].LoanAmount == '' ? '' : parseFloat(data[i].LoanAmount).toFixed(2),
+                Penalty: data[i].Penalty == '' ? '' : parseFloat(data[i].Penalty).toFixed(2),
+                Total: data[i].Total == '' ? '' : parseFloat(data[i].Total).toFixed(2)
+              });
+            }
+          }
+        }
+
+        console.log(data);
+        this._sharedService.generateSSSLoanCSV(data_csv, "SSS Loan Report", "sss-loan-report.csv");
+        this._isProgressBarHidden = false;
+      },
+      error => {
+        this._isProgressBarHidden = false;
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + error.status);
         if (this._sssLoanReportSubscription != null) this._sssLoanReportSubscription.unsubscribe();
       }
     );

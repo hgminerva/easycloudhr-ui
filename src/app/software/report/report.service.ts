@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppSettings } from '../software-appsettings';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class ReportService {
 
   public async DemographicsReport(companyId: number, payrollGroup: string) {
 
-    if(payrollGroup == 'All'){
+    if (payrollGroup == 'All') {
       let printCaseOptions: any = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
@@ -28,10 +29,10 @@ export class ReportService {
         }),
         responseType: "blob"
       };
-  
+
       return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/demographics/report/' + companyId, printCaseOptions);
     }
-    else{
+    else {
       let printCaseOptions: any = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
@@ -39,11 +40,11 @@ export class ReportService {
         }),
         responseType: "blob"
       };
-  
-      return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/demographics/by-payroll-group/report/' + companyId +'/'+ payrollGroup, printCaseOptions);
+
+      return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/demographics/by-payroll-group/report/' + companyId + '/' + payrollGroup, printCaseOptions);
     }
-    
-    
+
+
   }
 
   public async PDFMandatoryReport(mandatory: string, periodId: number, quarter: number, monthnumber: number, companyId: number) {
@@ -266,8 +267,54 @@ export class ReportService {
       printCaseOptions);
   }
 
+  public async SSSLoanData(periodId: number, monthnumber: number, companyId: number) {
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/report/csv/sss/loan/report/' + periodId + '/' + monthnumber + '/' + companyId,
+      this.appSettings.defaultOptions);
+  }
+
+ 
+  // public SSSLoanData(periodId: number, monthnumber: number, companyId: number): Observable<any> {
+  //   return new Observable<any>((observer) => {
+  //     let data_csv: any = {
+  //       GrandTotal: 0,
+  //       List: []
+  //     };
+  //     this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/report/csv/sss/loan/report/' + periodId + '/' + monthnumber + '/' + companyId,
+  //     this.appSettings.defaultOptions).subscribe(
+  //       (data: any) => {
+  //         let results = data;
+  //         data_csv.GrandTotal = results.GrandTotal.toFixed(2);
+
+  //         if (results != null) {
+  //           var data = results.SSSLoanList;
+
+  //           if (data.length > 0) {
+  //             for (let i = 0; i <= data.length - 1; i++) {
+  //               data_csv.List.push({
+  //                 SSSNumber: data[i].SSSNumber,
+  //                 EmployeeName: data[i].EmployeeName,
+  //                 PayrollNumber: data[i].PayrollNumber,
+  //                 LoanAmount: data[i].LoanAmount.toFixed(2),
+  //                 Penalty: data[i].Penalty.toFixed(2),
+  //                 Total: data[i].Total.toFixed(2)
+  //               });
+  //             }
+  //           }
+  //         }
+
+  //         observer.next(data_csv);
+  //         observer.complete();
+  //       },
+  //       error => {
+  //         observer.next([]);
+  //         observer.complete();
+  //       }
+  //     );
+  //   });
+  // }
+
   // ====================
-  // SSS Loan Report
+  // SSS Calamity Loan Report
   // ====================
   public async SSSCalamityLoan(periodId: number, monthnumber: number, companyId: number) {
     console.log(periodId, monthnumber, companyId);
@@ -280,6 +327,16 @@ export class ReportService {
     };
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/sss/calamity/loan/report/' + periodId + '/' + monthnumber + '/' + companyId,
       printCaseOptions);
+  }
+
+  public async SSSCalamityLoanData(periodId: number, monthnumber: number, companyId: number) {
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/report/csv/sss/calamity/loan/report/' + periodId + '/' + monthnumber + '/' + companyId,
+      this.appSettings.defaultOptions);
+  }
+
+  public async HDMFLoanData(periodId: number, monthnumber: number, companyId: number) {
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/report/csv/hdmf/loan/report/' + periodId + '/' + monthnumber + '/' + companyId,
+      this.appSettings.defaultOptions);
   }
 
   // =======================
@@ -345,5 +402,4 @@ export class ReportService {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/journal/voucher/report/' + payId + '/' + compnayId,
       printCaseOptions);
   }
-
 }
