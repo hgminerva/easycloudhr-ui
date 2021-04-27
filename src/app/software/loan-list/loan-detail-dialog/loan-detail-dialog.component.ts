@@ -243,6 +243,7 @@ export class LoanDetailDialogComponent implements OnInit {
     this._loanPaymentCListSubscription = (await this._loanListService.LoanPayments(loanId)).subscribe(
       (response: any) => {
         var results = response;
+        console.log(results);
         if (results["length"] > 0) {
           this._listLoanPaymentObservableArray = results;
           this._listLoanPaymentCollectionView = new CollectionView(this._listLoanPaymentObservableArray);

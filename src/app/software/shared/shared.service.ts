@@ -470,4 +470,35 @@ export class SharedService {
     tempLink.setAttribute('download', fileName);
     tempLink.click();
   }
+
+  // ===================
+  // WithHolding Tax CSV
+  // ===================
+  public generateWithHoldingTaxCSV(object: any, title: string, fileName: string): void {
+
+    var data = "";
+    var collection;
+
+    collection = object;
+
+    var label = "EmployeeName, TIN, PayrollNumber, TaxCode, NetSalary, OtherIncome, Tax ";
+    label = label.slice(0, -1);
+    data += label + '\r\n';
+
+    for (var i = 0; i < collection.length; i++) {
+      var row = '';
+      for (var s in collection[i]) {
+        row += '"' + collection[i][s] + '",';
+      }
+      row.slice(0, row.length - 1);
+      data += row + '\r\n';
+    }
+
+    var csvURL = window.URL.createObjectURL(new Blob([data], { type: 'text/csv;charset=utf-8;' }));
+    var tempLink = document.createElement('a');
+
+    tempLink.href = csvURL;
+    tempLink.setAttribute('download', fileName);
+    tempLink.click();
+  }
 }
