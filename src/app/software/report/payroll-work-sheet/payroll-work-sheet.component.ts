@@ -22,10 +22,10 @@ export class PayrollWorkSheetComponent implements OnInit {
   public _payrollListDropdownList: any;
   public _payrollListDropdownListSubscription: any;
 
-  public department: string = "";
+  public branch: string = "";
 
-  public _departmentListDropdownList: any;
-  public _departmentListDropdownListSubscription: any;
+  public _branchListDropdownList: any = [];
+  public _branchListDropdownListSubscription: any;
 
   public _demographicsReportSubscription: any;
   public pdfUrl: string = '';
@@ -42,32 +42,37 @@ export class PayrollWorkSheetComponent implements OnInit {
         if (response["length"] > 0) {
           this._payrollListDropdownList = response;
           this.payrollId = this._payrollListDropdownList[0].Id;
-          this.GetDepartmentDropdownListData();
+          this.GetBranchDropdownListData();
         }
         else {
           this._snackBarTemplate.snackBarInfo(this._snackBar, "Missing Payroll");
         }
-
-        if (this._payrollListDropdownListSubscription !== null) this._payrollListDropdownListSubscription.unsubscribe();
       },
       error => {
         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this._payrollListDropdownListSubscription !== null) this._payrollListDropdownListSubscription.unsubscribe();
       }
     );
   }
 
-  private async GetDepartmentDropdownListData() {
-    this._departmentListDropdownListSubscription = await (await this.reportService.DepartmentDropdownList()).subscribe(
+  private async GetBranchDropdownListData() {
+    this._branchListDropdownListSubscription = await (await this.reportService.BranchList()).subscribe(
       response => {
-        this._departmentListDropdownList = response;
-        this.department = this._departmentListDropdownList[0].Value;
+        let results = response;
+        this._branchListDropdownList.push({
+          Id: 0,
+          Value: "ALL"
+        });
+
+        this.branch = "ALL";
+
+        for(var i =0 ; i < results["length"]; i++){
+          this._branchListDropdownList.push(results[i]);
+        }
+
         this.GetCompanyDropdownListData();
-        if (this._departmentListDropdownListSubscription !== null) this._departmentListDropdownListSubscription.unsubscribe();
       },
       error => {
         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this._departmentListDropdownListSubscription !== null) this._departmentListDropdownListSubscription.unsubscribe();
       }
     );
   }
@@ -77,33 +82,26 @@ export class PayrollWorkSheetComponent implements OnInit {
       response => {
         this._companyListDropdownList = response;
         this.companyId = this._companyListDropdownList[0].Id;
-
-        if (this._companyListDropdownListSubscription !== null) this._companyListDropdownListSubscription.unsubscribe();
       },
       error => {
         this._snackBarTemplate.snackBarError(this._snackBar, error.error.Message + " " + error.status);
-        if (this._companyListDropdownListSubscription !== null) this._companyListDropdownListSubscription.unsubscribe();
       }
     );
   }
 
   public async printCaseDTR() {
     this._isProgressBarHidden = true;
-    this._demographicsReportSubscription = (await this.reportService.WorkSheetPerDepartment(this.payrollId, this.department, this.companyId)).subscribe(
+    this._demographicsReportSubscription = (await this.reportService.PayrollWorkSheetPDF(this.payrollId, this.branch, this.companyId)).subscribe(
       data => {
         var binaryData = [];
 
         binaryData.push(data);
         this._isProgressBarHidden = false;
         this.pdfUrl = URL.createObjectURL(new Blob(binaryData, { type: "application/pdf" }));
-        if (this._demographicsReportSubscription != null) this._demographicsReportSubscription.unsubscribe();
       },
       error => {
         this._isProgressBarHidden = false;
-
         this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + error.status);
-        console.log(error);
-        if (this._demographicsReportSubscription != null) this._demographicsReportSubscription.unsubscribe();
       }
     );
   }

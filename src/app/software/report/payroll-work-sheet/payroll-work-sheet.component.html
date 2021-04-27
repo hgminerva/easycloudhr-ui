@@ -26,10 +26,10 @@
 
         <div fxFlex="20" style="padding: 5px;">
             <mat-form-field appearance="fill" style="width: 100%; font-size:smaller;">
-                <mat-label>Department</mat-label>
-                <mat-select [(ngModel)]="department">
-                    <mat-option *ngFor="let department of _departmentListDropdownList" [value]="department.Value">
-                        {{department.Value}}
+                <mat-label>Branch</mat-label>
+                <mat-select [(ngModel)]="branch">
+                    <mat-option *ngFor="let branch of _branchListDropdownList" [value]="branch.Value">
+                        {{branch.Value}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
