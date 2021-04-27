@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { SharedService } from '../../shared/shared.service';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { ReportService } from '../report.service';
 
@@ -16,6 +17,7 @@ export class MonthlyWithholdingTaxComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
     private _activatedRoute: ActivatedRoute,
+    private _sharedService: SharedService
   ) { }
 
   public payrollId: number = 0;
@@ -23,7 +25,7 @@ export class MonthlyWithholdingTaxComponent implements OnInit {
   public _payrollListDropdownList: any;
   public _payrollListDropdownListSubscription: any;
 
-  public _incomeOrDeductionReportSubscription: any;
+  public _withHoldingTaxReportSubscription: any;
   public pdfUrl: string = '';
 
   public _isProgressBarHidden: boolean = false;
@@ -80,21 +82,55 @@ export class MonthlyWithholdingTaxComponent implements OnInit {
 
   public async printCaseDTR() {
     this._isProgressBarHidden = true;
-    this._incomeOrDeductionReportSubscription = (await this.reportService.WithholdingTaxMonthyl(this.periodId, this.monthNumber, this.companyId)).subscribe(
+    this._withHoldingTaxReportSubscription = (await this.reportService.WithholdingTaxMonthy(this.periodId, this.monthNumber, this.companyId)).subscribe(
       data => {
         var binaryData = [];
 
         binaryData.push(data);
         this._isProgressBarHidden = false;
         this.pdfUrl = URL.createObjectURL(new Blob(binaryData, { type: "application/pdf" }));
-        if (this._incomeOrDeductionReportSubscription != null) this._incomeOrDeductionReportSubscription.unsubscribe();
+        if (this._withHoldingTaxReportSubscription != null) this._withHoldingTaxReportSubscription.unsubscribe();
       },
       error => {
         this._isProgressBarHidden = false;
 
         this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + error.status);
         console.log(error);
-        if (this._incomeOrDeductionReportSubscription != null) this._incomeOrDeductionReportSubscription.unsubscribe();
+        if (this._withHoldingTaxReportSubscription != null) this._withHoldingTaxReportSubscription.unsubscribe();
+      }
+    );
+  }
+  public _withHoldingTaxReportCSVSubscription: any;
+
+  public async printCSV() {
+    this._isProgressBarHidden = true;
+    this._withHoldingTaxReportCSVSubscription = (await this.reportService.WithholdingTaxMonthyCSV(this.periodId, this.monthNumber, this.companyId)).subscribe(
+      data => {
+        let results = data;
+        let csv_data: any = [];
+        console.log(results);
+
+        if (results["length"] > 0) {
+          for (let i = 0; i < results["length"]; i++) {
+            csv_data.push({
+              EmployeeName: results[i].EmployeeName,
+              TIN: results[i].TIN,
+              PayrollNumber: results[i].PayrollNumber,
+              TaxCode: results[i].TaxCode,
+              NetSalary: results[i].NetSalary.toFixed(2),
+              OtherIncome: results[i].OtherIncome.toFixed(2),
+              Tax: results[i].Tax.toFixed(2),
+            });
+          }
+        }
+
+
+        this._sharedService.generateWithHoldingTaxCSV(csv_data, "Monthly Withholding Tax Report", "withholdin-tax-report.csv");
+        this._isProgressBarHidden = false;
+      },
+      error => {
+        this._isProgressBarHidden = false;
+        this._snackBarTemplate.snackBarError(this._snackBar, error.error + " " + error.status);
       }
     );
   }

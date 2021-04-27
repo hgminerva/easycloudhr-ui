@@ -161,7 +161,7 @@ export class ReportService {
   // ==============
   // Work Sheet PDF
   // ==============
-  public async WorkSheetPerDepartment(payId: number, department: string, companyId: number) {
+  public async PayrollWorkSheetPDF(payId: number, branch: string, companyId: number) {
     let printCaseOptions: any = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -170,7 +170,7 @@ export class ReportService {
       responseType: "blob"
     };
 
-    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/payroll/worksheet/per/department/' + payId + '/' + department + '/' + companyId,
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/payroll/worksheet/per/department/' + payId + '/' + branch + '/' + companyId,
       printCaseOptions);
   }
 
@@ -240,7 +240,7 @@ export class ReportService {
   // ========================
   // Whithholding Tax Monthly
   // ========================
-  public async WithholdingTaxMonthyl(periodId: number, monthnumber: number, companyId: number) {
+  public async WithholdingTaxMonthy(periodId: number, monthnumber: number, companyId: number) {
     let printCaseOptions: any = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -250,6 +250,14 @@ export class ReportService {
     };
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/monthly/with-holding-tax/' + periodId + '/' + monthnumber + '/' + companyId,
       printCaseOptions);
+  }
+
+  // ========================
+  // Whithholding Tax Monthly
+  // ========================
+  public async WithholdingTaxMonthyCSV(periodId: number, monthnumber: number, companyId: number) {
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/report/csv/monthly/with-holding-tax/' + periodId + '/' + monthnumber + '/' + companyId,
+    this.appSettings.defaultOptions);
   }
 
   // ====================
