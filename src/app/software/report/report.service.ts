@@ -257,7 +257,7 @@ export class ReportService {
   // ========================
   public async WithholdingTaxMonthyCSV(periodId: number, monthnumber: number, companyId: number) {
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/report/csv/monthly/with-holding-tax/' + periodId + '/' + monthnumber + '/' + companyId,
-    this.appSettings.defaultOptions);
+      this.appSettings.defaultOptions);
   }
 
   // ====================
@@ -280,7 +280,7 @@ export class ReportService {
       this.appSettings.defaultOptions);
   }
 
- 
+
   // public SSSLoanData(periodId: number, monthnumber: number, companyId: number): Observable<any> {
   //   return new Observable<any>((observer) => {
   //     let data_csv: any = {
@@ -409,5 +409,69 @@ export class ReportService {
 
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/journal/voucher/report/' + payId + '/' + compnayId,
       printCaseOptions);
+  }
+
+  // ====================
+  // Leave Ledger Summary
+  // ====================
+  public async LeaveLedgerSummary(startDate: string, endDate: string, payrollGroup: string) {
+    let printCaseOptions: any = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }),
+      responseType: "blob"
+    };
+
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/leave/ledger/summary/' + startDate + '/' + endDate + '/' + payrollGroup,
+      printCaseOptions);
+  }
+
+  // ============
+  // Leave Ledger
+  // ============
+  public async LeaveLedger(startDate: string, endDate: string, employeeId: number) {
+    let printCaseOptions: any = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }),
+      responseType: "blob"
+    };
+
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/leave/ledger/' + startDate + '/' + endDate + '/' + employeeId,
+      printCaseOptions);
+  }
+
+  // ========================
+  // Leave Application Detail
+  // ========================
+  public async LeaveApplicationDetail(startDate: string, endDate: string, payrollGroup: string) {
+    let printCaseOptions: any = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }),
+      responseType: "blob"
+    };
+
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/leave/application/detial/' + startDate + '/' + endDate + '/' + payrollGroup,
+      printCaseOptions);
+  }
+
+  // =========================
+  // Leave Application Summary
+  // =========================
+  public async LeaveApplicationSummary(startDate: string, endDate: string, payrollGroup: string) {
+    let printCaseOptions: any = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }),
+      responseType: "blob"
+    };
+
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/leave/application/summary/' + startDate + '/' + endDate + '/' + payrollGroup,
+    printCaseOptions);
   }
 }

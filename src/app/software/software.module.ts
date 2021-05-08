@@ -122,6 +122,7 @@ import { LoanDeductionReportComponent } from './report/loan-deduction-report/loa
 import { HdmfLoanReportComponent } from './report/hdmf-loan-report/hdmf-loan-report.component';
 import { SssCalamityLoanComponent } from './report/sss-calamity-loan/sss-calamity-loan.component';
 import { AccountDetailComponent } from './system-tables-list/account-detail/account-detail.component';
+import { LeaveReportsComponent } from './report/leave-reports/leave-reports.component';
 @NgModule({
   declarations: [
     SoftwareComponent,
@@ -221,6 +222,7 @@ import { AccountDetailComponent } from './system-tables-list/account-detail/acco
     HdmfLoanReportComponent,
     SssCalamityLoanComponent,
     AccountDetailComponent,
+    LeaveReportsComponent,
   ],
   imports: [
     CommonModule,

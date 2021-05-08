@@ -59,6 +59,7 @@ import { PayrollOtherIncomePayslipComponent } from './report/payroll-other-incom
 import { LoanDeductionReportComponent } from './report/loan-deduction-report/loan-deduction-report.component';
 import { HdmfLoanReportComponent } from './report/hdmf-loan-report/hdmf-loan-report.component';
 import { SssCalamityLoanComponent } from './report/sss-calamity-loan/sss-calamity-loan.component';
+import { LeaveReportsComponent } from './report/leave-reports/leave-reports.component';
 const routes: Routes = [
   {
     path: '', canActivate: [SoftwareRoutingActivate], component: SoftwareComponent,
@@ -117,6 +118,7 @@ const routes: Routes = [
       { path: 'payroll-other-income-payslip', canActivate: [SoftwareRoutingActivate], component: PayrollOtherIncomePayslipComponent },
       { path: 'loan-deduction-report', canActivate: [SoftwareRoutingActivate], component: LoanDeductionReportComponent },
       { path: 'hdmf-loan-report', canActivate: [SoftwareRoutingActivate], component: HdmfLoanReportComponent },
+      { path: 'leave-reports', canActivate: [SoftwareRoutingActivate], component: LeaveReportsComponent },
     
     ]
   }

@@ -1,0 +1,64 @@
+<mat-toolbar>
+    <img src="../../../../assets/menu-icons/reports.png" height="35" />
+    <span>&nbsp;&nbsp; Leave Reports</span>
+    <span class="spacer"></span>
+    <button mat-flat-button color="primary" style="margin: 5px;" (click)="printCase()">
+        View
+    </button>
+    <!-- <button mat-flat-button color="accent" style="margin: 5px;" (click)="printCaseCSV()">
+        CSV
+    </button> -->
+    <button mat-raised-button style="margin: 5px;" routerLink="/software" color="warn">
+        Close
+    </button>
+</mat-toolbar>
+<mat-progress-bar *ngIf="_isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'">
+</mat-progress-bar>
+<div class="software-container" *ngIf="isShown">
+    <div fxLayout="row" fxLayout.xs="column">
+        <div fxFlex="20" style="padding: 5px;">
+            <mat-form-field appearance="fill" style="width: 100%;">
+                <mat-label>Leave Report</mat-label>
+                <mat-select [(ngModel)]="leaveReport">
+                    <mat-option *ngFor="let leave of leaveReports" [value]="leave">
+                        {{leave}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div fxFlex="25" style="padding: 5px;">
+            <mat-form-field appearance="fill" style="width: 100%;">
+                <mat-label>Start date - End date</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate [(ngModel)]="uiStartDate" placeholder="Start date">
+                    <input matEndDate [(ngModel)]="uiEndDate" placeholder="End date">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+        </div>
+        <div fxFlex="20" style="padding: 5px;" *ngIf="leaveReport !== 'Leave Ledger'">
+            <mat-form-field appearance="fill" style="width: 100%;">
+                <mat-label>Payroll Group</mat-label>
+                <mat-select [(ngModel)]="filterPayrollGroup">
+                    <mat-option *ngFor="let payrollGroup of payrollGroupListDropdown" [value]="payrollGroup.Value">
+                        {{payrollGroup.Value}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div fxFlex="20" style="padding: 5px;" *ngIf="leaveReport === 'Leave Ledger'">
+            <mat-form-field appearance="fill" style="width: 100%;">
+                <mat-label>Employee</mat-label>
+                <input type="text" [(ngModel)]="employee" matInput readonly>
+                <mat-icon matSuffix (click)="EmployeeListDialog()">keyboard_arrow_down</mat-icon>
+            </mat-form-field>
+        </div>
+    </div>
+    <br>
+    <div fxLayout="row" fxLayout.xs="column" style="height:900px">
+        <ngx-doc-viewer name="printDoc" [url]="pdfUrl" viewer="url" class="col-sm-12" class="col-sm-12"
+            style="height:100%; width: 100%;">
+        </ngx-doc-viewer>
+    </div>
+</div>
