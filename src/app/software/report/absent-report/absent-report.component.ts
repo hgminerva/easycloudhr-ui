@@ -3,6 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { SharedService } from '../../shared/shared.service';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
+import { SystemTablesListService } from '../../system-tables-list/system-tables-list.service';
 import { ReportService } from '../report.service';
 
 @Component({
@@ -17,7 +18,8 @@ export class AbsentReportComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
     private _activatedRoute: ActivatedRoute,
-    private _sharedService: SharedService
+    private _sharedService: SharedService,
+    public systemTablesListService: SystemTablesListService
   ) { }
 
   public dtrId: number = 0;
@@ -42,11 +44,28 @@ export class AbsentReportComponent implements OnInit {
         if (this._dtrDropdownListSubscription !== null) this._dtrDropdownListSubscription.unsubscribe();
       }
     );
+
+    await this.leaveTypeSelectionChange();
+  }
+
+  public leaveTypeListDropdown: any;
+  public payrollGroup: string ='';
+  public leaveTypeListDropdownSubscription: any;
+
+  public async leaveTypeSelectionChange() {
+    this.leaveTypeListDropdownSubscription = (await this.systemTablesListService.CodeTableList("PAYROLL GROUP")).subscribe(
+      (response: any) => {
+        var results = response;
+        if (results["length"] > 0) {
+          this.leaveTypeListDropdown = results;
+        }
+      }
+    );
   }
 
   public async printCaseDTR() {
     this._isProgressBarHidden = true;
-    this._tardinessReportSubscription = (await this.reportService.AbsentReport(this.dtrId)).subscribe(
+    this._tardinessReportSubscription = (await this.reportService.AbsentReport(this.dtrId,this.payrollGroup )).subscribe(
       data => {
         var binaryData = [];
 
@@ -68,5 +87,4 @@ export class AbsentReportComponent implements OnInit {
   ngOnInit(): void {
     this.GetDTRDropdownListData();
   }
-
 }

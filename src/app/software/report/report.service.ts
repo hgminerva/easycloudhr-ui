@@ -482,7 +482,7 @@ export class ReportService {
   // ================
   // Tardiness Report
   // ================
-  public async TardinessReport(dtrId: number) {
+  public async TardinessReport(dtrId: number, payrollGroup: string) {
     let printCaseOptions: any = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -491,14 +491,14 @@ export class ReportService {
       responseType: "blob"
     };
 
-    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/tardiness/report/' + dtrId,
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/tardiness/report/' + dtrId + '/' + payrollGroup,
       printCaseOptions);
   }
 
   // =============
   // Absent Report
   // =============
-  public async AbsentReport(dtrId: number) {
+  public async AbsentReport(dtrId: number, payrollGroup: string) {
     let printCaseOptions: any = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -507,7 +507,7 @@ export class ReportService {
       responseType: "blob"
     };
 
-    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/absent/report/' + dtrId,
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/absent/report/' + dtrId + '/' + payrollGroup,
       printCaseOptions);
   }
 }
