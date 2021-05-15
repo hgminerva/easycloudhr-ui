@@ -6,4 +6,5 @@ export class YearLeaveCreditsModel {
     LeaveCredits: string;
     Remarks: string;
     DateEncoded: string;
+    LeaveType: string;
 }

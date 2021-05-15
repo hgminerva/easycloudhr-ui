@@ -4,6 +4,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EmployeeListPickDialogComponent } from '../../shared/employee-list-pick-dialog/employee-list-pick-dialog.component';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
+import { SystemTablesListService } from '../../system-tables-list/system-tables-list.service';
 import { YearDetialService } from '../year-detial.service';
 import { YearLeaveCreditsModel } from '../year-leave-credits.model';
 
@@ -20,9 +21,11 @@ export class YearLeaveCreditsDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public _caseData: any,
     private _decimalPipe: DecimalPipe,
     public _matDialog: MatDialog,
+    public systemTablesListService: SystemTablesListService
   ) { }
 
   ngOnInit(): void {
+    this.leaveTypeSelectionChange();
     this.loadComponents();
   }
 
@@ -33,7 +36,8 @@ export class YearLeaveCreditsDialogComponent implements OnInit {
     Employee: '',
     LeaveCredits: '0',
     Remarks: 'NA',
-    DateEncoded: ''
+    DateEncoded: '',
+    LeaveType: ''
   }
 
   public _title = '';
@@ -113,4 +117,17 @@ export class YearLeaveCreditsDialogComponent implements OnInit {
     });
   }
 
+  public leaveTypeListDropdown: any;
+  public leaveTypeListDropdownSubscription: any;
+
+  public async leaveTypeSelectionChange() {
+    this.leaveTypeListDropdownSubscription = (await this.systemTablesListService.CodeTableList("LEAVE TYPE")).subscribe(
+      (response: any) => {
+        var results = response;
+        if (results["length"] > 0) {
+          this.leaveTypeListDropdown = results;
+        }
+      }
+    );
+  }
 }

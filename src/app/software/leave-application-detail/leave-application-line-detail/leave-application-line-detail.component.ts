@@ -6,7 +6,7 @@ import { LeaveApplicationDetailService } from '../leave-application-detail.servi
 import { LeaveApplicationLineModel } from '../leave-application-line.model';
 import { EmployeeListPickDialogComponent } from './../../shared/employee-list-pick-dialog/employee-list-pick-dialog.component';
 import { DatePipe } from '@angular/common';
-
+import { SystemTablesListService } from '../../system-tables-list/system-tables-list.service'
 @Component({
   selector: 'app-leave-application-line-detail',
   templateUrl: './leave-application-line-detail.component.html',
@@ -21,11 +21,13 @@ export class LeaveApplicationLineDetailComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
     public _matDialog: MatDialog,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    public systemTablesListService: SystemTablesListService
   ) { }
 
   ngOnInit(): void {
     this.title = this.caseData.objDialogTitle;
+    this.leaveTypeSelectionChange();
     this.loadLeaveApplicationLineDetail();
   }
 
@@ -38,6 +40,7 @@ export class LeaveApplicationLineDetailComponent implements OnInit {
     IsHalfDay: false,
     IsWithPay: false,
     IsApproved: false,
+    LeaveType: '',
     Remarks: ''
   }
 
@@ -92,4 +95,17 @@ export class LeaveApplicationLineDetailComponent implements OnInit {
     });
   }
 
+  public leaveTypeListDropdown: any;
+  public leaveTypeListDropdownSubscription: any;
+
+  public async leaveTypeSelectionChange() {
+    this.leaveTypeListDropdownSubscription = (await this.systemTablesListService.CodeTableList("LEAVE TYPE")).subscribe(
+      (response: any) => {
+        var results = response;
+        if (results["length"] > 0) {
+          this.leaveTypeListDropdown = results;
+        }
+      }
+    );
+  }
 }

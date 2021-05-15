@@ -514,6 +514,7 @@ export class YearDetialComponent implements OnInit {
     this._yearLeaveCreditsListSubscription = (await this._yearDetialService.YearLeaveCreditsList(this._yearModel.Id)).subscribe(
       (response: any) => {
         var results = response;
+        console.log(response);
         if (results["length"] > 0) {
           this._listYearLeaveCreditsObservableArray = results;
           this._listYearLeaveCreditsCollectionView = new CollectionView(this._listYearLeaveCreditsObservableArray);
@@ -602,7 +603,8 @@ export class YearDetialComponent implements OnInit {
       Employee: '',
       LeaveCredits: '0',
       Remarks: 'NA',
-      DateEncoded: ''
+      DateEncoded: '',
+      LeaveType: ''
     }
     this.DetailYearLeaveCredits(yearLeaveCreditsModel, "Add Year Leave Credits Detail");
   }

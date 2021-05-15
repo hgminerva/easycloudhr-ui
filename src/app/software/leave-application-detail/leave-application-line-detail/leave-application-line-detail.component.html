@@ -23,7 +23,17 @@
                     <mat-datepicker #datePickerLADate color="primary"></mat-datepicker>
                 </mat-form-field>
             </div>
-            <div fxFlex="20" style="padding: 5px;" style="padding: 23px; text-align: start; display: inline;">
+            <div fxFlex="20" style="padding: 5px;">
+                <mat-form-field appearance="fill" style="width: 100%;">
+                    <mat-label>Leave Type</mat-label>
+                    <mat-select [(ngModel)]="_leaveApplicationLine.LeaveType">
+                        <mat-option *ngFor="let type of leaveTypeListDropdown" [value]="type.Value">
+                            {{type.Value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="13" style="padding: 5px;" style="padding: 23px; text-align: start; display: inline;">
                 <div style="width: 100%; border: gray 1px !important">
                     <mat-checkbox color="primary" [(ngModel)]="_leaveApplicationLine.IsHalfDay">
                         <span style="color: gray;">
@@ -31,7 +41,7 @@
                     </mat-checkbox>
                 </div>
             </div>
-            <div fxFlex="20" style="padding: 5px;" style="padding: 23px; text-align: start; display: inline;">
+            <div fxFlex="13" style="padding: 5px;" style="padding: 23px; text-align: start; display: inline;">
                 <div style="width: 100%; border: gray 1px !important">
                     <mat-checkbox color="primary" [(ngModel)]="_leaveApplicationLine.IsWithPay">
                         <span style="color: gray;">
@@ -39,7 +49,7 @@
                     </mat-checkbox>
                 </div>
             </div>
-            <div fxFlex="20" style="padding: 5px;" style="padding: 23px; text-align: start; display: inline;">
+            <div fxFlex="14" style="padding: 5px;" style="padding: 23px; text-align: start; display: inline;">
                 <div style="width: 100%; border: gray 1px !important">
                     <mat-checkbox color="primary" [(ngModel)]="_leaveApplicationLine.IsApproved">
                         <span style="color: gray;">

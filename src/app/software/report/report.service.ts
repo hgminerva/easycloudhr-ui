@@ -19,6 +19,10 @@ export class ReportService {
     return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/employee/payroll/group/list', this.appSettings.defaultOptions);
   }
 
+  public async DTRList() {
+    return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/dtr/list', this.appSettings.defaultOptions);
+  }
+
   public async DemographicsReport(companyId: number, payrollGroup: string) {
 
     if (payrollGroup == 'All') {
@@ -472,6 +476,38 @@ export class ReportService {
     };
 
     return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/leave/application/summary/' + startDate + '/' + endDate + '/' + payrollGroup,
-    printCaseOptions);
+      printCaseOptions);
+  }
+
+  // ================
+  // Tardiness Report
+  // ================
+  public async TardinessReport(dtrId: number) {
+    let printCaseOptions: any = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }),
+      responseType: "blob"
+    };
+
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/tardiness/report/' + dtrId,
+      printCaseOptions);
+  }
+
+  // =============
+  // Absent Report
+  // =============
+  public async AbsentReport(dtrId: number) {
+    let printCaseOptions: any = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }),
+      responseType: "blob"
+    };
+
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/absent/report/' + dtrId,
+      printCaseOptions);
   }
 }

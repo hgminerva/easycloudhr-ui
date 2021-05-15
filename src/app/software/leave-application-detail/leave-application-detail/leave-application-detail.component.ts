@@ -139,6 +139,7 @@ export class LeaveApplicationDetailComponent implements OnInit {
     IsHalfDay: false,
     IsWithPay: false,
     IsApproved: false,
+    LeaveType: '',
     Remarks: ''
   }
 
@@ -345,6 +346,7 @@ export class LeaveApplicationDetailComponent implements OnInit {
 
     this._leaveApplicationLineSubscription = await (await this._leaveApplicationDetailService.LeaveApplicationLineList(this._leaveApplicationModel.Id)).subscribe(
       (response: any) => {
+        console.log(response);
         if (response["length"] > 0) {
           this._listLeaveApplicationLineObservableArray = response;
           this._listLeaveApplicationLineCollectionView = new CollectionView(this._listLeaveApplicationLineObservableArray);
@@ -393,6 +395,7 @@ export class LeaveApplicationDetailComponent implements OnInit {
       IsHalfDay: false,
       IsWithPay: false,
       IsApproved: false,
+      LeaveType: '',
       Remarks: ''
     }
 

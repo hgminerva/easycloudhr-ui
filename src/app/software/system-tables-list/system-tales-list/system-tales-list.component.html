@@ -8,12 +8,12 @@
     </button>
 </mat-toolbar>
 <mat-tab-group>
-    <mat-tab label="Payroll Group">
+    <mat-tab label="Code Tables">
         <div class="software-container" [hidden]="!_userRights.CanOpen">
             <div fxLayout="row" fxLayout.xs="column">
                 <div fxFlex="50" style="padding: 5px;">
                     <mat-form-field appearance="fill" style="width: 100%;">
-                        <mat-label>Payroll Group</mat-label>
+                        <mat-label>Table</mat-label>
                         <mat-select [(ngModel)]="_filterCategory" (selectionChange)='CategorySelectionChange()'>
                             <mat-option *ngFor="let category of _categoryListDropdown" [value]="category.Value">
                                 {{category.Value}}

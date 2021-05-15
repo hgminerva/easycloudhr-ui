@@ -60,6 +60,9 @@ import { LoanDeductionReportComponent } from './report/loan-deduction-report/loa
 import { HdmfLoanReportComponent } from './report/hdmf-loan-report/hdmf-loan-report.component';
 import { SssCalamityLoanComponent } from './report/sss-calamity-loan/sss-calamity-loan.component';
 import { LeaveReportsComponent } from './report/leave-reports/leave-reports.component';
+import { TardinessReportComponent } from './report/tardiness-report/tardiness-report.component';
+import { AbsentReportComponent } from './report/absent-report/absent-report.component';
+
 const routes: Routes = [
   {
     path: '', canActivate: [SoftwareRoutingActivate], component: SoftwareComponent,
@@ -119,6 +122,8 @@ const routes: Routes = [
       { path: 'loan-deduction-report', canActivate: [SoftwareRoutingActivate], component: LoanDeductionReportComponent },
       { path: 'hdmf-loan-report', canActivate: [SoftwareRoutingActivate], component: HdmfLoanReportComponent },
       { path: 'leave-reports', canActivate: [SoftwareRoutingActivate], component: LeaveReportsComponent },
+      { path: 'tardiness-reports', canActivate: [SoftwareRoutingActivate], component: TardinessReportComponent },
+      { path: 'absent-reports', canActivate: [SoftwareRoutingActivate], component: AbsentReportComponent },
     
     ]
   }

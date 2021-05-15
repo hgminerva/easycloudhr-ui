@@ -7,5 +7,6 @@ export class LeaveApplicationLineModel {
     IsHalfDay: boolean;
     IsWithPay: boolean;
     IsApproved: boolean;
+    LeaveType: string;
     Remarks: string;
 }

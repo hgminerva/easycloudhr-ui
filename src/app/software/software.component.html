@@ -443,6 +443,22 @@
                             &nbsp;
                             Leave Reports
                         </a>
+                        <a mat-list-item routerLink="/software/tardiness-reports" *ngIf="moduleDemographicsReports">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/menu-icons/reports.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Tardiness Reports
+                        </a>
+                        <a mat-list-item routerLink="/software/absent-reports" *ngIf="moduleDemographicsReports">
+                            &nbsp;
+                            &nbsp;
+                            <img src="../../assets/menu-icons/reports.png" height="30" />
+                            &nbsp;
+                            &nbsp;
+                            Absent Reports
+                        </a>
                     </mat-nav-list>
                 </mat-expansion-panel>
 
