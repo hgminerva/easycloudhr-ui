@@ -2,6 +2,14 @@ import { Injectable } from '@angular/core';
 import { AppSettings } from './../software-appsettings';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CollectionView, ObservableArray } from '@grapecity/wijmo';
+import { Observable } from 'rxjs';
+
+export interface LabelModel {
+  id: number;
+  code: string;
+  label: string;
+  displayed_label: string;
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -405,7 +413,7 @@ export class SharedService {
     tempLink.click();
   }
 
-   // ============
+  // ============
   // SSS Loan CSV
   // ============
   public generateSSSLoanCSV(object: any, title: string, fileName: string): void {
@@ -439,7 +447,7 @@ export class SharedService {
     tempLink.click();
   }
 
-   // ============
+  // ============
   // SSS Loan CSV
   // ============
   public generateHDMFLoanCSV(object: any, title: string, fileName: string): void {
@@ -500,5 +508,38 @@ export class SharedService {
     tempLink.href = csvURL;
     tempLink.setAttribute('download', fileName);
     tempLink.click();
+  }
+
+  public LabelList(): Observable<LabelModel[]> {
+    return new Observable<LabelModel[]>((observer) => {
+      let labelArray: LabelModel[] = [];
+      this.httpClient.get(this.appSettings.defaultAPIURLHost + "/api/public-labels", this.appSettings.defaultOptions).subscribe(
+        response => {
+          let results = response;
+
+          if (results != null) {
+            var data = results["data"];
+
+            if (data["length"] > 0) {
+              for (let i = 0; i <= data["length"] - 1; i++) {
+                labelArray.push({
+                  id: data[i].id,
+                  code: data[i].code,
+                  label: data[i].label,
+                  displayed_label: data[i].displayed_label
+                });
+              }
+            }
+          }
+
+          observer.next(labelArray);
+          observer.complete();
+        },
+        error => {
+          observer.next([]);
+          observer.complete();
+        }
+      );
+    });
   }
 }

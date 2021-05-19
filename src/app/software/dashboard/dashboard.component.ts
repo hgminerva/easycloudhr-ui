@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SoftwareSecurityService } from './../software-security/software-security.service';
 
+import { SharedService, LabelModel } from '../shared/shared.service';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -9,7 +11,8 @@ import { SoftwareSecurityService } from './../software-security/software-securit
 export class DashboardComponent implements OnInit {
 
   constructor(
-    private softwareSecurityService: SoftwareSecurityService
+    private softwareSecurityService: SoftwareSecurityService,
+    public sharedService: SharedService
   ) { }
 
   public moduleDashBoard: boolean = false;
@@ -52,7 +55,27 @@ export class DashboardComponent implements OnInit {
 
   public moduleOthers: boolean = false;
 
+  public labels: LabelModel[] = [];
+  public getLabels(): void {
+    this.labels = [];
+    this.sharedService.LabelList().subscribe(
+      data => {
+        if (data.length > 0) {
+          this.labels = data;
+        }
+      }
+    );
+  }
+  public setLabel(label: string): string {
+    let displayed_label: string = label;
+    for (let i = 0; i < this.labels.length; i++) {
+      if (label === this.labels[i].label) displayed_label = this.labels[i].displayed_label;
+    }
+    return displayed_label;
+  }
+
   async ngOnInit() {
+    await this.getLabels();
     await this.softwareSecurityService.getUserRights();
 
     await setTimeout(() => {

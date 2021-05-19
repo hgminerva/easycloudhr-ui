@@ -21,7 +21,8 @@ import { DtrDetailDtrLineAddDialogComponent } from '../dtr-detail-dtr-line-add-d
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 import { DtrDetailImportDtrLogsComponent } from '../dtr-detail-import-dtr-logs/dtr-detail-import-dtr-logs.component';
 import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
-import { SharedService } from '../../shared/shared.service';
+import { SharedService, LabelModel } from '../../shared/shared.service';
+
 
 @Component({
   selector: 'app-dtr-detail',
@@ -40,12 +41,34 @@ export class DTRDetailComponent implements OnInit {
     public _deleteDTRLineDialogRef: MatDialog,
     private datePipe: DatePipe,
     private _softwareSecurityService: SoftwareSecurityService,
-    private _sharedService: SharedService
+    private _sharedService: SharedService,
+    public sharedService: SharedService
   ) { }
 
   async ngOnInit() {
+    await this.getLabels();
     await this.GetUserRights();
   }
+
+  
+public labels: LabelModel[] = [];
+public async getLabels() {
+  this.labels = [];
+  await this.sharedService.LabelList().subscribe(
+    data => {
+      if (data.length > 0) {
+        this.labels = data;
+      }
+    }
+  );
+}
+public setLabel(label: string): string {
+  let displayed_label: string = label;
+  for (let i = 0; i < this.labels.length; i++) {
+    if (label === this.labels[i].label) displayed_label = this.labels[i].displayed_label;
+  }
+  return displayed_label;
+}
 
   private async GetUserRights() {
     this._userRightsSubscription = await (await this._softwareSecurityService.PageModuleRights("DTR Detail")).subscribe(

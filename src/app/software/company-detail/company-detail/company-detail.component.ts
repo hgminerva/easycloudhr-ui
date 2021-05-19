@@ -17,6 +17,9 @@ import { CompanyDetailApproverComponent } from '../company-detail-approver/compa
 
 import { CompanyApproverModel } from './../company-approver.model';
 import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
+
+import { SharedService, LabelModel } from '../../shared/shared.service';
+
 @Component({
   selector: 'app-company-detail',
   templateUrl: './company-detail.component.html',
@@ -33,12 +36,32 @@ export class CompanyDetailComponent implements OnInit {
     private softwareSecurityService: SoftwareSecurityService,
     private decimalPipe: DecimalPipe,
     public matDialog: MatDialog,
+    public sharedService: SharedService
   ) { }
 
   public title = '';
   public event = 'Close';
 
   private _userRightsSubscription: any;
+
+  public labels: LabelModel[] = [];
+  public getLabels(): void {
+    this.labels = [];
+    this.sharedService.LabelList().subscribe(
+      data => {
+        if (data.length > 0) {
+          this.labels = data;
+        }
+      }
+    );
+  }
+  public setLabel(label: string): string {
+    let displayed_label: string = label;
+    for (let i = 0; i < this.labels.length; i++) {
+      if (label === this.labels[i].label) displayed_label = this.labels[i].displayed_label;
+    }
+    return displayed_label;
+  }
 
   public userRights: UserModule = {
     Module: "",
@@ -426,9 +449,10 @@ export class CompanyDetailComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.title = this.caseData.objDialogTitle;
-    this.GetAccountDropdownListData();
-    this.GetUserRights();
+  async ngOnInit() {
+    await this.getLabels();
+    this.title = await this.caseData.objDialogTitle;
+    await this.GetAccountDropdownListData();
+    await this.GetUserRights();
   }
 }

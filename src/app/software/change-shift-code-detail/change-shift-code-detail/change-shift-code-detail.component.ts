@@ -20,6 +20,8 @@ import { ChangeShiftCodeLineDetailComponent } from './../change-shift-code-line-
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
+import { SharedService, LabelModel } from '../../shared/shared.service';
+
 @Component({
   selector: 'app-change-shift-code-detail',
   templateUrl: './change-shift-code-detail.component.html',
@@ -36,6 +38,7 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
     public _matDialog: MatDialog,
     private datePipe: DatePipe,
     private softwareSecurityService: SoftwareSecurityService,
+    public sharedService: SharedService
   ) { }
 
   private _userRightsSubscription: any;
@@ -53,7 +56,27 @@ export class ChangeShiftCodeDetailComponent implements OnInit {
     CanPrint: false,
   }
 
+  public labels: LabelModel[] = [];
+  public getLabels(): void {
+    this.labels = [];
+    this.sharedService.LabelList().subscribe(
+      data => {
+        if (data.length > 0) {
+          this.labels = data;
+        }
+      }
+    );
+  }
+  public setLabel(label: string): string {
+    let displayed_label: string = label;
+    for (let i = 0; i < this.labels.length; i++) {
+      if (label === this.labels[i].label) displayed_label = this.labels[i].displayed_label;
+    }
+    return displayed_label;
+  }
+
   async ngOnInit() {
+    await this.getLabels();
     await this.GetUserRights();
   }
 

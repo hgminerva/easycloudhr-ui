@@ -1,31 +1,31 @@
 <mat-toolbar>
     <img src="../../../../assets/menu-icons/change shift code.png" height="35" />
-    <span>&nbsp;&nbsp; Change Shift Detail</span>
+    <span>&nbsp;&nbsp;{{setLabel("Change Shift Detail")}}</span>
     <span class="spacer"></span>
 
     <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="_btnSaveDisabled"
         *ngIf="userRights.CanEdit" (click)="SaveChangeShiftCodeDetail()">
         <!-- <mat-icon>save</mat-icon> -->
-        Save
+        {{setLabel("Save")}} 
     </button>
     <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="_btnLockisabled"
         *ngIf="userRights.CanLock" (click)="LockchangeShiftCodeDetail()">
         <!-- <mat-icon>lock</mat-icon> -->
-        Lock
+        {{setLabel("Lock")}} 
     </button>
     <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="_btnUnlockDisabled"
         *ngIf="userRights.CanUnlock" (click)="UnlockchangeShiftCodeDetail()">
         <!-- <mat-icon>lock_open</mat-icon> -->
-        Unlock
+        {{setLabel("Unlock")}} 
     </button>
     <button mat-flat-button color="accent" id="btnAddEmployee" [disabled]="_btnUnlockDisabled" style="margin: 5px;"
         *ngIf="userRights.CanPrint" (click)="btnCSVClick()">
         <!-- <mat-icon>get_app</mat-icon> -->
-        CSV
+        {{setLabel("CSV")}} 
     </button>
     <button mat-flat-button style="margin-right: 5px;" routerLink="/software/change-shift-code-list" color="warn">
         <!-- <mat-icon>close</mat-icon> -->
-        Close
+        {{setLabel("Close")}} 
     </button>
 </mat-toolbar>
 <mat-progress-bar *ngIf="_isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'" style="width: 100%;">
@@ -36,19 +36,19 @@
             <div fxFlex="50" style="padding: 5px;">
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="33" style="padding: 5px;margin-top: 3px;">
-                        <h2 class="text_box"><b>{{_changeShiftModel.CSNumber}}</b> </h2>
+                        <h2 class="text_box"><b> {{setLabel(_changeShiftModel.CSNumber)}}</b> </h2>
                     </div>
                     <div fxFlex="33" style="padding: 5px;margin-top: 3px;">
-                        <h2 class="text_box"><b>{{_changeShiftModel.PayrollGroup}}</b> </h2>
+                        <h2 class="text_box"><b>{{setLabel(_changeShiftModel.PayrollGroup)}}</b> </h2>
                     </div>
                     <div fxFlex="34" style="padding: 5px;margin-top: 3px;">
-                        <h2 class="text_box"><b>{{_changeShiftModel.Year}}</b> </h2>
+                        <h2 class="text_box"><b>{{setLabel(_changeShiftModel.Year)}}</b> </h2>
                     </div>
                 </div>
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="25" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>Date</mat-label>
+                            <mat-label>{{setLabel("Date")}}</mat-label>
                             <input matInput [matDatepicker]="datePickerCSDate" [(ngModel)]="UICSDate"
                                 (dateInput)="GetUIDATECSDate()" [disabled]="_isLocked">
                             <mat-datepicker-toggle matSuffix [for]="datePickerCSDate" [disabled]="_isLocked">
@@ -58,34 +58,34 @@
                     </div>
                     <div fxFlex="25" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>Prepared By</mat-label>
+                            <mat-label>{{setLabel("Prepared By")}}</mat-label>
                             <mat-select [(ngModel)]="_changeShiftModel.PreparedByUserId" disabled>
                                 <mat-option *ngFor="let user of _userListDropdown" [value]="user.Id">
-                                    {{user.Value}}
+                                    {{setLabel(user.Value)}}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
                     <div fxFlex="25" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>Checked By</mat-label>
+                            <mat-label>{{setLabel("Checked By")}}</mat-label>
                             <mat-select [(ngModel)]="_changeShiftModel.CheckedByUserId"
                                 (selectionChange)="selectedCheckedByUser($event)">
                                 <mat-option *ngFor="let user of _userListDropdown" [disabled]="_isLocked"
                                     [value]="user.Id">
-                                    {{user.Value}}
+                                    {{setLabel(user.Value)}}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
                     <div fxFlex="25" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>Approved By</mat-label>
+                            <mat-label>{{setLabel("Approved By")}}</mat-label>
                             <mat-select [(ngModel)]="_changeShiftModel.ApprovedByUserId"
                                 (selectionChange)="selectedApprovedByUser($event)">
                                 <mat-option *ngFor="let user of _userListDropdown" [disabled]="_isLocked"
                                     [value]="user.Id">
-                                    {{user.Value}}
+                                    {{setLabel(user.Value)}}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
@@ -96,7 +96,7 @@
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="100" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>Remarks</mat-label>
+                            <mat-label>{{setLabel("Remarks")}}</mat-label>
                             <textarea matInput placeholder="AddrRemarksess" [(ngModel)]="_changeShiftModel.Remarks"
                                 [readonly]="_isLocked" rows="5" style="min-height: 102px;"></textarea>
                         </mat-form-field>
@@ -113,36 +113,36 @@
                     [selectionMode]="3" [frozenColumns]="2" [headersVisibility]="1" #Grid
                     (click)="gridClick(Grid, $event)">
                     <wj-flex-grid-filter></wj-flex-grid-filter>
-                    <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="90" *ngIf="userRights.CanEdit">
+                    <wj-flex-grid-column [header]="setLabel('Edit')" [isReadOnly]="true" [width]="90" *ngIf="userRights.CanEdit">
                         <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                             <button mat-raised-button class="button-edit" color="primary"
                                 style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
                                 <!-- <mat-icon class="button-edit">edit</mat-icon> -->
-                                <span class="button-edit">Edit</span>
+                                <span class="button-edit">{{setLabel("Edit")}}</span>
                             </button>
                         </ng-template>
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Delete'" [isReadOnly]="true" [width]="90"
+                    <wj-flex-grid-column [header]="setLabel('Delete')" [isReadOnly]="true" [width]="90"
                         *ngIf="userRights.CanDelete">
                         <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                             <button mat-raised-button class="button-delete" color="warn"
                                 style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
                                 <!-- <mat-icon class="button-delete">delete</mat-icon> -->
-                                <span class="button-delete">Delete</span>
+                                <span class="button-delete">{{setLabel("Delete")}}</span>
                             </button>
                         </ng-template>
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Employee'" [binding]="'Employee'" [isReadOnly]="true"
+                    <wj-flex-grid-column [header]="setLabel('Employee')" [binding]="'Employee'" [isReadOnly]="true"
                         [width]="'2*'">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Date'" [binding]="'ShiftDate'" [isReadOnly]="true" [width]="'2*'"
+                    <wj-flex-grid-column [header]="setLabel('Date')" [binding]="'ShiftDate'" [isReadOnly]="true" [width]="'2*'"
                         hidden>
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Shift'" [binding]="'Shift'" [isReadOnly]="true" [width]="'2*'">
+                    <wj-flex-grid-column [header]="('Shift')" [binding]="'Shift'" [isReadOnly]="true" [width]="'2*'">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Branch'" [binding]="'Branch'" [isReadOnly]="true" [width]="'2*'">
+                    <wj-flex-grid-column [header]="setLabel('Branch')" [binding]="'Branch'" [isReadOnly]="true" [width]="'2*'">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Remarks'" [binding]="'Remarks'" [isReadOnly]="true" [width]="'2*'">
+                    <wj-flex-grid-column [header]="setLabel('Remarks')" [binding]="'Remarks'" [isReadOnly]="true" [width]="'2*'">
                     </wj-flex-grid-column>
                 </wj-flex-grid>
                 <mat-button-toggle-group style="margin-top: 7px;">
@@ -171,7 +171,7 @@
                     <button mat-raised-button color="primary" style="float: right; margin: 5px;"
                         (click)="AddChangeShiftLine()" [disabled]="_btnAddChangeShiftLineDisabled">
                         <!-- <mat-icon>add</mat-icon> -->
-                         ADD
+                        {{setLabel("ADD")}}
                     </button><br>
                 </ng-template>
             </mat-tab>
@@ -190,13 +190,13 @@
             <div fxFlex="50" style="padding: 5px;">
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="13">
-                        <mat-label class="text-create-update">Created By:</mat-label>
+                        <mat-label class="text-create-update">{{setLabel("Created By")}}:</mat-label>
                     </div>
                     <div fxFlex="37">
-                        <mat-label class="text-create-update">{{_changeShiftModel.CreatedByUser}}</mat-label>
+                        <mat-label class="text-create-update">{{setLabel(_changeShiftModel.CreatedByUser)}}</mat-label>
                     </div>
                     <div fxFlex="20">
-                        <mat-label class="text-create-update">Created DateTime:</mat-label>
+                        <mat-label class="text-create-update">{{setLabel("Created DateTime")}}:</mat-label>
                     </div>
                     <div fxFlex="30">
                         <mat-label class="text-create-update">{{_changeShiftModel.CreatedDateTime}}</mat-label>
@@ -206,13 +206,13 @@
             <div fxFlex="50" style="padding: 5px;">
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="13">
-                        <mat-label class="text-create-update">Updated By:</mat-label>
+                        <mat-label class="text-create-update">{{setLabel("Updated By")}}:</mat-label>
                     </div>
                     <div fxFlex="37">
-                        <mat-label class="text-create-update">{{_changeShiftModel.UpdatedByUser}}</mat-label>
+                        <mat-label class="text-create-update">{{setLabel(_changeShiftModel.UpdatedByUser)}}</mat-label>
                     </div>
                     <div fxFlex="20">
-                        <mat-label class="text-create-update">Updated DateTime:</mat-label>
+                        <mat-label class="text-create-update">{{setLabel("Updated DateTime")}}:</mat-label>
                     </div>
                     <div fxFlex="30">
                         <mat-label class="text-create-update">{{_changeShiftModel.UpdatedDateTime}}</mat-label>

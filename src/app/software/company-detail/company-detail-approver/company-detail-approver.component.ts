@@ -6,6 +6,8 @@ import { CompanyDetialService } from '../company-detial.service';
 import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+import { SharedService, LabelModel } from '../../shared/shared.service';
+
 @Component({
   selector: 'app-company-detail-approver',
   templateUrl: './company-detail-approver.component.html',
@@ -19,6 +21,7 @@ export class CompanyDetailApproverComponent implements OnInit {
     private companyDetialService: CompanyDetialService,
     private snackBar: MatSnackBar,
     private snackBarTemplate: SnackBarTemplate,
+    public sharedService: SharedService
   ) { }
 
   public title = '';
@@ -38,6 +41,25 @@ export class CompanyDetailApproverComponent implements OnInit {
 
   public userListDropdown: any = [];
   public branchListDropdown: any = [];
+
+  public labels: LabelModel[] = [];
+  public getLabels(): void {
+    this.labels = [];
+    this.sharedService.LabelList().subscribe(
+      data => {
+        if (data.length > 0) {
+          this.labels = data;
+        }
+      }
+    );
+  }
+  public setLabel(label: string): string {
+    let displayed_label: string = label;
+    for (let i = 0; i < this.labels.length; i++) {
+      if (label === this.labels[i].label) displayed_label = this.labels[i].displayed_label;
+    }
+    return displayed_label;
+  }
 
   public async getUserDropdownListData() {
     (await this.companyDetialService.UserList()).subscribe(
@@ -71,7 +93,8 @@ export class CompanyDetailApproverComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.getUserDropdownListData();
+    await this.getLabels();
+    await this.getUserDropdownListData();
   }
 
   public async Save() {

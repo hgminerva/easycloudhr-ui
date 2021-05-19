@@ -1,6 +1,6 @@
 <mat-toolbar>
     <img src="../../../assets/menu-icons/dashboard.png" height="35" />
-    <span>&nbsp;&nbsp; Dashboard</span>
+    <span>&nbsp;&nbsp;{{setLabel("Dashboard")}} </span>
 </mat-toolbar>
 <div class="software-container" *ngIf="moduleDashBoard">
     <div fxLayout="row" fxLayout.xs="column">
@@ -10,28 +10,28 @@
                 <img src="../../../assets/menu-icons/employees.png" height="80" />
                 <br />
                 <br />
-                <span style="font-size: 17px;">Employee</span>
+                <span style="font-size: 17px;">{{setLabel("Employee")}} </span>
             </button>
             <button routerLink="/software/year-list" mat-stroked-button style="width: 100%; padding: 30px; "
                 *ngIf="moduleYearList">
                 <img src="../../assets/menu-icons/year.png" height="80" />
                 <br />
                 <br />
-                <span style="font-size: 17px;">Year</span>
+                <span style="font-size: 17px;">{{setLabel("Year")}} Year</span>
             </button>
             <button *ngIf="moduleShiftList" routerLink="/software/shift-code-list" mat-stroked-button
                 style="width: 100%; padding: 30px; ">
                 <img src="../../assets/menu-icons/shift code.png" height="80" />
                 <br />
                 <br />
-                <span style="font-size: 17px;">Shift</span>
+                <span style="font-size: 17px;">{{setLabel("Shift")}} </span>
             </button>
             <button routerLink="/software/mandatory-tables" mat-stroked-button style="width: 100%; padding: 30px; "
                 *ngIf="moduleMandatory">
                 <img src="../../assets/menu-icons/mandatory tables.png" height="80" />
                 <br />
                 <br />
-                <span style="font-size: 17px;">Mandatory Tables</span>
+                <span style="font-size: 17px;">{{setLabel("Mandatory Tables")}}</span>
             </button>
         </div>
         <!-- dtr -->
@@ -41,28 +41,28 @@
                 <img src="../../../assets/menu-icons/dtr.png" height="80" />
                 <br />
                 <br />
-                <span style="font-size: 17px;">DTR</span>
+                <span style="font-size: 17px;">{{setLabel("DTR")}}</span>
             </button>
             <button routerLink="/software/overtime-application-list" mat-stroked-button
                 *ngIf="moduleOvertimeApplicationList" style="width: 100%; padding: 30px;">
                 <img src="../../../assets/menu-icons/overtime application.png" height="80" />
                 <br />
                 <br />
-                <span style="font-size: 17px;">Overtime Application</span>
+                <span style="font-size: 17px;">{{setLabel("Overtime Application")}} </span>
             </button>
             <button routerLink="/software/leave-application-list" mat-stroked-button *ngIf="moduleLeaveApplicationList"
                 style="width: 100%; padding: 30px;">
                 <img src="../../../assets/menu-icons/leave application.png" height="80" />
                 <br />
                 <br />
-                <span style="font-size: 17px;">Leave Application</span>
+                <span style="font-size: 17px;">{{setLabel("Leave Application")}}</span>
             </button>
             <button routerLink="/software/change-shift-code-list" mat-stroked-button style="width: 100%; padding: 30px;"
                 *ngIf="moduleChangeShiftList">
                 <img src="../../assets/menu-icons/change shift code.png" height="80" />
                 <br />
                 <br />
-                <span style="font-size: 17px;">Change Shift</span>
+                <span style="font-size: 17px;">{{setLabel("Change Shift")}}</span>
             </button>
         </div>
         <!-- Payroll -->
@@ -72,28 +72,28 @@
                 <img src="../../../assets/menu-icons/payroll.png" height="80" />
                 <br />
                 <br />
-                <span style="font-size: 17px;">Payroll</span>
+                <span style="font-size: 17px;">{{setLabel("Payroll")}}</span>
             </button>
             <button routerLink="/software/payroll-other-deduction-list" mat-stroked-button
                 style="width: 100%; padding: 30px;" *ngIf="modulePayrollOtherDeductionList">
                 <img src="../../../assets/menu-icons/other deductions.png" height="80" />
                 <br />
                 <br />
-                <span style="font-size: 17px;">Other Deductions</span>
+                <span style="font-size: 17px;">{{setLabel("Other Deductions")}}</span>
             </button>
             <button routerLink="/software/payroll-other-income-list" mat-stroked-button
                 style="width: 100%; padding: 30px;" *ngIf="modulePayrollOtherIncomeList">
                 <img src="../../../assets/menu-icons/other income.png" height="80" />
                 <br />
                 <br />
-                <span style="font-size: 17px;">Other Income</span>
+                <span style="font-size: 17px;">{{setLabel("Other Income")}}</span>
             </button>
             <button routerLink="/software/loan-list" mat-stroked-button style="width: 100%; padding: 30px;"
                 *ngIf="moduleLoanList">
                 <img src="../../../assets/menu-icons/loan.png" height="80" />
                 <br />
                 <br />
-                <span style="font-size: 17px;">Loans</span>
+                <span style="font-size: 17px;">{{setLabel("Loans")}}</span>
             </button>
         </div>
         <!-- Reports -->
@@ -102,25 +102,25 @@
                 <img src="../../../assets/menu-icons/reports.png" height="80" />
                 <br />
                 <br />
-                <span style="font-size: 17px;">Payroll Reports</span>
+                <span style="font-size: 17px;">{{setLabel("Payroll Reports")}}</span>
             </button>
             <button routerLink="." mat-stroked-button style="width: 100%; padding: 30px;" *ngIf="moduleOthers">
                 <img src="../../../assets/menu-icons/reports.png" height="80" />
                 <br />
                 <br />
-                <span style="font-size: 17px;">dtr Reports</span>
+                <span style="font-size: 17px;">{{setLabel("DTR Reports")}}</span>
             </button>
             <button routerLink="." mat-stroked-button style="width: 100%; padding: 30px;" *ngIf="moduleOthers">
                 <img src="../../../assets/menu-icons/reports.png" height="80" />
                 <br />
                 <br />
-                <span style="font-size: 17px;">Mandatory Reports</span>
+                <span style="font-size: 17px;">{{setLabel("Mandatory Reports")}}</span>
             </button>
             <button routerLink="." mat-stroked-button style="width: 100%; padding: 30px;" *ngIf="moduleOthers">
                 <img src="../../../assets/menu-icons/reports.png" height="80" />
                 <br />
                 <br />
-                <span style="font-size: 17px;">Bank Reports</span>
+                <span style="font-size: 17px;">{{setLabel("Bank Reports")}}</span>
             </button>
         </div>
     </div>

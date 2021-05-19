@@ -1,15 +1,15 @@
 <mat-toolbar>
     <img src="../../../../assets/menu-icons/company.png" height="35" />
-    <span>&nbsp;&nbsp; Company List</span>
+    <span>&nbsp;&nbsp; {{setLabel("Company List")}} </span>
     <span class="spacer"></span>
     <button mat-flat-button color="primary" style="margin: 5px;" (click)="AddCompany()" [disabled]="_btnAddDisabled"
         *ngIf="_userRights.CanAdd">
         <!-- <mat-icon>add</mat-icon> -->
-        Add
+        {{setLabel("Add")}}
     </button>
     <button mat-raised-button style="margin: 5px;" routerLink="/software" color="warn">
         <!-- <mat-icon>close</mat-icon> -->
-        Close
+        {{setLabel("Close")}}
     </button>
 </mat-toolbar>
 
@@ -30,7 +30,7 @@
                         <button mat-raised-button class="button-edit" color="primary"
                             style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
                             <!-- <mat-icon class="button-edit">edit</mat-icon> -->
-                            <span class="button-edit">Edit</span>
+                            <span class="button-edit"> {{setLabel("Edit")}}</span>
                         </button>
                     </ng-template>
                 </wj-flex-grid-column>
@@ -39,27 +39,27 @@
                         <button mat-raised-button class="button-delete" color="warn"
                             style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
                             <!-- <mat-icon class="button-delete">delete</mat-icon> -->
-                            <span class="button-delete">Delete</span>
+                            <span class="button-delete">{{setLabel("Delete")}}</span>
                         </button>
                     </ng-template>
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Code'" [binding]="'CompanyCode'" [isReadOnly]="true" [width]="100">
+                <wj-flex-grid-column [header]="setLabel('Code')" [binding]="'CompanyCode'" [isReadOnly]="true" [width]="100">
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Company'" [binding]="'Company'" [isReadOnly]="true" [width]="'2*'">
+                <wj-flex-grid-column [header]="setLabel('Company')" [binding]="'Company'" [isReadOnly]="true" [width]="'2*'">
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Address'" [binding]="'Address'" [isReadOnly]="true" [width]="'2*'">
+                <wj-flex-grid-column [header]="setLabel('Address')" [binding]="'Address'" [isReadOnly]="true" [width]="'2*'">
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'SSS No.'" [binding]="'SSSNumber'" [isReadOnly]="true" [width]="'2*'">
+                <wj-flex-grid-column [header]="setLabel('SSS No.')" [binding]="'SSSNumber'" [isReadOnly]="true" [width]="'2*'">
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'PHIC No.'" [binding]="'PHICNumber'" [isReadOnly]="true" [width]="'2*'">
+                <wj-flex-grid-column [header]="setLabel('PHIC No.')" [binding]="'PHICNumber'" [isReadOnly]="true" [width]="'2*'">
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'HDMFNo.'" [binding]="'HDMFNumber'" [isReadOnly]="true" [width]="'2*'">
+                <wj-flex-grid-column [header]="setLabel('HDMF No.')" [binding]="'HDMFNumber'" [isReadOnly]="true" [width]="'2*'">
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Tax No.'" [binding]="'TaxNumber'" [isReadOnly]="true" [width]="'2*'">
+                <wj-flex-grid-column [header]="setLabel('Tax No.')" [binding]="'TaxNumber'" [isReadOnly]="true" [width]="'2*'">
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Minimum Overtime Hours'" [binding]="'MinimumOvertimeHours'" [isReadOnly]="true" [width]="'2*'">
+                <wj-flex-grid-column [header]="setLabel('Minimum Overtime Hours')" [binding]="'MinimumOvertimeHours'" [isReadOnly]="true" [width]="'2*'">
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'L'" [binding]="'IsLocked'" [isReadOnly]="true" [width]="'.40*'">
+                <wj-flex-grid-column [header]="setLabel('L')" [binding]="'IsLocked'" [isReadOnly]="true" [width]="'.40*'">
                 </wj-flex-grid-column>
             </wj-flex-grid>
         </div>
@@ -91,7 +91,7 @@
         </div>
         <div fxFlex="15" style="padding: 5px;">
             <mat-form-field appearance="fill" style="width: 100%;">
-                <mat-label>Row</mat-label>
+                <mat-label>{{setLabel("Row")}}</mat-label>
                 <mat-select [(ngModel)]="listPageIndex" (selectionChange)='cboShowNumberOfRowsOnSelectedIndexChanged()'>
                     <mat-option *ngFor="let rowSize of cboShowNumberOfRows" [value]="rowSize.rowNumber">
                         {{rowSize.rowString}}

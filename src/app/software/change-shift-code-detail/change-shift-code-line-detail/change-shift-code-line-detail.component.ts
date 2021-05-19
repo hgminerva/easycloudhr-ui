@@ -7,6 +7,8 @@ import { ChangeShiftLineModel } from '../change-shift-code-line.model';
 import { EmployeeListPickDialogComponent } from './../../shared/employee-list-pick-dialog/employee-list-pick-dialog.component';
 import { DatePipe } from '@angular/common';
 
+import { SharedService, LabelModel } from '../../shared/shared.service';
+
 @Component({
   selector: 'app-change-shift-code-line-detail',
   templateUrl: './change-shift-code-line-detail.component.html',
@@ -21,12 +23,27 @@ export class ChangeShiftCodeLineDetailComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private _snackBarTemplate: SnackBarTemplate,
     public _matDialog: MatDialog,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    public sharedService: SharedService
   ) { }
 
-  ngOnInit(): void {
-    this.title = this.caseData.objDialogTitle;
-    this.ShiftsListData();
+  public labels: LabelModel[] = [];
+  public getLabels(): void {
+    this.labels = [];
+    this.sharedService.LabelList().subscribe(
+      data => {
+        if (data.length > 0) {
+          this.labels = data;
+        }
+      }
+    );
+  }
+  public setLabel(label: string): string {
+    let displayed_label: string = label;
+    for (let i = 0; i < this.labels.length; i++) {
+      if (label === this.labels[i].label) displayed_label = this.labels[i].displayed_label;
+    }
+    return displayed_label;
   }
 
   public _changeShiftLine: ChangeShiftLineModel = {
@@ -141,4 +158,9 @@ export class ChangeShiftCodeLineDetailComponent implements OnInit {
     });
   }
 
+  async ngOnInit() {
+    await this.getLabels();
+    this.title = await this.caseData.objDialogTitle;
+    await this.ShiftsListData();
+  }
 }

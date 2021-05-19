@@ -13,6 +13,8 @@ import { DtrDetailImportDtrLogsService } from './dtr-detail-import-dtr-logs.serv
 import { DTRLogs } from '../dtr-line.model';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 
+import { SharedService, LabelModel } from '../../shared/shared.service';
+
 @Component({
   selector: 'app-dtr-detail-import-dtr-logs',
   templateUrl: './dtr-detail-import-dtr-logs.component.html',
@@ -28,6 +30,7 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public _caseData: any,
     private _decimalPipe: DecimalPipe,
     private datePipe: DatePipe,
+    public sharedService: SharedService
   ) { }
 
   // DTR Logs Data List
@@ -64,6 +67,25 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
 
   // Row Number List Drop Down
   public _createCboShowNumberOfRows: ObservableArray = new ObservableArray();
+
+  public labels: LabelModel[] = [];
+  public getLabels(): void {
+    this.labels = [];
+    this.sharedService.LabelList().subscribe(
+      data => {
+        if (data.length > 0) {
+          this.labels = data;
+        }
+      }
+    );
+  }
+  public setLabel(label: string): string {
+    let displayed_label: string = label;
+    for (let i = 0; i < this.labels.length; i++) {
+      if (label === this.labels[i].label) displayed_label = this.labels[i].displayed_label;
+    }
+    return displayed_label;
+  }
 
   public CreateCboShowNumberOfRows(): void {
     for (var i = 0; i <= 4; i++) {
@@ -653,7 +675,8 @@ export class DtrDetailImportDtrLogsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.CreateCboShowNumberOfRows();
+    await this.getLabels();
+    await this.CreateCboShowNumberOfRows();
   }
 
 }

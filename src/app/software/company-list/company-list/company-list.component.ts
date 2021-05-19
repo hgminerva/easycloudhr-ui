@@ -13,6 +13,8 @@ import { SoftwareSecurityService, UserModule } from '../../software-security/sof
 import { Router } from '@angular/router';
 import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
+import { SharedService, LabelModel } from '../../shared/shared.service';
+
 @Component({
   selector: 'app-company-list',
   templateUrl: './company-list.component.html',
@@ -26,6 +28,7 @@ export class CompanyListComponent implements OnInit {
     public _matDialogRef: MatDialog,
     private softwareSecurityService: SoftwareSecurityService,
     private _router: Router,
+    public sharedService: SharedService
   ) {
   }
 
@@ -61,6 +64,25 @@ export class CompanyListComponent implements OnInit {
 
   public cboShowNumberOfRows: ObservableArray = new ObservableArray();
   public listPageIndex: number = 15;
+
+  public labels: LabelModel[] = [];
+  public getLabels(): void {
+    this.labels = [];
+    this.sharedService.LabelList().subscribe(
+      data => {
+        if (data.length > 0) {
+          this.labels = data;
+        }
+      }
+    );
+  }
+  public setLabel(label: string): string {
+    let displayed_label: string = label;
+    for (let i = 0; i < this.labels.length; i++) {
+      if (label === this.labels[i].label) displayed_label = this.labels[i].displayed_label;
+    }
+    return displayed_label;
+  }
 
   private async GetUserRights() {
     this._userRightsSubscription = await (await this.softwareSecurityService.PageModuleRights("Company List")).subscribe(
@@ -262,6 +284,7 @@ export class CompanyListComponent implements OnInit {
   }
 
   async ngOnInit() {
+    await this.getLabels();
     await this.GetUserRights();
     await this.createCboShowNumberOfRows();
   }

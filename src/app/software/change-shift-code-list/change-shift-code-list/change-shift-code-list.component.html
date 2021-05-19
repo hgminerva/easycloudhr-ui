@@ -1,15 +1,15 @@
 <mat-toolbar>
     <img src="../../../../assets/menu-icons/change shift code.webp" height="35" />
-    <span>&nbsp;&nbsp; Change Shift List</span>
+    <span>&nbsp;&nbsp; {{setLabel("Change Shift List")}} </span>
     <span class="spacer"></span>
     <button mat-flat-button color="primary" style="margin: 5px;" [disabled]="_buttonDisabled" *ngIf="userRights.CanAdd"
         (click)="AddChangeShiftCode()">
         <!-- <mat-icon>add</mat-icon> -->
-        Add
+        {{setLabel("Add")}}
     </button>
     <button mat-raised-button style="margin: 5px;" routerLink="/software" color="warn">
         <!-- <mat-icon>close</mat-icon> -->
-        Close
+        {{setLabel("Close")}}
     </button>
 </mat-toolbar>
 <div class="software-container" [hidden]="!userRights.CanOpen">
@@ -17,10 +17,10 @@
 
         <div fxFlex="20" style="padding: 5px;">
             <mat-form-field appearance="fill" style="width: 100%;">
-                <mat-label>Payroll Group</mat-label>
+                <mat-label> {{setLabel("Payroll Group")}}</mat-label>
                 <mat-select [(ngModel)]="_filterPayrollGroup" (selectionChange)='PayrollGroupSelectionChange()'>
                     <mat-option *ngFor="let payrollGroup of _payrollGroupListDropdown" [value]="payrollGroup.Value">
-                        {{payrollGroup.Value}}
+                        {{setLabel(payrollGroup.Value)}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
@@ -34,40 +34,40 @@
             <wj-flex-grid #flexShiftCode [itemsSource]="_listChangeShiftCodeCollectionView" [selectionMode]="3"
                 [frozenColumns]="2" #Grid (click)="gridClick(Grid, $event)">
                 <wj-flex-grid-filter></wj-flex-grid-filter>
-                <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="90" *ngIf="userRights.CanEdit">
+                <wj-flex-grid-column [header]="setLabel('Edit')" [isReadOnly]="true" [width]="90" *ngIf="userRights.CanEdit">
                     <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                         <button mat-raised-button class="button-edit" color="primary"
                             style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
                             <!-- <mat-icon class="button-edit">edit</mat-icon> -->
-                            <span class="button-edit">Edit</span>
+                            <span class="button-edit">{{setLabel("Edit")}}</span>
                         </button>
                     </ng-template>
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Delete'" [isReadOnly]="true" [width]="90" *ngIf="userRights.CanDelete">
+                <wj-flex-grid-column [header]="setLabel('Delete')" [isReadOnly]="true" [width]="90" *ngIf="userRights.CanDelete">
                     <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                         <button mat-raised-button class="button-delete" color="warn"
                             style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
                             <!-- <mat-icon class="button-delete">delete</mat-icon> -->
-                            <span class="button-delete">Delete</span>
+                            <span class="button-delete">{{setLabel("Delete")}}</span>
                         </button>
                     </ng-template>
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'CS No.'" [binding]="'CSNumber'" [isReadOnly]="true" [isReadOnly]="true"
+                <wj-flex-grid-column [header]="setLabel('CS No.')" [binding]="'CSNumber'" [isReadOnly]="true" [isReadOnly]="true"
                     [width]="100">
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Date'" [binding]="'CSDate'" [isReadOnly]="true" [isReadOnly]="true"
+                <wj-flex-grid-column [header]="setLabel('Date')" [binding]="'CSDate'" [isReadOnly]="true" [isReadOnly]="true"
                     [width]="100">
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Year'" [binding]="'Year'" [isReadOnly]="true" [isReadOnly]="true"
+                <wj-flex-grid-column [header]="setLabel('Year')" [binding]="'Year'" [isReadOnly]="true" [isReadOnly]="true"
                     [width]="100">
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Remarks'" [binding]="'Remarks'" [isReadOnly]="true" [isReadOnly]="true"
+                <wj-flex-grid-column [header]="setLabel('Remarks')" [binding]="'Remarks'" [isReadOnly]="true" [isReadOnly]="true"
                     [width]="'2*'">
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Prepared By'" [binding]="'PreparedByUser'" [isReadOnly]="true"
+                <wj-flex-grid-column [header]="setLabel('Prepared By')" [binding]="'PreparedByUser'" [isReadOnly]="true"
                     [isReadOnly]="true" [width]="'2*'">
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'L'" [binding]="'IsLocked'" [isReadOnly]="true" [isReadOnly]="true"
+                <wj-flex-grid-column [header]="setLabel('L')" [binding]="'IsLocked'" [isReadOnly]="true" [isReadOnly]="true"
                     [width]="40">
                 </wj-flex-grid-column>
             </wj-flex-grid>
@@ -105,7 +105,7 @@
         </div>
         <div fxFlex="15" style="padding: 5px;">
             <mat-form-field appearance="fill" style="width: 100%;">
-                <mat-label>Row</mat-label>
+                <mat-label>{{setLabel("Row")}}</mat-label>
                 <mat-select [(ngModel)]="_listPageIndex"
                     (selectionChange)='CboShowNumberOfRowsOnSelectedIndexChanged()'>
                     <mat-option *ngFor="let rowSize of _createCboShowNumberOfRows" [value]="rowSize.rowNumber">

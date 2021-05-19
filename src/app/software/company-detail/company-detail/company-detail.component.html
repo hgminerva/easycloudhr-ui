@@ -1,25 +1,25 @@
 <mat-toolbar>
     <img src="../../../../assets/menu-icons/company.png" height="35" />&nbsp;&nbsp;
-    <span>{{title}}</span>
+    <span>{{setLabel(title)}}</span>
     <span class="spacer"></span>
     <button mat-raised-button style="margin: 5px;" color="primary" [disabled]="btnSaveDisabled"
         (click)="SaveCompanyDetail()">
         <!-- <mat-icon>save</mat-icon> -->
-        Save
+        {{setLabel("Save")}} 
     </button>
     <button mat-raised-button style="margin: 5px;" color="primary" [disabled]="btnLockisabled"
         (click)="LockCompanyDetail()">
         <!-- <mat-icon>lock</mat-icon> -->
-        Lock
+        {{setLabel("Lock")}} 
     </button>
     <button mat-raised-button style="margin: 5px;" color="primary" [disabled]="btnUnlockDisabled"
         (click)="UnlockCompanyDetail()">
         <!-- <mat-icon>lock_open</mat-icon> -->
-        Unlock
+        {{setLabel("Unlock")}} 
     </button>
     <button mat-raised-button style="margin: 5px;" (click)="Close()" color="warn">
         <!-- <mat-icon>close</mat-icon> -->
-        Close
+        {{setLabel("Close")}} 
     </button>
 </mat-toolbar>
 <mat-progress-bar *ngIf="isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'" style="width: 100%;">
@@ -32,20 +32,20 @@
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="25" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>CompanyCode</mat-label>
+                            <mat-label>{{setLabel("CompanyCode")}} </mat-label>
                             <input matInput placeholder="Company Code" [(ngModel)]="companyModel.CompanyCode" readonly>
                         </mat-form-field>
                     </div>
                     <div fxFlex="50" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>Company</mat-label>
+                            <mat-label>{{setLabel("Company")}}</mat-label>
                             <input matInput placeholder="Company" [(ngModel)]="companyModel.Company"
                                 [readonly]="isLocked">
                         </mat-form-field>
                     </div>
                     <div fxFlex="25" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>Minimum Overtime Hours</mat-label>
+                            <mat-label>{{setLabel("Minimum Overtime Hours")}}</mat-label>
                             <input matInput placeholder="0.00" type="{{inputTypeMinimumOvertimeHours}}"
                                 [(ngModel)]="companyModel.MinimumOvertimeHours"
                                 (focus)="MinimumOvertimeHoursToNumberType()"
@@ -56,44 +56,44 @@
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="25" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>SSS Account</mat-label>
+                            <mat-label>{{setLabel("SSS Account")}}</mat-label>
                             <mat-select [(ngModel)]="companyModel.SSSAccountId">
                                 <mat-option *ngFor="let account of accountListDropdown"
                                     [disabled]="isLocked" [value]="account.Id">
-                                    {{account.AccountName}}
+                                    {{setLabel(account.AccountName)}}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
                     <div fxFlex="25" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>HDMF Account</mat-label>
+                            <mat-label>{{setLabel("HDMF Account")}}</mat-label>
                             <mat-select [(ngModel)]="companyModel.HDMFAccountId">
                                 <mat-option *ngFor="let account of accountListDropdown"
                                     [disabled]="isLocked" [value]="account.Id">
-                                    {{account.AccountName}}
+                                    {{setLabel(account.AccountName)}}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
                     <div fxFlex="25" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>PHIC Account</mat-label>
+                            <mat-label>{{setLabel("PHIC Account")}}</mat-label>
                             <mat-select [(ngModel)]="companyModel.PHICAccountId">
                                 <mat-option *ngFor="let account of accountListDropdown"
                                     [disabled]="isLocked" [value]="account.Id">
-                                    {{account.AccountName}}
+                                    {{setLabel(account.AccountName)}}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
                     <div fxFlex="25" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>Tax Account</mat-label>
+                            <mat-label>{{setLabel("Tax Account")}}</mat-label>
                             <mat-select [(ngModel)]="companyModel.TaxAccountId">
                                 <mat-option *ngFor="let account of accountListDropdown"
                                     [disabled]="isLocked" [value]="account.Id">
-                                    {{account.AccountName}}
+                                    {{setLabel(account.AccountName)}}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
@@ -102,35 +102,35 @@
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="20" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>SSS No.</mat-label>
+                            <mat-label>{{setLabel("SSS No.")}}</mat-label>
                             <input matInput placeholder="SSSNumber" [(ngModel)]="companyModel.SSSNumber"
                                 [readonly]="isLocked">
                         </mat-form-field>
                     </div>
                     <div fxFlex="20" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>PHIC No.</mat-label>
+                            <mat-label>{{setLabel("PHIC No.")}}</mat-label>
                             <input matInput placeholder="PHIC No." [(ngModel)]="companyModel.PHICNumber"
                                 [readonly]="isLocked">
                         </mat-form-field>
                     </div>
                     <div fxFlex="20" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>HDMF No.</mat-label>
+                            <mat-label>{{setLabel("HDMF No.")}}</mat-label>
                             <input matInput placeholder="PHIC No." [(ngModel)]="companyModel.HDMFNumber"
                                 [readonly]="isLocked">
                         </mat-form-field>
                     </div>
                     <div fxFlex="20" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>Tax No.</mat-label>
+                            <mat-label>{{setLabel("Tax No.")}}</mat-label>
                             <input matInput placeholder="Tax No." [(ngModel)]="companyModel.TaxNumber"
                                 [readonly]="isLocked">
                         </mat-form-field>
                     </div>
                     <div fxFlex="20" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>Funding Account</mat-label>
+                            <mat-label>{{setLabel("Funding Account")}}</mat-label>
                             <input matInput placeholder="Tax No." [(ngModel)]="companyModel.FundingAccount"
                                 [readonly]="isLocked">
                         </mat-form-field>
@@ -139,7 +139,7 @@
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="100" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>Address</mat-label>
+                            <mat-label>{{setLabel("Address")}}</mat-label>
                             <textarea matInput placeholder="Address" [(ngModel)]="companyModel.Address"
                                 [readonly]="isLocked" rows="5" style="min-height: 102px;"></textarea>
                         </mat-form-field>
@@ -150,13 +150,13 @@
                     <div fxFlex="50" style="padding-left: 5px;">
                         <div fxLayout="row" fxLayout.xs="column">
                             <div fxFlex="13">
-                                <mat-label class="text-create-update">Created By:</mat-label>
+                                <mat-label class="text-create-update">{{setLabel("Created By")}}:</mat-label>
                             </div>
                             <div fxFlex="37">
-                                <mat-label class="text-create-update">{{companyModel.CreatedByUser}}</mat-label>
+                                <mat-label class="text-create-update">{{setLabel(companyModel.CreatedByUser)}}</mat-label>
                             </div>
                             <div fxFlex="20">
-                                <mat-label class="text-create-update">Created DateTime:</mat-label>
+                                <mat-label class="text-create-update">{{setLabel("Created DateTime")}}:</mat-label>
                             </div>
                             <div fxFlex="30">
                                 <mat-label class="text-create-update">{{companyModel.CreatedDateTime}}</mat-label>
@@ -166,13 +166,13 @@
                     <div fxFlex="50">
                         <div fxLayout="row" fxLayout.xs="column">
                             <div fxFlex="13">
-                                <mat-label class="text-create-update">Updated By:</mat-label>
+                                <mat-label class="text-create-update">{{setLabel("Updated By")}}:</mat-label>
                             </div>
                             <div fxFlex="37">
-                                <mat-label class="text-create-update">{{companyModel.UpdatedByUser}}</mat-label>
+                                <mat-label class="text-create-update">{{setLabel(companyModel.UpdatedByUser)}}</mat-label>
                             </div>
                             <div fxFlex="20">
-                                <mat-label class="text-create-update">Updated DateTime:</mat-label>
+                                <mat-label class="text-create-update">{{setLabel("Updated DateTime")}}:</mat-label>
                             </div>
                             <div fxFlex="30">
                                 <mat-label class="text-create-update">{{companyModel.UpdatedDateTime}}</mat-label>
@@ -188,7 +188,7 @@
                     <div fxFlex="20" style="padding: 5px;">
                         <button mat-raised-button color="primary" style="float: right; margin: 5px;"
                             (click)="BtnAddApprover()" [disabled]="isLocked">
-                            ADD
+                            {{setLabel("ADD")}}
                         </button>
                     </div>
                 </div>
@@ -197,27 +197,27 @@
                 <wj-flex-grid #flexApprover [itemsSource]="_listApproverCollectionView" [selectionMode]="3"
                     [frozenColumns]="2" (click)="gridClick(flexApprover, $event)">
                     <wj-flex-grid-filter></wj-flex-grid-filter>
-                    <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="90" *ngIf="userRights.CanEdit">
+                    <wj-flex-grid-column [header]="setLabel('Edit')" [isReadOnly]="true" [width]="90" *ngIf="userRights.CanEdit">
                         <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                             <button mat-raised-button class="button-edit" color="primary" [disabled]="isLocked"
                                 style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
-                                <span class="button-edit">Edit</span>
+                                <span class="button-edit">{{setLabel("Edit")}}</span>
                             </button>
                         </ng-template>
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Delete'" [isReadOnly]="true" [width]="90"
+                    <wj-flex-grid-column [header]="setLabel('Delete')" [isReadOnly]="true" [width]="90"
                         *ngIf="userRights.CanDelete">
                         <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                             <button mat-raised-button class="button-delete" color="warn" [disabled]="isLocked"
                                 style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
-                                <span class="button-delete">Delete</span>
+                                <span class="button-delete"> {{setLabel("Delete")}}</span>
                             </button>
                         </ng-template>
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'User'" [binding]="'User'" [isReadOnly]="true" [isReadOnly]="true"
+                    <wj-flex-grid-column [header]="setLabel('User')" [binding]="'User'" [isReadOnly]="true" [isReadOnly]="true"
                         [width]="'2*'">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Branch'" [binding]="'Branch'" [isReadOnly]="true"
+                    <wj-flex-grid-column [header]="setLabel('Branch')" [binding]="'Branch'" [isReadOnly]="true"
                         [isReadOnly]="true" [width]="'2*'">
                     </wj-flex-grid-column>
                 </wj-flex-grid>
@@ -243,6 +243,5 @@
                 </mat-button-toggle-group>
             </mat-tab>
         </mat-tab-group>
-
     </div>
 </div>

@@ -23,7 +23,7 @@
     <div fxLayout="row" fxLayout.xs="column" style="margin-top: -5px;">
         <div fxFlex="36" style="padding: 5px;">
             <mat-form-field appearance="outline" style="width: 100%;">
-                <mat-label>Shift Code</mat-label>
+                <mat-label>{{setLabel("Shift Code")}}</mat-label>
                 <mat-select [(ngModel)]="_dTRLineModel.ShiftId">
                     <mat-option *ngFor="let shift of _shiftsListDropdown" [value]="shift.Id">
                         {{shift.Value}}
@@ -33,25 +33,25 @@
         </div>
         <div fxFlex="16" style="padding: 5px;">
             <mat-form-field appearance="outline" style="width: 100%;">
-                <mat-label>Time In 1</mat-label>
+                <mat-label>{{setLabel("Time In 1")}}</mat-label>
                 <input type="time" matInput style="text-align:right;" [(ngModel)]="_dTRLineModel.TimeIn1">
             </mat-form-field>
         </div>
         <div fxFlex="16" style="padding: 5px;">
             <mat-form-field appearance="outline" style="width: 100%;">
-                <mat-label>Time Out 1</mat-label>
+                <mat-label>{{setLabel("Time Out 1")}}</mat-label>
                 <input type="time" matInput style="text-align:right;" [(ngModel)]="_dTRLineModel.TimeOut1">
             </mat-form-field>
         </div>
         <div fxFlex="16" style="padding: 5px;">
             <mat-form-field appearance="outline" style="width: 100%;">
-                <mat-label>Time In 2</mat-label>
+                <mat-label>{{setLabel("Time In 2")}}</mat-label>
                 <input type="time" matInput style="text-align:right;" [(ngModel)]="_dTRLineModel.TimeIn2">
             </mat-form-field>
         </div>
         <div fxFlex="16" style="padding: 5px;">
             <mat-form-field appearance="outline" style="width: 100%;">
-                <mat-label>Time Out 2</mat-label>
+                <mat-label>{{setLabel("Time Out 2")}}</mat-label>
                 <input type="time" matInput style="text-align:right;" [(ngModel)]="_dTRLineModel.TimeOut2">
             </mat-form-field>
         </div>
@@ -59,7 +59,7 @@
     <div fxLayout="row" fxLayout.xs="column">
         <div fxFlex="36" style="padding: 5px;">
             <mat-form-field appearance="outline" style="width: 100%;">
-                <mat-label>Date Type</mat-label>
+                <mat-label>{{setLabel("Date Type")}}</mat-label>
                 <mat-select [(ngModel)]="_dTRLineModel.DateType">
                     <mat-option *ngFor="let dateType of _dateTypeListDropdown" [value]="dateType.Value">
                         {{dateType.Value}}
@@ -70,14 +70,14 @@
         <div fxFlex="16" style="padding: 5px;" style="padding: 23px; text-align: start; display: inline;">
             <div style="width: 100%;">
                 <mat-checkbox color="primary" [(ngModel)]="_dTRLineModel.IsRestDay" disabled><span style="color: gray;">
-                        Rest Day</span>
+                    {{setLabel("Rest Day")}}</span>
                 </mat-checkbox>
             </div>
         </div>
         <div fxFlex="16" style="padding: 5px;" style="padding: 23px; text-align: start; display: inline;">
             <div style="width: 100%;">
                 <mat-checkbox color="primary" [(ngModel)]="_dTRLineModel.IsOnLeave" disabled><span style="color: gray;">
-                        On Leave</span>
+                    {{setLabel("On Leave")}</span>
                 </mat-checkbox>
             </div>
         </div>
@@ -85,7 +85,7 @@
             <div style="width: 100%;">
                 <mat-checkbox color="primary" [(ngModel)]="_dTRLineModel.IsOnOfficialBusiness">
                     <span style="color: gray;">
-                        Official Business</span>
+                        {{setLabel("Official Business")}</span>
                 </mat-checkbox>
             </div>
         </div>
@@ -93,7 +93,7 @@
             <div style="width: 100%;">
                 <mat-checkbox color="primary" [(ngModel)]="_dTRLineModel.IsAbsent" disabled>
                     <span style="color: gray;">
-                        Absent</span>
+                        {{setLabel("Absent")}</span>
                 </mat-checkbox>
             </div>
         </div>
@@ -102,7 +102,7 @@
     <div fxLayout="row" fxLayout.xs="column">
         <div fxFlex="36" style="padding: 5px;">
             <mat-form-field appearance="outline" style="width: 100%;">
-                <mat-label>Branch</mat-label>
+                <mat-label>{{setLabel("Branch")}</mat-label>
                 <mat-select [(ngModel)]="_dTRLineModel.Branch">
                     <mat-option *ngFor="let branch of _branchListDropdown" [value]="branch.Value">
                         {{branch.Value}}
@@ -117,7 +117,7 @@
             <div style="width: 100%;">
                 <mat-checkbox color="primary" [(ngModel)]="_dTRLineModel.IsOnLeaveHalfDay" disabled>
                     <span style="color: gray;">
-                        On Leave Half Day</span>
+                        {{setLabel("On Leave Half Day")}</span>
                 </mat-checkbox>
             </div>
         </div>
@@ -125,7 +125,7 @@
             <div style="width: 100%;">
                 <mat-checkbox color="primary" [(ngModel)]="_dTRLineModel.IsOnOfficialBusinessHalfDay">
                     <span style="color: gray;">
-                        Official Business Half Day</span>
+                        {{setLabel("Official Business Half Day")} </span>
                 </mat-checkbox>
             </div>
         </div>
@@ -133,7 +133,7 @@
             <div style="width: 100%;">
                 <mat-checkbox color="primary" [(ngModel)]="_dTRLineModel.IsAbsentHalfDay" disabled>
                     <span style="color: gray;">
-                        Absent Half Day</span>
+                        {{setLabel("Absent Half Day")}</span>
                 </mat-checkbox>
             </div>
         </div>
@@ -146,11 +146,11 @@
             <div fxLayout="row" fxLayout.xs="column" style="height:12.45em;">
                 <div fxFlex="25" style="padding: 5px;">
                     <div fxFlex="70">
-                        <p>No. Of Hours Worked:</p>
-                        <p>Overtime Hours:</p>
-                        <p>Night Differential Hours:</p>
-                        <p>Late Hours:</p>
-                        <p>Undertime Hours:</p>
+                        <p>{{setLabel("No. Of Hours Worked")}:</p>
+                        <p>{{setLabel("Overtime Hours")}:</p>
+                        <p>{{setLabel("Night Differential Hours")}:</p>
+                        <p>{{setLabel("Late Hours")}:</p>
+                        <p>{{setLabel("Undertime Hours")}:</p>
                     </div>
                     <div fxFlex="30" class="regular-detail">
                         <p><span>{{_dTRLineModel.NumberOfHoursWorked}}</span></p>
@@ -163,11 +163,11 @@
                 </div>
                 <div fxFlex="25" style="padding: 5px;">
                     <div fxFlex="70">
-                        <p>Daily Pay:</p>
-                        <p>Premium Pay:</p>
-                        <p>Holiday Pay:</p>
-                        <p>Overtime Pay:</p>
-                        <p>Night Differential Pay:</p>
+                        <p>{{setLabel("Daily Pay")}:</p>
+                        <p>{{setLabel("Premium Pay")}:</p>
+                        <p>{{setLabel("Holiday Pay")}:</p>
+                        <p>{{setLabel("Overtime Pay")}:</p>
+                        <p>{{setLabel("Night Differential Pay")}:</p>
                     </div>
                     <div fxFlex="30" class="regular-detail">
                         <p><span>{{_dTRLineModel.DailyPay}}</span></p>
@@ -181,8 +181,8 @@
                 <div fxFlex="25" style="padding: 5px;">
                     <div fxLayout="row" fxLayout.xs="column">
                         <div fxFlex="70">
-                            <p>COLA:</p>
-                            <p>Additional Allowance:</p>
+                            <p>{{setLabel("COLA")}}:</p>
+                            <p>{{setLabel("Additional Allowance")}}:</p>
                         </div>
                         <div fxFlex="30" class="regular-detail">
                             <p><span>{{_dTRLineModel.COLA}}</span></p>
@@ -191,13 +191,13 @@
                     </div>
                     <div fxLayout="row" fxLayout.xs="column">
                         <div fxFlex="15">
-                            <p>Less:</p>
+                            <p>{{setLabel("Less")}}:</p>
                         </div>
                         <div fxFlex="55">
-                            <p>Late Deduction:</p>
-                            <p>Undertime Deduction:
+                            <p>{{setLabel("Late Deduction")}}:</p>
+                            <p>{{setLabel("Undertime Deduction")}}:
                             </p>
-                            <p>Absent Deduction:</p>
+                            <p>{{setLabel("Absent Deduction")}}:</p>
                         </div>
                         <div fxFlex="30" class="deduction">
                             <p><span>{{_dTRLineModel.LateDeduction}}</span></p>
@@ -209,7 +209,7 @@
                     </div>
                 </div>
                 <div fxFlex="25" style="padding: 5px;" class="regular-detail">
-                    <h2><b>Daily Net Pay:</b>&nbsp;&nbsp; P&nbsp;<b>{{_dTRLineModel.DailyNetPay}}</b></h2>
+                    <h2><b>{{setLabel("Daily Net Payn")}}:</b>&nbsp;&nbsp; P&nbsp;<b>{{_dTRLineModel.DailyNetPay}}</b></h2>
                 </div>
             </div>
         </mat-tab>
@@ -218,7 +218,7 @@
             <div fxLayout="row" fxLayout.xs="column" style="height:12.45em;">
                 <div fxFlex="75" style="padding: 5px;">
                     <mat-form-field appearance="outline" style="width: 100%;">
-                        <mat-label>Remarks</mat-label>
+                        <mat-label>{{setLabel("Remarks")}}</mat-label>
                         <textarea matInput placeholder="AddrRemarksess" [(ngModel)]="_dTRLineModel.Remarks"
                             rows="6"></textarea>
                     </mat-form-field>
@@ -232,14 +232,14 @@
 <div mat-dialog-actions align="right">
     <button mat-flat-button color="primary" style="margin-right: 5px;" (click)="UpdateDTRLine()">
         <!-- <mat-icon>save</mat-icon> -->
-        Save
+        {{setLabel("Save")}}
     </button>
     <button mat-flat-button color="primary" style="margin-right: 5px;" (click)="ComputeDTRLine()">
         <!-- <mat-icon>calculate</mat-icon> -->
-        Compute
+        {{setLabel("Compute")}}
     </button>
     <button mat-flat-button mat-dialog-close style="margin: 5px;" color="warn" (click)="Close()">
         <!-- <mat-icon>close</mat-icon> -->
-        Close
+        {{setLabel("Close")}}
     </button>
 </div>

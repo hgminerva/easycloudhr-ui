@@ -11,6 +11,9 @@ import { SnackBarTemplate } from '../../shared/snack-bar-template';
 import { ChangeShiftCodeListService } from './../change-shift-code-list.service';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
+
+import { SharedService, LabelModel } from '../../shared/shared.service';
+
 @Component({
   selector: 'app-change-shift-code-list',
   templateUrl: './change-shift-code-list.component.html',
@@ -25,7 +28,7 @@ export class ChangeShiftCodeListComponent implements OnInit {
     private _snackBarTemplate: SnackBarTemplate,
     public _matDialog: MatDialog,
     private softwareSecurityService: SoftwareSecurityService,
-
+    public sharedService: SharedService
   ) {
   }
 
@@ -40,6 +43,25 @@ export class ChangeShiftCodeListComponent implements OnInit {
     CanLock: false,
     CanUnlock: false,
     CanPrint: false,
+  }
+
+  public labels: LabelModel[] = [];
+  public getLabels(): void {
+    this.labels = [];
+    this.sharedService.LabelList().subscribe(
+      data => {
+        if (data.length > 0) {
+          this.labels = data;
+        }
+      }
+    );
+  }
+  public setLabel(label: string): string {
+    let displayed_label: string = label;
+    for (let i = 0; i < this.labels.length; i++) {
+      if (label === this.labels[i].label) displayed_label = this.labels[i].displayed_label;
+    }
+    return displayed_label;
   }
 
   public _isComponentsShown: boolean = false;
@@ -57,11 +79,6 @@ export class ChangeShiftCodeListComponent implements OnInit {
         this.ComfirmDeleteChangeShiftCode();
       }
     }
-  }
-
-  async ngOnInit() {
-    await this.GetUserRights();
-    await this.CreateCboShowNumberOfRows();
   }
 
   private async GetUserRights() {
@@ -272,6 +289,12 @@ export class ChangeShiftCodeListComponent implements OnInit {
         this.DeleteChangeShiftCode();
       }
     });
+  }
+  
+  async ngOnInit() {
+    await this.getLabels();
+    await this.GetUserRights();
+    await this.CreateCboShowNumberOfRows();
   }
 
   ngOnDestroy() {

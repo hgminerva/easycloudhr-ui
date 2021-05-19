@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 import { SoftwareSecurityService, UserModule } from '../../software-security/software-security.service';
 import { ComfirmMassageDialogComponent } from '../../shared/comfirm-massage-dialog/comfirm-massage-dialog.component';
 
+import { SharedService, LabelModel } from '../../shared/shared.service';
+
 @Component({
   selector: 'app-dtr-list',
   templateUrl: './dtr-list.component.html',
@@ -26,7 +28,9 @@ export class DTRListComponent implements OnInit {
     private _snackBarTemplate: SnackBarTemplate,
     public _matDialogRef: MatDialog,
     private _router: Router,
-    private _softwareSecurityService: SoftwareSecurityService,) {
+    private _softwareSecurityService: SoftwareSecurityService,
+    public sharedService: SharedService
+  ) {
   }
 
   // Class properties
@@ -66,6 +70,25 @@ export class DTRListComponent implements OnInit {
     CanPrint: false,
   }
 
+  public labels: LabelModel[] = [];
+  public getLabels(): void {
+    this.labels = [];
+    this.sharedService.LabelList().subscribe(
+      data => {
+        if (data.length > 0) {
+          this.labels = data;
+        }
+      }
+    );
+  }
+  public setLabel(label: string): string {
+    let displayed_label: string = label;
+    for (let i = 0; i < this.labels.length; i++) {
+      if (label === this.labels[i].label) displayed_label = this.labels[i].displayed_label;
+    }
+    return displayed_label;
+  }
+
   private async GetUserRights() {
     this._userRightsSubscription = await (await this._softwareSecurityService.PageModuleRights("DTR List")).subscribe(
       (response: any) => {
@@ -89,7 +112,7 @@ export class DTRListComponent implements OnInit {
         if (error.status == "401") {
           this._softwareSecurityService.logOut();
         }
-        
+
         if (this._userRightsSubscription !== null) this._userRightsSubscription.unsubscribe();
       }
     );
@@ -97,10 +120,11 @@ export class DTRListComponent implements OnInit {
     await this.GetPayrollGroupDropdownListData();
   }
 
-  ngOnInit(): void {
-    this._isProgressBarHidden = true;
-    this.GetUserRights();
-    this.CreateCboShowNumberOfRows();
+  async ngOnInit() {
+    await this.getLabels();
+    this._isProgressBarHidden = await true;
+    await this.GetUserRights();
+    await this.CreateCboShowNumberOfRows();
   }
   // ========================
   // EmployeePayroll Dropdown

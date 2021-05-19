@@ -11,6 +11,8 @@ import { CollectionView, ObservableArray } from '@grapecity/wijmo';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 
+import { SharedService, LabelModel } from '../../shared/shared.service';
+
 @Component({
   selector: 'app-dtr-detail-dtr-line-add-dialog',
   templateUrl: './dtr-detail-dtr-line-add-dialog.component.html',
@@ -24,7 +26,8 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
     private _snackBarTemplate: SnackBarTemplate,
     public _matDialogRef: MatDialogRef<DtrDetailDtrLineAddDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public _caseData: any,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    public sharedService: SharedService
   ) { }
 
   public _dTRLines: DTRLines = {
@@ -126,6 +129,7 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
   public UIDateEnd = new Date();
 
   async ngOnInit() {
+    await this.getLabels();
     this._title = await this._caseData.objDialogTitle;
     this._dTRModel = this._caseData.objData;
     this._dTRLines.StartDate = this.datePipe.transform(this._caseData.objData.DateStart, 'yyyy-MM-dd');
@@ -136,6 +140,25 @@ export class DtrDetailDtrLineAddDialogComponent implements OnInit {
 
     this.Create_cboShowNumberOfRows();
     this.GetEmployeeData();
+  }
+
+  public labels: LabelModel[] = [];
+  public async getLabels() {
+    this.labels = [];
+    await this.sharedService.LabelList().subscribe(
+      data => {
+        if (data.length > 0) {
+          this.labels = data;
+        }
+      }
+    );
+  }
+  public setLabel(label: string): string {
+    let displayed_label: string = label;
+    for (let i = 0; i < this.labels.length; i++) {
+      if (label === this.labels[i].label) displayed_label = this.labels[i].displayed_label;
+    }
+    return displayed_label;
   }
 
   public _cboShowNumberOfRows: ObservableArray = new ObservableArray();

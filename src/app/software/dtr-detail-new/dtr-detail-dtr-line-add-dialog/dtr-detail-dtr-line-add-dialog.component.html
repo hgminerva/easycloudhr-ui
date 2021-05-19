@@ -1,5 +1,5 @@
 <h3 mat-dialog-title>
-    {{ _title }}
+    {{setLabel(_title)}}
 </h3>
 <mat-divider></mat-divider>
 <div [hidden]="_isComponentsShown"></div>
@@ -8,7 +8,7 @@
     <div fxLayout="row" fxLayout.xs="column" style="margin-top: 15px;">
         <div fxFlex="20" style="padding: 5px;">
             <mat-form-field appearance="outline" style="width: 100%;">
-                <mat-label>DateStart</mat-label>
+                <mat-label>{{setLabel("Date Start")}}</mat-label>
                 <input matInput [matDatepicker]="datePickerDateStart" [(ngModel)]="UIDateStart" readonly>
                 <mat-datepicker-toggle matSuffix [for]="datePickerDateStart" disabled>
                 </mat-datepicker-toggle>
@@ -17,7 +17,7 @@
         </div>
         <div fxFlex="20" style="padding: 5px;">
             <mat-form-field appearance="outline" style="width: 100%;">
-                <mat-label>Date End</mat-label>
+                <mat-label>{{setLabel("Date End")}}</mat-label>
                 <input matInput [matDatepicker]="datePickerDateEnd" [(ngModel)]="UIDateEnd" readonly>
                 <mat-datepicker-toggle matSuffix [for]="datePickerDateEnd" disabled>
                 </mat-datepicker-toggle>
@@ -31,35 +31,35 @@
                 <mat-checkbox color="primary" [(ngModel)]="_dTRLines.UseEmployeeDefaultShift"
                     (ngModelChange)="UseEmployeeDefaultShift(_dTRLines.UseEmployeeDefaultShift)">
                     <span style="color: gray;">
-                        Use Employee's Default Shift </span>
+                        {{setLabel("Use Employee's Default Shift")}} </span>
                 </mat-checkbox>
             </div>
         </div>
         <ng-container *ngIf="!_isComponentsShown">
             <div fxFlex="15" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
-                    <mat-label>Time In 1</mat-label>
+                    <mat-label>{{setLabel("Time In 1")}}</mat-label>
                     <input type="time" matInput style="text-align:right;" [(ngModel)]="_dTRLines.TimeIn1"
                         [disabled]="disableComponentOnInsert">
                 </mat-form-field>
             </div>
             <div fxFlex="15" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
-                    <mat-label>Time Out 1</mat-label>
+                    <mat-label>{{setLabel("Time Out 1")}}</mat-label>
                     <input type="time" matInput style="text-align:right;" [(ngModel)]="_dTRLines.TimeOut1"
                         [disabled]="disableComponentOnInsert">
                 </mat-form-field>
             </div>
             <div fxFlex="15" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
-                    <mat-label>Time In 2</mat-label>
+                    <mat-label>{{setLabel("Time In 2")}}</mat-label>
                     <input type="time" matInput style="text-align:right;" [(ngModel)]="_dTRLines.TimeIn2"
                         [disabled]="disableComponentOnInsert">
                 </mat-form-field>
             </div>
             <div fxFlex="15" style="padding: 5px;">
                 <mat-form-field appearance="outline" style="width: 100%;">
-                    <mat-label>Time Out 2</mat-label>
+                    <mat-label>{{setLabel("Time Out 2")}}</mat-label>
                     <input type="time" matInput style="text-align:right;" [(ngModel)]="_dTRLines.TimeOut2"
                         [disabled]="disableComponentOnInsert">
                 </mat-form-field>
@@ -80,19 +80,19 @@
                 <ng-template wjFlexGridCellTemplate [cellType]="'TopLeft'" let-cell="cell" let-row="row">
                     <input type="checkbox" (click)="topLeftClicked($event)" [disabled]="disableComponentOnInsert" />
                 </ng-template>
-                <wj-flex-grid-column [header]="'ID'" [binding]="'IdNumber'" [isReadOnly]="true" [isReadOnly]="true"
+                <wj-flex-grid-column [header]="setLabel('ID')" [binding]="'IdNumber'" [isReadOnly]="true" [isReadOnly]="true"
                     [width]="'2*'">
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Biometric ID'" [binding]="'BiometricIdNumber'" [isReadOnly]="true"
+                <wj-flex-grid-column [header]="setLabel('Biometric ID')" [binding]="'BiometricIdNumber'" [isReadOnly]="true"
                     [isReadOnly]="true" [width]="'2*'">
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Full Name'" [binding]="'FullName'" [isReadOnly]="true" [width]="'2*'">
+                <wj-flex-grid-column [header]="setLabel('Full Name')" [binding]="'FullName'" [isReadOnly]="true" [width]="'2*'">
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Position'" [binding]="'Position'" [isReadOnly]="true" [width]="'2*'">
+                <wj-flex-grid-column [header]="setLabel('Position')" [binding]="'Position'" [isReadOnly]="true" [width]="'2*'">
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Branch'" [binding]="'Branch'" [isReadOnly]="true" [width]="'2*'">
+                <wj-flex-grid-column [header]="setLabel('Branch')" [binding]="'Branch'" [isReadOnly]="true" [width]="'2*'">
                 </wj-flex-grid-column>
-                <wj-flex-grid-column [header]="'Department'" [binding]="'Department'" [isReadOnly]="true"
+                <wj-flex-grid-column [header]="setLabel('Department')" [binding]="'Department'" [isReadOnly]="true"
                     [width]="'2*'">
                 </wj-flex-grid-column>
             </wj-flex-grid>
@@ -104,11 +104,11 @@
     <button mat-flat-button color="primary" align-self="right" style="margin-right: 5px;" (click)="Save()"
         [disabled]="disableComponentOnInsert">
         <!-- <mat-icon>save</mat-icon> -->
-        Add
+        {{setLabel("Add")}}
     </button>
     <button mat-flat-button mat-dialog-close style="margin: 5px;" color="warn" (click)="Close()"
         [disabled]="disableComponentOnInsert">
         <!-- <mat-icon>close</mat-icon> -->
-        Close
+        {{setLabel("Close")}}
     </button>
 </div>

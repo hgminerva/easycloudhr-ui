@@ -1,10 +1,10 @@
 <h1 mat-dialog-title>
-    {{ dialogTitle }}
+    {{setLabel(dialogTitle)}}
 </h1>
 <mat-divider></mat-divider>
 <mat-dialog-content>
     <div *ngIf="isSpinnerShow" style="padding: 25px 0px 25px 0px; text-align: center;">
-        <h4>Please wait...</h4>
+        <h4>{{setLabel("Please wait...")}}</h4>
         <mat-spinner style="margin:auto;display:block;"></mat-spinner>
     </div>
     <div *ngIf="isContentShow">
@@ -14,10 +14,10 @@
                     <div fxLayout="row" fxLayout.xs="column">
                         <div fxFlex="100" style="padding: 5px;">
                             <mat-form-field appearance="fill" style="width: 100%;">
-                                <mat-label>User</mat-label>
+                                <mat-label>{{setLabel("User")}}</mat-label>
                                 <mat-select [(ngModel)]="_approver.UserId">
                                     <mat-option *ngFor="let user of userListDropdown" [value]="user.Id">
-                                    {{user.Value}}
+                                        {{setLabel(user.Value)}}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
@@ -26,10 +26,10 @@
                     <div fxLayout="row" fxLayout.xs="column">
                         <div fxFlex="100" style="padding: 5px;">
                             <mat-form-field appearance="fill" style="width: 100%;">
-                                <mat-label>Branch</mat-label>
+                                <mat-label>{{setLabel("Branch")}}</mat-label>
                                 <mat-select [(ngModel)]="_approver.Branch">
                                     <mat-option *ngFor="let branch of branchListDropdown" [value]="branch.Value">
-                                    {{branch.Value}}
+                                        {{setLabel(branch.Value)}}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
@@ -38,7 +38,7 @@
                     <div fxLayout="row" fxLayout.xs="column">
                         <div fxFlex="100" style="padding: 5px;">
                             <mat-form-field appearance="fill" style="width: 100%;">
-                                <mat-label>Remarks</mat-label>
+                                <mat-label>{{setLabel("Remarks")}}</mat-label>
                                 <textarea matInput [(ngModel)]="_approver.Remarks"
                                     [ngModelTreatments]="{standalone: true}"></textarea>
                             </mat-form-field>
@@ -52,9 +52,9 @@
 <mat-divider></mat-divider>
 <mat-dialog-actions align="end">
     <button mat-flat-button color="primary" (click)="Save()" [disabled]="stillProcessing">
-        Save
+        {{setLabel("Save")}}
     </button>
     <button mat-flat-button color="warn" (click)="Close()" [disabled]="stillProcessing">
-        Close
+        {{setLabel("Close")}}
     </button>
 </mat-dialog-actions>

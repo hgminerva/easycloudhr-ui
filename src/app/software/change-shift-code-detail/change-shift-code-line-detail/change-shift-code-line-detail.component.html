@@ -1,5 +1,5 @@
 <h3 mat-dialog-title>
-    {{ title }}
+    {{ setLabel(title) }}
 </h3>
 <mat-divider></mat-divider>
 <div mat-dialog-content style="height: 70%;">
@@ -8,14 +8,14 @@
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="33" style="padding: 5px;">
                 <mat-form-field appearance="fill" style="width: 100%;">
-                    <mat-label>Employee</mat-label>
+                    <mat-label>{{setLabel("Employee")}}</mat-label>
                     <input type="text" [(ngModel)]="_changeShiftLine.Employee" matInput readonly>
                     <mat-icon matSuffix (click)="EmployeeListDialog()">keyboard_arrow_down</mat-icon>
                 </mat-form-field>
             </div>
             <div fxFlex="25" style="padding: 5px;">
                 <mat-form-field appearance="fill" style="width: 100%;">
-                    <mat-label>Date</mat-label>
+                    <mat-label>{{setLabel("Date")}}</mat-label>
                     <input matInput [matDatepicker]="datePickerShiftDate" [(ngModel)]="UIShiftDate"
                         (dateInput)="GetUIDATEShiftDate()">
                     <mat-datepicker-toggle matSuffix [for]="datePickerShiftDate">
@@ -25,20 +25,20 @@
             </div>
             <div fxFlex="33" style="padding: 5px;">
                 <mat-form-field appearance="fill" style="width: 100%;">
-                    <mat-label>Shift</mat-label>
+                    <mat-label>{{setLabel("Shift")}}</mat-label>
                     <mat-select [(ngModel)]="_changeShiftLine.ShiftId">
                         <mat-option *ngFor="let shift of _shiftListDropdown" [value]="shift.Id">
-                            {{shift.Value}}
+                            {{setLabel(shift.Value)}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
             <div fxFlex="34" style="padding: 5px;">
                 <mat-form-field appearance="fill" style="width: 100%;">
-                    <mat-label>Branch</mat-label>
+                    <mat-label>{{setLabel("Branch")}}</mat-label>
                     <mat-select [(ngModel)]="_changeShiftLine.Branch">
                         <mat-option *ngFor="let branch of _branchListDropdown" [value]="branch.Value">
-                            {{branch.Value}}
+                            {{setLabel(branch.Value)}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -47,7 +47,7 @@
         <div fxLayout="row" fxLayout.xs="column">
             <div fxFlex="100" style="padding: 5px;">
                 <mat-form-field appearance="fill" style="width: 100%;">
-                    <mat-label>Remarks</mat-label>
+                    <mat-label>{{setLabel("Remarks")}}</mat-label>
                     <textarea matInput placeholder="Remarks" [(ngModel)]="_changeShiftLine.Remarks" rows="5"
                         style="min-height: 102px;"></textarea>
                 </mat-form-field>
@@ -59,10 +59,10 @@
 <div mat-dialog-actions align="right">
     <button mat-flat-button color="primary" align-self="right" style="margin-right: 5px;" (click)="Save()">
         <!-- <mat-icon>save</mat-icon> -->
-        Save
+        {{setLabel("Save")}}
     </button>
     <button mat-flat-button mat-dialog-close style="margin: 5px;" color="warn" (click)="Close()">
         <!-- <mat-icon>close</mat-icon> -->
-        Close
+        {{setLabel("Close")}}
     </button>
 </div>

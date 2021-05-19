@@ -8,6 +8,8 @@ import { DecimalPipe } from '@angular/common';
 import { DtrDetialService } from '../dtr-detial.service';
 import { DTRLineModel } from '../dtr-line.model';
 
+import { SharedService, LabelModel } from '../../shared/shared.service';
+
 @Component({
   selector: 'app-dtr-detial-dtr-line-detail-dialog',
   templateUrl: './dtr-detial-dtr-line-detail-dialog.component.html',
@@ -21,7 +23,8 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
     private _snackBarTemplate: SnackBarTemplate,
     public _matDialogRef: MatDialogRef<DtrDetialDtrLineDetailDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public _caseData: any,
-    private _decimalPipe: DecimalPipe
+    private _decimalPipe: DecimalPipe,
+    public sharedService: SharedService
   ) { }
 
   async ngOnInit() {
@@ -96,6 +99,25 @@ export class DtrDetialDtrLineDetailDialogComponent implements OnInit {
   public _shiftsListDropdown: any = [];
 
   private _saveDTRLineSubscription: any;
+
+  public labels: LabelModel[] = [];
+  public getLabels(): void {
+    this.labels = [];
+    this.sharedService.LabelList().subscribe(
+      data => {
+        if (data.length > 0) {
+          this.labels = data;
+        }
+      }
+    );
+  }
+  public setLabel(label: string): string {
+    let displayed_label: string = label;
+    for (let i = 0; i < this.labels.length; i++) {
+      if (label === this.labels[i].label) displayed_label = this.labels[i].displayed_label;
+    }
+    return displayed_label;
+  }
 
   private async DateTypeListData() {
     this._dateTypeDropdownSubscription = await (await this._dtrDetialService.DateTypeList()).subscribe(

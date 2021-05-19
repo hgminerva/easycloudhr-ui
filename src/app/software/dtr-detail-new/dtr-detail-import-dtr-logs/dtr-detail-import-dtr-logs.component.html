@@ -1,5 +1,5 @@
 <h3 mat-dialog-title>
-    Import DTR Logs
+    {{setLabel("Import DTR Logs")}} 
 </h3>
 <mat-progress-bar *ngIf="_isDTRLineProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'">
 </mat-progress-bar>
@@ -11,19 +11,19 @@
         <wj-flex-grid #flexDTRLine [itemsSource]="_listDTRLineCollectionView" [selectionMode]="3" [frozenColumns]="2"
             [headersVisibility]="1" style="max-height: 315px;">
             <wj-flex-grid-filter></wj-flex-grid-filter>
-            <wj-flex-grid-column [header]="'Branch'" [binding]="'Branch'" [isReadOnly]="true" [width]="120">
+            <wj-flex-grid-column [header]="setLabel('Branch')" [binding]="'Branch'" [isReadOnly]="true" [width]="120">
             </wj-flex-grid-column>
-            <wj-flex-grid-column [header]="'Employee'" [binding]="'Employee'" [isReadOnly]="true" [width]="'10*'">
+            <wj-flex-grid-column [header]="setLabel('Employee')" [binding]="'Employee'" [isReadOnly]="true" [width]="'10*'">
             </wj-flex-grid-column>
-            <wj-flex-grid-column [header]="'Date'" [binding]="'DTRDate'" [isReadOnly]="true" [width]="100">
+            <wj-flex-grid-column [header]="setLabel('Date')" [binding]="'DTRDate'" [isReadOnly]="true" [width]="100">
             </wj-flex-grid-column>
-            <wj-flex-grid-column [header]="'IN1'" [binding]="'TimeIn1'" [isReadOnly]="true" [width]="75">
+            <wj-flex-grid-column [header]="setLabel('IN1')" [binding]="'TimeIn1'" [isReadOnly]="true" [width]="75">
             </wj-flex-grid-column>
-            <wj-flex-grid-column [header]="'OUT1'" [binding]="'TimeOut1'" [isReadOnly]="true" [width]="75">
+            <wj-flex-grid-column [header]="setLabel('OUT1')" [binding]="'TimeOut1'" [isReadOnly]="true" [width]="75">
             </wj-flex-grid-column>
-            <wj-flex-grid-column [header]="'IN2'" [binding]="'TimeIn2'" [isReadOnly]="true" [width]="75">
+            <wj-flex-grid-column [header]="setLabel('IN2')" [binding]="'TimeIn2'" [isReadOnly]="true" [width]="75">
             </wj-flex-grid-column>
-            <wj-flex-grid-column [header]="'OUT2'" [binding]="'TimeOut2'" [isReadOnly]="true" [width]="75">
+            <wj-flex-grid-column [header]="setLabel('OUT2')" [binding]="'TimeOut2'" [isReadOnly]="true" [width]="75">
             </wj-flex-grid-column>
         </wj-flex-grid>
 
@@ -55,7 +55,7 @@
         </div>
         <div fxFlex="15" style="padding: 5px;">
             <mat-form-field appearance="outline" style="width: 100%;">
-                <mat-label>Row</mat-label>
+                <mat-label>{{setLabel("Row")}} </mat-label>
                 <mat-select [(ngModel)]="_listPageIndex"
                     (selectionChange)='CboShowNumberOfRowsOnSelectedIndexChanged()'>
                     <mat-option *ngFor="let rowSize of _createCboShowNumberOfRows" [value]="rowSize.rowNumber">
@@ -72,14 +72,14 @@
     <button mat-raised-button color="accent" style="float: right; margin: 5px;" (click)="Post()"
         [disabled]="isPostButtonHidden">
         <!-- <mat-icon>post_add</mat-icon>  -->
-        Post
+        {{setLabel("Post")}}
     </button>
     <button mat-raised-button color="accent" style="float: right; margin: 5px;" (click)="file.click()">
         <!-- <mat-icon>publish</mat-icon>  -->
-        Import
+        {{setLabel("Import")}}
     </button>
     <button mat-flat-button mat-dialog-close style="margin: 5px;" color="warn" (click)="Close()">
         <!-- <mat-icon>close</mat-icon> -->
-        Close
+        {{setLabel("Close")}}
     </button>
 </div>

@@ -1,30 +1,30 @@
 <mat-toolbar>
     <img src="../../../../assets/menu-icons/DTR.png" height="35" />
-    <span>&nbsp;&nbsp; DTR Detail</span>
+    <span>&nbsp;&nbsp;{{setLabel("DTR Detail")}}</span>
     <span class="spacer"></span>
     <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="_btnSaveDisabled"
         (click)="SaveDTRDetail()" *ngIf="_userRights.CanEdit">
         <!-- <mat-icon>save</mat-icon> -->
-        Save
+        {{setLabel("Save")}}
     </button>
     <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="_btnLockisabled"
         (click)="LockDTRDetail()" *ngIf="_userRights.CanLock">
         <!-- <mat-icon>lock</mat-icon> -->
-        Lock
+        {{setLabel("Lock")}}
     </button>
     <button mat-flat-button style="margin-right: 5px;" color="primary" [disabled]="_btnUnlockDisabled"
         (click)="UnlockDTRDetail()" *ngIf="_userRights.CanUnlock">
         <!-- <mat-icon>lock_open</mat-icon> -->
-        Unlock
+        {{setLabel("Unlock")}}
     </button>
     <button mat-flat-button color="accent" id="btnAddEmployee" [disabled]="_btnUnlockDisabled" style="margin: 5px;"
         (click)="btnCSVClick()" *ngIf="_userRights.CanPrint">
         <!-- <mat-icon>get_app</mat-icon> -->
-        CSV
+        {{setLabel("CSV")}}
     </button>
     <button mat-flat-button style="margin-right: 5px;" routerLink="/software/dtr-list" color="warn">
         <!-- <mat-icon>close</mat-icon> -->
-        Close
+        {{setLabel("Close")}}
     </button>
 </mat-toolbar>
 <mat-progress-bar *ngIf="_isProgressBarHidden" [color]="'primary'" [mode]="'indeterminate'" style="width: 100%;">
@@ -38,7 +38,7 @@
                         <h2 class="text_box"><b>{{_dTRModel.DTRNumber}}</b> </h2>
                     </div>
                     <div fxFlex="33" style="padding: 5px;margin-top: 3px;">
-                        <h2 class="text_box"><b>{{_dTRModel.PayrollGroup}}</b> </h2>
+                        <h2 class="text_box"><b>{{setLabel(_dTRModel.PayrollGroup)}}</b> </h2>
                     </div>
                     <div fxFlex="34" style="padding: 5px;margin-top: 3px;">
                         <h2 class="text_box"><b>{{_dTRModel.Year}}</b> </h2>
@@ -47,7 +47,7 @@
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="33" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>Date</mat-label>
+                            <mat-label>{{setLabel("Date")}}</mat-label>
                             <input matInput [matDatepicker]="datePickerDTRDate" [(ngModel)]="UIDTRDate"
                                 (dateInput)="GetUIDATEDTRDate()" [readonly]="_isLocked">
                             <mat-datepicker-toggle matSuffix [for]="datePickerDTRDate" [disabled]="_isLocked">
@@ -58,7 +58,7 @@
                     </div>
                     <div fxFlex="33" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>DateStart</mat-label>
+                            <mat-label>{{setLabel("Date Start")}}</mat-label>
                             <input matInput [matDatepicker]="datePickerDateStart" [(ngModel)]="UIDateStart"
                                 (dateInput)="GetUIDATEDateStart()" [readonly]="_isLocked">
                             <mat-datepicker-toggle matSuffix [for]="datePickerDateStart" [disabled]="_isLocked">
@@ -68,7 +68,7 @@
                     </div>
                     <div fxFlex="34" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>Date End</mat-label>
+                            <mat-label>{{setLabel("Date End")}}</mat-label>
                             <input matInput [matDatepicker]="datePickerDateEnd" [(ngModel)]="UIDateEnd"
                                 (dateInput)="GetUIDATEDateEnd()" [readonly]="_isLocked">
                             <mat-datepicker-toggle matSuffix [for]="datePickerDateEnd" [disabled]="_isLocked">
@@ -80,7 +80,7 @@
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="33" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>Over Time</mat-label>
+                            <mat-label>{{setLabel("Over Time")}}</mat-label>
                             <mat-select [(ngModel)]="_dTRModel.OTId">
                                 <mat-option *ngFor="let oT of _oTListDropdown" [disabled]="_isLocked" [value]="oT.Id">
                                     {{oT.Value}}
@@ -90,7 +90,7 @@
                     </div>
                     <div fxFlex="33" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>Leave Application</mat-label>
+                            <mat-label>{{setLabel("Leave Application")}}</mat-label>
                             <mat-select [(ngModel)]="_dTRModel.LAId">
                                 <mat-option *ngFor="let lA of _lAListDropdown" [disabled]="_isLocked" [value]="lA.Id">
                                     {{lA.Value}}
@@ -100,7 +100,7 @@
                     </div>
                     <div fxFlex="34" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>Change Shift</mat-label>
+                            <mat-label>{{setLabel("Change Shift")}}</mat-label>
                             <mat-select [(ngModel)]="_dTRModel.CSId">
                                 <mat-option *ngFor="let cS of _cSListDropdown" [disabled]="_isLocked" [value]="cS.Id">
                                     {{cS.Value}}
@@ -116,7 +116,7 @@
 
                     <div fxFlex="33" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>Prepared By</mat-label>
+                            <mat-label>{{setLabel("Prepared By")}}</mat-label>
                             <mat-select [(ngModel)]="_dTRModel.PreparedByUserId">
                                 <mat-option *ngFor="let user of _userListDropdown" disabled [value]="user.Id">
                                     {{user.Value}}
@@ -127,7 +127,7 @@
 
                     <div fxFlex="33" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>Checked By</mat-label>
+                            <mat-label>{{setLabel("Checked By")}}</mat-label>
                             <mat-select [(ngModel)]="_dTRModel.CheckedByUserId"
                                 (selectionChange)="selectedCheckedByUser($event)">
                                 <mat-option *ngFor="let user of _userListDropdown" [disabled]="_isLocked"
@@ -139,7 +139,7 @@
                     </div>
                     <div fxFlex="34" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>Approved By</mat-label>
+                            <mat-label>{{setLabel("Approved By")}}</mat-label>
                             <mat-select [(ngModel)]="_dTRModel.ApprovedByUserId"
                                 (selectionChange)="selectedApprovedByUser($event)">
                                 <mat-option *ngFor="let user of _userListDropdown" [disabled]="_isLocked"
@@ -154,7 +154,7 @@
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="100" style="padding: 5px;">
                         <mat-form-field appearance="fill" style="width: 100%;">
-                            <mat-label>Remarks</mat-label>
+                            <mat-label>{{setLabel("Remarks")}}</mat-label>
                             <textarea matInput placeholder="AddrRemarksess" [(ngModel)]="_dTRModel.Remarks"
                                 [readonly]="_isLocked" rows="5" style="min-height: 100px;"></textarea>
                         </mat-form-field>
@@ -174,97 +174,97 @@
                 <wj-flex-grid #flexDTRLine [itemsSource]="_listDTRLineCollectionView" [selectionMode]="3"
                     [frozenColumns]="2" [headersVisibility]="1" #Grid (click)="gridClick(Grid, $event)">
                     <wj-flex-grid-filter></wj-flex-grid-filter>
-                    <wj-flex-grid-column [header]="'Edit'" [isReadOnly]="true" [width]="90" *ngIf="_canEdit">
+                    <wj-flex-grid-column [header]="setLabel('Edit')" [isReadOnly]="true" [width]="90" *ngIf="_canEdit">
                         <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                             <button mat-raised-button class="button-edit" color="primary"
                                 style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
                                 <!-- <mat-icon class="button-edit">edit</mat-icon> -->
-                                <span class="button-edit">Edit</span>
+                                <span class="button-edit">{{setLabel("Edit")}}</span>
                             </button>
                         </ng-template>
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Delete'" [isReadOnly]="true" [width]="90"
+                    <wj-flex-grid-column [header]="setLabel('Delete')" [isReadOnly]="true" [width]="90"
                         *ngIf="_canDelete">
                         <ng-template wjFlexGridCellTemplate [cellType]="'Cell'">
                             <button mat-raised-button class="button-delete" color="warn"
                                 style="width: 100%; font-size: 11px; line-height: 20px; padding-left: 3px; padding-right: 3px;">
                                 <!-- <mat-icon class="button-delete">delete</mat-icon> -->
-                                <span class="button-delete">Delete</span>
+                                <span class="button-delete">{{setLabel("Delete")}}</span>
                             </button>
                         </ng-template>
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Branch'" [binding]="'Branch'" [isReadOnly]="true" [width]="100">
+                    <wj-flex-grid-column [header]="setLabel('Branch')" [binding]="'Branch'" [isReadOnly]="true" [width]="100">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Employee'" [binding]="'Employee'" [isReadOnly]="true" [width]="200">
+                    <wj-flex-grid-column [header]="setLabel('Employee')" [binding]="'Employee'" [isReadOnly]="true" [width]="200">
                     </wj-flex-grid-column>
                     <wj-flex-grid-column [header]="'Date'" [binding]="'DTRDate'" [isReadOnly]="true" [width]="80">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Type'" [binding]="'DateType'" [isReadOnly]="true" [width]="80">
+                    <wj-flex-grid-column [header]="setLabel('Type')" [binding]="'DateType'" [isReadOnly]="true" [width]="80">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'RD'" [binding]="'IsRestDay'" [isReadOnly]="true" [width]="30">
+                    <wj-flex-grid-column [header]="setLabel('RD')" [binding]="'IsRestDay'" [isReadOnly]="true" [width]="30">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Shift'" [binding]="'Shift'" [isReadOnly]="true" [width]="80">
+                    <wj-flex-grid-column [header]="setLabel('Shift')" [binding]="'Shift'" [isReadOnly]="true" [width]="80">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'IN1'" [binding]="'TimeIn1'" [isReadOnly]="true" [width]="75">
+                    <wj-flex-grid-column [header]="setLabel('IN1')" [binding]="'TimeIn1'" [isReadOnly]="true" [width]="75">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'OUT1'" [binding]="'TimeOut1'" [isReadOnly]="true" [width]="75">
+                    <wj-flex-grid-column [header]="setLabel('OUT1')" [binding]="'TimeOut1'" [isReadOnly]="true" [width]="75">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'IN2'" [binding]="'TimeIn2'" [isReadOnly]="true" [width]="75">
+                    <wj-flex-grid-column [header]="setLabel('IN2')" [binding]="'TimeIn2'" [isReadOnly]="true" [width]="75">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'OUT2'" [binding]="'TimeOut2'" [isReadOnly]="true" [width]="75">
+                    <wj-flex-grid-column [header]="setLabel('OUT2')" [binding]="'TimeOut2'" [isReadOnly]="true" [width]="75">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'OL'" [binding]="'IsOnLeave'" [isReadOnly]="true" [width]="30">
+                    <wj-flex-grid-column [header]="setLabel('OL')" [binding]="'IsOnLeave'" [isReadOnly]="true" [width]="30">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'HOL'" [binding]="'IsOnLeaveHalfDay'" [isReadOnly]="true"
+                    <wj-flex-grid-column [header]="setLabel('HOL')" [binding]="'IsOnLeaveHalfDay'" [isReadOnly]="true"
                         [width]="30">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'OB'" [binding]="'IsOnOfficialBusiness'" [isReadOnly]="true"
+                    <wj-flex-grid-column [header]="setLabel('OB')" [binding]="'IsOnOfficialBusiness'" [isReadOnly]="true"
                         [width]="30">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'HOB'" [binding]="'IsOnOfficialBusinessHalfDay'" [isReadOnly]="true"
+                    <wj-flex-grid-column [header]="setLabel('HOB')" [binding]="'IsOnOfficialBusinessHalfDay'" [isReadOnly]="true"
                         [width]="30">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'A'" [binding]="'IsAbsent'" [isReadOnly]="true" [width]="30">
+                    <wj-flex-grid-column [header]="setLabel('A')" [binding]="'IsAbsent'" [isReadOnly]="true" [width]="30">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'HA'" [binding]="'IsAbsentHalfDay'" [isReadOnly]="true" [width]="30">
+                    <wj-flex-grid-column [header]="setLabel('HA')" [binding]="'IsAbsentHalfDay'" [isReadOnly]="true" [width]="30">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'Remarks'" [binding]="'Remarks'" [isReadOnly]="true" [width]="150">
+                    <wj-flex-grid-column [header]="setLabel('Remarks')" [binding]="'Remarks'" [isReadOnly]="true" [width]="150">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'HRS'" [binding]="'NumberOfHoursWorked'" [isReadOnly]="true"
+                    <wj-flex-grid-column [header]="setLabel('HRS')" [binding]="'NumberOfHoursWorked'" [isReadOnly]="true"
                         [width]="70">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'OT'" [binding]="'OvertimeHours'" [isReadOnly]="true" [width]="70">
+                    <wj-flex-grid-column [header]="setLabel('OT')" [binding]="'OvertimeHours'" [isReadOnly]="true" [width]="70">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'ND'" [binding]="'NightDifferentialHours'" [isReadOnly]="true"
+                    <wj-flex-grid-column [header]="setLabel('ND')" [binding]="'NightDifferentialHours'" [isReadOnly]="true"
                         [width]="70">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'LH'" [binding]="'LateHours'" [isReadOnly]="true" [width]="70">
+                    <wj-flex-grid-column [header]="setLabel('LH')" [binding]="'LateHours'" [isReadOnly]="true" [width]="70">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'UT'" [binding]="'UndertimeHours'" [isReadOnly]="true" [width]="70">
+                    <wj-flex-grid-column [header]="setLabel('UT')" [binding]="'UndertimeHours'" [isReadOnly]="true" [width]="70">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'DP'" [binding]="'DailyPay'" [isReadOnly]="true" [width]="70">
+                    <wj-flex-grid-column [header]="setLabel('DP')" [binding]="'DailyPay'" [isReadOnly]="true" [width]="70">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'RDP'" [binding]="'RestdayPay'" [isReadOnly]="true" [width]="70">
+                    <wj-flex-grid-column [header]="setLabel('RDP')" [binding]="'RestdayPay'" [isReadOnly]="true" [width]="70">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'PP'" [binding]="'PremiumPay'" [isReadOnly]="true" [width]="70">
+                    <wj-flex-grid-column [header]="setLabel('PP')" [binding]="'PremiumPay'" [isReadOnly]="true" [width]="70">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'HP'" [binding]="'HolidayPay'" [isReadOnly]="true" [width]="70">
+                    <wj-flex-grid-column [header]="setLabel('HP')" [binding]="'HolidayPay'" [isReadOnly]="true" [width]="70">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'OP'" [binding]="'OvertimePay'" [isReadOnly]="true" [width]="70">
+                    <wj-flex-grid-column [header]="setLabel('OP')" [binding]="'OvertimePay'" [isReadOnly]="true" [width]="70">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'COLA'" [binding]="'COLA'" [isReadOnly]="true" [width]="70">
+                    <wj-flex-grid-column [header]="setLabel('COLA')" [binding]="'COLA'" [isReadOnly]="true" [width]="70">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'AA'" [binding]="'AdditionalAllowance'" [isReadOnly]="true"
+                    <wj-flex-grid-column [header]="setLabel('AA')" [binding]="'AdditionalAllowance'" [isReadOnly]="true"
                         [width]="70">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'LD'" [binding]="'LateDeduction'" [isReadOnly]="true" [width]="70">
+                    <wj-flex-grid-column [header]="setLabel('LD')" [binding]="'LateDeduction'" [isReadOnly]="true" [width]="70">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'UD'" [binding]="'UndertimeDeduction'" [isReadOnly]="true"
+                    <wj-flex-grid-column [header]="setLabel('UD')" [binding]="'UndertimeDeduction'" [isReadOnly]="true"
                         [width]="70">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'AD'" [binding]="'AbsentDeduction'" [isReadOnly]="true" [width]="70">
+                    <wj-flex-grid-column [header]="setLabel('AD')" [binding]="'AbsentDeduction'" [isReadOnly]="true" [width]="70">
                     </wj-flex-grid-column>
-                    <wj-flex-grid-column [header]="'NP'" [binding]="'DailyNetPay'" [isReadOnly]="true" [width]="70">
+                    <wj-flex-grid-column [header]="setLabel('NP')" [binding]="'DailyNetPay'" [isReadOnly]="true" [width]="70">
                     </wj-flex-grid-column>
                 </wj-flex-grid>
                 <div fxLayout="row" fxLayout.xs="column" *ngIf="_isDTRLineProgressBarHidden">
@@ -277,17 +277,17 @@
                     <button mat-raised-button color="accent" style="float: right; margin: 5px;"
                         (click)="ImportDTRLogs()" [disabled]="_isLocked" *ngIf="_userRights.CanAdd">
                         <!-- <mat-icon>publish</mat-icon>-->
-                        Import
+                        {{setLabel("Import")}}
                     </button><br>
                     <button mat-raised-button color="primary" style="float: right; margin: 5px;"
                         (click)="ComputeAll()" [disabled]="_isLocked" *ngIf="_userRights.CanAdd">
                         <!-- <mat-icon>calculate</mat-icon>  -->
-                        Compute
+                        {{setLabel("Compute")}}
                     </button><br>
                     <button mat-raised-button color="primary" style="float: right; margin: 5px;"
                         (click)="AddDTRLineDialog()" [disabled]="_isLocked" *ngIf="_userRights.CanAdd">
                         <!-- <mat-icon>add</mat-icon>  -->
-                        ADD
+                        {{setLabel("ADD")}}
                     </button><br>
                 </ng-template>
             </mat-tab>
@@ -327,13 +327,13 @@
             <div fxFlex="50" style="padding: 5px;">
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="13">
-                        <mat-label class="text-create-update">Created By:</mat-label>
+                        <mat-label class="text-create-update">{{setLabel("Created By")}}:</mat-label>
                     </div>
                     <div fxFlex="37">
                         <mat-label class="text-create-update">{{_dTRModel.CreatedByUser}}</mat-label>
                     </div>
                     <div fxFlex="20">
-                        <mat-label class="text-create-update">Created DateTime:</mat-label>
+                        <mat-label class="text-create-update">{{setLabel("Created DateTime")}}:</mat-label>
                     </div>
                     <div fxFlex="30">
                         <mat-label class="text-create-update">{{_dTRModel.CreatedDateTime}}</mat-label>
@@ -343,13 +343,13 @@
             <div fxFlex="50" style="padding: 5px;">
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex="13">
-                        <mat-label class="text-create-update">Updated By:</mat-label>
+                        <mat-label class="text-create-update">{{setLabel("Updated By")}}:</mat-label>
                     </div>
                     <div fxFlex="37">
                         <mat-label class="text-create-update">{{_dTRModel.UpdatedByUser}}</mat-label>
                     </div>
                     <div fxFlex="20">
-                        <mat-label class="text-create-update">Updated DateTime:</mat-label>
+                        <mat-label class="text-create-update">{{setLabel("Updated DateTime")}}:</mat-label>
                     </div>
                     <div fxFlex="30">
                         <mat-label class="text-create-update">{{_dTRModel.UpdatedDateTime}}</mat-label>
