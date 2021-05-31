@@ -1,8 +1,172 @@
-<mat-toolbar class="toolbar-fixed-top">
+<!-- <mat-toolbar class="toolbar-fixed-top">
   <a routerLink="/landing"><img src="../../../assets/easycloudhrlogo2.png" height="40" style="margin-top: 7px;"></a>
   <span class="toolbar-spacer"></span>
   <button mat-button routerLink="/security/login">
       Login
   </button>
 </mat-toolbar>
-<img src="../../../assets/bg.png" style="width: 100%; margin-top: 60px;">
+<img src="../../../assets/bg.png" style="width: 100%; margin-top: 60px;"> -->
+<mat-toolbar class="toolbar-fixed-top">
+  <a routerLink="/landing"><img src="../../../assets/easycloudhrlogo2.png" height="40" 
+    style="margin-top: 7px;"></a>
+  <span class="toolbar-spacer"></span>
+  <button mat-button routerLink="/security/login">
+      Login
+  </button>
+</mat-toolbar>
+
+<header id="showcase">
+  <video [loop]="true" [muted]="true" [autoplay]="true">
+    <source id="mp4" src="./../../../../assets/landingshowcase.mp4" type="video/mp4">>
+  </video>
+  <h1>Easy Human Resource Management System</h1>
+  <br />
+  <button mat-flat-button color=""
+    style="color: #000000; font-size: 20px; padding-top: 10px; padding-bottom: 10px; padding-left: 50px; padding-right: 50px; width: 200px;"
+    routerLink="/software">
+    Get Started
+  </button>
+</header>
+
+<section id="about" style="background: #212121;">
+  <div fxLayout="row" fxLayout.xs="column">
+    <div fxFlex="50" style="padding: 50px;">
+      <br />
+      <img src="../../../../assets/easycloudhrlogo2.png" width="250px" />
+      <br /><br />
+      <h1 style="color: #d3d3d3;">
+        Human Resource Management System 
+      </h1>
+      <br />
+      <h3 style="color: gray; font-size: 90%;">
+        Through Easy Cloud Human Resource (HR) System, you can map your organization human resource 
+        model to reflect your own enterprise structures and policies. Easy Cloud Human Resource (HR) System can be 
+        customized as per your organization's need. This Online HR System model lets you record 
+        the Attendance data, Absentee & Leave Management, personal, work, and pay information 
+        for all the employees.
+        <br>
+        <br>
+        Cloud based Human Resource (HR) System is both flexible and adaptable. It is flexible, so that you 
+        can reflect the needs of different companies, or different groups within the same 
+        company. It is adaptable, so that you can easily change the basic model as your 
+        enterprise changes. It reflects on all the aspects of HR of your organization and 
+        keep the data and records accurately to give you appropriate HR reports and Analysis
+      </h3>
+      <br>
+    </div>
+    <div fxFlex="50" style="padding: 50px;">
+      <img src="./../../../../assets/hris1.png" style="width: 100%;" />
+    </div>
+  </div>
+</section>
+
+<section id="dtr" style="background: rgb(24, 24, 24);">
+  <div fxLayout="row" fxLayout.xs="column">
+    <div fxFlex="50" style="padding: 50px; text-align: center;">
+      <img src="./../../../../assets/biometric.png" style="width: 100%;" />
+    </div>
+    <div fxFlex="50" style="padding: 50px;">
+      <h1 style="font-size: 35px; color: #742774;">DTR Biometric Integration</h1>
+      <br />
+      <h1 style="color: #d3d3d3;">
+        Automated DTR using the latest biometric technology
+      </h1>
+      <br />
+      <h3 style="color: gray; font-size: 90%;">
+        Attendance recording and monitoring becomes quintessential for effective functioning. 
+        The conventional method of oral attendance or signing logbooks are not just time 
+        consuming but also create a greater scope for error. The biometric attendance system 
+        is compact, reliable and easy to use while keeping track individuals systematically.
+      </h3>
+    </div>
+  </div>
+</section>
+
+<section id="portal" style="background:  #212121;">
+  <div fxLayout="row" fxLayout.xs="column">
+    <div fxFlex="50" style="padding: 50px;">
+      <h1 style="font-size: 35px; color: #742774;">Employee Portal</h1>
+      <br />
+      <h1 style="color: #d3d3d3;">
+        The portal that empowers the employee
+      </h1>
+      <br />
+      <h3 style="color: gray; font-size: 90%;">
+        A modern employee portal get all staff on the same page. Get a central portal site 
+        where everyone can access the latest information, documents, discussions, forms 
+        and much more, all behind a secure login. No technical knowledge or IT is required: 
+        super easy. Works from any browser anywhere, so it's great for remote offices, too!
+      </h3>
+    </div>
+    <div fxFlex="50" style="padding: 50px; text-align: center;">
+      <img src="./../../../../assets/employee.png" class="feature-img"/>
+    </div>
+  </div>
+</section>
+
+<section id="contact" style="background: rgb(24, 24, 24);">
+  <div style="padding-top: 50px; color: white;">
+    <div fxLayout="row" fxLayout.xs="column">
+      <div fxFlex="65" style="padding: 50px;">
+        <!-- <img src="./../../../../assets/landing/map.png" style="width: 100%;" /> -->
+        <iframe src="https://www.google.com/maps?q=City%20Soho%20&#038;z=16&#038;t=&#038;ie=UTF8&#038;output=embed"
+          style="width: 100%; height: 520px;"></iframe>
+      </div>
+      <div fxFlex="35" style="padding: 50px 50px 50px 0px;">
+        <h1 style="font-size: 35px; color: #742774;">Contact Us</h1>
+        <br />
+        <h2 style="color: #d3d3d3;">
+          Give us a call or send us an email and we will get
+          back to you as soon as possible.
+        </h2>
+        <br />
+        <h2 style="color: #d3d3d3;">
+          Address:
+          <br />
+          <span style="color: #742774; font-size: 70%">Easy Cloud Systems</span>
+          <br>
+          <span style="color: #742774; font-size: 70%">Unit 1023 City Soho Bldg. B. Rodriguez St. Guadalupe Cebu City,
+            Philippines
+            6000</span>
+          <br>
+          <span style="color: #742774; font-size: 70%">9AM-6PM (Mon-Sat)</span>
+        </h2><br />
+        <h2 style="color: #d3d3d3;">
+          Tel No.:
+          <br />
+          <span style="color: #742774; font-size: 70%">+63 (032) 234 0787</span>
+        </h2><br>
+        <h2 style="color: #d3d3d3;">
+          Email:
+          <br />
+          <span style="color: #742774; font-size: 70%">sales@easycloudsystems.com</span>
+        </h2>
+        <br />
+        <br />
+      </div>
+    </div>
+    <br />
+  </div>
+</section>
+
+<footer class="footer">
+  <div fxLayout="row" fxLayout.xs="column">
+    <div fxFlex="50" style="padding-top: 3px; font-size: 15px; color: #d3d3d3;">
+      © 2020 <b>Easy Cloud Systems Inc.</b>
+    </div>
+    <div fxFlex="50" style="text-align: right;">
+      <a href="#">
+        <img src="./../../../../assets/facebook.png" height="25"
+          style="vertical-align: middle; margin-right: 10px;" />
+      </a>
+      <a href="#">
+        <img src="./../../../../assets/instagram.png" height="25"
+          style="vertical-align: middle; margin-right: 10px;" />
+      </a>
+      <a href="#">
+        <img src="./../../../../assets/twitter.png" height="25"
+          style="vertical-align: middle; margin-right: 10px;" />
+      </a>
+    </div>
+  </div>
+</footer>
