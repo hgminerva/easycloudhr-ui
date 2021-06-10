@@ -26,10 +26,18 @@
                 </mat-select>
             </mat-form-field>
         </div>
-    </div>
-    <div fxLayout="row" fxLayout.xs="column">
         <div fxFlex="20" style="padding: 5px;">
-            <mat-form-field appearance="fill" style="width: 100%;">
+            <mat-form-field appearance="fill" style="width: 100%; font-size:smaller;">
+                <mat-label>Branch</mat-label>
+                <mat-select [(ngModel)]="branch">
+                    <mat-option *ngFor="let branch of _branchListDropdownList" [value]="branch.Value">
+                        {{branch.Value}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div fxFlex="20" style="padding: 5px;">
+            <mat-form-field appearance="fill" style="width: 100%;font-size:smaller;">
                 <mat-label>Payroll Group</mat-label>
                 <mat-select [(ngModel)]="filterPayrollGroup">
                     <mat-option *ngFor="let payrollGroup of payrollGroupListDropdown" [value]="payrollGroup.Value">

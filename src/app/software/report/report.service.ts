@@ -23,32 +23,39 @@ export class ReportService {
     return this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/dtr/list', this.appSettings.defaultOptions);
   }
 
-  public async DemographicsReport(companyId: number, payrollGroup: string) {
+  public async DemographicsReports(companyId: number, payrollGroup: string, branch: string) {
 
-    if (payrollGroup == 'All') {
-      let printCaseOptions: any = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + localStorage.getItem('access_token')
-        }),
-        responseType: "blob"
-      };
+    let printCaseOptions: any = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }),
+      responseType: "blob"
+    };
 
-      return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/demographics/report/' + companyId, printCaseOptions);
-    }
-    else {
-      let printCaseOptions: any = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + localStorage.getItem('access_token')
-        }),
-        responseType: "blob"
-      };
+    return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/demographics/report/' + companyId + '/' + payrollGroup + '/' + branch, printCaseOptions);
+    // if (payrollGroup == 'All') {
+    //   let printCaseOptions: any = {
+    //     headers: new HttpHeaders({
+    //       'Content-Type': 'application/json',
+    //       'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+    //     }),
+    //     responseType: "blob"
+    //   };
 
-      return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/demographics/by-payroll-group/report/' + companyId + '/' + payrollGroup, printCaseOptions);
-    }
+    //   return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/demographics/report/' + companyId + '/' + payrollGroup + '/' + branch, printCaseOptions);
+    // }
+    // else {
+    //   let printCaseOptions: any = {
+    //     headers: new HttpHeaders({
+    //       'Content-Type': 'application/json',
+    //       'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+    //     }),
+    //     responseType: "blob"
+    //   };
 
-
+    //   return await this.httpClient.get(this.appSettings.defaultAPIURLHost + '/api/pdf/demographics/by-payroll-group/report/' + companyId + '/' + payrollGroup, printCaseOptions);
+    // }
   }
 
   public async PDFMandatoryReport(mandatory: string, periodId: number, quarter: number, monthnumber: number, companyId: number) {
@@ -104,11 +111,11 @@ export class ReportService {
   // ===================
   // CSV ATM Bank Report
   // ===================
-  public async DemographicsCSVReport(companyId: number) {
+  public async DemographicsCSVReport(companyId: number, payrollGroup: string, branch: string) {
     return await this.httpClient.get(
       this.appSettings.defaultAPIURLHost
       + '/api/report/csv/demographics/report/'
-      + companyId,
+      + companyId + '/' + payrollGroup + '/' + branch,
       this.appSettings.defaultOptions);
   }
 
