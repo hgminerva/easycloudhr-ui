@@ -183,11 +183,16 @@ export class YearListComponent implements OnInit {
       this._isDataLoaded = false;
       this._addYearSubscription = (await this._yearListService.AddYear()).subscribe(
         (response: any) => {
+          if (response == "201") {
+            this._snackBarTemplate.snackBarInfo(this._snackBar, "Year already exist");
+          } else {
+            this.GetYearListData();
+            this._router.navigate(['/software/year-detail/' + response]);
+
+            this._snackBarTemplate.snackBarSuccess(this._snackBar, "Added Successfully");
+          }
           this._btnAddDisabled = false;
           this._isDataLoaded = true;
-          this.GetYearListData();
-          this._router.navigate(['/software/year-detail/' + response]);
-          this._snackBarTemplate.snackBarSuccess(this._snackBar, "Added Successfully");
         },
         error => {
           this._btnAddDisabled = false;

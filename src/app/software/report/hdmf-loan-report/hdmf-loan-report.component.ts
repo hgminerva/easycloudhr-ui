@@ -19,10 +19,6 @@ export class HdmfLoanReportComponent implements OnInit {
     private _sharedService: SharedService
   ) { }
 
-  ngOnInit(): void {
-    this.GetPeriodDropdownListData();
-  }
-
   public periodId: number = 0;
   public companyId: number = 0;
   public monthNumber: number = 0;
@@ -114,7 +110,6 @@ export class HdmfLoanReportComponent implements OnInit {
     );
   }
 
-
   public async printCaseDTRPDF() {
     this._isProgressBarHidden = true;
     this._mandatoryReportSubscription = (await this.reportService.HDMFLoanReport(this.periodId, this.monthNumber, this.companyId)).subscribe(
@@ -136,4 +131,7 @@ export class HdmfLoanReportComponent implements OnInit {
     );
   }
 
+  ngOnInit(): void {
+    this.GetPeriodDropdownListData();
+  }
 }
